@@ -7,7 +7,7 @@ export default function StyledList({ items }) {
     const navigate = useNavigate();
 
     return (
-        <List sx={{ width: "100%" }}>
+        <List sx={{ width: "100%", display: "flex", flexDirection: "column", gap: "10px" }}>
             {items.map((item, index) => (
                 <Listitem
                     key={`styled-list-${index}`}

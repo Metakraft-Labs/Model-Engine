@@ -2,7 +2,6 @@ import { Box, Button, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Title from "../../shared/Title";
 import LoginModal from "./LoginModal";
-import RegisterModal from "./RegisterModal";
 
 export default function Auth() {
     const [openLogin, setOpenLogin] = useState(false);
@@ -27,22 +26,11 @@ export default function Auth() {
                     <Button variant="contained" color="primary" onClick={() => setOpenLogin(true)}>
                         Login
                     </Button>
-                    <Typography variant="h6">or</Typography>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => setOpenRegister(true)}
-                    >
-                        Register
-                    </Button>
                 </Box>
             </Box>
 
             {/* Login modal */}
             <LoginModal openLogin={openLogin} setOpenLogin={setOpenLogin} />
-
-            {/* Register modal */}
-            <RegisterModal openRegister={openRegister} setOpenRegister={setOpenRegister} />
         </>
     );
 }
