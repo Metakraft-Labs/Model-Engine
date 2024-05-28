@@ -1,0 +1,15 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports": true,
+    },
+    "eslint.validate": ["javascript", "typescript"],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[postcss]": {
+        "editor.defaultFormatter": "mrmlnc.vscode-stylefmt"
+    }
+}
