@@ -14,6 +14,8 @@ export default function DisplayModel({ link }) {
         >
             {/* eslint-disable react/no-unknown-property */}
             <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={Math.PI * 2} />
+            <directionalLight position={[3.3, 1.0, -4.4]} castShadow intensity={Math.PI * 2} />
+            <directionalLight position={[-3.3, 1.0, 0]} castShadow intensity={Math.PI * 2} />
             {/* eslint-disable react/no-unknown-property */}
             <primitive object={model.scene} position={[0, 1, 0]} children-0-castShadow />
             <Circle args={[10]} rotation-x={-Math.PI / 2} receiveShadow>
