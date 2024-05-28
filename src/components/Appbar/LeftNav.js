@@ -1,6 +1,6 @@
 import { Box, Divider, Drawer, List, Toolbar, Typography } from "@mui/material";
 import React, { useContext } from "react";
-import { FaCube } from "react-icons/fa";
+import { FaCube, FaRegImage } from "react-icons/fa";
 import { MdExitToApp } from "react-icons/md";
 import logo from "../../assets/img/logo.jpg";
 import UserStore from "../../contexts/UserStore";
@@ -64,6 +64,11 @@ export default function LeftNav() {
                             icon: <FaCube size={"24px"} />,
                             text: "Text 2 3D",
                             path: "/text-2-3d",
+                        },
+                        {
+                            icon: <FaRegImage size={"24px"} />,
+                            text: "Text 2 Texture",
+                            path: "/text-2-texture",
                         },
                     ]}
                 />
