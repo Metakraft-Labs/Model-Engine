@@ -1,13 +1,14 @@
-import { Toolbar } from "@mui/material";
+import { Box, Toolbar } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { status } from "./apis/auth";
 import Routers from "./common/Routers";
 import Appbar from "./components/Appbar";
 import UserStore from "./contexts/UserStore";
+import Auth from "./pages/Auth";
 
 function App() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -68,9 +69,13 @@ function App() {
         <UserStore.Provider value={{ theme, setTheme, token, setToken, user, setUser }}>
             <BrowserRouter>
                 <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
-                    <Appbar />
-                    <Toolbar />
-                    <Routers />
+                    <Box sx={{ display: "flex" }}>
+                        <Appbar />
+                        <Box sx={{ flexGrow: 1, padding: "1rem" }}>
+                            <Toolbar />
+                            {user ? <Routers /> : <Auth />}
+                        </Box>
+                    </Box>
 
                     <ToastContainer
                         position="top-right"

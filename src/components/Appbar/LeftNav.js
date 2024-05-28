@@ -1,10 +1,21 @@
-import { Box, Drawer, List, Toolbar, Typography } from "@mui/material";
-import React from "react";
+import { Box, Divider, Drawer, List, Toolbar, Typography } from "@mui/material";
+import React, { useContext } from "react";
 import { FaCube } from "react-icons/fa";
+import { MdExitToApp } from "react-icons/md";
 import logo from "../../assets/img/logo.jpg";
+import UserStore from "../../contexts/UserStore";
 import StyledList from "../List";
+import { Listitem } from "../List/styles";
 
 export default function LeftNav() {
+    const { setToken, setUser, user } = useContext(UserStore);
+
+    const logout = () => {
+        localStorage.removeItem("token");
+        setToken(null);
+        setUser(null);
+    };
+
     return (
         <Drawer
             variant="permanent"
@@ -52,10 +63,30 @@ export default function LeftNav() {
                         {
                             icon: <FaCube size={"24px"} />,
                             text: "Text 2 3D",
-                            selected: window?.location.pathname === "/text-2-3d",
+                            path: "/text-2-3d",
                         },
                     ]}
                 />
+
+                {user && (
+                    <>
+                        <Divider />
+
+                        <List sx={{ width: "100%" }}>
+                            <Listitem onClick={logout}>
+                                <MdExitToApp size={"24px"} color="#FF0000" />
+                                <Typography
+                                    variant="p"
+                                    fontSize={"16px"}
+                                    color={"#FF0000"}
+                                    fontWeight={500}
+                                >
+                                    Logout
+                                </Typography>
+                            </Listitem>
+                        </List>
+                    </>
+                )}
             </Box>
         </Drawer>
     );

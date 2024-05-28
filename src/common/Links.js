@@ -1,6 +1,7 @@
 import React from "react";
 import Error404 from "../pages/404";
 import Home from "../pages/Home";
+import Text23D from "../pages/Text23D";
 
 export const Links = [
     {
@@ -12,7 +13,7 @@ export const Links = [
     {
         name: "Text 2 3D",
         path: "/text-2-3d",
-        element: <Home />,
+        element: <Text23D />,
         showInNavigation: true,
     },
     {
