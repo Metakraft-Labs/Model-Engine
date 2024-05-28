@@ -10,6 +10,7 @@ export default function Text23D() {
     const [model, setModel] = useState(null);
 
     const generateModel = async e => {
+        setModel(null);
         setLoading(true);
         e.preventDefault();
 
@@ -73,7 +74,11 @@ export default function Text23D() {
                         </Box>
                     </form>
                 </Box>
-                {model && <Button onClick={() => (window.location.href = model)}>Download</Button>}
+                {model ? (
+                    <Button onClick={() => (window.location.href = model)}>Download</Button>
+                ) : (
+                    <div></div>
+                )}
             </Box>
         </>
     );
