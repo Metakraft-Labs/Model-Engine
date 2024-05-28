@@ -1,4 +1,4 @@
-import { Box, Toolbar } from "@mui/material";
+import { Box, CircularProgress, Toolbar } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
@@ -14,6 +14,7 @@ function App() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
     const [token, setToken] = useState(localStorage.getItem("token") || null);
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const lightTheme = createTheme({
         palette: {
             background: {
@@ -51,6 +52,7 @@ function App() {
     });
 
     const getUser = useCallback(async () => {
+        setLoading(true);
         if (token) {
             const res = await status();
             if (res) {
@@ -59,6 +61,7 @@ function App() {
                 toast.error(`Cannot fetch user`);
             }
         }
+        setLoading(false);
     }, [token]);
 
     useEffect(() => {
@@ -70,11 +73,25 @@ function App() {
             <BrowserRouter>
                 <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
                     <Box sx={{ display: "flex" }}>
-                        <Appbar />
-                        <Box sx={{ flexGrow: 1, padding: "1rem" }}>
-                            <Toolbar />
-                            {user ? <Routers /> : <Auth />}
-                        </Box>
+                        {loading ? (
+                            <Box
+                                height={"80vh"}
+                                width={"100%"}
+                                display={"flex"}
+                                justifyContent={"center"}
+                                alignItems={"center"}
+                            >
+                                <CircularProgress />
+                            </Box>
+                        ) : (
+                            <>
+                                <Appbar />
+                                <Box sx={{ flexGrow: 1, padding: "1rem" }}>
+                                    <Toolbar />
+                                    {user ? <Routers /> : <Auth />}
+                                </Box>
+                            </>
+                        )}
                     </Box>
 
                     <ToastContainer
