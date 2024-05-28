@@ -5,7 +5,6 @@ import LoginModal from "./LoginModal";
 
 export default function Auth() {
     const [openLogin, setOpenLogin] = useState(false);
-    const [openRegister, setOpenRegister] = useState(false);
 
     return (
         <>
