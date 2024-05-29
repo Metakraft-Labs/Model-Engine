@@ -1,6 +1,8 @@
 import { Box, Divider, Drawer, List, Toolbar, Typography } from "@mui/material";
 import React, { useContext } from "react";
-import { FaCube, FaRegImage } from "react-icons/fa";
+import {  } from "react-icons/fa";
+import { IoImageOutline } from "react-icons/io5"
+import { PiCubeFill, PiFramerLogo } from "react-icons/pi"
 import { MdExitToApp } from "react-icons/md";
 import logo from "../../assets/img/logo.jpg";
 import UserStore from "../../contexts/UserStore";
@@ -61,12 +63,17 @@ export default function LeftNav() {
                 <StyledList
                     items={[
                         {
-                            icon: <FaCube size={"24px"} />,
+                            icon: <PiCubeFill size={"24px"} />,
                             text: "Text 2 3D",
                             path: "/text-2-3d",
                         },
                         {
-                            icon: <FaRegImage size={"24px"} />,
+                            icon: <PiFramerLogo size={"24px"} />,
+                            text: "Text 2 Motion",
+                            path: "/text-2-motion",
+                        },
+                        {
+                            icon: <IoImageOutline size={"24px"} />,
                             text: "Text 2 Texture",
                             path: "/text-2-texture",
                         },
