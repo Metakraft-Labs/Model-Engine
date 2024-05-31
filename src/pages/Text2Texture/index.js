@@ -50,8 +50,7 @@ export default function Text2Texture() {
                         flex={"1"}
                         paddingLeft={"20px"}
                     >
-                        {model && <img src={model} alt="React Image" height='100%'/> }
-                        
+                        {model && <img src={model} alt="React Image" height="100%" />}
                     </Box>
                     <form style={{ width: "100%" }} onSubmit={generateModel}>
                         <Box display={"flex"} alignItems={"center"} gap={"20px"} width={"100%"}>
