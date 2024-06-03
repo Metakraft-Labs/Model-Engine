@@ -1,13 +1,17 @@
 import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { generate } from "../../apis/text23d";
+import CreateNFT from "../../components/CreateNFT/index";
+import UploadToIpfs from "../../components/UploadToIPFS/index";
 import Title from "../../shared/Title";
+import { urlToFile } from "../../shared/files";
 import DisplayModel from "./DisplayModel";
 
 export default function Text23D() {
     const [prompt, setPrompt] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setModel] = useState(null);
+    const [byteRes, setByteRes] = useState(null);
 
     const generateModel = async e => {
         setModel(null);
@@ -18,6 +22,10 @@ export default function Text23D() {
 
         if (res) {
             setModel(res?.glbUrl);
+            const byteRes = await urlToFile(res);
+
+            const linkIPFS = await UploadToIpfs(byteRes.file, "Text2Texture");
+            setByteRes(linkIPFS);
         }
 
         setLoading(false);
@@ -75,7 +83,10 @@ export default function Text23D() {
                     </form>
                 </Box>
                 {model ? (
-                    <Button onClick={() => (window.location.href = model)}>Download</Button>
+                    <>
+                        <Button onClick={() => (window.location.href = model)}>Download</Button>
+                        <CreateNFT fileURI={byteRes} />
+                    </>
                 ) : (
                     <div></div>
                 )}

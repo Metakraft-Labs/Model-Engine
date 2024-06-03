@@ -1,12 +1,16 @@
 import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { generate } from "../../apis/text2motion";
+import CreateNFT from "../../components/CreateNFT/index";
+import UploadToIpfs from "../../components/UploadToIPFS/index";
 import Title from "../../shared/Title";
+import { urlToFile } from "../../shared/files";
 
 export default function Text2Motion() {
     const [prompt, setPrompt] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setMotion] = useState(null);
+    const [byteRes, setByteRes] = useState(null);
 
     const generateModel = async e => {
         setMotion(null);
@@ -17,6 +21,10 @@ export default function Text2Motion() {
 
         if (res) {
             setMotion(res);
+            const byteRes = await urlToFile(res);
+
+            const linkIPFS = await UploadToIpfs(byteRes.file, "Text2Texture");
+            setByteRes(linkIPFS);
         }
 
         setLoading(false);
@@ -50,8 +58,7 @@ export default function Text2Motion() {
                         flex={"1"}
                         paddingLeft={"20px"}
                     >
-                        {model && <video controls height="100%" src={model}></video> }
-                        
+                        {model && <video controls height="100%" src={model}></video>}
                     </Box>
                     <form style={{ width: "100%" }} onSubmit={generateModel}>
                         <Box display={"flex"} alignItems={"center"} gap={"20px"} width={"100%"}>
@@ -76,7 +83,10 @@ export default function Text2Motion() {
                     </form>
                 </Box>
                 {model ? (
-                    <Button onClick={() => (window.location.href = model)}>Download</Button>
+                    <div>
+                        <Button onClick={() => (window.location.href = model)}>Download</Button>
+                        <CreateNFT fileURI={byteRes} />
+                    </div>
                 ) : (
                     <div></div>
                 )}

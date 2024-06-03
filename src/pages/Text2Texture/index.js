@@ -1,12 +1,16 @@
 import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { generate } from "../../apis/text2texture";
+import CreateNFT from "../../components/CreateNFT/index";
+import UploadToIpfs from "../../components/UploadToIPFS/index";
 import Title from "../../shared/Title";
+import { urlToFile } from "../../shared/files";
 
 export default function Text2Texture() {
     const [prompt, setPrompt] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setTexture] = useState(null);
+    const [byteRes, setByteRes] = useState(null);
 
     const generateModel = async e => {
         setTexture(null);
@@ -17,6 +21,10 @@ export default function Text2Texture() {
 
         if (res) {
             setTexture(res);
+            const byteRes = await urlToFile(res);
+
+            const linkIPFS = await UploadToIpfs(byteRes.file, "Text2Texture");
+            setByteRes(linkIPFS);
         }
 
         setLoading(false);
@@ -74,8 +82,11 @@ export default function Text2Texture() {
                         </Box>
                     </form>
                 </Box>
-                {model ? (
-                    <Button onClick={() => (window.location.href = model)}>Download</Button>
+                {model && byteRes ? (
+                    <div>
+                        <Button onClick={() => (window.location.href = model)}>Download</Button>
+                        <CreateNFT fileURI={byteRes} />
+                    </div>
                 ) : (
                     <div></div>
                 )}
