@@ -199,8 +199,8 @@ export default function CreateNFT({ fileURI }) {
     };
 
     return (
-        <>
+        <div style={{marginLeft: "5px"}}>
             <button onClick={handleButtonClick}> Createt NFT</button>
-        </>
+        </div >
     );
 }
