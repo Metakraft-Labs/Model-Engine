@@ -83,10 +83,10 @@ export default function Text23D() {
                     </form>
                 </Box>
                 {model ? (
-                    <>
+                    <div>
                         <Button onClick={() => (window.location.href = model)}>Download</Button>
                         <CreateNFT fileURI={byteRes} />
-                    </>
+                    </div>
                 ) : (
                     <div></div>
                 )}
