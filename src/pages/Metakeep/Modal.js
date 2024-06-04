@@ -1,71 +1,55 @@
 import { Box, Button } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
-import { login } from "../../apis/auth";
+import React, { useEffect, useState } from "react";
+import ConnectWallet from "../../components/ConnectWallet";
 import StyledModal from "../../components/Modal";
-import UserStore from "../../contexts/UserStore";
 
-export default function MetaKeepModal({ openMetaKeep, setOpenMetaKeep }) {
-    const { setToken, user } = useContext(UserStore);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+export default function MetaKeepModal({ openMetaKeep, setOpenMetaKeep, setConnected }) {
+    const [contract, setContract] = useState(null);
     const [metakeepLoading, setMetakeepLoading] = useState(false);
 
     useEffect(() => {
-        if (user) {
+        if (contract) {
             setOpenMetaKeep(false);
+            if (contract !== null) {
+                setConnected(true);
+            } else {
+                setConnected(false);
+            }
         }
-    }, [user]);
+    }, [contract]);
 
-    const handleSubmit = async e => {
+    const handleSubmit = async message => {
         setMetakeepLoading(true);
-        e.preventDefault();
-        const res = await login({ email, password });
-        if (res) {
-            setToken(res);
-            localStorage.setItem("token", res);
-        }
+
+        const contract = await ConnectWallet(message);
+        console.log("The contract has", contract);
+        setContract(contract);
+
         setMetakeepLoading(false);
     };
 
     return (
         <StyledModal open={openMetaKeep} onClose={() => setOpenMetaKeep(false)} heading={"Login"}>
-            <form onSubmit={handleSubmit} style={{ width: "100%" }}>
-                <Box display={"flex"} flexDirection={"column"} gap={"10px"} width={"100%"}>
-                    <input
-                        type="text"
-                        placeholder={"Email"}
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        style={{
-                            width: "100%",
-                            height: "3rem",
-                            borderRadius: "10px",
-                            padding: "10px",
-                        }}
-                    />
-                    <input
-                        type="password"
-                        placeholder={"Password"}
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        style={{
-                            width: "100%",
-                            height: "3rem",
-                            borderRadius: "10px",
-                            padding: "10px",
-                        }}
-                    />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        fullWidth={false}
-                        disabled={metakeepLoading}
-                    >
-                        Connect to Wallet
-                    </Button>
-                </Box>
-            </form>
+            <Box display={"flex"} flexDirection={"column"} gap={"10px"} width={"100%"}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth={false}
+                    disabled={metakeepLoading}
+                    onClick={() => handleSubmit("metamask")}
+                >
+                    Metamask
+                </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth={false}
+                    disabled={metakeepLoading}
+                    onClick={() => handleSubmit("metakeep")}
+                >
+                    MetaKeep
+                </Button>
+            </Box>
         </StyledModal>
     );
 }

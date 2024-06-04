@@ -5,6 +5,7 @@ import CreateNFT from "../../components/CreateNFT/index";
 import UploadToIpfs from "../../components/UploadToIPFS/index";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
+import MetaKeep from "../Metakeep/index";
 
 export default function Text2Motion() {
     const [prompt, setPrompt] = useState("");
@@ -29,6 +30,8 @@ export default function Text2Motion() {
 
         setLoading(false);
     };
+
+    const address = sessionStorage.getItem("connectedWallet");
 
     return (
         <>
@@ -82,13 +85,15 @@ export default function Text2Motion() {
                         </Box>
                     </form>
                 </Box>
-                {model ? (
+                {model && byteRes && address ? (
                     <div>
                         <Button onClick={() => (window.location.href = model)}>Download</Button>
                         <CreateNFT fileURI={byteRes} />
                     </div>
                 ) : (
-                    <div></div>
+                    <div>
+                        <MetaKeep />
+                    </div>
                 )}
             </Box>
         </>

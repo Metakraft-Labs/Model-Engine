@@ -5,6 +5,7 @@ import MetaKeepModal from "./Modal";
 
 export default function MetaKeep() {
     const [openMetaKeep, setOpenMetaKeep] = useState(false);
+    const [connected, setConnected] = useState(false);
 
     return (
         <>
@@ -18,18 +19,24 @@ export default function MetaKeep() {
                 height={"200%"}
                 gap={"30px"}
             >
-                <Typography variant="h4">
-                    To use this feature, please connect to Wallet
-                </Typography>
+                <Typography variant="h4">To use this feature, please connect to Wallet</Typography>
                 <Box display={"flex"} alignItems={"center"} gap={"30px"}>
-                    <Button variant="contained" color="primary" onClick={() => setOpenMetaKeep(true)}>
-                        Connect
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => setOpenMetaKeep(true)}
+                    >
+                        {!connected ? <>Connect</> : <>Connected</>}
                     </Button>
                 </Box>
             </Box>
 
             {/* MetaKeep modal */}
-            <MetaKeepModal openMetaKeep={openMetaKeep} setOpenMetaKeep={setOpenMetaKeep} />
+            <MetaKeepModal
+                openMetaKeep={openMetaKeep}
+                setOpenMetaKeep={setOpenMetaKeep}
+                setConnected={setConnected}
+            />
         </>
     );
 }

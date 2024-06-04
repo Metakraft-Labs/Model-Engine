@@ -5,6 +5,7 @@ import CreateNFT from "../../components/CreateNFT/index";
 import UploadToIpfs from "../../components/UploadToIPFS/index";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
+import MetaKeep from "../Metakeep";
 import DisplayModel from "./DisplayModel";
 
 export default function Text23D() {
@@ -12,6 +13,8 @@ export default function Text23D() {
     const [loading, setLoading] = useState(false);
     const [model, setModel] = useState(null);
     const [byteRes, setByteRes] = useState(null);
+
+    const address = sessionStorage.getItem("connectedWallet");
 
     const generateModel = async e => {
         setModel(null);
@@ -82,13 +85,15 @@ export default function Text23D() {
                         </Box>
                     </form>
                 </Box>
-                {model ? (
+                {model && byteRes && address ? (
                     <div>
                         <Button onClick={() => (window.location.href = model)}>Download</Button>
                         <CreateNFT fileURI={byteRes} />
                     </div>
                 ) : (
-                    <div></div>
+                    <div>
+                        <MetaKeep />
+                    </div>
                 )}
             </Box>
         </>
