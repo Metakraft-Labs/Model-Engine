@@ -1,21 +1,31 @@
-import { Box, Divider, Drawer, List, Toolbar, Typography } from "@mui/material";
+import { Box, Divider, Drawer, List, Toolbar, Tooltip, Typography } from "@mui/material";
 import React, { useContext } from "react";
-import {  } from "react-icons/fa";
-import { IoImageOutline } from "react-icons/io5"
-import { PiCubeFill, PiFramerLogo } from "react-icons/pi"
+import {} from "react-icons/fa";
+import { IoImageOutline } from "react-icons/io5";
 import { MdExitToApp } from "react-icons/md";
+import { PiCubeFill, PiFramerLogo } from "react-icons/pi";
 import logo from "../../assets/img/logo.jpg";
 import UserStore from "../../contexts/UserStore";
+import { minifyAddress } from "../../shared/web3utils";
 import StyledList from "../List";
 import { Listitem } from "../List/styles";
 
 export default function LeftNav() {
-    const { setToken, setUser, user } = useContext(UserStore);
+    const { setToken, setUser, user, userWallet } = useContext(UserStore);
+    const [tooltipTitle, setTooltipTitle] = React.useState(userWallet);
 
     const logout = () => {
         localStorage.removeItem("token");
         setToken(null);
         setUser(null);
+    };
+
+    const copyToClipboard = async () => {
+        await navigator.clipboard.writeText(userWallet);
+        setTooltipTitle("Copied to clipboard");
+        setTimeout(() => {
+            setTooltipTitle(userWallet);
+        }, 2000);
     };
 
     return (
@@ -83,8 +93,21 @@ export default function LeftNav() {
                 {user && (
                     <>
                         <Divider />
-
                         <List sx={{ width: "100%" }}>
+                            {userWallet && (
+                                <Listitem onClick={copyToClipboard}>
+                                    <Tooltip title={tooltipTitle} placement="top">
+                                        <Typography
+                                            variant="p"
+                                            fontSize={"16px"}
+                                            color={"#000000"}
+                                            fontWeight={500}
+                                        >
+                                            Wallet: {minifyAddress(userWallet)}
+                                        </Typography>
+                                    </Tooltip>
+                                </Listitem>
+                            )}
                             <Listitem onClick={logout}>
                                 <MdExitToApp size={"24px"} color="#FF0000" />
                                 <Typography

@@ -26,9 +26,9 @@ export default function Text23D() {
 
         if (res) {
             setModel(res?.glbUrl);
-            const byteRes = await urlToFile(res);
+            const byteRes = await urlToFile(res?.glbUrl);
 
-            const linkIPFS = await UploadToIpfs(byteRes.file, "Text2Texture");
+            const linkIPFS = await UploadToIpfs(byteRes.file, "Text23D");
             setByteRes(linkIPFS);
         }
 
@@ -53,11 +53,11 @@ export default function Text23D() {
                     alignItems={"center"}
                     flexDirection={"column"}
                     gap={"40px"}
-                    width={"100%"}
+                    width={"90%"}
                 >
                     <Box
                         height={"20rem"}
-                        width={"980px"}
+                        width={"900px"}
                         sx={{ border: "1px solid #E8DECF" }}
                         borderRadius={"10px"}
                         flex={"1"}

@@ -53,7 +53,7 @@ export default function useConnectWallet() {
     };
 
     const signMessage = async signer => {
-        const message = "Hi, Welcome to AI Verse";
+        const message = "Hi, Welcome to Metakraft AI!";
         const sig = await signer.signMessage(message);
         const address = await signer.getAddress();
         const res = verifyMessageSignature(message, address, sig);
@@ -88,8 +88,7 @@ export default function useConnectWallet() {
                     setConnectedWallet(accounts[0]);
                     await correctChainId();
 
-                    const isUnlocked = await window?.ethereum?._metamask.isUnlocked();
-                    console.log({ isUnlocked });
+                    await window?.ethereum?._metamask.isUnlocked();
 
                     const storedSignature = localStorage.getItem(accounts[0]);
                     if (!storedSignature) {

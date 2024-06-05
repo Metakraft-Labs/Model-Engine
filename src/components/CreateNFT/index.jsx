@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { ethers } from "ethers";
 import React, { useContext, useState } from "react";
 import { DesiredChainId } from "../../constants/helper";
@@ -50,7 +51,7 @@ export default function CreateNFT({ fileURI }) {
             }
         } catch (err) {
             console.log("The Error is:", err);
-            alert("Transactoin Unsuccessful");
+            alert("Transaction Unsuccessful");
             if (err.message === "User Rejected Transactoin") {
                 console.log("The Error is user rejected transaction");
             }
@@ -68,7 +69,6 @@ export default function CreateNFT({ fileURI }) {
     const uploadMetaDataToIPFS = async metaData => {
         if (!cid) {
             try {
-                console.log("Uploading Metadata");
                 const formData = new FormData();
 
                 // Convert metadata string to Blob
@@ -117,8 +117,8 @@ export default function CreateNFT({ fileURI }) {
     };
 
     return (
-        <div style={{ marginLeft: "5px" }}>
-            <button onClick={handleButtonClick}> Createt NFT</button>
-        </div>
+        <Button variant="contained" type="primary" onClick={handleButtonClick}>
+            Mint NFT
+        </Button>
     );
 }

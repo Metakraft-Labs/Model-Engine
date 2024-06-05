@@ -19,7 +19,13 @@ export default function MetaKeep() {
                 height={"200%"}
                 gap={"30px"}
             >
-                <Typography variant="h4">To use this feature, please connect to Wallet</Typography>
+                {connected ? (
+                    ""
+                ) : (
+                    <Typography variant="h4">
+                        To download or mint, please connect the Wallet
+                    </Typography>
+                )}
                 <Box display={"flex"} alignItems={"center"} gap={"30px"}>
                     <Button
                         variant="contained"

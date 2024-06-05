@@ -3,7 +3,6 @@ async function UploadToIpfs(file, type) {
     const handleSubmission = async () => {
         const uploadImage = async file => {
             try {
-                console.log("Uploading image");
                 const formData = new FormData();
                 formData.append("file", file);
                 const metadata = JSON.stringify({
@@ -26,8 +25,6 @@ async function UploadToIpfs(file, type) {
                 });
                 const resData = await res.json();
                 cid = `ipfs://${resData.IpfsHash}`;
-                console.log(resData);
-                console.log("The cid is ", cid);
                 return cid;
             } catch (error) {
                 console.log(error);
