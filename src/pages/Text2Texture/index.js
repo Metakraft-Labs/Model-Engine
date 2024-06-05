@@ -1,12 +1,19 @@
 import { Box, Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { generate } from "../../apis/text2texture";
+import CreateNFT from "../../components/CreateNFT/index";
+import UploadToIpfs from "../../components/UploadToIPFS/index";
+import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
+import { urlToFile } from "../../shared/files";
+import MetaKeep from "../Metakeep/index";
 
 export default function Text2Texture() {
     const [prompt, setPrompt] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setTexture] = useState(null);
+    const [byteRes, setByteRes] = useState(null);
+    const { userWallet } = useContext(UserStore);
 
     const generateModel = async e => {
         setTexture(null);
@@ -17,6 +24,10 @@ export default function Text2Texture() {
 
         if (res) {
             setTexture(res);
+            const byteRes = await urlToFile(res);
+
+            const linkIPFS = await UploadToIpfs(byteRes.file, "Text2Texture");
+            setByteRes(linkIPFS);
         }
 
         setLoading(false);
@@ -40,7 +51,7 @@ export default function Text2Texture() {
                     alignItems={"center"}
                     flexDirection={"column"}
                     gap={"40px"}
-                    width={"100%"}
+                    width={"90%"}
                 >
                     <Box
                         height={"20rem"}
@@ -74,10 +85,15 @@ export default function Text2Texture() {
                         </Box>
                     </form>
                 </Box>
-                {model ? (
-                    <Button onClick={() => (window.location.href = model)}>Download</Button>
+                {model && byteRes && userWallet ? (
+                    <Box>
+                        <Button onClick={() => (window.location.href = model)}>Download</Button>
+                        <CreateNFT fileURI={byteRes} />
+                    </Box>
                 ) : (
-                    <div></div>
+                    <div>
+                        <MetaKeep />
+                    </div>
                 )}
             </Box>
         </>

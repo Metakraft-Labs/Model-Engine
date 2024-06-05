@@ -1,12 +1,20 @@
 import { Box, Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { generate } from "../../apis/text2motion";
+import CreateNFT from "../../components/CreateNFT/index";
+import UploadToIpfs from "../../components/UploadToIPFS/index";
+import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
+import { urlToFile } from "../../shared/files";
+import MetaKeep from "../Metakeep/index";
 
 export default function Text2Motion() {
     const [prompt, setPrompt] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setMotion] = useState(null);
+    const [byteRes, setByteRes] = useState(null);
+
+    const { userWallet } = useContext(UserStore);
 
     const generateModel = async e => {
         setMotion(null);
@@ -17,6 +25,10 @@ export default function Text2Motion() {
 
         if (res) {
             setMotion(res);
+            const byteRes = await urlToFile(res);
+
+            const linkIPFS = await UploadToIpfs(byteRes.file, "Text2Texture");
+            setByteRes(linkIPFS);
         }
 
         setLoading(false);
@@ -50,8 +62,7 @@ export default function Text2Motion() {
                         flex={"1"}
                         paddingLeft={"20px"}
                     >
-                        {model && <video controls height="100%" src={model}></video> }
-                        
+                        {model && <video controls height="100%" src={model}></video>}
                     </Box>
                     <form style={{ width: "100%" }} onSubmit={generateModel}>
                         <Box display={"flex"} alignItems={"center"} gap={"20px"} width={"100%"}>
@@ -75,10 +86,15 @@ export default function Text2Motion() {
                         </Box>
                     </form>
                 </Box>
-                {model ? (
-                    <Button onClick={() => (window.location.href = model)}>Download</Button>
+                {model && byteRes && userWallet ? (
+                    <div>
+                        <Button onClick={() => (window.location.href = model)}>Download</Button>
+                        <CreateNFT fileURI={byteRes} />
+                    </div>
                 ) : (
-                    <div></div>
+                    <div>
+                        <MetaKeep />
+                    </div>
                 )}
             </Box>
         </>
