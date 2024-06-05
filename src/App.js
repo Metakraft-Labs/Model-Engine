@@ -15,6 +15,8 @@ function App() {
     const [token, setToken] = useState(localStorage.getItem("token") || null);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [contract, setContract] = useState(null);
+    const [userWallet, setUserWallet] = useState(null);
     const lightTheme = createTheme({
         palette: {
             background: {
@@ -69,7 +71,20 @@ function App() {
     }, [getUser]);
 
     return (
-        <UserStore.Provider value={{ theme, setTheme, token, setToken, user, setUser }}>
+        <UserStore.Provider
+            value={{
+                theme,
+                setTheme,
+                token,
+                setToken,
+                user,
+                setUser,
+                contract,
+                setContract,
+                userWallet,
+                setUserWallet,
+            }}
+        >
             <BrowserRouter>
                 <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
                     <Box sx={{ display: "flex" }}>

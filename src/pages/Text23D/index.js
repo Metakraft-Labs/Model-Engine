@@ -1,8 +1,9 @@
 import { Box, Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { generate } from "../../apis/text23d";
 import CreateNFT from "../../components/CreateNFT/index";
 import UploadToIpfs from "../../components/UploadToIPFS/index";
+import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
 import MetaKeep from "../Metakeep";
@@ -14,7 +15,7 @@ export default function Text23D() {
     const [model, setModel] = useState(null);
     const [byteRes, setByteRes] = useState(null);
 
-    const address = sessionStorage.getItem("connectedWallet");
+    const { userWallet } = useContext(UserStore);
 
     const generateModel = async e => {
         setModel(null);
@@ -85,7 +86,7 @@ export default function Text23D() {
                         </Box>
                     </form>
                 </Box>
-                {model && byteRes && address ? (
+                {model && byteRes && userWallet ? (
                     <div>
                         <Button onClick={() => (window.location.href = model)}>Download</Button>
                         <CreateNFT fileURI={byteRes} />

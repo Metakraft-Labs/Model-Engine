@@ -1,10 +1,12 @@
 import { ethers } from "ethers";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { DesiredChainId } from "../../constants/helper";
+import UserStore from "../../contexts/UserStore";
 import MetaKeep from "../../pages/Metakeep";
 
 export default function CreateNFT({ fileURI }) {
     const [cid, setCID] = useState(null);
+    const { contract, userWallet } = useContext(UserStore);
     window.onload = () => {
         if (window.ethereum) {
             window.ethereum.on("chainChanged", checkConnectedChain);
@@ -32,15 +34,12 @@ export default function CreateNFT({ fileURI }) {
 
     const fetchData = async cid => {
         try {
-            const contract = sessionStorage.getItem("contract");
-            const connectedWallet = sessionStorage.getItem("connectedWallet");
-
-            if (contract && connectedWallet) {
+            if (contract && userWallet) {
                 const amount = ethers.parseUnits("1.0", 9);
 
                 const amt = amount.toString();
 
-                const res = await contract.safeMint(connectedWallet, cid, { value: amt });
+                const res = await contract.safeMint(userWallet, cid, { value: amt });
 
                 if (res) {
                     alert("Your NFT has been successfully minted");
@@ -51,6 +50,7 @@ export default function CreateNFT({ fileURI }) {
             }
         } catch (err) {
             console.log("The Error is:", err);
+            alert("Transactoin Unsuccessful");
             if (err.message === "User Rejected Transactoin") {
                 console.log("The Error is user rejected transaction");
             }

@@ -1,8 +1,9 @@
 import { Box, Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { generate } from "../../apis/text2texture";
 import CreateNFT from "../../components/CreateNFT/index";
 import UploadToIpfs from "../../components/UploadToIPFS/index";
+import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
 import MetaKeep from "../Metakeep/index";
@@ -13,7 +14,9 @@ export default function Text2Texture() {
     const [model, setTexture] = useState(null);
     const [byteRes, setByteRes] = useState(null);
 
-    const address = sessionStorage.getItem("connectedWallet");
+    const { contract, userWallet } = useContext(UserStore);
+    console.log("The Contract is: ", contract);
+    console.log("The userWallet is: ", userWallet);
 
     const generateModel = async e => {
         setTexture(null);
@@ -85,7 +88,7 @@ export default function Text2Texture() {
                         </Box>
                     </form>
                 </Box>
-                {model && byteRes && address ? (
+                {model && byteRes && userWallet ? (
                     <div>
                         <Button onClick={() => (window.location.href = model)}>Download</Button>
                         <CreateNFT fileURI={byteRes} />

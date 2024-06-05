@@ -1,28 +1,30 @@
 import { ethers } from "ethers";
 import { MetaKeep } from "metakeep";
+import { useContext, useEffect, useState } from "react";
 import ABI from "../../constants/contractABI.json";
 import { DesiredChainId, contractAddress } from "../../constants/helper";
+import UserStore from "../../contexts/UserStore";
 
-export default async function ConnectWallet(walletName) {
+export default function useConnectWallet() {
+    const { setContract, setUserWallet } = useContext(UserStore);
+    const [connectedWallet, setConnectedWallet] = useState(null);
     let provider = null;
-    let accounts;
-    const contractABI = ABI.abi;
-    let connectedWallet = null;
+    let account = null;
 
-    window.onload = () => {
+    useEffect(() => {
         if (window.ethereum) {
             window.ethereum.on("chainChanged", correctWindowChain);
             window.ethereum.on("accountsChanged", correctWindowAccount);
         }
-    };
+    }, []);
 
     const correctWindowChain = async () => {
         await correctChainId();
     };
 
     const correctWindowAccount = a => {
-        accounts = a;
-        connectedWallet = a[0];
+        account = a[0];
+        setConnectedWallet(a[0]);
     };
 
     const correctChainId = async () => {
@@ -43,11 +45,7 @@ export default async function ConnectWallet(walletName) {
     const verifyMessageSignature = (message, address, signature) => {
         try {
             const signerAddr = ethers.verifyMessage(message, signature);
-
-            if (signerAddr !== address) {
-                return false;
-            }
-            return true;
+            return signerAddr === address;
         } catch (err) {
             console.log("Signature error", err);
             return false;
@@ -57,22 +55,14 @@ export default async function ConnectWallet(walletName) {
     const signMessage = async signer => {
         const message = "Hi, Welcome to AI Verse";
         const sig = await signer.signMessage(message);
-
         const address = await signer.getAddress();
-
-        // Validating a message; notice the address matches the signer
         const res = verifyMessageSignature(message, address, sig);
-        if (res) {
-            return sig;
-        } else {
-            return;
-        }
+        return res ? sig : null;
     };
 
-    const connectWallet = async () => {
-        console.log("the wallet is connected", walletName);
+    const connectWallet = async walletName => {
         if (connectedWallet) {
-            connectedWallet = null;
+            setConnectedWallet(null);
         } else {
             if (window.ethereum) {
                 try {
@@ -80,52 +70,37 @@ export default async function ConnectWallet(walletName) {
                         provider = new ethers.BrowserProvider(window.ethereum);
                     } else {
                         const sdk = new MetaKeep({
-                            /* App id to configure UI */
                             appId: process.env.REACT_APP_METAKEEP_APPID,
-                            /* Default chain to use */
                             chainId: DesiredChainId,
-                            /* RPC node urls map */
                             rpcNodeUrls: {
-                                // Update with your own node URL
-                                1020352220: `${process.env.REACT_APP_TITAN_RPC}`,
+                                1020352220: process.env.REACT_APP_TITAN_RPC,
                             },
                         });
 
                         const web3Provider = await sdk.ethereum;
-
                         await web3Provider.enable();
-
                         provider = new ethers.BrowserProvider(web3Provider);
                     }
-                    accounts = await provider.send("eth_requestAccounts", []);
+
+                    const accounts = await provider.send("eth_requestAccounts", []);
                     const signer = await provider.getSigner();
-
-                    connectedWallet = accounts[0];
-
+                    account = accounts[0];
+                    setConnectedWallet(accounts[0]);
                     await correctChainId();
-
-                    // const hasWalletPermissions = await provider.send("wallet_getPermissions");
-                    // console.log({ hasWalletPermissions });
 
                     const isUnlocked = await window?.ethereum?._metamask.isUnlocked();
                     console.log({ isUnlocked });
 
                     const storedSignature = localStorage.getItem(accounts[0]);
-
-                    if (storedSignature) {
-                        //
-                    } else {
+                    if (!storedSignature) {
                         const sig = await signMessage(signer);
                         localStorage.setItem(accounts[0], sig);
                     }
 
-                    const contract = await createContractInstance(signer);
-
-                    console.log("contract is", { contract });
-
+                    const contract = createContractInstance(signer);
                     return contract;
                 } catch (err) {
-                    console.log("the error IN CONTRACT is:", err);
+                    console.log("The error in contract is:", err);
                     return null;
                 }
             } else {
@@ -134,15 +109,13 @@ export default async function ConnectWallet(walletName) {
         }
     };
 
-    const createContractInstance = async signer => {
-        const contract = new ethers.Contract(contractAddress, contractABI, signer);
-        sessionStorage.setItem("contract", contract);
-        sessionStorage.setItem("signer", signer);
-        sessionStorage.setItem("connectedWallet", connectedWallet);
+    const createContractInstance = signer => {
+        const contract = new ethers.Contract(contractAddress, ABI.abi, signer);
+        setContract(contract);
+        setUserWallet(account);
 
         return contract;
     };
 
-    const contract = await connectWallet();
-    return contract;
+    return { connectWallet };
 }

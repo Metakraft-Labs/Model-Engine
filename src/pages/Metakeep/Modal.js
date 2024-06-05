@@ -1,27 +1,32 @@
 import { Box, Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import ConnectWallet from "../../components/ConnectWallet";
+import React, { useContext, useEffect, useState } from "react";
+import useConnectWallet from "../../components/ConnectWallet";
 import StyledModal from "../../components/Modal";
+import UserStore from "../../contexts/UserStore";
 
 export default function MetaKeepModal({ openMetaKeep, setOpenMetaKeep, setConnected }) {
     const [contract, setContract] = useState(null);
     const [metakeepLoading, setMetakeepLoading] = useState(false);
 
+    const { userWallet } = useContext(UserStore);
+
+    const { connectWallet } = useConnectWallet();
     useEffect(() => {
         if (contract) {
             setOpenMetaKeep(false);
-            if (contract !== null) {
-                setConnected(true);
-            } else {
-                setConnected(false);
-            }
         }
-    }, [contract]);
+
+        if (userWallet !== null) {
+            setConnected(true);
+        } else {
+            setConnected(false);
+        }
+    }, [contract, userWallet]);
 
     const handleSubmit = async message => {
         setMetakeepLoading(true);
 
-        const contract = await ConnectWallet(message);
+        const contract = await connectWallet(message);
         console.log("The contract has", contract);
         setContract(contract);
 
