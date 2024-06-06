@@ -8,7 +8,8 @@ import { DesiredChainId, contractAddress } from "../../constants/helper";
 import UserStore from "../../contexts/UserStore";
 
 export default function useConnectWallet() {
-    const { setContract, setUserWallet, user, setToken } = useContext(UserStore);
+    const { setContract, setUserWallet, user, setToken, setBalance, setChainId } =
+        useContext(UserStore);
     const [connectedWallet, setConnectedWallet] = useState(null);
     let provider = null;
     let account = null;
@@ -82,11 +83,14 @@ export default function useConnectWallet() {
                     provider = new ethers.BrowserProvider(web3Provider);
 
                     const accounts = await sdk.getWallet();
-                    const userWallet = await sdk.getUser();
+                    const userWallet = accounts.user;
                     const signer = await provider.getSigner();
                     account = accounts?.wallet?.ethAddress;
                     setConnectedWallet(account);
                     await correctChainId();
+                    const balance = await provider.getBalance(accounts?.wallet?.ethAddress);
+                    setBalance(balance);
+                    setChainId(DesiredChainId);
 
                     const storedSignature = localStorage.getItem(account);
                     if (!storedSignature) {

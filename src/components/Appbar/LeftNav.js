@@ -7,12 +7,12 @@ import { PiCubeFill, PiFramerLogo } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/img/logo.jpg";
 import UserStore from "../../contexts/UserStore";
-import { minifyAddress } from "../../shared/web3utils";
+import { fixedBalance, getTokenSymbol, minifyAddress } from "../../shared/web3utils";
 import StyledList from "../List";
 import { Listitem } from "../List/styles";
 
 export default function LeftNav() {
-    const { setToken, setUser, user, userWallet } = useContext(UserStore);
+    const { setToken, setUser, user, userWallet, balance, chainId } = useContext(UserStore);
     const [tooltipTitle, setTooltipTitle] = React.useState(userWallet);
     const navigate = useNavigate();
 
@@ -107,6 +107,19 @@ export default function LeftNav() {
                                                 fontWeight={500}
                                             >
                                                 Wallet: {minifyAddress(userWallet)}
+                                            </Typography>
+                                        </Tooltip>
+                                    </Listitem>
+                                    <Listitem>
+                                        <Tooltip title={balance} placement="top">
+                                            <Typography
+                                                variant="p"
+                                                fontSize={"16px"}
+                                                color={"#000000"}
+                                                fontWeight={500}
+                                            >
+                                                Balance: {fixedBalance(balance)}{" "}
+                                                {getTokenSymbol(chainId)}
                                             </Typography>
                                         </Tooltip>
                                     </Listitem>

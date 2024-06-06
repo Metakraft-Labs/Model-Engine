@@ -1,3 +1,5 @@
+import { ethers } from "ethers";
+
 export const minifyAddress = (address, middleChars = 4, endChars = 4) => {
     if (!address) return "";
     if (address.length < 20) return address;
@@ -23,4 +25,21 @@ export const getChainName = chainId => {
         default:
             return "Titan AI Hub Testnet";
     }
+};
+
+export const getTokenSymbol = chainId => {
+    switch (chainId) {
+        case 1020352220:
+            return "sFUEL";
+        default:
+            return "sFUEL";
+    }
+};
+
+export const fixedBalance = (value, decimals = 18, decimalPlaces = 4) => {
+    return Number(
+        Math.round(parseFloat(ethers.formatUnits(value, decimals) + "e" + decimalPlaces)) +
+            "e-" +
+            decimalPlaces,
+    );
 };
