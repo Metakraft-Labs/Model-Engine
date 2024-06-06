@@ -15,3 +15,12 @@ export const getBlockExplorer = chainId => {
             return "https://aware-fake-trim-testnet.explorer.testnet.skalenodes.com";
     }
 };
+
+export const getChainName = chainId => {
+    switch (chainId) {
+        case 1020352220:
+            return "Titan AI Hub Testnet";
+        default:
+            return "Titan AI Hub Testnet";
+    }
+};

@@ -4,6 +4,7 @@ import {} from "react-icons/fa";
 import { IoImageOutline } from "react-icons/io5";
 import { MdExitToApp } from "react-icons/md";
 import { PiCubeFill, PiFramerLogo } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/img/logo.jpg";
 import UserStore from "../../contexts/UserStore";
 import { minifyAddress } from "../../shared/web3utils";
@@ -13,6 +14,7 @@ import { Listitem } from "../List/styles";
 export default function LeftNav() {
     const { setToken, setUser, user, userWallet } = useContext(UserStore);
     const [tooltipTitle, setTooltipTitle] = React.useState(userWallet);
+    const navigate = useNavigate();
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -95,18 +97,32 @@ export default function LeftNav() {
                         <Divider />
                         <List sx={{ width: "100%" }}>
                             {userWallet && (
-                                <Listitem onClick={copyToClipboard}>
-                                    <Tooltip title={tooltipTitle} placement="top">
-                                        <Typography
-                                            variant="p"
-                                            fontSize={"16px"}
-                                            color={"#000000"}
-                                            fontWeight={500}
-                                        >
-                                            Wallet: {minifyAddress(userWallet)}
-                                        </Typography>
-                                    </Tooltip>
-                                </Listitem>
+                                <>
+                                    <Listitem onClick={copyToClipboard}>
+                                        <Tooltip title={tooltipTitle} placement="top">
+                                            <Typography
+                                                variant="p"
+                                                fontSize={"16px"}
+                                                color={"#000000"}
+                                                fontWeight={500}
+                                            >
+                                                Wallet: {minifyAddress(userWallet)}
+                                            </Typography>
+                                        </Tooltip>
+                                    </Listitem>
+                                    <Listitem onClick={() => navigate("/user/nfts")}>
+                                        <Tooltip title={tooltipTitle} placement="top">
+                                            <Typography
+                                                variant="p"
+                                                fontSize={"16px"}
+                                                color={"#000000"}
+                                                fontWeight={500}
+                                            >
+                                                Your NFTs
+                                            </Typography>
+                                        </Tooltip>
+                                    </Listitem>
+                                </>
                             )}
                             <Listitem onClick={logout}>
                                 <MdExitToApp size={"24px"} color="#FF0000" />
