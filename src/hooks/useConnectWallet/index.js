@@ -55,7 +55,8 @@ export default function useConnectWallet() {
     };
 
     const signMessage = async sdk => {
-        const { signature } = await sdk.signMessage("Welcome to Metakraft AI!", "Login");
+        const message = "Welcome to Metakraft AI!";
+        const { signature } = await sdk.signMessage(message, "Login");
         const address = await sdk.getWallet();
         const res = verifyMessageSignature(message, address, signature);
         return res ? signature : null;
