@@ -110,7 +110,10 @@ export default function LeftNav() {
                                             </Typography>
                                         </Tooltip>
                                     </Listitem>
-                                    <Listitem onClick={() => navigate("/user/nfts")}>
+                                    <Listitem
+                                        onClick={() => navigate("/user/nfts")}
+                                        selected={"/user/nfts" === window.location.pathname}
+                                    >
                                         <Tooltip title={tooltipTitle} placement="top">
                                             <Typography
                                                 variant="p"
