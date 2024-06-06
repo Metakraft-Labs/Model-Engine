@@ -6,3 +6,12 @@ export const minifyAddress = (address, middleChars = 4, endChars = 4) => {
         address.length - endChars,
     )}`;
 };
+
+export const getBlockExplorer = chainId => {
+    switch (chainId) {
+        case 1020352220:
+            return "https://aware-fake-trim-testnet.explorer.testnet.skalenodes.com";
+        default:
+            return "https://aware-fake-trim-testnet.explorer.testnet.skalenodes.com";
+    }
+};

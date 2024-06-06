@@ -6,7 +6,6 @@ import UploadToIpfs from "../../components/UploadToIPFS/index";
 import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
-import MetaKeep from "../Metakeep";
 import DisplayModel from "./DisplayModel";
 
 export default function Text23D() {
@@ -24,12 +23,11 @@ export default function Text23D() {
 
         const res = await generate(prompt);
 
-        if (res) {
-            setModel(res?.glbUrl);
+        if (res?.glbUrl) {
             const byteRes = await urlToFile(res?.glbUrl);
-
             const linkIPFS = await UploadToIpfs(byteRes.file, "Text23D");
             setByteRes(linkIPFS);
+            setModel(res?.glbUrl);
         }
 
         setLoading(false);
@@ -89,12 +87,10 @@ export default function Text23D() {
                 {model && byteRes && userWallet ? (
                     <div>
                         <Button onClick={() => (window.location.href = model)}>Download</Button>
-                        <CreateNFT fileURI={byteRes} />
+                        <CreateNFT fileURI={byteRes} url={model} type={"3d"} prompt={prompt} />
                     </div>
                 ) : (
-                    <div>
-                        <MetaKeep />
-                    </div>
+                    <></>
                 )}
             </Box>
         </>

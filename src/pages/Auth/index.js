@@ -1,10 +1,19 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
+import useConnectWallet from "../../hooks/useConnectWallet";
 import Title from "../../shared/Title";
-import LoginModal from "./LoginModal";
 
 export default function Auth() {
-    const [openLogin, setOpenLogin] = useState(false);
+    const { connectWallet } = useConnectWallet();
+    const [loginLoading, setLoginLoading] = React.useState(false);
+
+    const loginModal = async () => {
+        setLoginLoading(true);
+
+        await connectWallet();
+
+        setLoginLoading(false);
+    };
 
     return (
         <>
@@ -22,14 +31,16 @@ export default function Auth() {
                     To use this feature, please authenticate yourself
                 </Typography>
                 <Box display={"flex"} alignItems={"center"} gap={"30px"}>
-                    <Button variant="contained" color="primary" onClick={() => setOpenLogin(true)}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={loginModal}
+                        disabled={loginLoading}
+                    >
                         Login
                     </Button>
                 </Box>
             </Box>
-
-            {/* Login modal */}
-            <LoginModal openLogin={openLogin} setOpenLogin={setOpenLogin} />
         </>
     );
 }

@@ -1,12 +1,14 @@
 import { ethers } from "ethers";
 import { MetaKeep } from "metakeep";
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { login } from "../../apis/auth";
 import ABI from "../../constants/contractABI.json";
 import { DesiredChainId, contractAddress } from "../../constants/helper";
 import UserStore from "../../contexts/UserStore";
 
 export default function useConnectWallet() {
-    const { setContract, setUserWallet } = useContext(UserStore);
+    const { setContract, setUserWallet, user, setToken } = useContext(UserStore);
     const [connectedWallet, setConnectedWallet] = useState(null);
     let provider = null;
     let account = null;
@@ -52,54 +54,57 @@ export default function useConnectWallet() {
         }
     };
 
-    const signMessage = async signer => {
-        const message = "Hi, Welcome to Metakraft AI!";
-        const sig = await signer.signMessage(message);
-        const address = await signer.getAddress();
-        const res = verifyMessageSignature(message, address, sig);
-        return res ? sig : null;
+    const signMessage = async sdk => {
+        const { signature } = await sdk.signMessage("Welcome to Metakraft AI!", "Login");
+        const address = await sdk.getWallet();
+        const res = verifyMessageSignature(message, address, signature);
+        return res ? signature : null;
     };
 
-    const connectWallet = async walletName => {
+    const connectWallet = async () => {
         if (connectedWallet) {
             setConnectedWallet(null);
         } else {
             if (window.ethereum) {
                 try {
-                    if (walletName === "metamask") {
-                        provider = new ethers.BrowserProvider(window.ethereum);
-                    } else {
-                        const sdk = new MetaKeep({
-                            appId: process.env.REACT_APP_METAKEEP_APPID,
-                            chainId: DesiredChainId,
-                            rpcNodeUrls: {
-                                1020352220: process.env.REACT_APP_TITAN_RPC,
-                            },
-                        });
+                    const sdk = new MetaKeep({
+                        appId: process.env.REACT_APP_METAKEEP_APPID,
+                        chainId: DesiredChainId,
+                        rpcNodeUrls: {
+                            1020352220: process.env.REACT_APP_TITAN_RPC,
+                        },
+                        user: { email: user?.email || "" },
+                    });
 
-                        const web3Provider = await sdk.ethereum;
-                        await web3Provider.enable();
-                        provider = new ethers.BrowserProvider(web3Provider);
-                    }
+                    const web3Provider = await sdk.ethereum;
+                    await web3Provider.enable();
+                    provider = new ethers.BrowserProvider(web3Provider);
 
-                    const accounts = await provider.send("eth_requestAccounts", []);
+                    const accounts = await sdk.getWallet();
+                    const userWallet = await sdk.getUser();
                     const signer = await provider.getSigner();
-                    account = accounts[0];
-                    setConnectedWallet(accounts[0]);
+                    account = accounts?.wallet?.ethAddress;
+                    setConnectedWallet(account);
                     await correctChainId();
 
-                    await window?.ethereum?._metamask.isUnlocked();
-
-                    const storedSignature = localStorage.getItem(accounts[0]);
+                    const storedSignature = localStorage.getItem(account);
                     if (!storedSignature) {
-                        const sig = await signMessage(signer);
-                        localStorage.setItem(accounts[0], sig);
+                        const sig = await signMessage(sdk);
+                        localStorage.setItem(account, sig);
                     }
 
-                    const contract = createContractInstance(signer);
-                    return contract;
+                    createContractInstance(signer);
+
+                    if (!user && userWallet?.email) {
+                        const res = await login({ email: userWallet?.email, address: account });
+                        if (res) {
+                            setToken(res);
+                            localStorage.setItem("token", res);
+                        }
+                    }
                 } catch (err) {
-                    console.log("The error in contract is:", err);
+                    console.error("The error in contract is:", err);
+                    toast.error("Error connecting wallet");
                     return null;
                 }
             } else {

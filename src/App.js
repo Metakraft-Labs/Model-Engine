@@ -16,7 +16,9 @@ function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [contract, setContract] = useState(null);
+    const [connected, setConnected] = useState(false);
     const [userWallet, setUserWallet] = useState(null);
+
     const lightTheme = createTheme({
         palette: {
             background: {
@@ -83,6 +85,8 @@ function App() {
                 setContract,
                 userWallet,
                 setUserWallet,
+                connected,
+                setConnected,
             }}
         >
             <BrowserRouter>
@@ -103,7 +107,7 @@ function App() {
                                 <Appbar />
                                 <Box sx={{ flexGrow: 1, padding: "1rem" }}>
                                     <Toolbar />
-                                    {user ? <Routers /> : <Auth />}
+                                    {user && userWallet ? <Routers /> : <Auth />}
                                 </Box>
                             </>
                         )}

@@ -1,13 +1,18 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { ethers } from "ethers";
 import React, { useContext, useState } from "react";
+import { mint } from "../../apis/nft";
+import Modal from "../../components/Modal";
 import { DesiredChainId } from "../../constants/helper";
 import UserStore from "../../contexts/UserStore";
-import MetaKeep from "../../pages/Metakeep";
+import { getBlockExplorer } from "../../shared/web3utils";
 
-export default function CreateNFT({ fileURI }) {
+export default function CreateNFT({ fileURI, url, prompt, type }) {
     const [cid, setCID] = useState(null);
+    const [mintLoading, setMintLoading] = useState(false);
+    const [contractRes, setContractRes] = useState(null);
     const { contract, userWallet } = useContext(UserStore);
+
     window.onload = () => {
         if (window.ethereum) {
             window.ethereum.on("chainChanged", checkConnectedChain);
@@ -43,11 +48,18 @@ export default function CreateNFT({ fileURI }) {
                 const res = await contract.safeMint(userWallet, cid, { value: amt });
 
                 if (res) {
-                    alert("Your NFT has been successfully minted");
+                    await mint({
+                        prompt,
+                        url,
+                        transactionHash: res.hash,
+                        chainId: Number(res.chainId),
+                        type,
+                    });
+                    setContractRes(res);
                 }
             } else {
                 console.log("Failed to connect wallet, or load contract instance");
-                return <MetaKeep />;
+                return null;
             }
         } catch (err) {
             console.log("The Error is:", err);
@@ -110,15 +122,44 @@ export default function CreateNFT({ fileURI }) {
     };
 
     const handleButtonClick = async () => {
+        setMintLoading(true);
         const cid = await uploadMetaDataToIPFS(nftMetadata);
         setCID(cid);
 
         await fetchData(cid);
+
+        setMintLoading(false);
     };
 
     return (
-        <Button variant="contained" type="primary" onClick={handleButtonClick}>
-            Mint NFT
-        </Button>
+        <>
+            <Button
+                variant="contained"
+                type="primary"
+                onClick={handleButtonClick}
+                disabled={mintLoading}
+            >
+                {mintLoading ? "Minting..." : "Mint NFT"}
+            </Button>
+
+            {contractRes && (
+                <Modal
+                    open={!!contractRes}
+                    onClose={() => setContractRes(null)}
+                    heading={"Your NFT is successfully minted."}
+                >
+                    <Typography variant="body1">
+                        Here is your transaction hash:{" "}
+                        <a
+                            href={`${getBlockExplorer(Number(contractRes?.chainId))}/tx/${contractRes?.hash}`}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            {contractRes?.hash}
+                        </a>
+                    </Typography>
+                </Modal>
+            )}
+        </>
     );
 }

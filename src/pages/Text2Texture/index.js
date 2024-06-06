@@ -6,7 +6,6 @@ import UploadToIpfs from "../../components/UploadToIPFS/index";
 import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
-import MetaKeep from "../Metakeep/index";
 
 export default function Text2Texture() {
     const [prompt, setPrompt] = useState("");
@@ -23,11 +22,10 @@ export default function Text2Texture() {
         const res = await generate(prompt);
 
         if (res) {
-            setTexture(res);
             const byteRes = await urlToFile(res);
-
             const linkIPFS = await UploadToIpfs(byteRes.file, "Text2Texture");
             setByteRes(linkIPFS);
+            setTexture(res);
         }
 
         setLoading(false);
@@ -88,12 +86,10 @@ export default function Text2Texture() {
                 {model && byteRes && userWallet ? (
                     <Box>
                         <Button onClick={() => (window.location.href = model)}>Download</Button>
-                        <CreateNFT fileURI={byteRes} />
+                        <CreateNFT fileURI={byteRes} url={model} type={"texture"} prompt={prompt} />
                     </Box>
                 ) : (
-                    <div>
-                        <MetaKeep />
-                    </div>
+                    <></>
                 )}
             </Box>
         </>

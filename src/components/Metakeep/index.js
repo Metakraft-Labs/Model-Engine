@@ -1,14 +1,14 @@
 import { Box, Button } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import useConnectWallet from "../../components/ConnectWallet";
-import StyledModal from "../../components/Modal";
 import UserStore from "../../contexts/UserStore";
+import useConnectWallet from "../../hooks/useConnectWallet";
+import StyledModal from "../Modal";
 
-export default function MetaKeepModal({ openMetaKeep, setOpenMetaKeep, setConnected }) {
+export default function MetaKeepModal({ openMetaKeep, setOpenMetaKeep }) {
     const [contract, setContract] = useState(null);
     const [metakeepLoading, setMetakeepLoading] = useState(false);
 
-    const { userWallet } = useContext(UserStore);
+    const { userWallet, setConnected } = useContext(UserStore);
 
     const { connectWallet } = useConnectWallet();
     useEffect(() => {
@@ -23,11 +23,10 @@ export default function MetaKeepModal({ openMetaKeep, setOpenMetaKeep, setConnec
         }
     }, [contract, userWallet]);
 
-    const handleSubmit = async message => {
+    const handleSubmit = async () => {
         setMetakeepLoading(true);
 
-        const contract = await connectWallet(message);
-        console.log("The contract has", contract);
+        const contract = await connectWallet();
         setContract(contract);
 
         setMetakeepLoading(false);
@@ -41,16 +40,7 @@ export default function MetaKeepModal({ openMetaKeep, setOpenMetaKeep, setConnec
                     color="primary"
                     fullWidth={false}
                     disabled={metakeepLoading}
-                    onClick={() => handleSubmit("metamask")}
-                >
-                    Metamask
-                </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth={false}
-                    disabled={metakeepLoading}
-                    onClick={() => handleSubmit("metakeep")}
+                    onClick={() => handleSubmit()}
                 >
                     MetaKeep
                 </Button>
