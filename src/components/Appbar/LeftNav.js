@@ -1,4 +1,5 @@
 import { Box, Divider, Drawer, List, Toolbar, Tooltip, Typography } from "@mui/material";
+import { ethers } from "ethers";
 import React, { useContext } from "react";
 import {} from "react-icons/fa";
 import { IoImageOutline } from "react-icons/io5";
@@ -111,7 +112,10 @@ export default function LeftNav() {
                                         </Tooltip>
                                     </Listitem>
                                     <Listitem>
-                                        <Tooltip title={balance} placement="top">
+                                        <Tooltip
+                                            title={ethers.formatUnits(balance, 18)}
+                                            placement="top"
+                                        >
                                             <Typography
                                                 variant="p"
                                                 fontSize={"16px"}
