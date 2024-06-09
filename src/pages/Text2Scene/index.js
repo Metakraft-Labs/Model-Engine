@@ -6,40 +6,40 @@ import Title from "../../shared/Title";
 export default function Text2Scene() {
     const sceneRef = useRef(null);
 
-    const sceneJson = {
-        area_name: "Reception",
-        X: 0.0,
-        Y: 0.0,
-        Z: 0.0,
-        area_size_X: 700,
-        area_size_Z: 1000,
-        area_objects_list: [
-            {
-                object_name: "Comfortable_Armchair_1",
-                X: -200,
-                Y: 0.0,
-                Z: 150,
-            },
-            {
-                object_name: "Comfortable_Armchair_2",
-                X: -200,
-                Y: 0.0,
-                Z: -150,
-            },
-            {
-                object_name: "Spacious_Sofa",
-                X: 250,
-                Y: 0.0,
-                Z: 0,
-            },
-            {
-                object_name: "Modern_Coffee_Table",
-                X: 0,
-                Y: 0.0,
-                Z: 0,
-            },
-        ],
-    };
+    // const sceneJson = {
+    //     area_name: "Reception",
+    //     X: 0.0,
+    //     Y: 0.0,
+    //     Z: 0.0,
+    //     area_size_X: 700,
+    //     area_size_Z: 1000,
+    //     area_objects_list: [
+    //         {
+    //             object_name: "Comfortable_Armchair_1",
+    //             X: -200,
+    //             Y: 0.0,
+    //             Z: 150,
+    //         },
+    //         {
+    //             object_name: "Comfortable_Armchair_2",
+    //             X: -200,
+    //             Y: 0.0,
+    //             Z: -150,
+    //         },
+    //         {
+    //             object_name: "Spacious_Sofa",
+    //             X: 250,
+    //             Y: 0.0,
+    //             Z: 0,
+    //         },
+    //         {
+    //             object_name: "Modern_Coffee_Table",
+    //             X: 0,
+    //             Y: 0.0,
+    //             Z: 0,
+    //         },
+    //     ],
+    // };
 
     useEffect(() => {
         const scene = new Scene();
