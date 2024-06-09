@@ -90,11 +90,11 @@ export default function LeftNav() {
                             text: "Text 2 Texture",
                             path: "/text-2-texture",
                         },
-                        {
-                            icon: <IoImageOutline size={"24px"} />,
-                            text: "Text 2 Scene",
-                            path: "/text-2-scene",
-                        },
+                        // {
+                        //     icon: <IoImageOutline size={"24px"} />,
+                        //     text: "Text 2 Scene",
+                        //     path: "/text-2-scene",
+                        // },
                     ]}
                 />
 
