@@ -67,53 +67,49 @@ export default function useConnectWallet() {
         if (connectedWallet) {
             setConnectedWallet(null);
         } else {
-            if (window.ethereum) {
-                try {
-                    const sdk = new MetaKeep({
-                        appId: process.env.REACT_APP_METAKEEP_APPID,
-                        chainId: DesiredChainId,
-                        rpcNodeUrls: {
-                            1020352220: process.env.REACT_APP_TITAN_RPC,
-                        },
-                        user: { email: user?.email || "" },
-                    });
+            try {
+                const sdk = new MetaKeep({
+                    appId: process.env.REACT_APP_METAKEEP_APPID,
+                    chainId: DesiredChainId,
+                    rpcNodeUrls: {
+                        1020352220: process.env.REACT_APP_TITAN_RPC,
+                    },
+                    user: { email: user?.email || "" },
+                });
 
-                    const web3Provider = await sdk.ethereum;
-                    await web3Provider.enable();
-                    provider = new ethers.BrowserProvider(web3Provider);
+                const web3Provider = await sdk.ethereum;
+                await web3Provider.enable();
+                provider = new ethers.BrowserProvider(web3Provider);
 
-                    const accounts = await sdk.getWallet();
-                    const userWallet = accounts.user;
-                    const signer = await provider.getSigner();
-                    account = accounts?.wallet?.ethAddress;
-                    setConnectedWallet(account);
-                    await correctChainId();
-                    const balance = await provider.getBalance(accounts?.wallet?.ethAddress);
-                    setBalance(balance);
-                    setChainId(DesiredChainId);
+                const accounts = await sdk.getWallet();
+                const userWallet = accounts.user;
+                const signer = await provider.getSigner();
+                account = accounts?.wallet?.ethAddress;
+                setConnectedWallet(account);
+                await correctChainId();
+                const balance = await provider.getBalance(accounts?.wallet?.ethAddress);
+                setBalance(balance);
+                setChainId(DesiredChainId);
 
-                    const storedSignature = localStorage.getItem(account);
-                    if (!storedSignature) {
-                        const sig = await signMessage(sdk);
-                        localStorage.setItem(account, sig);
-                    }
-
-                    createContractInstance(signer);
-
-                    if (!user && userWallet?.email) {
-                        const res = await login({ email: userWallet?.email, address: account });
-                        if (res) {
-                            setToken(res);
-                            localStorage.setItem("token", res);
-                        }
-                    }
-                } catch (err) {
-                    console.error("The error in contract is:", err);
-                    toast.error("Error connecting wallet");
-                    return null;
+                const storedSignature = localStorage.getItem(account);
+                if (!storedSignature) {
+                    const sig = await signMessage(sdk);
+                    localStorage.setItem(account, sig);
                 }
-            } else {
-                console.log("Metamask not found");
+
+                createContractInstance(signer);
+
+                if (!user && userWallet?.email) {
+                    const res = await login({ email: userWallet?.email, address: account });
+                    if (res) {
+                        setToken(res);
+                        localStorage.setItem("token", res);
+                    }
+                }
+            } catch (err) {
+                console.error("The error in contract is:", err);
+                toast.error("Error connecting wallet");
+                return null;
             }
         }
     };
