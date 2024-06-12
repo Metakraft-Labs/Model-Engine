@@ -61,7 +61,7 @@ export default function Nfts() {
             setPagination(res.pagination);
         }
         setNftLoading(false);
-    }, [page, tab]);
+    }, [page, tab, limit]);
 
     useEffect(() => {
         getNfts();
@@ -162,6 +162,7 @@ export default function Nfts() {
                     justifyContent={"center"}
                     alignItems={"center"}
                     height={"100%"}
+                    width={"90%"}
                 >
                     {nft?.type === "3d" ? (
                         <DisplayModel link={nft?.url} />
