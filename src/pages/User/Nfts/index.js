@@ -18,6 +18,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { IoEyeSharp } from "react-icons/io5";
 import { useSearchParams } from "react-router-dom";
 import { list } from "../../../apis/nft";
+import DisplayModel from "../../../components/DisplayModel";
 import Modal from "../../../components/Modal";
 import TItle from "../../../shared/Title";
 import { getBlockExplorer, getChainName, minifyAddress } from "../../../shared/web3utils";
@@ -162,7 +163,13 @@ export default function Nfts() {
                     alignItems={"center"}
                     height={"100%"}
                 >
-                    <img src={nft?.url} alt={nft?.prompt} style={{ maxWidth: "100%" }} />
+                    {nft?.type === "3d" ? (
+                        <DisplayModel link={nft?.url} />
+                    ) : nft?.type === "motion" ? (
+                        <video controls height="100%" src={nft?.url}></video>
+                    ) : (
+                        <img src={nft?.url} alt={nft?.prompt} style={{ maxWidth: "100%" }} />
+                    )}
                 </Box>
             </Modal>
         </>
