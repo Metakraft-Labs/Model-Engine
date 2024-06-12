@@ -1,6 +1,7 @@
 import React from "react";
 import Error404 from "../pages/404";
 import Home from "../pages/Home";
+import ModelViewer from "../pages/ModelViewer";
 import Text23D from "../pages/Text23D";
 import Text2Motion from "../pages/Text2Motion";
 import Text2Scene from "../pages/Text2Scene";
@@ -37,6 +38,12 @@ export const Links = [
         path: "/text-2-scene",
         element: <Text2Scene />,
         showInNavigation: true,
+    },
+    {
+        name: "Model Viewer",
+        path: "/model-viewer",
+        element: <ModelViewer />,
+        showInNavigation: false,
     },
     {
         name: "Your NFTs",
