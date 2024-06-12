@@ -19,7 +19,7 @@ export default function ModelViewer() {
         // get query string
         const params = new URLSearchParams(searchParams);
         const url = params.get("url");
-        const prompt = params.get("url");
+        const prompt = params.get("prompt");
 
         return [url, prompt];
     }, [searchParams]);
