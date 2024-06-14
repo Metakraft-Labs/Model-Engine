@@ -6,6 +6,7 @@ import { login } from "../../apis/auth";
 import ABI from "../../constants/contractABI.json";
 import { DesiredChainId, contractAddress } from "../../constants/helper";
 import UserStore from "../../contexts/UserStore";
+import { getRPCURL } from "../../shared/web3utils";
 
 export default function useConnectWallet() {
     const { setContract, setUserWallet, user, setToken, setBalance, setChainId } =
@@ -72,7 +73,8 @@ export default function useConnectWallet() {
                     appId: process.env.REACT_APP_METAKEEP_APPID,
                     chainId: DesiredChainId,
                     rpcNodeUrls: {
-                        1020352220: process.env.REACT_APP_TITAN_RPC,
+                        1020352220: getRPCURL(1020352220),
+                        1350216234: getRPCURL(1350216234),
                     },
                     user: { email: user?.email || "" },
                 });
@@ -100,7 +102,11 @@ export default function useConnectWallet() {
                 createContractInstance(signer);
 
                 if (!user && userWallet?.email) {
-                    const res = await login({ email: userWallet?.email, address: account });
+                    const res = await login({
+                        email: userWallet?.email,
+                        address: account,
+                        chainId: DesiredChainId,
+                    });
                     if (res) {
                         setToken(res);
                         localStorage.setItem("token", res);
