@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Toolbar } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
@@ -6,7 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { status } from "./apis/auth";
 import Routers from "./common/Routers";
-import Appbar from "./components/Appbar";
 import UserStore from "./contexts/UserStore";
 import Auth from "./pages/Auth";
 
@@ -110,11 +109,11 @@ function App() {
                             </Box>
                         ) : (
                             <>
-                                <Appbar />
-                                <Box sx={{ flexGrow: 1, padding: "1rem" }}>
-                                    <Toolbar />
-                                    {user && userWallet ? <Routers /> : <Auth />}
-                                </Box>
+                                {(user && userWallet) || window.location.pathname == "/" ? (
+                                    <Routers />
+                                ) : (
+                                    <Auth />
+                                )}
                             </>
                         )}
                     </Box>
