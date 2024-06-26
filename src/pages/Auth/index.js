@@ -1,12 +1,13 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Box, Link, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import metakraft from "../../assets/img/login/metakraft.png";
 import useConnectWallet from "../../hooks/useConnectWallet";
 import Title from "../../shared/Title";
-import { AvatarImage, Background, BackLink, CustomButton, FormContainer } from "./styles";
+import { AvatarImage, BackLink, Background, CustomButton, FormContainer } from "./styles";
 
 export default function Auth() {
+    const [email, setEmail] = useState("");
     const { connectWallet } = useConnectWallet();
     const [loginLoading, setLoginLoading] = React.useState(false);
 
@@ -68,6 +69,8 @@ export default function Auth() {
                             margin="normal"
                             required
                             fullWidth
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                             id="email"
                             label="Email Address"
                             name="email"
