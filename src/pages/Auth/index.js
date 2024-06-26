@@ -12,7 +12,7 @@ export default function Auth() {
     // const loginModal = async () => {
     //     setLoginLoading(true);
 
-    //     await connectWallet();
+    //     await connectWallet({ emailAddress: email });
 
     //     setLoginLoading(false);
     // };

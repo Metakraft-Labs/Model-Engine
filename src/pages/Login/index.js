@@ -1,52 +1,8 @@
-import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
-import { styled } from "@mui/system";
+import { Container, Grid, Link, TextField, Typography } from "@mui/material";
 import React from "react";
-import ball from "../../assets/img/login/ball.png";
-import bg_avatar from "../../assets/img/login/bg_avatar.png";
 import metakraft from "../../assets/img/login/metakraft.png";
 import Title from "../../shared/Title";
-
-const Background = styled(Box)({
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-    width: "100vw",
-    backgroundColor: "#11141D",
-    backgroundImage: `url(${ball}), url(${bg_avatar}) `,
-    backgroundPosition: "bottom left, bottom right",
-    backgroundSize: "contain, contain",
-    backgroundRepeat: "no-repeat, no-repeat",
-    pr: 50,
-});
-
-const FormContainer = styled(Box)({
-    backgroundColor: "#2c2c2c",
-    padding: "20px",
-    borderRadius: "8px",
-    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    maxWidth: "300px",
-    width: "100%",
-});
-
-const AvatarImage = styled("img")({
-    width: "100px",
-    height: "100px",
-    borderRadius: "50%",
-    marginBottom: 1,
-});
-
-const CustomButton = styled(Button)({
-    backgroundColor: "#6c63ff",
-    marginTop: "20px",
-    "&:hover": {
-        backgroundColor: "#5a54d4",
-    },
-});
+import { AvatarImage, Background, CustomButton, FormContainer } from "./styles";
 
 export default function Login() {
     return (
