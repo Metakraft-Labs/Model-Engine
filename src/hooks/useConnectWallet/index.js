@@ -64,7 +64,7 @@ export default function useConnectWallet() {
         return res ? signature : null;
     };
 
-    const connectWallet = async () => {
+    const connectWallet = async ({ emailAddress }) => {
         if (connectedWallet) {
             setConnectedWallet(null);
         } else {
@@ -76,7 +76,7 @@ export default function useConnectWallet() {
                         1020352220: getRPCURL(1020352220),
                         1350216234: getRPCURL(1350216234),
                     },
-                    user: { email: user?.email || "" },
+                    user: { email: user?.email || emailAddress || "" },
                 });
 
                 const web3Provider = await sdk.ethereum;
