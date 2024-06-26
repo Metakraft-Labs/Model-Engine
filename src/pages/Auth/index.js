@@ -1,57 +1,120 @@
-import { Box } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { Box, Link, TextField, Typography } from "@mui/material";
 import React from "react";
-import ball from "../../assets/img/login/ball.png";
-import bg_avatar from "../../assets/img/login/bg_avatar.png";
-//import useConnectWallet from "../../hooks/useConnectWallet";
+import metakraft from "../../assets/img/login/metakraft.png";
+import useConnectWallet from "../../hooks/useConnectWallet";
 import Title from "../../shared/Title";
+import { AvatarImage, Background, BackLink, CustomButton, FormContainer } from "./styles";
 
 export default function Auth() {
-    // const { connectWallet } = useConnectWallet();
-    // const [loginLoading, setLoginLoading] = React.useState(false);
+    const { connectWallet } = useConnectWallet();
+    const [loginLoading, setLoginLoading] = React.useState(false);
 
-    // const loginModal = async () => {
-    //     setLoginLoading(true);
+    const loginModal = async () => {
+        setLoginLoading(true);
 
-    //     await connectWallet({ emailAddress: email });
+        await connectWallet({ emailAddress: email });
 
-    //     setLoginLoading(false);
-    // };
+        setLoginLoading(false);
+    };
 
     return (
         <>
-            <Title title={""} />
-            <Box
-                sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    backgroundColor: "#11141D",
-                    width: "100%",
-                    height: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <Box
-                    sx={{
-                        backgroundImage: `url(${ball})`, // Replace with your image URLs
-                        backgroundPosition: "bottom left", // Positions
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                        width: "50%",
-                        height: "100%",
-                    }}
-                ></Box>
-                <Box
-                    sx={{
-                        backgroundImage: `url(${bg_avatar})`, // Replace with your image URLs
-                        backgroundPosition: "bottom right", // Positions
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                        width: "50%",
-                        height: "100%",
-                    }}
-                ></Box>
-            </Box>
+            <Title title={"Login"} />
+            <Background>
+                <BackLink href="/">
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 1,
+                        }}
+                    >
+                        <ArrowBackIosNewIcon
+                            sx={{
+                                fontSize: 15,
+                            }}
+                        />
+                        <Typography variant="body2" component="h1" color="#898A8C">
+                            Back to Homepage
+                        </Typography>
+                    </Box>
+                </BackLink>
+                <Box sx={{ pl: 22 }}>
+                    <FormContainer>
+                        <AvatarImage src={metakraft} alt="metakraft" />
+                        <Typography variant="h6" component="h1" color="white" gutterBottom>
+                            Welcome to Spark AI
+                        </Typography>
+                        <Typography variant="caption" component="h1" color="#898A8C" gutterBottom>
+                            Enter your email to get started.
+                        </Typography>
+                        <TextField
+                            sx={{
+                                background: "#141414",
+                                borderRadius: 3,
+                                borderColor: "#303134",
+                                "& .MuiOutlinedInput-root": {
+                                    "& fieldset": {
+                                        borderColor: "#303134", // Default border color
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                        borderColor: "#303134", // Focused border color
+                                    },
+                                },
+                            }}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                            InputLabelProps={{
+                                style: {
+                                    color: "#49494B",
+                                    border: 5,
+                                    borderRadius: 12,
+                                    borderColor: "#303134",
+                                },
+                            }}
+                            InputProps={{
+                                style: {
+                                    color: "#3B3C3F",
+                                    border: 5,
+                                    borderRadius: 12,
+                                    borderColor: "#303134",
+                                },
+                            }}
+                        />
+                        <CustomButton
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            onClick={loginModal}
+                            disabled={loginLoading}
+                        >
+                            Continue
+                        </CustomButton>
+
+                        <Typography variant="body2" color="white" align="center" marginTop="20px">
+                            By continuing, you agree to our{" "}
+                            <Link href="#" color="inherit" underline="always">
+                                Terms of Service
+                            </Link>{" "}
+                            and{" "}
+                            <Link href="#" color="inherit" underline="always">
+                                Privacy Policy
+                            </Link>
+                            .
+                        </Typography>
+                    </FormContainer>
+                </Box>
+            </Background>
 
             {/* <Box
                 display={"flex"}
