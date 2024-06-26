@@ -1,23 +1,24 @@
-import {
-    AppBar,
-    Avatar,
-    Box,
-    Button,
-    CssBaseline,
-    Grid,
-    ThemeProvider,
-    Toolbar,
-    Typography,
-} from "@mui/material";
+import { Avatar, Box, Button, Divider, ThemeProvider, Typography } from "@mui/material";
 import React from "react";
 
-import footerimage from "../../assets/img/realistic_Abstract_4.png";
-import spark from "../../assets/img/spark-pngrepo-com 1.png";
-import skull from "../../assets/img/Untitled design (39) 1.png";
+import astro from "../../assets/img/dashboard/astro.png";
+import skull from "../../assets/img/dashboard/skull.png";
 // import { useNavigate } from "react-router-dom";
+import PlayCircleFilledRoundedIcon from "@mui/icons-material/PlayCircleFilledRounded";
 import { createTheme } from "@mui/material";
-import zap from "../../assets/img/zap.png";
+import footerimg from "../../assets/img/dashboard/footerimg.png";
+import footerimg_motion from "../../assets/img/dashboard/footerimg_motion.png";
+import gradright from "../../assets/img/dashboard/gradright.png";
+import gradtop from "../../assets/img/dashboard/gradtop.png";
+import memoji1 from "../../assets/img/dashboard/memoji1.png";
+import memoji2 from "../../assets/img/dashboard/memoji2.png";
+import memoji3 from "../../assets/img/dashboard/memoji3.png";
+import memoji4 from "../../assets/img/dashboard/memoji4.png";
+import t23 from "../../assets/img/dashboard/t23.png";
+import texture_bg from "../../assets/img/dashboard/textures_bg.png";
+import zap from "../../assets/img/dashboard/zap.png";
 import Title from "../../shared/Title";
+import Navbar from "./Navbar";
 
 export default function Home() {
     // const navigate = useNavigate();
@@ -33,521 +34,698 @@ export default function Home() {
         <>
             <Title title={"Home"} />
             <ThemeProvider theme={theme}>
-                {/* <Box sx={{ display: "flex" }}>
-                    <CssBaseline />
-                    <AppBar
-                        component="nav"
-                        sx={{
-                            borderRadius: 10,
-                            p: 0.5,
-                            mt: 3,
-                            width: "90%",
-                            border: "1px solid #37393c",
-                            backgroundColor: "#202224",
-                            align: "center",
-                        }}
-                    >
-                        <Toolbar>
-                            <img src={spark}></img>
-                            <Typography variant="body1" sx={{ p: 1 }}>
-                                SPARK AI
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                </Box> */}
                 <Box
                     sx={{
-                        paddingTop: 10,
-                        pl: 3,
-                        pr: 3,
-                        pb: 3,
+                        display: "flex",
+                        flexDirection: "column",
+                        pt: 6,
+                        pb: 8,
+                        gap: 0.8,
                         backgroundColor: "#11141D",
                         color: "white",
-                        minHeight: "100vh",
                         width: "100%",
+                        height: "100%",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundImage: `url(${gradtop}), url(${gradright})`, // Replace with your image URLs
+                        backgroundPosition: "top left, bottom right", // Positions
+                        backgroundSize: "cover, cover", // First image covers the box, second image is 100x100 pixels
+                        backgroundRepeat: "no-repeat, no-repeat", // Prevents repeating
                     }}
                 >
-                    {/* <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            mb: 4,
-                        }}
-                    >
-                        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                            SPARK AI
-                        </Typography>
-                        <IconButton color="primary">
-                            <AddCircleOutlineIcon />
-                        </IconButton>
-                    </Box> */}
+                    <Navbar />
                     <Box
                         sx={{
                             display: "flex",
-                            width: "100%",
-                            justifyContent: "center",
-                            alignItems: "center",
+                            flexDirection: "row",
+                            pt: 6,
+                            pb: 1,
+                            width: "80%",
+                            height: "75%",
+                            gap: 4,
                         }}
                     >
-                        <CssBaseline />
-                        <AppBar
-                            variant="regular"
+                        <Box
                             sx={{
-                                borderRadius: 10,
-                                p: 0.5,
-                                mt: 3,
-                                width: "90%",
-                                border: "1px solid #37393c",
-                                backgroundColor: "#202224",
-                                align: "center",
+                                backgroundColor: "#101111",
+                                backgroundImage: `url(${t23})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                                borderRadius: 7,
+                                border: 1,
+                                borderColor: "#373737",
+                                width: "25%",
+                                height: "100%",
+                                alignItems: "center",
+                                overflow: "hidden",
+                                boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
                             }}
                         >
-                            <Toolbar>
-                                <img src={spark}></img>
-                                <Typography variant="body1" sx={{ p: 1 }}>
-                                    SPARK AI
-                                </Typography>
-                            </Toolbar>
-                        </AppBar>
-                    </Box>
-
-                    <Grid container spacing={2}>
-                        <Grid item xs={6} md={3} lg={3}>
-                            <Box
-                                src="../../assets/img/t23.png"
-                                sx={{
-                                    backgroundColor: "#101111",
-                                    backgroundImage: "url({'../../assets/img/t23.png'})",
-                                    backgroundRepeat: "no-repeat",
-                                    // height: "409px",
-                                    // width: "256px",
-                                    borderRadius: 7,
-                                    p: 2,
-                                }}
-                            >
-                                <img style={{ padding: 4 }} src={zap} alt="zap"></img>
-                                <Typography variant="h6" sx={{ ml: 1, mt: 0.8, mb: 0.5 }}>
-                                    Text/Sketch to 3D
-                                </Typography>
-                                <Typography variant="body1" color="#787878" sx={{ ml: 1, mb: 0.8 }}>
-                                    Start with a Prompt or Sketch to Generate a 3D Model
-                                </Typography>
-
-                                <Button
-                                    fullWidth
-                                    variant="outlined"
-                                    display="block"
-                                    color="primary"
-                                    sx={{
-                                        ml: 1,
-                                        mt: 2,
-                                        mb: 1,
-                                        width: "95%",
-                                        backgroundColor: "#1e1f1f",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        textTransfrom: "none",
-                                        textAlign: "left",
-                                    }}
-                                >
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            alignItems: "left",
-                                        }}
-                                    >
-                                        <Typography variant="caption" textTransfrom="none">
-                                            Start with a Text
-                                        </Typography>
-
-                                        <Typography variant="caption" color="#787878">
-                                            1 $KRAFT
-                                        </Typography>
-                                    </Box>
-                                </Button>
-
-                                <Button
-                                    fullWidth
-                                    variant="outlined"
-                                    display="block"
-                                    color="primary"
-                                    sx={{
-                                        ml: 1,
-                                        mt: 2,
-                                        mb: 1,
-                                        width: "95%",
-                                        backgroundColor: "#1e1f1f",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        textTransfrom: "none",
-                                        textAlign: "left",
-                                    }}
-                                >
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            alignItems: "left",
-                                        }}
-                                    >
-                                        <Typography variant="caption" textTransfrom="none">
-                                            Export in fbx, obj, glb, gltf
-                                        </Typography>
-                                        <Typography variant="caption" color="#787878">
-                                            2 $KRAFT
-                                        </Typography>
-                                    </Box>
-                                </Button>
-                            </Box>
-                        </Grid>
-
-                        <Grid item xs={6} md={4} lg={4}>
-                            <Box
-                                boxShadow={3}
-                                sx={{
-                                    backgroundColor: "#101111",
-                                    borderRadius: 7,
-                                    BorderColor: "#787878",
-                                    p: 2,
-                                    // height: "246px",
-                                    // width: "392px",
-                                }}
-                            >
-                                <img style={{ padding: 4 }} src={zap} alt="zap"></img>
-
-                                <Typography variant="h6" sx={{ ml: 1, mt: 0.8, mb: 0.5 }}>
-                                    Invite family, friends, anyone
-                                </Typography>
-                                <Typography variant="body1" sx={{ ml: 1, mb: 0.8 }} color="#787878">
-                                    Invite family, friends or others to earn KRAFT
-                                </Typography>
-                                <Box sx={{ ml: 1, mt: 3, display: "flex" }}>
-                                    <Avatar src="avatar1.jpg" sx={{ mx: 2 }} />
-                                    <Avatar src="avatar2.jpg" sx={{ mx: -2.7 }} />
-                                    <Avatar src="avatar3.jpg" sx={{ mx: 2 }} />
-                                    <Avatar src="avatar4.jpg" sx={{ mx: -2.7 }} />
-                                </Box>
-                                <Button
-                                    fullWidth
-                                    variant="outlined"
-                                    color="primary"
-                                    sx={{
-                                        ml: 1,
-                                        mt: 2,
-                                        mb: 1,
-                                        width: "95%",
-                                        backgroundColor: "#1e1f1f",
-                                        borderRadius: "500px",
-                                    }}
-                                >
-                                    <Typography
-                                        variant="body1"
-                                        textTransfrom="none"
-                                        sx={{ mt: 0.8, mb: 0.8 }}
-                                    >
-                                        Invite
-                                    </Typography>
-                                </Button>
-                            </Box>
-                        </Grid>
-
-                        <Grid item xs={12} md={4} lg={4}>
                             <Box
                                 sx={{
-                                    backgroundColor: "#101111",
-                                    // width: "392px",
-                                    // height: "243px",
-                                    borderRadius: 7,
-                                    p: 2,
-                                }}
-                            >
-                                <video
-                                    src="path/to/image.jpg"
-                                    alt="Astronaut"
-                                    style={{ width: "392px", height: "243px", borderRadius: 7 }}
-                                />
-                            </Box>
-                        </Grid>
-
-                        <Grid item xs={12} md={3} lg={4}>
-                            <Box
-                                sx={{
-                                    backgroundColor: "#101111",
-                                    borderRadius: 7,
-                                    p: 2,
-                                    textAlign: "center",
-                                    // width: "254px",
-                                    // height: "147px",
                                     display: "flex",
                                     flexDirection: "column",
+                                    px: 3,
+                                    pt: 3,
+                                    pb: 17.5,
                                 }}
                             >
-                                <Box sx={{ display: "flex", flexDirection: "row" }}>
-                                    <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                        <Box sx={{ display: "flex", flexDirection: "row", mt: 2 }}>
+                                <Box>
+                                    <img
+                                        style={{ width: "24px", height: "26px" }}
+                                        src={zap}
+                                        alt="zap"
+                                    />
+                                    <Typography sx={{ fontSize: "18px", mt: 0.8, mb: 0.5 }}>
+                                        Text/Sketch to 3D
+                                    </Typography>
+                                    <Typography
+                                        color="#9f9f9f"
+                                        sx={{ fontSize: "16px", pr: 2, mb: 0.8 }}
+                                    >
+                                        Start with a Prompt or Sketch to Generate a 3D Model
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+
+                                        gap: 2,
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            backgroundColor: "#1e1f1f",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            textTransform: "none",
+                                            textAlign: "left",
+                                            alignItems: "left",
+                                            justifyContent: "left",
+                                            border: 1,
+                                            borderColor: "#373737",
+                                            borderRadius: 2,
+                                            p: 1,
+                                        }}
+                                    >
+                                        <Box sx={{ display: "flex", flexDirection: "row" }}>
+                                            <Divider
+                                                orientation="vertical"
+                                                flexItem
+                                                sx={{
+                                                    background: "#ff5029",
+                                                    width: "2px",
+                                                    boxShadow:
+                                                        "0px 0px 1px 1px rgba(255, 80, 41, 0.3)",
+                                                    borderRadius: "8px",
+                                                }}
+                                            />
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "left",
+                                                    p: 1,
+                                                }}
+                                            >
+                                                <Typography color="white" sx={{ fontSize: "13px" }}>
+                                                    Start with a Text
+                                                </Typography>
+
+                                                <Typography
+                                                    color="#787878"
+                                                    sx={{ fontSize: "14px" }}
+                                                >
+                                                    1 $KRAFT
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                    <Box
+                                        sx={{
+                                            backgroundColor: "#1e1f1f",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            textTransform: "none",
+                                            textAlign: "left",
+                                            alignItems: "left",
+                                            justifyContent: "left",
+                                            border: 1,
+                                            borderColor: "#373737",
+                                            borderRadius: 2,
+                                            p: 1,
+                                        }}
+                                    >
+                                        <Box sx={{ display: "flex", flexDirection: "row" }}>
+                                            <Divider
+                                                orientation="vertical"
+                                                flexItem
+                                                sx={{
+                                                    background: "#ee29ff",
+                                                    width: "2px",
+                                                    boxShadow:
+                                                        "0px 0px 1px 1px rgba(238, 41, 255, 0.3)",
+                                                    borderRadius: "8px",
+                                                }}
+                                            />
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "left",
+                                                    p: 1,
+                                                }}
+                                            >
+                                                <Typography color="white" sx={{ fontSize: "13px" }}>
+                                                    Export in fbx, obj, glb, gltf
+                                                </Typography>
+                                                <Typography
+                                                    color="#787878"
+                                                    sx={{ fontSize: "14px" }}
+                                                >
+                                                    2 $KRAFT
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 2,
+                                width: "75%",
+                                height: "100%",
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    gap: 4,
+                                    width: "100%",
+                                    height: "50%",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        backgroundColor: "#101111",
+                                        borderRadius: 7,
+                                        border: 1,
+                                        borderColor: "#373737",
+                                        pl: 2.5,
+                                        py: 3,
+                                        width: "50%",
+                                        height: "100%",
+                                        boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
+                                        overflow: "hidden",
+                                    }}
+                                >
+                                    <img
+                                        style={{ width: "24px", height: "26px" }}
+                                        src={zap}
+                                        alt="zap"
+                                    />
+
+                                    <Typography sx={{ fontSize: "18px", mt: 0.8, mb: 0.5 }}>
+                                        Invite family, friends, anyone
+                                    </Typography>
+                                    <Typography sx={{ fontSize: "16px", mb: 0.8 }} color="#787878">
+                                        Invite family, friends or others to earn KRAFT
+                                    </Typography>
+                                    <Box sx={{ mt: 2, display: "flex" }}>
+                                        <Avatar
+                                            src={memoji1}
+                                            sx={{ mx: 2, width: 48, height: 48 }}
+                                        />
+                                        <Avatar
+                                            src={memoji2}
+                                            sx={{ mx: -3, width: 48, height: 48 }}
+                                        />
+                                        <Avatar
+                                            src={memoji3}
+                                            sx={{ mx: 2, width: 48, height: 48 }}
+                                        />
+                                        <Avatar
+                                            src={memoji4}
+                                            sx={{ mx: -3, width: 48, height: 48 }}
+                                        />
+                                    </Box>
+                                    <Button
+                                        fullWidth
+                                        variant="text"
+                                        sx={{
+                                            mt: 2,
+
+                                            width: "95%",
+                                            backgroundColor: "#1e1f1f",
+                                            borderRadius: "500px",
+                                            textTransform: "none",
+                                        }}
+                                    >
+                                        <Typography
+                                            color="white"
+                                            sx={{ fontSize: "18px", mt: 0.8, mb: 0.8 }}
+                                        >
+                                            Invite
+                                        </Typography>
+                                    </Button>
+                                </Box>
+
+                                <Box
+                                    sx={{
+                                        backgroundColor: "#101111",
+                                        borderRadius: 7,
+                                        border: 1,
+                                        borderColor: "#373737",
+                                        textAlign: "center",
+                                        // justifyContent: "left",
+                                        dispaly: "flex",
+                                        backgroundImage: `url(${astro}) `,
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center",
+                                        backgroundSize: "cover",
+                                        overflow: "hidden",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        width: "50%",
+                                        height: "100%",
+                                        boxShadow: " 0px 0px 0px 6px rgba(0, 0, 0, 1)",
+                                        pt: 21,
+                                        pl: 2,
+                                        pb: 2,
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            justifyContent: "center", // Center the icon horizontally within the child Box
+                                            alignItems: "center", // Center the icon vertically within the child Box
+                                            background:
+                                                "linear-gradient(to bottom, rgba(27, 28, 31, 0.7), rgba(35, 38, 40, 0.7))",
+                                            width: "14%",
+                                            p: 1.5,
+                                            display: "flex",
+                                            flexWrap: "wrap",
+                                            border: 1,
+                                            borderColor: "#2d2e31", //linear-gradient(to top, rgba(45, 46, 49,1), rgba(45, 46, 49,1))
+                                            borderRadius: 6,
+                                            // Height of the child Box
+                                        }}
+                                    >
+                                        <PlayCircleFilledRoundedIcon
+                                            sx={{
+                                                fontSize: 50,
+                                            }}
+                                        />
+                                    </Box>
+                                </Box>
+                            </Box>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    gap: 4,
+                                    width: "100%",
+                                    height: "50%",
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        backgroundColor: "#101111",
+                                        borderRadius: 7,
+                                        border: 1,
+                                        borderColor: "#373737",
+                                        textAlign: "center",
+                                        alignItems: "center",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        width: "33%",
+                                        height: "100%",
+                                        backgroundPosition: "top right",
+                                        overflow: "hidden",
+                                        boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            width: "100%",
+                                            height: "100%",
+                                            backgroundImage: `url(${skull})`,
+                                            backgroundRepeat: "no-repeat",
+                                            backgroundPosition: "top right",
+                                            backgroundSize: "contain",
+                                            overflow: "hidden",
+                                        }}
+                                    >
+                                        <Box sx={{ px: 2, pt: 3 }}>
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                }}
+                                            >
+                                                <img
+                                                    style={{
+                                                        width: "24px",
+                                                        height: "26px",
+                                                    }}
+                                                    src={zap}
+                                                    alt="zap"
+                                                ></img>
+                                                <Typography
+                                                    sx={{
+                                                        textAlign: "left",
+                                                        ml: 0.5,
+                                                        fontSize: "18px",
+                                                    }}
+                                                >
+                                                    Text to Motion
+                                                </Typography>
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    textAlign: "left",
+                                                    width: "55%",
+                                                    pl: 1,
+                                                    py: 2,
+                                                }}
+                                            >
+                                                <Typography
+                                                    sx={{
+                                                        //mt: 1.5,
+                                                        // ml: 2.5,
+                                                        // mb: 2.25,
+
+                                                        fontSize: "14px",
+                                                        lineHeight: 1.2,
+                                                    }}
+                                                    color="#787878"
+                                                >
+                                                    Create Motion from text or with your pre made
+                                                    avatars
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                    <Box
+                                        sx={{
+                                            backgroundImage: `url(${footerimg_motion}) `,
+                                            backgroundRepeat: "no-repeat",
+                                            backgroundPosition: "center",
+                                            backgroundSize: "cover",
+                                            width: "100%",
+                                            height: "10%",
+                                            p: 0.5,
+                                            overflow: "hidden",
+                                        }}
+                                    >
+                                        {/* <img src={b1}></img> */}
+                                        <Typography
+                                            textAlign="left"
+                                            sx={{ fontSize: "13px", fontWeight: "800", pl: 3 }}
+                                        >
+                                            coming soon
+                                        </Typography>
+                                    </Box>
+                                </Box>
+
+                                <Box
+                                    sx={{
+                                        backgroundColor: "#101111",
+                                        border: 1,
+                                        borderColor: "#373737",
+                                        borderRadius: 7,
+                                        alignItems: "top",
+                                        overflow: "hidden",
+                                        textAlign: "center",
+                                        width: "67%",
+                                        height: "100%",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        backgroundImage: `url(${texture_bg})`,
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "top right",
+                                        backgroundSize: "contain",
+                                        boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
+                                    }}
+                                >
+                                    <Box sx={{ pl: 2, pt: 3 }}>
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                            }}
+                                        >
                                             <img
                                                 style={{
-                                                    paddingLeft: 4,
-                                                    paddingTop: 4,
-                                                    width: "28px",
-                                                    height: "28px",
+                                                    width: "24px",
+                                                    height: "26px",
                                                 }}
                                                 src={zap}
                                                 alt="zap"
                                             ></img>
                                             <Typography
-                                                variant="h6"
-                                                sx={{ textAlign: "left", ml: 0.5 }}
+                                                sx={{
+                                                    textAlign: "left",
+                                                    fontSize: "18px",
+                                                    ml: 0.5,
+                                                }}
                                             >
-                                                Text to Motion
+                                                Generate Textures
                                             </Typography>
                                         </Box>
-                                        <Box sx={{ textAlign: "left" }}>
-                                            <Typography
-                                                variant="body1"
-                                                sx={{ ml: 1.5 }}
-                                                color="#787878"
-                                            >
-                                                Create Motion from text or with your pre made
-                                                avatars
+                                        <Box
+                                            sx={{
+                                                textAlign: "left",
+                                                width: "32%",
+                                                alignItems: "top",
+                                                justifyContent: "left",
+                                                pt: 1,
+                                                pb: 7.5,
+                                            }}
+                                        >
+                                            <Typography sx={{ fontSize: "14px" }} color="#787878">
+                                                following different patterns or with just a Sktech
                                             </Typography>
                                         </Box>
                                     </Box>
-                                    <Box sx={{ textAlign: "right" }}>
-                                        <img align="right" src={skull} alt="Skeleton" />
-                                    </Box>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            backgroundColor: "#101111",
+                            border: 1,
+                            borderColor: "#373737",
+                            borderRadius: 7,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            height: "25%",
+                            width: "80%",
+                            overflow: "hidden",
+                            boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                flexWrap: "wrap",
+                                p: 3,
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                textAlign: "center",
+
+                                width: "100%",
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    flexWrap: "wrap",
+                                    flex: 1,
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        flexWrap: "wrap",
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: "24px",
+                                            height: "26px",
+                                        }}
+                                        src={zap}
+                                        alt="zap"
+                                    />
+                                    <Typography
+                                        sx={{ textAlign: "left", ml: 0.5, fontSize: "18px" }}
+                                    >
+                                        Text/Sketch to 3D
+                                    </Typography>
                                 </Box>
                                 <Box
                                     sx={{
-                                        background: `url(${footerimage})`,
+                                        width: "50%",
                                     }}
                                 >
-                                    {/* <img src={b1}></img> */}
-                                    <Typography variant="caption">coming soon</Typography>
+                                    <Typography
+                                        color="#9f9f9f"
+                                        sx={{
+                                            fontSize: "16px",
+                                            textAlign: "center",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        Generate Highly Defined 3D Models
+                                    </Typography>
                                 </Box>
                             </Box>
-                        </Grid>
-
-                        <Grid item xs={12} md={5} lg={4}>
-                            <Box
+                            <Divider
+                                orientation="vertical"
+                                flexItem
                                 sx={{
-                                    backgroundColor: "#101111",
-                                    borderRadius: 7,
-                                    p: 2,
-                                    textAlign: "center",
+                                    background:
+                                        "linear-gradient(to bottom, #9666a2, #d632ff, #9b6da7)",
+                                    width: "0.8px",
                                 }}
-                            >
-                                <Typography variant="h6">Generate Textures</Typography>
-                                <img
-                                    src="path/to/textures.jpg"
-                                    alt="Textures"
-                                    style={{ width: "100%", borderRadius: "8px" }}
-                                />
-                            </Box>
-                        </Grid>
-
-                        <Grid item xs={12}>
+                            />
                             <Box
                                 sx={{
-                                    backgroundColor: "#101111",
-                                    borderRadius: 7,
-                                    p: 2,
                                     display: "flex",
-                                    flexDirection: "row",
+                                    flexDirection: "column",
                                     alignItems: "center",
-                                    gap: 2,
                                     flexWrap: "wrap",
-                                    justifyContent: "center",
-                                    textAlign: "center",
+                                    flex: 1,
                                 }}
                             >
-                                <Grid container spacing={2} sx={{ p: 2, textAlign: "center" }}>
-                                    <Grid item xs={4}>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                alignItems: "left",
-                                                textAlign: "center",
-                                                flexWrap: "wrap",
-                                            }}
-                                        >
-                                            <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    flexDirection: "row",
-                                                    flexWrap: "wrap",
-                                                }}
-                                            >
-                                                <img
-                                                    style={{
-                                                        paddingTop: 4,
-                                                        width: "24px",
-                                                        height: "28px",
-                                                    }}
-                                                    src={zap}
-                                                    alt="zap"
-                                                ></img>
-                                                <Typography
-                                                    variant="h6"
-                                                    sx={{ textAlign: "left", ml: 0.5 }}
-                                                >
-                                                    Text/Sketch to 3D
-                                                </Typography>
-                                            </Box>
-                                            <Box
-                                                sx={{
-                                                    textAlign: "left",
-                                                    justifyContent: "left",
-                                                    alignItems: "left",
-                                                }}
-                                            >
-                                                <Typography variant="body1" color="#787878">
-                                                    Generate Highly Defined 3D Models
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                    </Grid>
-                                    {/* <Divider
-                                        orientation="vertical"
-                                        variant="middle"
-                                        color="#9c24fb"
-                                        sx={{ color: "#9c24fb" }}
-                                    /> */}
-                                    <Grid item xs={4}>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                alignItems: "left",
-                                                flexWrap: "wrap",
-                                            }}
-                                        >
-                                            <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    flexDirection: "row",
-                                                    flexWrap: "wrap",
-                                                }}
-                                            >
-                                                <img
-                                                    style={{
-                                                        paddingTop: 4,
-                                                        width: "24px",
-                                                        height: "28px",
-                                                    }}
-                                                    src={zap}
-                                                    alt="zap"
-                                                ></img>
-                                                <Typography
-                                                    variant="h6"
-                                                    sx={{ textAlign: "left", ml: 0.5 }}
-                                                >
-                                                    Avatar Generator
-                                                </Typography>
-                                            </Box>
-                                            <Box
-                                                sx={{
-                                                    textAlign: "left",
-                                                    justifyContent: "left",
-                                                    alignItems: "left",
-                                                }}
-                                            >
-                                                <Typography variant="body1" color="#787878">
-                                                    Generate Custom Avatars with simple sketch or
-                                                    text
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                    </Grid>
-
-                                    {/* <Divider orientation="vertical" variant="middle" flexItem /> */}
-
-                                    <Grid item xs={4}>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                alignItems: "left",
-                                                flexWrap: "wrap",
-                                            }}
-                                        >
-                                            <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    flexDirection: "row",
-                                                    flexWrap: "wrap",
-                                                }}
-                                            >
-                                                <img
-                                                    style={{
-                                                        paddingTop: 4,
-                                                        width: "24px",
-                                                        height: "28px",
-                                                    }}
-                                                    src={zap}
-                                                    alt="zap"
-                                                ></img>
-                                                <Typography
-                                                    variant="h6"
-                                                    sx={{ textAlign: "left", ml: 0.5 }}
-                                                >
-                                                    Spark
-                                                </Typography>
-                                            </Box>
-                                            <Box
-                                                sx={{
-                                                    textAlign: "left",
-                                                    justifyContent: "left",
-                                                    alignItems: "left",
-                                                }}
-                                            >
-                                                <Typography variant="body1" color="#787878">
-                                                    Assistant to guide you throughout your journey
-                                                    to build your first 3D product
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                                {/* <Stack
-                                    direction={{ xs: "column", sm: "row" }}
-                                    spacing={{ xs: 1, sm: 2, md: 4 }}
-                                > */}
-
-                                {/* </Stack> */}
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        flexWrap: "wrap",
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: "24px",
+                                            height: "26px",
+                                        }}
+                                        src={zap}
+                                        alt="zap"
+                                    ></img>
+                                    <Typography
+                                        sx={{ textAlign: "left", ml: 0.5, fontSize: "18px" }}
+                                    >
+                                        Avatar Generator
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        width: "50%",
+                                    }}
+                                >
+                                    <Typography
+                                        color="#9f9f9f"
+                                        sx={{
+                                            fontSize: "16px",
+                                            textAlign: "center",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        Generate Custom Avatars with simple sketch or text
+                                    </Typography>
+                                </Box>
                             </Box>
-                        </Grid>
-                    </Grid>
-                </Box>
-                {/* <div className="bg">
-                <div className="tgrad"></div>
-                <div className="rgrad"></div>
-
-                <div className="navbar">
-                    <div>
-                        <img style={{ padding: "18px" }} src={spark}></img>
-                    </div>
-                    <span className="sparkai">SPARK AI</span>
-                    <div className="list">
-                        <Box
-                        bgcolor={}
-                            onClick={() => navigate("../User/Nfts")}
-                            selected={"../User/Nfts" === window.location.pathname}
-                        >
-                            My Projects
+                            <Divider
+                                orientation="vertical"
+                                flexItem
+                                sx={{
+                                    background:
+                                        "linear-gradient(to bottom, #9666a2, #d632ff, #9b6da7)",
+                                    width: "0.8px",
+                                }}
+                            />
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    flexWrap: "wrap",
+                                    flex: 1,
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        flexWrap: "wrap",
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: "24px",
+                                            height: "26px",
+                                        }}
+                                        src={zap}
+                                        alt="zap"
+                                    />
+                                    <Typography
+                                        sx={{ textAlign: "left", ml: 0.5, fontSize: "18px" }}
+                                    >
+                                        Spark
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        width: "80%",
+                                    }}
+                                >
+                                    <Typography
+                                        color="#9f9f9f"
+                                        sx={{
+                                            fontSize: "16px",
+                                            textAlign: "center",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        Assistant to guide you throughout your journey to build your
+                                        first 3D product
+                                    </Typography>
+                                </Box>
+                            </Box>
                         </Box>
-                        <Box className="list">Trash</Box>
-                        <Box className="list">Analytics</Box>
-                    </div>
-                    <button className="button">Create File</button>
-                    <div className="avatar">
-                        <Avatar src={avatar} />
-                    </div>
-                </div>
-            </div> */}
+                        <Box
+                            sx={{
+                                width: "100%",
+                                backgroundImage: `url(${footerimg})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                                p: 0.5,
+                            }}
+                        ></Box>
+                    </Box>
+                </Box>
             </ThemeProvider>
         </>
     );

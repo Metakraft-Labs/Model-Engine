@@ -1,6 +1,7 @@
 import React from "react";
 import Error404 from "../pages/404";
 import Home from "../pages/Home";
+import Login from "../pages/Login";
 import ModelViewer from "../pages/ModelViewer";
 import Text23D from "../pages/Text23D";
 import Text2Motion from "../pages/Text2Motion";
@@ -49,6 +50,12 @@ export const Links = [
         name: "Your NFTs",
         path: "/user/nfts",
         element: <UserNfts />,
+        showInNavigation: true,
+    },
+    {
+        name: "Login",
+        path: "/login",
+        element: <Login />,
         showInNavigation: true,
     },
     {

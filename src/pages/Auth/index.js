@@ -1,25 +1,59 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
-import useConnectWallet from "../../hooks/useConnectWallet";
+import ball from "../../assets/img/login/ball.png";
+import bg_avatar from "../../assets/img/login/bg_avatar.png";
+//import useConnectWallet from "../../hooks/useConnectWallet";
 import Title from "../../shared/Title";
 
 export default function Auth() {
-    const { connectWallet } = useConnectWallet();
-    const [loginLoading, setLoginLoading] = React.useState(false);
+    // const { connectWallet } = useConnectWallet();
+    // const [loginLoading, setLoginLoading] = React.useState(false);
 
-    const loginModal = async () => {
-        setLoginLoading(true);
+    // const loginModal = async () => {
+    //     setLoginLoading(true);
 
-        await connectWallet();
+    //     await connectWallet();
 
-        setLoginLoading(false);
-    };
+    //     setLoginLoading(false);
+    // };
 
     return (
         <>
             <Title title={""} />
-
             <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    backgroundColor: "#11141D",
+                    width: "100%",
+                    height: "100%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <Box
+                    sx={{
+                        backgroundImage: `url(${ball})`, // Replace with your image URLs
+                        backgroundPosition: "bottom left", // Positions
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        width: "50%",
+                        height: "100%",
+                    }}
+                ></Box>
+                <Box
+                    sx={{
+                        backgroundImage: `url(${bg_avatar})`, // Replace with your image URLs
+                        backgroundPosition: "bottom right", // Positions
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        width: "50%",
+                        height: "100%",
+                    }}
+                ></Box>
+            </Box>
+
+            {/* <Box
                 display={"flex"}
                 flexDirection={"column"}
                 justifyContent={"center"}
@@ -40,7 +74,7 @@ export default function Auth() {
                         Login
                     </Button>
                 </Box>
-            </Box>
+            </Box> */}
         </>
     );
 }
