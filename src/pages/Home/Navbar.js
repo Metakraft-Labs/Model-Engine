@@ -1,12 +1,12 @@
 import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import spark from "../../assets/img/dashboard/spark.png";
 
 export default function Navbar() {
     const classes = useStyles();
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     return (
         <AppBar
@@ -14,7 +14,6 @@ export default function Navbar() {
             className={classes.appBar}
             sx={{
                 py: 2,
-
                 border: 2,
                 borderColor: "#37393c",
             }}
@@ -38,12 +37,12 @@ export default function Navbar() {
                 <Box>
                     <Button
                         className={classes.createButton}
-                        //onClick={() => navigate("/login")}
+                        //onClick={() => navigate("/text-2-texture")}
                         sx={{ border: 1, borderColor: "#746380", mr: 2 }}
                     >
                         Create File
                     </Button>
-                    <IconButton>
+                    <IconButton onClick={() => navigate("/account")}>
                         <Avatar />
                     </IconButton>
                 </Box>

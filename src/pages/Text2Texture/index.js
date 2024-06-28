@@ -33,31 +33,37 @@ export default function Text2Texture() {
 
     return (
         <>
-            <Title title={"Text 2 Texture"} />
+            <Title title={"Text To Texture"} />
             <Box
-                display={"flex"}
-                gap={"20px"}
-                alignItems="start"
-                width={"100%"}
-                pl={"6rem"}
-                height={"80vh"}
+                sx={{
+                    display: "flex",
+                    gap: "20px",
+                    alignItems: "center",
+                    width: "100%",
+                    justifyContent: "center",
+                    height: "90vh",
+                }}
             >
                 <Box
-                    display={"flex"}
-                    height={"100%"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    flexDirection={"column"}
-                    gap={"40px"}
-                    width={"90%"}
+                    sx={{
+                        display: "flex",
+                        width: "90%",
+                        height: "100%",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        gap: "40px",
+                    }}
                 >
                     <Box
-                        height={"20rem"}
-                        width={"500px"}
-                        sx={{ border: "1px solid #E8DECF" }}
-                        borderRadius={"10px"}
-                        flex={"1"}
-                        paddingLeft={"20px"}
+                        sx={{
+                            width: "150px",
+                            height: "150px",
+                            borderRadius: "50%",
+                            border: "1px solid #E8DECF",
+                            flex: "1",
+                            pl: "20px",
+                        }}
                     >
                         {model && <img src={model} alt="React Image" height="100%" />}
                     </Box>
