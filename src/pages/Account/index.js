@@ -12,6 +12,9 @@ import Title from "../../shared/Title";
 
 export default function Account() {
     const navigate = useNavigate();
+    //const [items, setItems]= useState([]);
+    //const [newItem, setNewItem]= useState('');
+
     return (
         <>
             <Title title={"Account Settings"} />
@@ -509,7 +512,7 @@ export default function Account() {
                                 Created
                             </Typography>
                         </Box>
-                        <Typography variant="h6" color="#D0D3D0" marginTop="30px">
+                        {/* <Typography variant="h6" color="#D0D3D0" marginTop="30px">
                             Usage
                         </Typography>
                         <Typography variant="body2" color="#7E8584">
@@ -668,7 +671,7 @@ export default function Account() {
                                     40
                                 </Typography>
                             </Box>
-                        </Box>
+                        </Box> */}
                     </Box>
                 </Box>
             </Box>

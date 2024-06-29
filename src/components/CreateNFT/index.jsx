@@ -138,6 +138,12 @@ export default function CreateNFT({ fileURI, url, prompt, type }) {
                 type="primary"
                 onClick={handleButtonClick}
                 disabled={mintLoading}
+                sx={{
+                    backgroundColor: "#E18BFF",
+                    "&:hover": {
+                        backgroundColor: "#4E3562",
+                    },
+                }}
             >
                 {mintLoading ? "Minting..." : "Mint NFT"}
             </Button>
