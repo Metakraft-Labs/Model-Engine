@@ -1,19 +1,40 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { Avatar, Box, Button, Divider, IconButton, Typography } from "@mui/material";
-import React from "react";
+import {
+    Avatar,
+    Box,
+    Button,
+    Divider,
+    IconButton,
+    LinearProgress,
+    Typography,
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import bar1 from "../../assets/img/account/bar1.png";
 import bar2 from "../../assets/img/account/bar2.png";
 import bg_grad from "../../assets/img/account/bg_grad.png";
-import coin from "../../assets/img/account/coin.png";
 import faq from "../../assets/img/account/faq.png";
 import red_cross from "../../assets/img/account/red_cross.png";
+import UserStore from "../../contexts/UserStore";
+import { CoinIcon } from "../../icons/CoinIcon";
 import Title from "../../shared/Title";
+
+const useStyles = makeStyles({
+    root: {
+        height: 10,
+        borderRadius: 5,
+    },
+    bar: ({ progress }) => ({
+        borderRadius: 5,
+        background: `linear-gradient(90deg, #60a7fe ${100 - progress}%, #92fad1 100%)`,
+    }),
+});
 
 export default function Account() {
     const navigate = useNavigate();
-    //const [items, setItems]= useState([]);
-    //const [newItem, setNewItem]= useState('');
+    const { user } = useContext(UserStore);
+
+    const classes = useStyles({ progress: ((user?.tokens || 0) * 100) / 40 });
 
     return (
         <>
@@ -86,7 +107,7 @@ export default function Account() {
                             </Box>
                             <Avatar sx={{ width: 53, height: 53 }} />
                             <Typography variant="h6" color="#D8DCDA">
-                                abhishekroushan2194@gmail.com
+                                {user?.email}
                             </Typography>
                         </Box>
                         <Box>
@@ -309,7 +330,7 @@ export default function Account() {
                                             pl: 1,
                                         }}
                                     >
-                                        <img src={coin} style={{ height: "21px", width: "19px" }} />
+                                        <CoinIcon height="21" width="19" />
                                         <Typography variant="h6" color="#C7CBCA">
                                             KRAFT
                                         </Typography>
@@ -345,7 +366,7 @@ export default function Account() {
                                             }}
                                         >
                                             <Typography variant="h4" color="#E2E5E4">
-                                                40
+                                                {user?.tokens}
                                             </Typography>
                                             <Typography variant="caption" color="#7E8584">
                                                 Left
@@ -365,20 +386,14 @@ export default function Account() {
                                                 Monthly Credits
                                             </Typography>
                                             <Typography variant="body2" color="#C0C5C2">
-                                                40 of 40
+                                                {user?.tokens} of 40
                                             </Typography>
                                         </Box>
-                                        <Box
-                                            sx={{
-                                                width: "95%",
-                                                justifyContent: "space-between",
-                                                alignItems: "space-between",
-                                                backgroundImage: `url(${bar1})`,
-                                                backgroundPosition: "left",
-                                                backgroundSize: "cover",
-                                                backgroundRepeat: "no-repeat",
-                                                p: 1,
-                                            }}
+                                        <LinearProgress
+                                            sx={{ width: "100%" }}
+                                            variant="determinate"
+                                            classes={{ root: classes.root, bar: classes.bar }}
+                                            value={((user?.tokens || 0) * 100) / 40}
                                         />
                                         <Box
                                             sx={{
