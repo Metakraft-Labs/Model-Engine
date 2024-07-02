@@ -17,7 +17,7 @@ export default function Text23D() {
     const [loading, setLoading] = useState(false);
     const [model, setModel] = useState(null);
     const [objModel, setObjModel] = useState(null);
-    const [_mm, setByteRes] = useState(null);
+    const [byteRes, setByteRes] = useState(null);
     const [selectedTab, setSelectedTab] = useState("shaded");
 
     const models = useMemo(() => {
@@ -107,6 +107,8 @@ export default function Text23D() {
                         setSelectedTab={setSelectedTab}
                         model={model}
                         models={models}
+                        byteRes={byteRes}
+                        prompt={prompt}
                     />
                 </Box>
                 <Box display={"flex"} gap={"10rem"} alignItems={"center"}>

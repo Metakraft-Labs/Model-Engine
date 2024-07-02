@@ -16,11 +16,11 @@ import { FaRegCircle } from "react-icons/fa";
 import { GiWireframeGlobe } from "react-icons/gi";
 import { MdOutlineSportsBasketball } from "react-icons/md";
 import { RiDownloadCloudLine, RiGalleryFill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
 import AccountDropdown from "../../components/AccountDropdown";
 import UserStore from "../../contexts/UserStore";
 import { CoinIcon } from "../../icons/CoinIcon";
 import DownloadDropdown from "./components/DownloadDropdown";
+import MintDropdown from "./components/MintDropdown";
 import TokenDropdown from "./components/TokenDropdown";
 
 const TABS = [
@@ -38,13 +38,20 @@ const TABS = [
     },
 ];
 
-export default function Navbar({ selectedTab = "shaded", setSelectedTab, model, models }) {
+export default function Navbar({
+    selectedTab = "shaded",
+    setSelectedTab,
+    model,
+    models,
+    byteRes,
+    prompt,
+}) {
     const classes = useStyles();
-    const navigate = useNavigate();
     const { user } = useContext(UserStore);
     const [openDownloadMenu, setOpenDownloadMenu] = useState(null);
     const [openTokenMenu, setOpenTokenMenu] = useState(null);
     const [openAccountMenu, setOpenAccountMenu] = useState(null);
+    const [openMintMenu, setOpenMintMenu] = useState(null);
 
     return (
         <AppBar
@@ -192,12 +199,19 @@ export default function Navbar({ selectedTab = "shaded", setSelectedTab, model, 
                     </IconButton>
                     <Button
                         className={classes.createButton}
-                        onClick={() => navigate(TABS[selectedTab] || "#")}
+                        onClick={e => setOpenMintMenu(e.currentTarget)}
                         sx={{ border: 1, borderColor: "#746380", mr: 2 }}
                         disabled={!model}
                     >
                         Launch
                     </Button>
+                    <MintDropdown
+                        open={openMintMenu}
+                        handleClose={() => setOpenMintMenu(null)}
+                        byteRes={byteRes}
+                        url={model}
+                        prompt={prompt}
+                    />
                 </Box>
             </Toolbar>
         </AppBar>
@@ -229,7 +243,7 @@ const useStyles = makeStyles(theme => ({
         padding: "4px 8px",
     },
     createButton: {
-        backgroundColor: "#4E3562",
+        backgroundColor: "#B054F8",
         color: "white",
         borderRadius: "12px",
         boxShadow: " 0px 0px 0px 3px rgba(81, 19, 103, 1)",

@@ -5,6 +5,7 @@ import { mint } from "../../apis/nft";
 import Modal from "../../components/Modal";
 import { DesiredChainId } from "../../constants/helper";
 import UserStore from "../../contexts/UserStore";
+import { CoinIcon } from "../../icons/CoinIcon";
 import { getBlockExplorer } from "../../shared/web3utils";
 
 export default function CreateNFT({ fileURI, url, prompt, type }) {
@@ -134,16 +135,18 @@ export default function CreateNFT({ fileURI, url, prompt, type }) {
     return (
         <>
             <Button
-                variant="contained"
+                variant="outlined"
                 type="primary"
                 onClick={handleButtonClick}
                 disabled={mintLoading}
                 sx={{
-                    backgroundColor: "#E18BFF",
+                    border: "1px solid #E18BFF",
                     "&:hover": {
-                        backgroundColor: "#4E3562",
+                        border: "1px solid #4E3562",
                     },
                 }}
+                fullWidth
+                startIcon={<CoinIcon />}
             >
                 {mintLoading ? "Minting..." : "Mint NFT"}
             </Button>

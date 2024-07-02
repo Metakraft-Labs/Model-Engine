@@ -82,7 +82,7 @@ export default function Home() {
                                 flexDirection: "column",
                                 px: 3,
                                 pt: 3,
-                                pb: 17.5,
+                                pb: 7.5,
                             }}
                         >
                             <Box>
@@ -105,7 +105,6 @@ export default function Home() {
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
-
                                     gap: 2,
                                 }}
                             >
@@ -173,6 +172,50 @@ export default function Home() {
                                             orientation="vertical"
                                             flexItem
                                             sx={{
+                                                background: "#61FF29",
+                                                width: "2px",
+                                                boxShadow: "0px 0px 1px 1px rgba(255, 80, 41, 0.3)",
+                                                borderRadius: "8px",
+                                            }}
+                                        />
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "left",
+                                                p: 1,
+                                            }}
+                                        >
+                                            <Typography color="white" sx={{ fontSize: "13px" }}>
+                                                Start with an Image
+                                            </Typography>
+
+                                            <Typography color="#787878" sx={{ fontSize: "14px" }}>
+                                                5 $KRAFT
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        backgroundColor: "#1e1f1f",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        textTransform: "none",
+                                        textAlign: "left",
+                                        alignItems: "left",
+                                        justifyContent: "left",
+                                        border: 1,
+                                        borderColor: "#373737",
+                                        borderRadius: 2,
+                                        p: 1,
+                                    }}
+                                >
+                                    <Box sx={{ display: "flex", flexDirection: "row" }}>
+                                        <Divider
+                                            orientation="vertical"
+                                            flexItem
+                                            sx={{
                                                 background: "#ee29ff",
                                                 width: "2px",
                                                 boxShadow:
@@ -189,7 +232,7 @@ export default function Home() {
                                             }}
                                         >
                                             <Typography color="white" sx={{ fontSize: "13px" }}>
-                                                Export in fbx, obj, glb, gltf
+                                                Export in obj, glb
                                             </Typography>
                                             <Typography color="#787878" sx={{ fontSize: "14px" }}>
                                                 2 $KRAFT
