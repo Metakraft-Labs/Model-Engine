@@ -1,5 +1,6 @@
-import { Box, Button, Link } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { styled } from "@mui/system";
+import { Link } from "react-router-dom";
 import ball from "../../assets/img/login/ball.png";
 import bg_avatar from "../../assets/img/login/bg_avatar.png";
 

@@ -7,10 +7,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { status } from "./apis/auth";
 import Routers from "./common/Routers";
 import UserStore from "./contexts/UserStore";
-import Auth from "./pages/Auth";
 
 function App() {
-    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
     const [token, setToken] = useState(localStorage.getItem("token") || null);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -33,25 +32,8 @@ function App() {
 
     const darkTheme = createTheme({
         palette: {
-            background: {
-                default: "#121212",
-            },
-            text: {
-                primary: "#ffffff",
-            },
-        },
-        components: {
-            MuiTextField: {
-                styleOverrides: {
-                    root: {
-                        "& label": {
-                            color: "#ffffff",
-                        },
-                        "& .MuiInput-underline:before": {
-                            borderBottomColor: "#ffffff",
-                        },
-                    },
-                },
+            primary: {
+                main: "#787878",
             },
         },
     });
@@ -108,13 +90,7 @@ function App() {
                                 <CircularProgress />
                             </Box>
                         ) : (
-                            <>
-                                {(user && userWallet) || window.location.pathname == "/" ? (
-                                    <Routers />
-                                ) : (
-                                    <Auth />
-                                )}
-                            </>
+                            <Routers />
                         )}
                     </Box>
 

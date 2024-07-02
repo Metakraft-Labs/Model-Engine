@@ -1,12 +1,15 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Box, Link, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import metakraft from "../../assets/img/login/metakraft.png";
 import useConnectWallet from "../../hooks/useConnectWallet";
 import Title from "../../shared/Title";
 import { AvatarImage, BackLink, Background, CustomButton, FormContainer } from "./styles";
 
 export default function Auth() {
+    const location = useLocation();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const { connectWallet } = useConnectWallet();
     const [loginLoading, setLoginLoading] = React.useState(false);
@@ -17,13 +20,17 @@ export default function Auth() {
         await connectWallet({ emailAddress: email });
 
         setLoginLoading(false);
+
+        if (location.pathname === "/login") {
+            navigate("/");
+        }
     };
 
     return (
         <>
             <Title title={"Login"} />
             <Background>
-                <BackLink href="/">
+                <BackLink to="/">
                     <Box
                         sx={{
                             display: "flex",

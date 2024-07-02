@@ -51,7 +51,7 @@ export default function Text2Texture() {
                     height: "100vh",
                 }}
             >
-                <BackLink href="/">
+                <BackLink to="/">
                     <Box
                         sx={{
                             display: "flex",

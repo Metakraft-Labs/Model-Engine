@@ -25,7 +25,7 @@ export const Links = [
     },
     {
         name: "Account Settings",
-        path: "/account",
+        path: "/user/account",
         element: <Account />,
         showInNavigation: true,
     },

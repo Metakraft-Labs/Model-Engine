@@ -1,12 +1,23 @@
 import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import spark from "../../assets/img/dashboard/spark.png";
+import AccountDropdown from "../../components/AccountDropdown";
+import UserStore from "../../contexts/UserStore";
 
-export default function Navbar() {
+const TABS = {
+    "3d": "/text-2-3d",
+    texture: "/text-2-texture",
+};
+
+export default function Navbar({ selectedTab }) {
     const classes = useStyles();
     const navigate = useNavigate();
+
+    const { user, userWallet } = useContext(UserStore);
+
+    const [openAccountMenu, setOpenAccountMenu] = useState(null);
 
     return (
         <AppBar
@@ -37,14 +48,28 @@ export default function Navbar() {
                 <Box>
                     <Button
                         className={classes.createButton}
-                        //onClick={() => navigate("/text-2-texture")}
+                        onClick={() => navigate(TABS[selectedTab] || "#")}
                         sx={{ border: 1, borderColor: "#746380", mr: 2 }}
+                        disabled={!selectedTab}
                     >
                         Create File
                     </Button>
-                    <IconButton onClick={() => navigate("/account")}>
+                    <IconButton
+                        onClick={e =>
+                            user && userWallet
+                                ? setOpenAccountMenu(e.currentTarget)
+                                : navigate("/login")
+                        }
+                    >
                         <Avatar />
                     </IconButton>
+                    {user && userWallet && (
+                        <AccountDropdown
+                            open={openAccountMenu}
+                            handleClose={() => setOpenAccountMenu(null)}
+                            user={user}
+                        />
+                    )}
                 </Box>
             </Toolbar>
         </AppBar>
