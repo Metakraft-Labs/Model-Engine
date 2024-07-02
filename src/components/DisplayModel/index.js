@@ -1,26 +1,55 @@
-import { Circle, OrbitControls } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { Canvas, useLoader } from "@react-three/fiber";
-import React from "react";
+import React, { useMemo } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 
-export default function DisplayModel({ link }) {
-    const model = useLoader(GLTFLoader, link);
+export default function DisplayModel({ link, type = "shaded", obj }) {
+    const model = useLoader(OBJLoader, obj);
+    const modelGlb = useLoader(GLTFLoader, link);
+
+    const geometry = useMemo(() => {
+        let g;
+        model.traverse(c => {
+            if (c.type === "Mesh") {
+                const _c = c;
+                g = _c.geometry;
+            }
+        });
+        return g;
+    }, [model]);
 
     return (
         <Canvas
             camera={{ position: [-0.5, 1, 2] }}
             shadows
-            style={{ height: "100%", width: "980px" }}
+            style={{ height: "100%", width: "800px" }}
         >
             {/* eslint-disable react/no-unknown-property */}
-            <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={Math.PI * 2} />
-            <directionalLight position={[3.3, 1.0, -4.4]} castShadow intensity={Math.PI * 2} />
-            <directionalLight position={[-3.3, 1.0, 0]} castShadow intensity={Math.PI * 2} />
+            <directionalLight
+                position={[3.3, 1.0, 4.4]}
+                castShadow
+                intensity={type === "shaded" ? 0.3 : Math.PI * 2}
+            />
+            <directionalLight
+                position={[3.3, 1.0, -4.4]}
+                castShadow
+                intensity={type === "shaded" ? 0.3 : Math.PI * 2}
+            />
+            <directionalLight
+                position={[-3.3, 1.0, 0]}
+                castShadow
+                intensity={type === "shaded" ? 0.3 : Math.PI * 2}
+            />
             {/* eslint-disable react/no-unknown-property */}
-            <primitive object={model.scene} position={[0, 1, 0]} children-0-castShadow />
-            <Circle args={[10]} rotation-x={-Math.PI / 2} receiveShadow>
-                <meshStandardMaterial />
-            </Circle>
+            {type === "wireframe" ? (
+                <mesh geometry={geometry} scale={1} position={[0, 1, 0]}>
+                    <meshPhysicalMaterial wireframe={true} />
+                </mesh>
+            ) : (
+                <primitive object={modelGlb.scene} position={[0, 1, 0]} children-0-castShadow />
+            )}
+
             <OrbitControls target={[0, 1, 0]} />
         </Canvas>
     );

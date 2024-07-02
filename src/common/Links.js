@@ -1,5 +1,7 @@
 import React from "react";
 import Error404 from "../pages/404";
+import Account from "../pages/Account";
+import Auth from "../pages/Auth";
 import Home from "../pages/Home";
 import ModelViewer from "../pages/ModelViewer";
 import Text23D from "../pages/Text23D";
@@ -13,6 +15,18 @@ export const Links = [
         name: "Home",
         path: "/",
         element: <Home />,
+        showInNavigation: true,
+    },
+    {
+        name: "Login",
+        path: "/login",
+        element: <Auth />,
+        showInNavigation: true,
+    },
+    {
+        name: "Account Settings",
+        path: "/user/account",
+        element: <Account />,
         showInNavigation: true,
     },
     {

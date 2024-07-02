@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Toolbar } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
@@ -6,12 +6,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { status } from "./apis/auth";
 import Routers from "./common/Routers";
-import Appbar from "./components/Appbar";
 import UserStore from "./contexts/UserStore";
-import Auth from "./pages/Auth";
 
 function App() {
-    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
     const [token, setToken] = useState(localStorage.getItem("token") || null);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -34,25 +32,8 @@ function App() {
 
     const darkTheme = createTheme({
         palette: {
-            background: {
-                default: "#121212",
-            },
-            text: {
-                primary: "#ffffff",
-            },
-        },
-        components: {
-            MuiTextField: {
-                styleOverrides: {
-                    root: {
-                        "& label": {
-                            color: "#ffffff",
-                        },
-                        "& .MuiInput-underline:before": {
-                            borderBottomColor: "#ffffff",
-                        },
-                    },
-                },
+            primary: {
+                main: "#787878",
             },
         },
     });
@@ -109,13 +90,7 @@ function App() {
                                 <CircularProgress />
                             </Box>
                         ) : (
-                            <>
-                                <Appbar />
-                                <Box sx={{ flexGrow: 1, padding: "1rem" }}>
-                                    <Toolbar />
-                                    {user && userWallet ? <Routers /> : <Auth />}
-                                </Box>
-                            </>
+                            <Routers />
                         )}
                     </Box>
 
