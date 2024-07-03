@@ -16,7 +16,7 @@ export default function Routers() {
     }, [location]);
 
     const showRoutes = useMemo(() => {
-        return (user && userWallet) || window.location.pathname == "/";
+        return user && userWallet;
     }, [user, userWallet, location]);
 
     return (

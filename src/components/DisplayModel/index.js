@@ -29,17 +29,17 @@ export default function DisplayModel({ link, type = "shaded", obj }) {
             <directionalLight
                 position={[3.3, 1.0, 4.4]}
                 castShadow
-                intensity={type === "shaded" ? 0.3 : Math.PI * 2}
+                intensity={type === "shaded" ? 1 : Math.PI * 2}
             />
             <directionalLight
                 position={[3.3, 1.0, -4.4]}
                 castShadow
-                intensity={type === "shaded" ? 0.3 : Math.PI * 2}
+                intensity={type === "shaded" ? 1 : Math.PI * 2}
             />
             <directionalLight
                 position={[-3.3, 1.0, 0]}
                 castShadow
-                intensity={type === "shaded" ? 0.3 : Math.PI * 2}
+                intensity={type === "shaded" ? 1 : Math.PI * 2}
             />
             {/* eslint-disable react/no-unknown-property */}
             {type === "wireframe" ? (
