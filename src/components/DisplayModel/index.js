@@ -23,7 +23,7 @@ export default function DisplayModel({ link, type = "shaded", obj }) {
         <Canvas
             camera={{ position: [-0.5, 1, 2] }}
             shadows
-            style={{ height: "100%", width: "800px" }}
+            style={{ position: "absolute", top: 0, left: 0, height: "100%", width: "100%" }}
         >
             {/* eslint-disable react/no-unknown-property */}
             <directionalLight

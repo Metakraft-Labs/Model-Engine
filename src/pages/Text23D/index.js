@@ -68,7 +68,7 @@ export default function Text23D() {
                     backgroundColor: "#11141D",
                     color: "white",
                     width: "100%",
-                    height: "100%",
+                    height: "fit-content",
                     backgroundImage: `url(${bg})`, // Replace with your image URLs
                     backgroundPosition: "top left, bottom right", // Positions
                     backgroundSize: "cover, cover", // First image covers the box, second image is 100x100 pixels
@@ -111,7 +111,7 @@ export default function Text23D() {
                         prompt={prompt}
                     />
                 </Box>
-                <Box display={"flex"} gap={"10rem"} alignItems={"center"}>
+                <Box display={"flex"} alignItems={"center"}>
                     <Box
                         height="545px"
                         display={"flex"}
@@ -121,20 +121,12 @@ export default function Text23D() {
                         borderRadius={"23px"}
                         padding={"23px 17px 23px 30px"}
                         sx={{
+                            zIndex: 99,
                             boxShadow: "0px 0px 0px 3px #000000",
                             backgroundColor: "#000000",
-                            "&:before": {
-                                content: '""',
-                                position: "absolute",
-                                top: 50,
-                                left: -500,
-                                height: "100%",
-                                width: "100%",
-                                background: `url(${lightBulb})`,
-                                backgroundRepeat: "no-repeat",
-                                backgroundPosition: "center",
-                                opacity: "0.2",
-                            },
+                            backgroundImage: `url(${lightBulb})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
                         }}
                     >
                         <Box display={"flex"} flexDirection={"column"} gap={"20px"} flex={1}>
@@ -185,7 +177,7 @@ export default function Text23D() {
                         </Box>
                     </Box>
 
-                    <Box height="545px">
+                    <Box height="100%">
                         {model && <DisplayModel link={model} type={selectedTab} obj={objModel} />}
                     </Box>
                 </Box>
