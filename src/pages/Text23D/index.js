@@ -1,9 +1,11 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React, { useMemo, useState } from "react";
 import { FaBars } from "react-icons/fa6";
+import { RiGalleryFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { generate } from "../../apis/text23d";
+import { generate, generateFromImage } from "../../apis/text23d";
+import { upload } from "../../apis/upload";
 import bg from "../../assets/img/text-2-3d/bg.svg";
 import lightBulb from "../../assets/img/text-2-3d/light-bulb.png";
 import DisplayModel from "../../components/DisplayModel";
@@ -11,14 +13,18 @@ import UploadToIpfs from "../../components/UploadToIPFS/index";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
 import Navbar from "./Navbar";
+import ImageContent from "./components/ImageContent";
+import TextContent from "./components/TextContent";
 
 export default function Text23D() {
     const [prompt, setPrompt] = useState("");
+    const [image, setImage] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setModel] = useState(null);
     const [objModel, setObjModel] = useState(null);
     const [byteRes, setByteRes] = useState(null);
-    const [selectedTab, setSelectedTab] = useState("shaded");
+    const [selectedTab, setSelectedTab] = useState("textured");
+    const [mode, setMode] = useState("text");
 
     const models = useMemo(() => {
         if (model && objModel) {
@@ -49,6 +55,29 @@ export default function Text23D() {
             setByteRes(linkIPFS);
             setModel(res?.glbUrl);
             setObjModel(res?.objUrl);
+        }
+
+        setLoading(false);
+    };
+
+    const generateModelFromImage = async e => {
+        setModel(null);
+        setObjModel(null);
+        setLoading(true);
+        e.preventDefault();
+
+        const resImage = await upload(image, "images");
+
+        if (resImage) {
+            const res = await generateFromImage(resImage);
+
+            if (res?.glbUrl) {
+                const byteRes = await urlToFile(res?.glbUrl);
+                const linkIPFS = await UploadToIpfs(byteRes.file, "Text23D");
+                setByteRes(linkIPFS);
+                setModel(res?.glbUrl);
+                setObjModel(res?.objUrl);
+            }
         }
 
         setLoading(false);
@@ -133,28 +162,40 @@ export default function Text23D() {
                             <Typography fontWeight={500} fontSize={"18px"}>
                                 Generate 3D
                             </Typography>
-                            <Box display="flex" gap="3px" alignItems="center">
-                                <FaBars color="#B6B6B6" />
-                                <Typography color="#B6B6B6">Text to 3D</Typography>
+                            <Box
+                                display={"flex"}
+                                justifyContent={"space-around"}
+                                alignItems={"center"}
+                            >
+                                <Box
+                                    display="flex"
+                                    gap="3px"
+                                    alignItems="center"
+                                    onClick={() => setMode("image")}
+                                    sx={{ cursor: "pointer" }}
+                                    color={mode === "image" ? "#FFFFFF" : "#B6B6B6"}
+                                >
+                                    <RiGalleryFill />
+                                    <Typography>Image to 3D</Typography>
+                                </Box>
+                                <Box
+                                    display="flex"
+                                    gap="3px"
+                                    alignItems="center"
+                                    onClick={() => setMode("text")}
+                                    sx={{ cursor: "pointer" }}
+                                    color={mode === "text" ? "#FFFFFF" : "#B6B6B6"}
+                                >
+                                    <FaBars />
+                                    <Typography>Text to 3D</Typography>
+                                </Box>
                             </Box>
 
-                            <Typography color="#FFFFFF">Text Prompt</Typography>
-
-                            <TextField
-                                multiline
-                                rows={4}
-                                value={prompt}
-                                onChange={e => setPrompt(e.target.value)}
-                                sx={{
-                                    border: "2px solid #202020",
-                                    background: "#000000",
-                                    borderRadius: "7px",
-                                    color: "#FFFFFF",
-                                    "& textarea": {
-                                        color: "#FFFFFF",
-                                    },
-                                }}
-                            />
+                            {mode === "text" ? (
+                                <TextContent prompt={prompt} setPrompt={setPrompt} />
+                            ) : (
+                                <ImageContent image={image} setImage={setImage} />
+                            )}
                         </Box>
                         <Box>
                             <Button
@@ -169,8 +210,14 @@ export default function Text23D() {
                                         boxShadow: " 0px 0px 0px 3px rgba(81, 19, 103, 1)",
                                     },
                                 }}
-                                onClick={generateModel}
-                                disabled={!prompt || loading}
+                                onClick={e =>
+                                    mode === "text" ? generateModel(e) : generateModelFromImage(e)
+                                }
+                                disabled={
+                                    (mode === "image" && !image) ||
+                                    (mode === "text" && !prompt) ||
+                                    loading
+                                }
                             >
                                 Generate
                             </Button>

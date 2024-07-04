@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import { generate } from "../../apis/text2texture";
 import bg_grad from "../../assets/img/account/bg_grad.png";
 import CreateNFT from "../../components/CreateNFT/index";
+import DisplayModel from "../../components/DisplayModel";
 import UploadToIpfs from "../../components/UploadToIPFS/index";
 import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
@@ -89,17 +90,7 @@ export default function Text2Texture() {
                             justifyContent: "center",
                         }}
                     >
-                        <Box
-                            sx={{
-                                width: "225px",
-                                height: "225px",
-                                borderRadius: "50%",
-                                border: "1px solid #E8DECF",
-                                overflow: "hidden",
-                            }}
-                        >
-                            {model && <img src={model} alt="React Image" height="100%" />}
-                        </Box>
+                        {model && <DisplayModel type="texture" link={model} />}
                     </Box>
                     <Box
                         sx={{

@@ -55,4 +55,5 @@ export const BackLink = styled(Link)({
     left: "30px",
     color: "#fff",
     textDecoration: "none",
+    zIndex: 999,
 });

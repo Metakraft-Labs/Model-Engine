@@ -7,6 +7,7 @@ import {
     Divider,
     IconButton,
     Toolbar,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -25,7 +26,7 @@ import TokenDropdown from "./components/TokenDropdown";
 
 const TABS = [
     {
-        name: "shaded",
+        name: "textured",
         icon: <MdOutlineSportsBasketball />,
     },
     {
@@ -33,7 +34,7 @@ const TABS = [
         icon: <GiWireframeGlobe />,
     },
     {
-        name: "textured",
+        name: "shaded",
         icon: <FaRegCircle />,
     },
 ];
@@ -65,23 +66,29 @@ export default function Navbar({
                 <Box className={classes.navLinks}>
                     {TABS.map((t, i) => {
                         return (
-                            <IconButton
+                            <Tooltip
                                 key={`display-tabs-${i}`}
-                                sx={{
-                                    color: selectedTab === t.name ? "#000000" : "#FFFFFF",
-                                    background: selectedTab === t.name ? "#FFFFFF" : "transparent",
-                                    borderRadius: "4px",
-                                    padding: "5px 1rem",
-                                    "&:hover": {
+                                placement="bottom"
+                                title={t.name?.toUpperCase()}
+                            >
+                                <IconButton
+                                    sx={{
+                                        color: selectedTab === t.name ? "#000000" : "#FFFFFF",
                                         background:
                                             selectedTab === t.name ? "#FFFFFF" : "transparent",
-                                        color: selectedTab === t.name ? "#000000" : "#FFFFFF",
-                                    },
-                                }}
-                                onClick={() => setSelectedTab(t.name)}
-                            >
-                                {t.icon}
-                            </IconButton>
+                                        borderRadius: "4px",
+                                        padding: "5px 1rem",
+                                        "&:hover": {
+                                            background:
+                                                selectedTab === t.name ? "#FFFFFF" : "transparent",
+                                            color: selectedTab === t.name ? "#000000" : "#FFFFFF",
+                                        },
+                                    }}
+                                    onClick={() => setSelectedTab(t.name)}
+                                >
+                                    {t.icon}
+                                </IconButton>
+                            </Tooltip>
                         );
                     })}
                 </Box>
