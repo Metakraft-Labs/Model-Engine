@@ -68,7 +68,6 @@ export default function Home() {
                             borderRadius: 7,
                             border: `1px solid ${selectedTab === "3d" ? "#E18BFF" : "#373737"}`,
                             width: "25%",
-                            height: "100%",
                             alignItems: "center",
                             overflow: "hidden",
                             boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
@@ -82,7 +81,21 @@ export default function Home() {
                                 flexDirection: "column",
                                 px: 3,
                                 pt: 3,
-                                pb: 7.5,
+                                pb: 3,
+                                overflowY: "auto",
+                                height: "400px",
+                                "&::-webkit-scrollbar": {
+                                    width: "0.4em",
+                                },
+                                "&::-webkit-scrollbar-track": {
+                                    boxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+                                    webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+                                },
+                                "&::-webkit-scrollbar-thumb": {
+                                    backgroundColor: "rgba(0,0,0)",
+                                    outline: "1px solid slategrey",
+                                    borderRadius: "8px",
+                                },
                             }}
                         >
                             <Box>
@@ -192,6 +205,50 @@ export default function Home() {
 
                                             <Typography color="#787878" sx={{ fontSize: "14px" }}>
                                                 5 $KRAFT
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        backgroundColor: "#1e1f1f",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        textTransform: "none",
+                                        textAlign: "left",
+                                        alignItems: "left",
+                                        justifyContent: "left",
+                                        border: 1,
+                                        borderColor: "#373737",
+                                        borderRadius: 2,
+                                        p: 1,
+                                    }}
+                                >
+                                    <Box sx={{ display: "flex", flexDirection: "row" }}>
+                                        <Divider
+                                            orientation="vertical"
+                                            flexItem
+                                            sx={{
+                                                background: "#29FFFF",
+                                                width: "2px",
+                                                boxShadow:
+                                                    "0px 0px 1px 1px rgba(238, 41, 255, 0.3)",
+                                                borderRadius: "8px",
+                                            }}
+                                        />
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "left",
+                                                p: 1,
+                                            }}
+                                        >
+                                            <Typography color="white" sx={{ fontSize: "13px" }}>
+                                                Get Inspired
+                                            </Typography>
+                                            <Typography color="#787878" sx={{ fontSize: "14px" }}>
+                                                See what others created
                                             </Typography>
                                         </Box>
                                     </Box>
