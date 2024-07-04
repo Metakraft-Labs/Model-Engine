@@ -22,6 +22,7 @@ import UserStore from "../../contexts/UserStore";
 import { CoinIcon } from "../../icons/CoinIcon";
 import DownloadDropdown from "./components/DownloadDropdown";
 import MintDropdown from "./components/MintDropdown";
+import ShareDropdown from "./components/ShareDropdown";
 import TokenDropdown from "./components/TokenDropdown";
 
 const TABS = [
@@ -46,6 +47,7 @@ export default function Navbar({
     models,
     byteRes,
     prompt,
+    imageUrl,
 }) {
     const classes = useStyles();
     const { user } = useContext(UserStore);
@@ -53,6 +55,7 @@ export default function Navbar({
     const [openTokenMenu, setOpenTokenMenu] = useState(null);
     const [openAccountMenu, setOpenAccountMenu] = useState(null);
     const [openMintMenu, setOpenMintMenu] = useState(null);
+    const [openShareMenu, setOpenShareMenu] = useState(null);
 
     return (
         <AppBar
@@ -200,10 +203,22 @@ export default function Navbar({
                             "&:hover": {
                                 background: "#4454c2",
                             },
+                            "&.Mui-disabled": {
+                                background: "#4454c2",
+                                color: "#FFFFFF",
+                            },
                         }}
+                        disabled={!imageUrl}
+                        onClick={e => setOpenShareMenu(e.currentTarget)}
                     >
                         <BiShareAlt />
                     </IconButton>
+                    <ShareDropdown
+                        open={openShareMenu}
+                        handleClose={() => setOpenShareMenu(null)}
+                        imageUrl={imageUrl}
+                        model={model}
+                    />
                     <Button
                         className={classes.createButton}
                         onClick={e => setOpenMintMenu(e.currentTarget)}

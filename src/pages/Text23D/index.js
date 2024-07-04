@@ -1,5 +1,5 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import React, { useMemo, useState } from "react";
 import { FaBars } from "react-icons/fa6";
 import { RiGalleryFill } from "react-icons/ri";
@@ -19,6 +19,7 @@ import TextContent from "./components/TextContent";
 export default function Text23D() {
     const [prompt, setPrompt] = useState("");
     const [image, setImage] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setModel] = useState(null);
     const [objModel, setObjModel] = useState(null);
@@ -55,6 +56,7 @@ export default function Text23D() {
             setByteRes(linkIPFS);
             setModel(res?.glbUrl);
             setObjModel(res?.objUrl);
+            setImageUrl(res?.image);
         }
 
         setLoading(false);
@@ -77,6 +79,7 @@ export default function Text23D() {
                 setByteRes(linkIPFS);
                 setModel(res?.glbUrl);
                 setObjModel(res?.objUrl);
+                setImageUrl(res?.image);
             }
         }
 
@@ -138,6 +141,7 @@ export default function Text23D() {
                         models={models}
                         byteRes={byteRes}
                         prompt={prompt}
+                        imageUrl={imageUrl}
                     />
                 </Box>
                 <Box display={"flex"} alignItems={"center"}>
@@ -194,7 +198,7 @@ export default function Text23D() {
                             {mode === "text" ? (
                                 <TextContent prompt={prompt} setPrompt={setPrompt} />
                             ) : (
-                                <ImageContent image={image} setImage={setImage} />
+                                <ImageContent image={image} setImage={setImage} loading={loading} />
                             )}
                         </Box>
                         <Box>
@@ -225,6 +229,42 @@ export default function Text23D() {
                     </Box>
 
                     <Box height="100%">
+                        {loading && (
+                            <Box
+                                height={"100%"}
+                                width={"100%"}
+                                ml={"15%"}
+                                display={"flex"}
+                                justifyContent={"center"}
+                                alignItems={"center"}
+                            >
+                                <Box
+                                    display={"flex"}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}
+                                    gap={"20px"}
+                                    width={"500px"}
+                                    flexDirection={"column"}
+                                    padding={"15px 30px"}
+                                    sx={{
+                                        background: "#000000",
+                                        borderRadius: "10px",
+                                    }}
+                                >
+                                    <Typography fontWeight={700} fontSize={"18px"}>
+                                        Generating your model
+                                    </Typography>
+                                    <LinearProgress
+                                        sx={{
+                                            width: "100%",
+                                            "& .MuiLinearProgress-bar": {
+                                                background: "#9D43E3",
+                                            },
+                                        }}
+                                    />
+                                </Box>
+                            </Box>
+                        )}
                         {model && <DisplayModel link={model} type={selectedTab} obj={objModel} />}
                     </Box>
                 </Box>

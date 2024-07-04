@@ -3,7 +3,7 @@ import { Alert, Badge, Box, Typography } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { FiUploadCloud } from "react-icons/fi";
 
-export default function ImageContent({ image, setImage }) {
+export default function ImageContent({ image, setImage, loading }) {
     const ref = useRef(null);
     const [displayImage, setDisplayImage] = useState(null);
 
@@ -35,6 +35,8 @@ export default function ImageContent({ image, setImage }) {
                 onChange={imageChange}
                 formEncType="multipart/form-data"
                 style={{ display: "none" }}
+                accept=".png"
+                disabled={loading}
             />
 
             <Box
