@@ -13,3 +13,12 @@ export const generateFromImage = async image => {
     });
     return res?.data;
 };
+
+export const generateFromTripo = async prompt => {
+    const res = await auth({
+        method: "POST",
+        url: "/3d-model-gen/generate-from-tripo",
+        data: { prompt },
+    });
+    return res?.data;
+};

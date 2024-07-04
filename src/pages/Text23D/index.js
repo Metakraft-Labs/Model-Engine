@@ -1,10 +1,10 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { Box, Button, LinearProgress, Typography } from "@mui/material";
+import { Box, Button, LinearProgress, MenuItem, Select, Typography } from "@mui/material";
 import React, { useMemo, useState } from "react";
 import { FaBars } from "react-icons/fa6";
 import { RiGalleryFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { generate, generateFromImage } from "../../apis/text23d";
+import { generate, generateFromImage, generateFromTripo } from "../../apis/text23d";
 import { upload } from "../../apis/upload";
 import bg from "../../assets/img/text-2-3d/bg.svg";
 import lightBulb from "../../assets/img/text-2-3d/light-bulb.png";
@@ -26,6 +26,7 @@ export default function Text23D() {
     const [byteRes, setByteRes] = useState(null);
     const [selectedTab, setSelectedTab] = useState("textured");
     const [mode, setMode] = useState("text");
+    const [quality, setQuality] = useState("normal");
 
     const models = useMemo(() => {
         if (model && objModel) {
@@ -48,7 +49,7 @@ export default function Text23D() {
         setLoading(true);
         e.preventDefault();
 
-        const res = await generate(prompt);
+        const res = quality === "normal" ? await generate(prompt) : await generateFromTripo(prompt);
 
         if (res?.glbUrl) {
             const byteRes = await urlToFile(res?.glbUrl);
@@ -201,7 +202,26 @@ export default function Text23D() {
                                 <ImageContent image={image} setImage={setImage} loading={loading} />
                             )}
                         </Box>
-                        <Box>
+                        <Box
+                            display={"flex"}
+                            justifyContent={"space-between"}
+                            gap={"10px"}
+                            alignItems={"center"}
+                        >
+                            <Select
+                                value={quality}
+                                onChange={e => setQuality(e.target.value)}
+                                sx={{
+                                    border: "1px solid #B158F6",
+                                    color: "#FFFFFF",
+                                }}
+                                size="small"
+                            >
+                                <MenuItem value={"normal"}>Quality - Normal | 1 credit</MenuItem>
+                                <MenuItem value={"advanced"}>
+                                    Quality - Advanced | 20 credit
+                                </MenuItem>
+                            </Select>
                             <Button
                                 sx={{
                                     backgroundColor: "#B054F8",
