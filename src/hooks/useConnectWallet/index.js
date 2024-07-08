@@ -37,7 +37,7 @@ export default function useConnectWallet({
         return res ? signature : null;
     };
 
-    const connectWallet = async ({ emailAddress }) => {
+    const connectWallet = async ({ emailAddress, auth = true }) => {
         if (connectedWallet) {
             setConnectedWallet(null);
         } else {
@@ -73,7 +73,7 @@ export default function useConnectWallet({
 
                 createContractInstance(signer);
 
-                if (!user && userWallet?.email) {
+                if (!user && userWallet?.email && auth) {
                     const res = await login({
                         email: userWallet?.email,
                         address: account,
