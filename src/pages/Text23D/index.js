@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import { FaBars } from "react-icons/fa6";
 import { RiGalleryFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { generate, generateFromImage, generateFromTripo } from "../../apis/text23d";
+import { generate } from "../../apis/text23d";
 import { upload } from "../../apis/upload";
 import bg from "../../assets/img/text-2-3d/bg.svg";
 import lightBulb from "../../assets/img/text-2-3d/light-bulb.png";
@@ -46,10 +46,16 @@ export default function Text23D() {
     const generateModel = async e => {
         setModel(null);
         setObjModel(null);
+        setImageUrl(null);
         setLoading(true);
         e.preventDefault();
+        let resImage = "";
 
-        const res = quality === "normal" ? await generate(prompt) : await generateFromTripo(prompt);
+        if (mode === "image") {
+            resImage = await upload(image, "images");
+        }
+
+        const res = await generate({ prompt, quality, type: mode, image: resImage });
 
         if (res?.glbUrl) {
             const byteRes = await urlToFile(res?.glbUrl);
@@ -58,30 +64,6 @@ export default function Text23D() {
             setModel(res?.glbUrl);
             setObjModel(res?.objUrl);
             setImageUrl(res?.image);
-        }
-
-        setLoading(false);
-    };
-
-    const generateModelFromImage = async e => {
-        setModel(null);
-        setObjModel(null);
-        setLoading(true);
-        e.preventDefault();
-
-        const resImage = await upload(image, "images");
-
-        if (resImage) {
-            const res = await generateFromImage(resImage);
-
-            if (res?.glbUrl) {
-                const byteRes = await urlToFile(res?.glbUrl);
-                const linkIPFS = await UploadToIpfs(byteRes.file, "Text23D");
-                setByteRes(linkIPFS);
-                setModel(res?.glbUrl);
-                setObjModel(res?.objUrl);
-                setImageUrl(res?.image);
-            }
         }
 
         setLoading(false);
@@ -234,9 +216,7 @@ export default function Text23D() {
                                         boxShadow: " 0px 0px 0px 3px rgba(81, 19, 103, 1)",
                                     },
                                 }}
-                                onClick={e =>
-                                    mode === "text" ? generateModel(e) : generateModelFromImage(e)
-                                }
+                                onClick={e => generateModel(e)}
                                 disabled={
                                     (mode === "image" && !image) ||
                                     (mode === "text" && !prompt) ||

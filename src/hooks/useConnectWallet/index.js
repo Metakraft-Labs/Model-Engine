@@ -1,50 +1,23 @@
 import { ethers } from "ethers";
 import { MetaKeep } from "metakeep";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { login } from "../../apis/auth";
 import ABI from "../../constants/contractABI.json";
 import { DesiredChainId, contractAddress } from "../../constants/helper";
-import UserStore from "../../contexts/UserStore";
 import { getRPCURL } from "../../shared/web3utils";
 
-export default function useConnectWallet() {
-    const { setContract, setUserWallet, user, setToken, setBalance, setChainId } =
-        useContext(UserStore);
+export default function useConnectWallet({
+    setContract,
+    setUserWallet,
+    user,
+    setToken,
+    setBalance,
+    setChainId,
+}) {
     const [connectedWallet, setConnectedWallet] = useState(null);
     let provider = null;
     let account = null;
-
-    useEffect(() => {
-        if (window.ethereum) {
-            window.ethereum.on("chainChanged", correctWindowChain);
-            window.ethereum.on("accountsChanged", correctWindowAccount);
-        }
-    }, []);
-
-    const correctWindowChain = async () => {
-        await correctChainId();
-    };
-
-    const correctWindowAccount = a => {
-        account = a[0];
-        setConnectedWallet(a[0]);
-    };
-
-    const correctChainId = async () => {
-        try {
-            const { chainId } = await provider.getNetwork();
-            if (chainId !== DesiredChainId) {
-                await provider.send("wallet_switchEthereumChain", [
-                    { chainId: `0x${DesiredChainId.toString(16)}` },
-                ]);
-
-                provider = new ethers.BrowserProvider(window.ethereum);
-            }
-        } catch (err) {
-            console.log("Chain ID error", err);
-        }
-    };
 
     const verifyMessageSignature = (message, address, signature) => {
         try {
@@ -76,7 +49,7 @@ export default function useConnectWallet() {
                         1020352220: getRPCURL(1020352220),
                         1350216234: getRPCURL(1350216234),
                     },
-                    user: { email: user?.email || emailAddress || "" },
+                    user: { email: emailAddress || "" },
                 });
 
                 const web3Provider = await sdk.ethereum;
@@ -88,7 +61,6 @@ export default function useConnectWallet() {
                 const signer = await provider.getSigner();
                 account = accounts?.wallet?.ethAddress;
                 setConnectedWallet(account);
-                await correctChainId();
                 const balance = await provider.getBalance(accounts?.wallet?.ethAddress);
                 setBalance(balance);
                 setChainId(DesiredChainId);

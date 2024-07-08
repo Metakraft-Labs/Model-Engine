@@ -1,24 +1,10 @@
 import { auth } from "../";
 
-export const generate = async prompt => {
-    const res = await auth({ method: "POST", url: "/3d-model-gen/generate", data: { prompt } });
-    return res?.data;
-};
-
-export const generateFromImage = async image => {
+export const generate = async ({ prompt, image, type, quality }) => {
     const res = await auth({
         method: "POST",
-        url: "/3d-model-gen/generate-from-image",
-        data: { image },
-    });
-    return res?.data;
-};
-
-export const generateFromTripo = async prompt => {
-    const res = await auth({
-        method: "POST",
-        url: "/3d-model-gen/generate-from-tripo",
-        data: { prompt },
+        url: "/3d-model-gen/generate",
+        data: { prompt, type, image, quality },
     });
     return res?.data;
 };

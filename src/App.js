@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
@@ -6,7 +6,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { status } from "./apis/auth";
 import Routers from "./common/Routers";
+import LoadingScreen from "./components/LoadingScreen";
 import UserStore from "./contexts/UserStore";
+import useConnectWallet from "./hooks/useConnectWallet";
 
 function App() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
@@ -18,6 +20,14 @@ function App() {
     const [userWallet, setUserWallet] = useState(null);
     const [balance, setBalance] = useState(0);
     const [chainId, setChainId] = useState(0);
+    const { connectWallet } = useConnectWallet({
+        setContract,
+        setUserWallet,
+        user,
+        setToken,
+        setBalance,
+        setChainId,
+    });
 
     const lightTheme = createTheme({
         palette: {
@@ -44,6 +54,7 @@ function App() {
             const res = await status();
             if (res) {
                 setUser(res);
+                await connectWallet({ emailAddress: res?.email });
             } else {
                 toast.error(`Cannot fetch user`);
             }
@@ -78,21 +89,7 @@ function App() {
         >
             <BrowserRouter>
                 <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
-                    <Box sx={{ display: "flex" }}>
-                        {loading ? (
-                            <Box
-                                height={"80vh"}
-                                width={"100%"}
-                                display={"flex"}
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                            >
-                                <CircularProgress />
-                            </Box>
-                        ) : (
-                            <Routers />
-                        )}
-                    </Box>
+                    <Box sx={{ display: "flex" }}>{loading ? <LoadingScreen /> : <Routers />}</Box>
 
                     <ToastContainer
                         position="top-right"

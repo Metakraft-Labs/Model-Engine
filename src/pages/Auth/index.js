@@ -1,17 +1,26 @@
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Box, Link, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import metakraft from "../../assets/img/login/metakraft.png";
+import UserStore from "../../contexts/UserStore";
 import useConnectWallet from "../../hooks/useConnectWallet";
 import Title from "../../shared/Title";
-import { AvatarImage, BackLink, Background, CustomButton, FormContainer } from "./styles";
+import { AvatarImage, Background, CustomButton, FormContainer } from "./styles";
 
 export default function Auth() {
+    const { setContract, setUserWallet, user, setToken, setBalance, setChainId } =
+        useContext(UserStore);
     const location = useLocation();
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
-    const { connectWallet } = useConnectWallet();
+    const { connectWallet } = useConnectWallet({
+        setContract,
+        setUserWallet,
+        user,
+        setToken,
+        setBalance,
+        setChainId,
+    });
     const [loginLoading, setLoginLoading] = React.useState(false);
 
     const loginModal = async () => {
@@ -30,25 +39,6 @@ export default function Auth() {
         <>
             <Title title={"Login"} />
             <Background>
-                <BackLink to="/">
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 1,
-                        }}
-                    >
-                        <ArrowBackIosNewIcon
-                            sx={{
-                                fontSize: 15,
-                            }}
-                        />
-                        <Typography variant="body2" component="h1" color="#898A8C">
-                            Back to Homepage
-                        </Typography>
-                    </Box>
-                </BackLink>
                 <Box sx={{ pl: 22 }}>
                     <FormContainer>
                         <AvatarImage src={metakraft} alt="metakraft" />
