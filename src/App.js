@@ -62,6 +62,15 @@ function App() {
         setLoading(false);
     }, [token]);
 
+    const updateUser = async () => {
+        const res = await status();
+        if (res) {
+            setUser(res);
+        } else {
+            toast.error(`Cannot fetch user`);
+        }
+    };
+
     useEffect(() => {
         getUser();
     }, [getUser]);
@@ -85,6 +94,7 @@ function App() {
                 setBalance,
                 chainId,
                 setChainId,
+                updateUser,
             }}
         >
             <BrowserRouter>

@@ -1,6 +1,6 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Box, Button, LinearProgress, MenuItem, Select, Typography } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { FaBars } from "react-icons/fa6";
 import { RiGalleryFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import bg from "../../assets/img/text-2-3d/bg.svg";
 import lightBulb from "../../assets/img/text-2-3d/light-bulb.png";
 import DisplayModel from "../../components/DisplayModel";
 import UploadToIpfs from "../../components/UploadToIPFS/index";
+import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
 import Navbar from "./Navbar";
@@ -17,6 +18,7 @@ import ImageContent from "./components/ImageContent";
 import TextContent from "./components/TextContent";
 
 export default function Text23D() {
+    const { updateUser } = useContext(UserStore);
     const [prompt, setPrompt] = useState("");
     const [image, setImage] = useState("");
     const [imageUrl, setImageUrl] = useState("");
@@ -65,6 +67,7 @@ export default function Text23D() {
             setObjModel(res?.objUrl);
             setImageUrl(res?.image);
         }
+        await updateUser();
 
         setLoading(false);
     };
@@ -200,9 +203,11 @@ export default function Text23D() {
                                 size="small"
                             >
                                 <MenuItem value={"normal"}>Quality - Normal | 1 credit</MenuItem>
-                                <MenuItem value={"advanced"}>
-                                    Quality - Advanced | 20 credit
-                                </MenuItem>
+                                {mode === "text" && (
+                                    <MenuItem value={"advanced"}>
+                                        Quality - Advanced | 20 credit
+                                    </MenuItem>
+                                )}
                             </Select>
                             <Button
                                 sx={{
