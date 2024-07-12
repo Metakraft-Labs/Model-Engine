@@ -172,6 +172,8 @@ export default function Navbar({
                                 border: "1px solid #727272",
                                 padding: "6px 10px",
                                 borderRadius: "20px",
+                                width: "50px",
+                                overflow: "hidden",
                                 alignItems: "center",
                                 gap: "8px",
                             }}
