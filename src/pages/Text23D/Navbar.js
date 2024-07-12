@@ -172,15 +172,13 @@ export default function Navbar({
                                 border: "1px solid #727272",
                                 padding: "6px 10px",
                                 borderRadius: "20px",
-                                width: "50px",
-                                overflow: "hidden",
                                 alignItems: "center",
                                 gap: "8px",
-                                flexShrink: 0,
+                                overflow: "hidden",
                             }}
                         >
                             <CoinIcon />
-                            <Typography color={"#C2C2C2"} fontWeight={400}>
+                            <Typography color={"#C2C2C2"} width={"27px"} fontWeight={400}>
                                 {user?.tokens}
                             </Typography>
                         </Badge>
