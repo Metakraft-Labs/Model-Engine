@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+axios.defaults.withCredentials = true;
 export const noAuth = async ({ method, url, data = {}, options = {} }) => {
     try {
         const headers = options?.headers || {};
