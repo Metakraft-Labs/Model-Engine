@@ -176,6 +176,7 @@ export default function Navbar({
                                 overflow: "hidden",
                                 alignItems: "center",
                                 gap: "8px",
+                                flexShrink: 0,
                             }}
                         >
                             <CoinIcon />
