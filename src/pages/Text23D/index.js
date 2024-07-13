@@ -202,7 +202,9 @@ export default function Text23D() {
                                 }}
                                 size="small"
                             >
-                                <MenuItem value={"normal"}>Quality - Normal | 1 credit</MenuItem>
+                                <MenuItem value={"normal"}>
+                                    Quality - Normal | {mode === "text" ? "1" : "5"} credit
+                                </MenuItem>
                                 {mode === "text" && (
                                     <MenuItem value={"advanced"}>
                                         Quality - Advanced | 20 credit
