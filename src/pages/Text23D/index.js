@@ -53,11 +53,16 @@ export default function Text23D() {
         e.preventDefault();
         let resImage = "";
 
-        if (mode === "image") {
+        if (mode === "image" && quality === "normal") {
             resImage = await upload(image, "images");
         }
+        let res;
 
-        const res = await generate({ prompt, quality, type: mode, image: resImage });
+        if (quality === "advanced" && mode === "image") {
+            res = await generate({ file: image, type: mode, quality });
+        } else {
+            res = await generate({ prompt, quality, type: mode, image: resImage });
+        }
 
         if (res?.glbUrl) {
             const byteRes = await urlToFile(res?.glbUrl);
@@ -205,11 +210,9 @@ export default function Text23D() {
                                 <MenuItem value={"normal"}>
                                     Quality - Normal | {mode === "text" ? "1" : "5"} credit
                                 </MenuItem>
-                                {mode === "text" && (
-                                    <MenuItem value={"advanced"}>
-                                        Quality - Advanced | 20 credit
-                                    </MenuItem>
-                                )}
+                                <MenuItem value={"advanced"}>
+                                    Quality - Advanced | {mode === "text" ? "29" : "50"} credit
+                                </MenuItem>
                             </Select>
                             <Button
                                 sx={{
