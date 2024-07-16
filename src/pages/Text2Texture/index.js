@@ -1,6 +1,6 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import { Box, Button, Slider, TextField, Typography } from "@mui/material";
+import { Box, Button, LinearProgress, Slider, TextField, Typography } from "@mui/material";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { generate } from "../../apis/text2texture";
 import bg_grad from "../../assets/img/account/bg_grad.png";
@@ -27,6 +27,7 @@ export default function Text2Texture() {
     const [selectedSize, setSelectedSize] = useState(1080);
 
     const generateModel = async e => {
+        setImage(null);
         setTexture(null);
         setLoading(true);
         e.preventDefault();
@@ -48,11 +49,6 @@ export default function Text2Texture() {
     const [image, setImage] = useState("");
     const [filters, setFilters] = useState(defaultSettings);
 
-    // const [exposure, setExposure] = useState(50);
-    // const [saturation, setSaturation] = useState(50);
-    // const [contrast, setContrast] = useState(50);
-    // const [temperature, setTemperature] = useState(50);
-    // const [highlight, setHighlight] = useState(50);
     const canvasRef = useRef(null);
 
     const applyFilters = () => {
@@ -190,94 +186,99 @@ export default function Text2Texture() {
                             width: "100%",
                             height: "90%",
                             alignItems: "center",
-                            justifyContent: "start",
+                            justifyContent: loading ? "center" : "start",
                             gap: 30,
                         }}
                     >
-                        <Box
-                            sx={{
-                                p: 2,
-                                backgroundColor: "black",
-                                borderRadius: 5,
-                                border: `1px solid #E18BFF`,
-                                width: "22%",
-                                alignItems: "center",
-                                boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
-                                cursor: "pointer",
-                            }}
-                        >
-                            <Typography variant="body1" color="#fff" gutterBottom>
-                                Texture Settings
-                            </Typography>
-                            <ButtonGroup setSelectedSize={setSelectedSize} />
+                        {image && (
                             <Box
                                 sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                    py: 3,
-                                    px: 2,
-                                    backgroundColor: "#151515",
-                                    borderRadius: 2,
+                                    p: 2,
+                                    backgroundColor: "black",
+                                    borderRadius: 5,
                                     border: `1px solid #E18BFF`,
-                                    width: "90%",
+                                    width: "22%",
                                     alignItems: "center",
                                     boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
                                     cursor: "pointer",
                                 }}
                             >
-                                <SettingsSlider
-                                    title="Exposure"
-                                    value={filters.exposure}
-                                    onChange={value =>
-                                        setFilters(prev => ({
-                                            ...prev,
-                                            exposure: value,
-                                        }))
-                                    }
+                                <Typography variant="body1" color="#fff" gutterBottom>
+                                    Texture Settings
+                                </Typography>
+                                <ButtonGroup
+                                    setSelectedSize={setSelectedSize}
+                                    selectedSize={selectedSize}
                                 />
-                                <SettingsSlider
-                                    title="Saturation"
-                                    value={filters.saturation}
-                                    onChange={value =>
-                                        setFilters(prev => ({
-                                            ...prev,
-                                            saturation: value,
-                                        }))
-                                    }
-                                />
-                                <SettingsSlider
-                                    title="Contrast"
-                                    value={filters.contrast}
-                                    onChange={value =>
-                                        setFilters(prev => ({
-                                            ...prev,
-                                            contrast: value,
-                                        }))
-                                    }
-                                />
-                                <SettingsSlider
-                                    title="Temperature"
-                                    value={filters.temperature}
-                                    onChange={value =>
-                                        setFilters(prev => ({
-                                            ...prev,
-                                            temperature: value,
-                                        }))
-                                    }
-                                />
-                                <SettingsSlider
-                                    title="Highlight"
-                                    value={filters.highlight}
-                                    onChange={value =>
-                                        setFilters(prev => ({
-                                            ...prev,
-                                            highlight: value,
-                                        }))
-                                    }
-                                />
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        py: 3,
+                                        px: 2,
+                                        backgroundColor: "#151515",
+                                        borderRadius: 2,
+                                        border: `1px solid #E18BFF`,
+                                        width: "90%",
+                                        alignItems: "center",
+                                        boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
+                                        cursor: "pointer",
+                                    }}
+                                >
+                                    <SettingsSlider
+                                        title="Exposure"
+                                        value={filters.exposure}
+                                        onChange={value =>
+                                            setFilters(prev => ({
+                                                ...prev,
+                                                exposure: value,
+                                            }))
+                                        }
+                                    />
+                                    <SettingsSlider
+                                        title="Saturation"
+                                        value={filters.saturation}
+                                        onChange={value =>
+                                            setFilters(prev => ({
+                                                ...prev,
+                                                saturation: value,
+                                            }))
+                                        }
+                                    />
+                                    <SettingsSlider
+                                        title="Contrast"
+                                        value={filters.contrast}
+                                        onChange={value =>
+                                            setFilters(prev => ({
+                                                ...prev,
+                                                contrast: value,
+                                            }))
+                                        }
+                                    />
+                                    <SettingsSlider
+                                        title="Temperature"
+                                        value={filters.temperature}
+                                        onChange={value =>
+                                            setFilters(prev => ({
+                                                ...prev,
+                                                temperature: value,
+                                            }))
+                                        }
+                                    />
+                                    <SettingsSlider
+                                        title="Highlight"
+                                        value={filters.highlight}
+                                        onChange={value =>
+                                            setFilters(prev => ({
+                                                ...prev,
+                                                highlight: value,
+                                            }))
+                                        }
+                                    />
+                                </Box>
                             </Box>
-                        </Box>
+                        )}
                         <Box
                             sx={{
                                 width: "300px",
@@ -288,28 +289,47 @@ export default function Text2Texture() {
                                 overflow: "hidden",
                             }}
                         >
-                            {/* {model && <img src={model} alt="React Image" height="100%" />} */}
-
-                            {/* <ReactImagePickerEditor
-                                src={image}
-                                config={{
-                                    language: "en",
-                                    width: "300px",
-                                    height: "300px",
-                                    objectFit: "cover",
-                                    compressInitial: null,
-                                    hideEditButton: false,
-                                    isFreeStyleCropEnabled: true,
-                                }}
-                                imageSrcProp={image}
-                                onSave={editedImage => setImage(editedImage)}
-                                exposure={exposure}
-                                saturation={saturation}
-                                contrast={contrast}
-                                temperature={temperature}
-                                highlight={highlight}
-                            /> */}
-                            <canvas ref={canvasRef}></canvas>
+                            {loading ? (
+                                <Box
+                                    height={"100%"}
+                                    width={"100%"}
+                                    display={"flex"}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}
+                                >
+                                    <Box
+                                        display={"flex"}
+                                        justifyContent={"center"}
+                                        alignItems={"center"}
+                                        gap={"20px"}
+                                        width={"500px"}
+                                        flexDirection={"column"}
+                                        padding={"15px 30px"}
+                                        sx={{
+                                            background: "#000000",
+                                            borderRadius: "10px",
+                                        }}
+                                    >
+                                        <Typography
+                                            fontWeight={700}
+                                            color={"#FFFFFF"}
+                                            fontSize={"18px"}
+                                        >
+                                            Generating your texture
+                                        </Typography>
+                                        <LinearProgress
+                                            sx={{
+                                                width: "100%",
+                                                "& .MuiLinearProgress-bar": {
+                                                    background: "#9D43E3",
+                                                },
+                                            }}
+                                        />
+                                    </Box>
+                                </Box>
+                            ) : (
+                                <canvas ref={canvasRef}></canvas>
+                            )}
                         </Box>
                     </Box>
                     <Box
@@ -472,10 +492,10 @@ const SettingsSlider = ({ title, value, onChange }) => {
     );
 };
 
-const ButtonGroup = ({ setSelectedSize }) => {
-    const [flag1, setFlag1] = React.useState(true);
-    const [flag2, setFlag2] = React.useState(true);
-    const [flag3, setFlag3] = React.useState(true);
+const ButtonGroup = ({ setSelectedSize, selectedSize }) => {
+    const [flag1, setFlag1] = React.useState(selectedSize !== "512");
+    const [flag2, setFlag2] = React.useState(selectedSize !== "712");
+    const [flag3, setFlag3] = React.useState(selectedSize !== "1080");
     return (
         <Box
             sx={{
