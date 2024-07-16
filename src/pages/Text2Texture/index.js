@@ -493,9 +493,9 @@ const SettingsSlider = ({ title, value, onChange }) => {
 };
 
 const ButtonGroup = ({ setSelectedSize, selectedSize }) => {
-    const [flag1, setFlag1] = React.useState(selectedSize !== "512");
-    const [flag2, setFlag2] = React.useState(selectedSize !== "712");
-    const [flag3, setFlag3] = React.useState(selectedSize !== "1080");
+    const [flag1, setFlag1] = React.useState(selectedSize !== 512);
+    const [flag2, setFlag2] = React.useState(selectedSize !== 712);
+    const [flag3, setFlag3] = React.useState(selectedSize !== 1080);
     return (
         <Box
             sx={{
