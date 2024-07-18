@@ -48,6 +48,7 @@ export default function Navbar({
     byteRes,
     prompt,
     imageUrl,
+    setMode,
 }) {
     const classes = useStyles();
     const { user } = useContext(UserStore);
@@ -111,6 +112,7 @@ export default function Navbar({
                                 color: "#FFFFFF",
                             },
                         }}
+                        onClick={() => setMode("image")}
                     >
                         <RiGalleryFill />
                     </IconButton>
@@ -247,6 +249,7 @@ const useStyles = makeStyles(theme => ({
         borderRadius: 10,
         width: "60%",
         height: "100%",
+        padding: "2px 0",
         color: "#FFFFFF",
     },
     toolbar: {

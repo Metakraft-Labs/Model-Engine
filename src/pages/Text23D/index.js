@@ -91,7 +91,7 @@ export default function Text23D() {
                     backgroundColor: "#11141D",
                     color: "white",
                     width: "100%",
-                    height: "fit-content",
+                    height: "100dvh",
                     backgroundImage: `url(${bg})`, // Replace with your image URLs
                     backgroundPosition: "top left, bottom right", // Positions
                     backgroundSize: "cover, cover", // First image covers the box, second image is 100x100 pixels
@@ -133,6 +133,7 @@ export default function Text23D() {
                         byteRes={byteRes}
                         prompt={prompt}
                         imageUrl={imageUrl}
+                        setMode={setMode}
                     />
                 </Box>
                 <Box display={"flex"} alignItems={"center"}>

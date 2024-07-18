@@ -147,7 +147,7 @@ export default function Text2Texture() {
                     backgroundPosition: "top left",
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
-                    height: "100vh",
+                    height: "100dvh",
                 }}
             >
                 <BackLink to="/">
