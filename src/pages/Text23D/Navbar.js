@@ -219,7 +219,6 @@ export default function Navbar({
                     <ShareDropdown
                         open={openShareMenu}
                         handleClose={() => setOpenShareMenu(null)}
-                        imageUrl={imageUrl}
                         model={model}
                     />
                     <Button

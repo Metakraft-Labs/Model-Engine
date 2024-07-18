@@ -16,7 +16,7 @@ export default function Routers() {
     }, [location]);
 
     const showRoutes = useMemo(() => {
-        return user && userWallet;
+        return (user && userWallet) || location.pathname === "/model-viewer";
     }, [user, userWallet, location]);
 
     return (

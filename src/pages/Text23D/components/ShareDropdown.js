@@ -1,8 +1,9 @@
 import { Download, Share, Twitter } from "@mui/icons-material";
-import { Box, Button, Menu, Typography } from "@mui/material";
-import React from "react";
+import { Box, Button, CircularProgress, Menu, Typography } from "@mui/material";
+import React, { Suspense } from "react";
+import { ModelToVideo } from "../../../components/ModelToVideo";
 
-export default function ShareDropdown({ open, handleClose, imageUrl, model }) {
+export default function ShareDropdown({ open, handleClose, model }) {
     return (
         <Menu
             sx={{
@@ -28,18 +29,12 @@ export default function ShareDropdown({ open, handleClose, imageUrl, model }) {
                 justifyContent={"center"}
                 alignItems={"center"}
                 height="252px"
-                sx={{
-                    background: "#000000",
-                }}
                 borderRadius={"8px"}
                 mb={"10px"}
             >
-                <img
-                    src={imageUrl}
-                    height={"144px"}
-                    width={"126px"}
-                    alt={"generated-model-image"}
-                />
+                <Suspense fallback={<CircularProgress />}>
+                    <ModelToVideo url={model} />
+                </Suspense>
             </Box>
 
             <Typography color={"#B4B4B4"} textAlign={"center"} fontSize={"17px"} mb={"10px"}>
@@ -58,6 +53,11 @@ export default function ShareDropdown({ open, handleClose, imageUrl, model }) {
                 fullWidth
                 sx={{ mb: "10px" }}
                 size="small"
+                onClick={() =>
+                    window.open(
+                        "https://twitter.com/intent/tweet?text=Hey%20I%20love%20%40TheMetakraft%2C%20you%20should%20definitely%20try%20it.%20#TheMetakraft",
+                    )
+                }
             >
                 Twitter
             </Button>
