@@ -16,7 +16,7 @@ export default function CreateNFT({ fileURI, url, prompt, type, name, descriptio
     const fetchData = async cid => {
         try {
             if (contract && userWallet) {
-                const amount = ethers.parseUnits("1.0", 9);
+                const amount = ethers.utils.parseUnits("1.0", 9);
 
                 const amt = amount.toString();
 

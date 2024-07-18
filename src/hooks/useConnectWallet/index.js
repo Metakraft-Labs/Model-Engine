@@ -7,6 +7,7 @@ import ABI from "../../constants/contractABI.json";
 import { DesiredChainId, contractAddress } from "../../constants/helper";
 import { getRPCURL } from "../../shared/web3utils";
 
+const message = "Welcome to Metakraft AI!";
 export default function useConnectWallet({
     setContract,
     setUserWallet,
@@ -21,7 +22,7 @@ export default function useConnectWallet({
 
     const verifyMessageSignature = (message, address, signature) => {
         try {
-            const signerAddr = ethers.verifyMessage(message, signature);
+            const signerAddr = ethers.utils.verifyMessage(message, signature);
             return signerAddr === address;
         } catch (err) {
             console.log("Signature error", err);
@@ -29,10 +30,8 @@ export default function useConnectWallet({
         }
     };
 
-    const signMessage = async sdk => {
-        const message = "Welcome to Metakraft AI!";
+    const signMessage = async (sdk, address) => {
         const { signature } = await sdk.signMessage(message, "Login");
-        const address = await sdk.getWallet();
         const res = verifyMessageSignature(message, address, signature);
         return res ? signature : null;
     };
@@ -54,20 +53,28 @@ export default function useConnectWallet({
 
                 const web3Provider = await sdk.ethereum;
                 await web3Provider.enable();
-                provider = new ethers.BrowserProvider(web3Provider);
+                provider = new ethers.providers.Web3Provider(web3Provider);
 
                 const accounts = await sdk.getWallet();
                 const userWallet = accounts.user;
                 const signer = await provider.getSigner();
                 account = accounts?.wallet?.ethAddress;
                 setConnectedWallet(account);
-                const balance = await provider.getBalance(accounts?.wallet?.ethAddress);
+                const balance = await provider.getBalance(account);
                 setBalance(balance);
                 setChainId(DesiredChainId);
 
-                const storedSignature = localStorage.getItem(account);
+                let storedSignature = localStorage.getItem(account);
+                if (storedSignature) {
+                    const res = verifyMessageSignature(message, account, storedSignature);
+
+                    if (!res) {
+                        toast.error("Signature expired, please authenticate again");
+                        storedSignature = null;
+                    }
+                }
                 if (!storedSignature) {
-                    const sig = await signMessage(sdk);
+                    const sig = await signMessage(sdk, accounts?.wallet?.ethAddress);
                     localStorage.setItem(account, sig);
                 }
 

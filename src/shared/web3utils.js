@@ -66,7 +66,7 @@ export const getTokenSymbol = chainId => {
 
 export const fixedBalance = (value, decimals = 18, decimalPlaces = 4) => {
     return Number(
-        Math.round(parseFloat(ethers.formatUnits(value, decimals) + "e" + decimalPlaces)) +
+        Math.round(parseFloat(ethers.utils.formatUnits(value, decimals) + "e" + decimalPlaces)) +
             "e-" +
             decimalPlaces,
     );

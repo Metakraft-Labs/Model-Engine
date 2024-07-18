@@ -5,7 +5,6 @@ import { FaBars } from "react-icons/fa6";
 import { RiGalleryFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { generate } from "../../apis/text23d";
-import { upload } from "../../apis/upload";
 import bg from "../../assets/img/text-2-3d/bg.svg";
 import lightBulb from "../../assets/img/text-2-3d/light-bulb.png";
 import DisplayModel from "../../components/DisplayModel";
@@ -52,17 +51,12 @@ export default function Text23D() {
         setImageUrl(null);
         setLoading(true);
         e.preventDefault();
-        let resImage = "";
-
-        if (mode === "image" && quality === "normal") {
-            resImage = await upload(image, "images");
-        }
         let res;
 
-        if (quality === "advanced" && mode === "image") {
+        if (mode === "image") {
             res = await generate({ file: image, type: mode, quality });
         } else {
-            res = await generate({ prompt, quality, type: mode, image: resImage });
+            res = await generate({ prompt, quality, type: mode });
         }
 
         if (res?.glbUrl) {
