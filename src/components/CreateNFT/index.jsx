@@ -3,7 +3,6 @@ import { ethers } from "ethers";
 import React, { useContext, useState } from "react";
 import { mint } from "../../apis/nft";
 import Modal from "../../components/Modal";
-import { DesiredChainId } from "../../constants/helper";
 import UserStore from "../../contexts/UserStore";
 import { CoinIcon } from "../../icons/CoinIcon";
 import { getBlockExplorer } from "../../shared/web3utils";
@@ -13,31 +12,6 @@ export default function CreateNFT({ fileURI, url, prompt, type }) {
     const [mintLoading, setMintLoading] = useState(false);
     const [contractRes, setContractRes] = useState(null);
     const { contract, userWallet } = useContext(UserStore);
-
-    window.onload = () => {
-        if (window.ethereum) {
-            window.ethereum.on("chainChanged", checkConnectedChain);
-        }
-    };
-
-    const checkConnectedChain = async () => {
-        await correctChainId();
-    };
-
-    const correctChainId = async () => {
-        try {
-            const { chainId } = await provider.getNetwork();
-            if (chainId !== DesiredChainId) {
-                await provider.send("wallet_switchEthereumChain", [
-                    { chainId: `0x${DesiredChainId.toString(16)}` },
-                ]);
-
-                provider = new ethers.BrowserProvider(window.ethereum);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    };
 
     const fetchData = async cid => {
         try {
