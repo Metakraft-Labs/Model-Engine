@@ -29,6 +29,7 @@ export default function Text23D() {
     const [selectedTab, setSelectedTab] = useState("textured");
     const [mode, setMode] = useState("text");
     const [quality, setQuality] = useState("normal");
+    const [modelId, setModelId] = useState(null);
 
     const models = useMemo(() => {
         if (model && objModel) {
@@ -68,6 +69,7 @@ export default function Text23D() {
             const byteRes = await urlToFile(res?.glbUrl);
             const linkIPFS = await UploadToIpfs(byteRes.file, "Text23D");
             setByteRes(linkIPFS);
+            setModelId(res?.id);
             setModel(res?.glbUrl);
             setObjModel(res?.objUrl);
             setImageUrl(res?.image);
@@ -134,6 +136,7 @@ export default function Text23D() {
                         prompt={prompt}
                         imageUrl={imageUrl}
                         setMode={setMode}
+                        id={modelId}
                     />
                 </Box>
                 <Box display={"flex"} alignItems={"center"}>

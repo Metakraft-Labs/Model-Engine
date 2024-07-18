@@ -49,6 +49,7 @@ export default function Navbar({
     prompt,
     imageUrl,
     setMode,
+    id,
 }) {
     const classes = useStyles();
     const { user } = useContext(UserStore);
@@ -220,6 +221,7 @@ export default function Navbar({
                         open={openShareMenu}
                         handleClose={() => setOpenShareMenu(null)}
                         model={model}
+                        id={id}
                     />
                     <Button
                         className={classes.createButton}

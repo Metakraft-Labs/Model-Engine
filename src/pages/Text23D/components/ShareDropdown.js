@@ -1,9 +1,23 @@
-import { Download, Share, Twitter } from "@mui/icons-material";
+import { Check, Download, Share, Twitter } from "@mui/icons-material";
 import { Box, Button, CircularProgress, Menu, Typography } from "@mui/material";
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import { ModelToVideo } from "../../../components/ModelToVideo";
+import { copyToClipboard } from "../../../shared/strings";
 
-export default function ShareDropdown({ open, handleClose, model }) {
+export default function ShareDropdown({ open, handleClose, model, id }) {
+    const [copied, setCopied] = useState(false);
+
+    const copy = () => {
+        copyToClipboard(`${window.location.origin}/model-viewer?id=${id}`);
+        setCopied(true);
+
+        const timeout = setTimeout(() => {
+            setCopied(false);
+        }, 3000);
+
+        return () => clearTimeout(timeout);
+    };
+
     return (
         <Menu
             sx={{
@@ -79,8 +93,15 @@ export default function ShareDropdown({ open, handleClose, model }) {
                 >
                     Download
                 </Button>
-                <Button fullWidth startIcon={<Share />} size="small" variant="outlined">
-                    Copy Link
+                <Button
+                    fullWidth
+                    startIcon={!copied && <Share />}
+                    endIcon={copied && <Check />}
+                    onClick={copy}
+                    size="small"
+                    variant="outlined"
+                >
+                    {copied ? "Copied" : "Copy Link"}
                 </Button>
             </Box>
         </Menu>

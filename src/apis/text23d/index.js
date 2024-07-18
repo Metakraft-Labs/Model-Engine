@@ -1,4 +1,4 @@
-import { auth } from "../";
+import { auth, noAuth } from "../";
 
 export const generate = async ({ prompt, image, type, quality, file = null }) => {
     let res;
@@ -24,6 +24,14 @@ export const generate = async ({ prompt, image, type, quality, file = null }) =>
         method: "POST",
         url: "/3d-model-gen/generate",
         data: { prompt, type, image, quality },
+    });
+    return res?.data;
+};
+
+export const getModel = async ({ id }) => {
+    const res = await noAuth({
+        method: "GET",
+        url: `/3d-model-gen/${id}`,
     });
     return res?.data;
 };

@@ -1,79 +1,128 @@
-import { Box, Button } from "@mui/material";
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import CreateNFT from "../../components/CreateNFT";
+import { Box, Button, LinearProgress, Typography } from "@mui/material";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { getModel } from "../../apis/text23d";
+import bg from "../../assets/img/text-2-3d/bg.svg";
 import DisplayModel from "../../components/DisplayModel";
-import UploadToIpfs from "../../components/UploadToIPFS/index";
-import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
-import { urlToFile } from "../../shared/files";
 
 export default function ModelViewer() {
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const [_, setImageUrl] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [model, setModel] = useState(null);
+    const [objModel, setObjModel] = useState(null);
 
-    const [byteRes, setByteRes] = useState(null);
-
-    const { userWallet } = useContext(UserStore);
-
-    const [url, prompt] = useMemo(() => {
+    const id = useMemo(() => {
         // get query string
         const params = new URLSearchParams(searchParams);
-        const url = params.get("url");
-        const prompt = params.get("prompt");
+        const id = params.get("id");
 
-        return [url, prompt];
+        return id;
     }, [searchParams]);
 
     const fetchFile = useCallback(async () => {
-        if (url) {
-            const byteRes = await urlToFile(url);
-            const linkIPFS = await UploadToIpfs(byteRes.file, "Text23D");
-            setByteRes(linkIPFS);
+        setModel(null);
+        setObjModel(null);
+        setImageUrl(null);
+        setLoading(true);
+        if (id) {
+            const res = await getModel({ id });
+            setModel(res?.glbUrl);
+            setObjModel(res?.objUrl);
+            setImageUrl(res?.image);
         }
-    }, [url]);
+        setLoading(false);
+    }, [id]);
 
     useEffect(() => {
         fetchFile();
-    });
+    }, [fetchFile]);
 
     return (
         <>
             <Title title={"Model Viewer"} />
             <Box
                 display={"flex"}
-                gap={"20px"}
-                alignItems="start"
-                width={"100%"}
-                pl={"6rem"}
-                height={"80vh"}
+                flexDirection={"column"}
+                sx={{
+                    pt: 6,
+                    pb: 8,
+                    px: 4,
+                    gap: 0.8,
+                    backgroundColor: "#11141D",
+                    color: "white",
+                    width: "100%",
+                    height: "100svh",
+                    backgroundImage: `url(${bg})`, // Replace with your image URLs
+                    backgroundPosition: "top left, bottom right", // Positions
+                    backgroundSize: "cover, cover", // First image covers the box, second image is 100x100 pixels
+                    backgroundRepeat: "no-repeat, no-repeat", // Prevents repeating
+                }}
             >
-                <Box
-                    display={"flex"}
-                    height={"100%"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    flexDirection={"column"}
-                    gap={"40px"}
-                    width={"90%"}
-                >
-                    <Box
-                        height={"20rem"}
-                        width={"900px"}
-                        sx={{ border: "1px solid #E8DECF" }}
-                        borderRadius={"10px"}
-                        flex={"1"}
+                <Box display="flex" justifyContent={"end"} width={"100%"} zIndex={99}>
+                    <Button
+                        onClick={() => navigate("/")}
+                        sx={{
+                            border: 1,
+                            borderColor: "#746380",
+                            mr: 2,
+                            backgroundColor: "#B054F8",
+                            color: "white",
+                            borderRadius: "12px",
+                            boxShadow: " 0px 0px 0px 3px rgba(81, 19, 103, 1)",
+                            padding: theme => theme.spacing(1.5, 3),
+                            textTransform: "none",
+                            "&:hover": {
+                                backgroundColor: "#B054F8",
+                            },
+                            cursor: "pointer",
+                        }}
                     >
-                        {url && <DisplayModel link={url} />}
+                        Try for free
+                    </Button>
+                </Box>
+                <Box display={"flex"} height={"100%"} width={"100%"} alignItems={"center"}>
+                    <Box height={"100%"} width={"100%"}>
+                        {loading && (
+                            <Box
+                                height={"100%"}
+                                width={"100%"}
+                                display={"flex"}
+                                justifyContent={"center"}
+                                alignItems={"center"}
+                            >
+                                <Box
+                                    display={"flex"}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}
+                                    gap={"20px"}
+                                    width={"500px"}
+                                    flexDirection={"column"}
+                                    padding={"15px 30px"}
+                                    sx={{
+                                        background: "#000000",
+                                        borderRadius: "10px",
+                                    }}
+                                >
+                                    <Typography fontWeight={700} fontSize={"18px"}>
+                                        Generating your model
+                                    </Typography>
+                                    <LinearProgress
+                                        sx={{
+                                            width: "100%",
+                                            "& .MuiLinearProgress-bar": {
+                                                background: "#9D43E3",
+                                            },
+                                        }}
+                                    />
+                                </Box>
+                            </Box>
+                        )}
+                        {model && <DisplayModel link={model} type={"textured"} obj={objModel} />}
                     </Box>
                 </Box>
-                {url && byteRes && userWallet ? (
-                    <div>
-                        <Button onClick={() => (window.location.href = url)}>Download</Button>
-                        <CreateNFT fileURI={byteRes} url={url} type={"3d"} prompt={prompt} />
-                    </div>
-                ) : (
-                    <></>
-                )}
             </Box>
         </>
     );
