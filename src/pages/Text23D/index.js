@@ -211,7 +211,7 @@ export default function Text23D() {
                                     Quality - Normal | {mode === "text" ? "1" : "5"} credit
                                 </MenuItem>
                                 <MenuItem value={"advanced"}>
-                                    Quality - Advanced | {mode === "text" ? "29" : "50"} credit
+                                    Quality - Advanced | {mode === "text" ? "20" : "50"} credit
                                 </MenuItem>
                             </Select>
                             <Button
