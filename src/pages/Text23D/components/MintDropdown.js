@@ -63,7 +63,14 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
                 onChange={e => setDescription(e.target.value)}
             />
 
-            <CreateNFT fileURI={byteRes} url={url} type={"3d"} prompt={prompt} />
+            <CreateNFT
+                name={name}
+                description={description}
+                fileURI={byteRes}
+                url={url}
+                type={"3d"}
+                prompt={prompt}
+            />
         </Menu>
     );
 }

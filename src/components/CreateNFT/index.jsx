@@ -7,7 +7,7 @@ import UserStore from "../../contexts/UserStore";
 import { CoinIcon } from "../../icons/CoinIcon";
 import { getBlockExplorer } from "../../shared/web3utils";
 
-export default function CreateNFT({ fileURI, url, prompt, type }) {
+export default function CreateNFT({ fileURI, url, prompt, type, name, description }) {
     const [cid, setCID] = useState(null);
     const [mintLoading, setMintLoading] = useState(false);
     const [contractRes, setContractRes] = useState(null);
@@ -29,6 +29,10 @@ export default function CreateNFT({ fileURI, url, prompt, type }) {
                         transactionHash: res.hash,
                         chainId: Number(res.chainId),
                         type,
+                        name: name || prompt,
+                        description:
+                            description ||
+                            `NFT for prompt: ${prompt}. Type: ${type} from Metakraft AI`,
                     });
                     setContractRes(res);
                 }
@@ -46,8 +50,8 @@ export default function CreateNFT({ fileURI, url, prompt, type }) {
     };
 
     const metaData = {
-        name: "User's NFT",
-        description: "This is an AI Verse Collectoin NFT",
+        name: name || prompt,
+        description: description || `NFT for prompt: ${prompt}. Type: ${type} from Metakraft AI`,
         image: `${fileURI}`,
     };
 
