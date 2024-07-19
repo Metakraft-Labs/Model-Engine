@@ -19,6 +19,7 @@ export default function CreateNFT({ fileURI, url, prompt, type, name, descriptio
                 const amount = ethers.utils.parseUnits("1.0", 9);
 
                 const amt = amount.toString();
+                console.log({ cid });
 
                 const res = await contract.safeMint(userWallet, cid, { value: amt });
 
@@ -122,6 +123,11 @@ export default function CreateNFT({ fileURI, url, prompt, type, name, descriptio
                     "&:hover": {
                         border: "1px solid #4E3562",
                     },
+                    "&.Mui-disabled": {
+                        color: "#FFFFFF",
+                        border: "1px solid #4E3562",
+                    },
+                    color: "#FFFFFF",
                 }}
                 fullWidth
                 startIcon={<CoinIcon />}
