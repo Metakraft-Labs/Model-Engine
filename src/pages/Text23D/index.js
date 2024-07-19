@@ -1,6 +1,6 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Box, Button, LinearProgress, MenuItem, Select, Typography } from "@mui/material";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaBars } from "react-icons/fa6";
 import { RiGalleryFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -23,31 +23,14 @@ export default function Text23D() {
     const [imageUrl, setImageUrl] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setModel] = useState(null);
-    const [objModel, setObjModel] = useState(null);
     const [byteRes, setByteRes] = useState(null);
     const [selectedTab, setSelectedTab] = useState("textured");
     const [mode, setMode] = useState("text");
     const [quality, setQuality] = useState("normal");
     const [modelId, setModelId] = useState(null);
 
-    const models = useMemo(() => {
-        if (model && objModel) {
-            return [
-                {
-                    name: "glb",
-                    link: model,
-                },
-                {
-                    name: "obj",
-                    link: objModel,
-                },
-            ];
-        }
-    }, [model, objModel]);
-
     const generateModel = async e => {
         setModel(null);
-        setObjModel(null);
         setImageUrl(null);
         setLoading(true);
         e.preventDefault();
@@ -65,7 +48,6 @@ export default function Text23D() {
             setByteRes(linkIPFS);
             setModelId(res?.id);
             setModel(res?.glbUrl);
-            setObjModel(res?.objUrl);
             setImageUrl(res?.image);
         }
         await updateUser();
@@ -125,7 +107,6 @@ export default function Text23D() {
                         selectedTab={selectedTab}
                         setSelectedTab={setSelectedTab}
                         model={model}
-                        models={models}
                         byteRes={byteRes}
                         prompt={prompt}
                         imageUrl={imageUrl}
@@ -273,7 +254,7 @@ export default function Text23D() {
                                 </Box>
                             </Box>
                         )}
-                        {model && <DisplayModel link={model} type={selectedTab} obj={objModel} />}
+                        {model && !loading && <DisplayModel link={model} type={selectedTab} />}
                     </Box>
                 </Box>
             </Box>

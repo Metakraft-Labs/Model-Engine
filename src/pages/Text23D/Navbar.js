@@ -44,7 +44,6 @@ export default function Navbar({
     selectedTab = "shaded",
     setSelectedTab,
     model,
-    models,
     byteRes,
     prompt,
     imageUrl,
@@ -133,15 +132,15 @@ export default function Navbar({
                                 color: "#FFFFFF",
                             },
                         }}
-                        disabled={!models?.length}
+                        disabled={!model}
                         onClick={e => setOpenDownloadMenu(e.currentTarget)}
                     >
                         <RiDownloadCloudLine />
                     </IconButton>
                     <DownloadDropdown
                         open={openDownloadMenu}
+                        model={model}
                         handleClose={() => setOpenDownloadMenu(null)}
-                        models={models}
                     />
                 </Box>
                 <Divider

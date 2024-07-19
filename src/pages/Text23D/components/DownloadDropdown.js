@@ -1,7 +1,11 @@
 import { Menu, MenuItem } from "@mui/material";
 import React from "react";
+import logo_model from "../../../assets/models/logo_model.glb";
+import useConvertModels from "../../../hooks/useConvertModels";
 
-export default function DownloadDropdown({ models, open, handleClose }) {
+export default function DownloadDropdown({ open, handleClose, model }) {
+    const convertModels = useConvertModels(model || logo_model);
+
     return (
         <Menu
             sx={{
@@ -17,16 +21,11 @@ export default function DownloadDropdown({ models, open, handleClose }) {
             open={Boolean(open)}
             onClose={handleClose}
         >
-            {models?.map((model, i) => {
-                return (
-                    <MenuItem
-                        key={`download-menu-${i}`}
-                        onClick={() => (window.location.href = model?.link)}
-                    >
-                        {model?.name}
-                    </MenuItem>
-                );
-            })}
+            <MenuItem onClick={() => (window.location.href = model)}>GLB</MenuItem>
+            <MenuItem onClick={() => convertModels.toOBJ()}>OBJ</MenuItem>
+            <MenuItem onClick={() => convertModels.toGLTF()}>GLTF</MenuItem>
+            <MenuItem onClick={() => convertModels.toPLY()}>PLY</MenuItem>
+            <MenuItem onClick={() => convertModels.toSTL()}>STL</MenuItem>
         </Menu>
     );
 }

@@ -12,7 +12,6 @@ export default function ModelViewer() {
     const [_, setImageUrl] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setModel] = useState(null);
-    const [objModel, setObjModel] = useState(null);
 
     const id = useMemo(() => {
         // get query string
@@ -24,13 +23,11 @@ export default function ModelViewer() {
 
     const fetchFile = useCallback(async () => {
         setModel(null);
-        setObjModel(null);
         setImageUrl(null);
         setLoading(true);
         if (id) {
             const res = await getModel({ id });
             setModel(res?.glbUrl);
-            setObjModel(res?.objUrl);
             setImageUrl(res?.image);
         }
         setLoading(false);
@@ -120,7 +117,7 @@ export default function ModelViewer() {
                                 </Box>
                             </Box>
                         )}
-                        {model && <DisplayModel link={model} type={"textured"} obj={objModel} />}
+                        {model && <DisplayModel link={model} type={"textured"} />}
                     </Box>
                 </Box>
             </Box>

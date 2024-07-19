@@ -70,6 +70,7 @@ export default function ShareDropdown({ open, handleClose, model, id }) {
                 onClick={() =>
                     window.open(
                         `https://twitter.com/intent/tweet?text=I've%20crafted%20an%20incredible%203D%20object%20using%20Metakraft%20AI.%20Click%20the%20link%20to%20behold%20this%20marvel%20or%20unleash%20your%20creativity%20and%20design%20your%20own!%20%40TheMetakraft%20%20Preview%20link%20of%20Metakraft%20Model%20here%3A%20${encodeURI(`${window.location.origin}/model-viewer?id=${id}`)}%20%23MetakraftAI%20%233DGenAI%20%233DCreation`,
+                        "__blank",
                     )
                 }
             >

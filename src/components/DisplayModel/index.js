@@ -1,23 +1,32 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas, useLoader } from "@react-three/fiber";
 import React, { useMemo } from "react";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { OBJExporter } from "three/addons/exporters/OBJExporter.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 
-export default function DisplayModel({ link, type = "shaded", obj = {}, material = "default" }) {
+export default function DisplayModel({ link, type = "shaded", material = "default" }) {
     let model;
     let modelGlb;
 
     let geometry;
 
     if (type !== "texture") {
-        model = useLoader(OBJLoader, obj);
         modelGlb = useLoader(GLTFLoader, link);
+
+        model = useMemo(() => {
+            const exporter = new OBJExporter();
+            const model = exporter.parse(modelGlb?.scene || modelGlb);
+            const objLoader = new OBJLoader();
+            const data = objLoader.parse(model);
+
+            return data;
+        }, []);
 
         geometry = useMemo(() => {
             let g;
-            model.traverse(c => {
+            model?.traverse(c => {
                 if (c.type === "Mesh") {
                     const _c = c;
                     g = _c.geometry;
