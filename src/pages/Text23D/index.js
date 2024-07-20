@@ -1,6 +1,15 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { Box, Button, LinearProgress, MenuItem, Select, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    IconButton,
+    LinearProgress,
+    MenuItem,
+    Select,
+    Typography,
+} from "@mui/material";
 import React, { useContext, useState } from "react";
+import { BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
 import { FaBars } from "react-icons/fa6";
 import { RiGalleryFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -28,6 +37,7 @@ export default function Text23D() {
     const [mode, setMode] = useState("text");
     const [quality, setQuality] = useState("normal");
     const [modelId, setModelId] = useState(null);
+    const [showInputBox, setShowInputBox] = useState(true);
 
     const generateModel = async e => {
         setModel(null);
@@ -130,12 +140,23 @@ export default function Text23D() {
                             backgroundImage: `url(${lightBulb})`,
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: "center",
+                            display: showInputBox ? "flex" : "none",
                         }}
                     >
                         <Box display={"flex"} flexDirection={"column"} gap={"20px"} flex={1}>
-                            <Typography fontWeight={500} fontSize={"18px"}>
-                                Generate 3D
-                            </Typography>
+                            <Box display={"flex"} gap={"10px"} alignItems={"center"}>
+                                {model && (
+                                    <IconButton
+                                        sx={{ color: "#FFFFFF", padding: 0 }}
+                                        onClick={() => setShowInputBox(false)}
+                                    >
+                                        <BsChevronDoubleLeft />
+                                    </IconButton>
+                                )}
+                                <Typography fontWeight={500} fontSize={"18px"}>
+                                    Generate 3D
+                                </Typography>
+                            </Box>
                             <Box
                                 display={"flex"}
                                 justifyContent={"space-around"}
@@ -215,6 +236,23 @@ export default function Text23D() {
                                 Generate
                             </Button>
                         </Box>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: showInputBox ? "none" : "block",
+                            background: "#b054f8",
+                            ml: -4,
+                            padding: "10px",
+                            mt: 20,
+                            zIndex: 99,
+                        }}
+                    >
+                        <IconButton
+                            sx={{ color: "#FFFFFF", padding: 0 }}
+                            onClick={() => setShowInputBox(true)}
+                        >
+                            <BsChevronDoubleRight />
+                        </IconButton>
                     </Box>
 
                     <Box height="100%">
