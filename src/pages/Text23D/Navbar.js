@@ -4,6 +4,7 @@ import {
     Badge,
     Box,
     Button,
+    CircularProgress,
     Divider,
     IconButton,
     Toolbar,
@@ -11,7 +12,7 @@ import {
     Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { useContext, useState } from "react";
+import React, { Suspense, useContext, useState } from "react";
 import { BiShareAlt } from "react-icons/bi";
 import { FaRegCircle } from "react-icons/fa";
 import { GiWireframeGlobe } from "react-icons/gi";
@@ -137,11 +138,13 @@ export default function Navbar({
                     >
                         <RiDownloadCloudLine />
                     </IconButton>
-                    <DownloadDropdown
-                        open={openDownloadMenu}
-                        model={model}
-                        handleClose={() => setOpenDownloadMenu(null)}
-                    />
+                    <Suspense fallback={<CircularProgress />}>
+                        <DownloadDropdown
+                            open={openDownloadMenu}
+                            model={model}
+                            handleClose={() => setOpenDownloadMenu(null)}
+                        />
+                    </Suspense>
                 </Box>
                 <Divider
                     orientation="vertical"
