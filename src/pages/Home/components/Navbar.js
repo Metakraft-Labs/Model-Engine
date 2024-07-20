@@ -2,9 +2,9 @@ import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from "@m
 import { makeStyles } from "@mui/styles";
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import spark from "../../assets/img/dashboard/spark.png";
-import AccountDropdown from "../../components/AccountDropdown";
-import UserStore from "../../contexts/UserStore";
+import spark from "../../../assets/img/dashboard/spark.png";
+import AccountDropdown from "../../../components/AccountDropdown";
+import UserStore from "../../../contexts/UserStore";
 
 const TABS = {
     "3d": "/text-2-3d",
