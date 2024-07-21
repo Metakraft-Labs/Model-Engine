@@ -3,7 +3,7 @@ import React from "react";
 import useConvertModels from "../../../hooks/useConvertModels";
 
 export default function DownloadDropdown({ open, handleClose, model }) {
-    const convertModels = useConvertModels(model || "./models/logo_model.glb");
+    const convertModels = useConvertModels(model || "/models/logo_model.glb");
 
     return (
         <Menu
