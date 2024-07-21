@@ -44,12 +44,17 @@ export default function Text23D() {
         setImageUrl(null);
         setLoading(true);
         e.preventDefault();
+        let resImage = "";
+
+        if (mode === "image" && quality === "normal") {
+            resImage = await upload(image, "images");
+        }
         let res;
 
-        if (mode === "image") {
+        if (quality === "advanced" && mode === "image") {
             res = await generate({ file: image, type: mode, quality });
         } else {
-            res = await generate({ prompt, quality, type: mode });
+            res = await generate({ prompt, quality, type: mode, image: resImage });
         }
 
         if (res?.glbUrl) {

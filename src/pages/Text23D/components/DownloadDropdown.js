@@ -1,10 +1,9 @@
 import { Menu, MenuItem } from "@mui/material";
 import React from "react";
-import logo_model from "../../../assets/models/logo_model.glb";
 import useConvertModels from "../../../hooks/useConvertModels";
 
 export default function DownloadDropdown({ open, handleClose, model }) {
-    const convertModels = useConvertModels(model || logo_model);
+    const convertModels = useConvertModels(model || "./models/logo_model.glb");
 
     return (
         <Menu
