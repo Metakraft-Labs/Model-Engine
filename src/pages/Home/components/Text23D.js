@@ -169,49 +169,6 @@ export default function Text23D({ selectedTab, setTab }) {
                                 orientation="vertical"
                                 flexItem
                                 sx={{
-                                    background: "#29FFFF",
-                                    width: "2px",
-                                    boxShadow: "0px 0px 1px 1px rgba(238, 41, 255, 0.3)",
-                                    borderRadius: "8px",
-                                }}
-                            />
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "left",
-                                    p: 1,
-                                }}
-                            >
-                                <Typography color="white" sx={{ fontSize: "13px" }}>
-                                    Get Inspired
-                                </Typography>
-                                <Typography color="#787878" sx={{ fontSize: "14px" }}>
-                                    See what others created
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Box>
-                    <Box
-                        sx={{
-                            backgroundColor: "#1e1f1f",
-                            display: "flex",
-                            flexDirection: "column",
-                            textTransform: "none",
-                            textAlign: "left",
-                            alignItems: "left",
-                            justifyContent: "left",
-                            border: 1,
-                            borderColor: "#373737",
-                            borderRadius: 2,
-                            p: 1,
-                        }}
-                    >
-                        <Box sx={{ display: "flex", flexDirection: "row" }}>
-                            <Divider
-                                orientation="vertical"
-                                flexItem
-                                sx={{
                                     background: "#ee29ff",
                                     width: "2px",
                                     boxShadow: "0px 0px 1px 1px rgba(238, 41, 255, 0.3)",
@@ -230,7 +187,7 @@ export default function Text23D({ selectedTab, setTab }) {
                                     Export in obj, glb and other formats
                                 </Typography>
                                 <Typography color="#787878" sx={{ fontSize: "14px" }}>
-                                    2 $KRAFT
+                                    Free
                                 </Typography>
                             </Box>
                         </Box>
