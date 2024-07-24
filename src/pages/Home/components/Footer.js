@@ -59,7 +59,7 @@ export default function Footer() {
                             alt="zap"
                         />
                         <Typography sx={{ textAlign: "left", ml: 0.5, fontSize: "18px" }}>
-                            Text/Sketch to 3D
+                            Text/Image to 3D
                         </Typography>
                     </Box>
                     <Box

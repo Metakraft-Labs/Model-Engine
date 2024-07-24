@@ -48,10 +48,10 @@ export default function Text23D({ selectedTab, setTab }) {
                 <Box>
                     <img style={{ width: "24px", height: "26px" }} src={zap} alt="zap" />
                     <Typography sx={{ fontSize: "18px", mt: 0.8, mb: 0.5 }}>
-                        Text/Sketch to 3D
+                        Text/Image to 3D
                     </Typography>
                     <Typography color="#9f9f9f" sx={{ fontSize: "16px", pr: 2, mb: 0.8 }}>
-                        Start with a Prompt or Sketch to Generate a 3D Model
+                        Start with a Prompt or Image to Generate a 3D Model
                     </Typography>
                 </Box>
                 <Box
