@@ -1,3 +1,4 @@
+import { Delete } from "@mui/icons-material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import {
     Avatar,
@@ -6,18 +7,29 @@ import {
     Divider,
     IconButton,
     LinearProgress,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    TextField,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { useContext } from "react";
+import moment from "moment";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { create, deleteKey, list } from "../../apis/api-keys";
 import bar2 from "../../assets/img/account/bar2.png";
 import bg_grad from "../../assets/img/account/bg_grad.png";
 import faq from "../../assets/img/account/faq.png";
 import red_cross from "../../assets/img/account/red_cross.png";
+import Modal from "../../components/Modal";
 import UserStore from "../../contexts/UserStore";
 import { CoinIcon } from "../../icons/CoinIcon";
 import Title from "../../shared/Title";
+import { copyToClipboard } from "../../shared/strings";
 
 const useStyles = makeStyles({
     root: {
@@ -35,6 +47,49 @@ export default function Account() {
     const { user } = useContext(UserStore);
 
     const classes = useStyles({ progress: ((user?.tokens || 0) * 100) / 40 });
+
+    const [showApiModal, setShowApiModal] = useState(false);
+    const [project, setProject] = useState("");
+    const [apiKeys, setApiKeys] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [keyCopied, setKeyCopied] = useState(false);
+
+    const getApiKeys = useCallback(async () => {
+        const res = await list();
+
+        setApiKeys(res || []);
+    }, []);
+
+    useEffect(() => {
+        getApiKeys();
+    }, [getApiKeys]);
+
+    const createToken = async e => {
+        e.preventDefault();
+        setLoading(true);
+
+        const api = await create(project);
+
+        if (api) {
+            await getApiKeys();
+        }
+        setShowApiModal(false);
+        setLoading(false);
+    };
+
+    const copyKey = key => {
+        copyToClipboard(`Bearer ${key}`);
+        setKeyCopied(true);
+
+        setTimeout(() => {
+            setKeyCopied(false);
+        }, 3000);
+    };
+
+    const deleteApp = async id => {
+        await deleteKey(id);
+        await getApiKeys();
+    };
 
     return (
         <>
@@ -474,7 +529,11 @@ export default function Account() {
                         <Typography variant="body2" color="#7E8584">
                             Upgrade your subscription plan to request APl access.
                         </Typography>
-                        <Box>
+                        <Box
+                            display={"flex"}
+                            justifyContent={"space-between"}
+                            alignItems={"center"}
+                        >
                             <Button
                                 sx={{
                                     border: 1,
@@ -497,36 +556,86 @@ export default function Account() {
                                     API Reference
                                 </Typography>
                             </Button>
+                            <Button
+                                sx={{
+                                    border: 1,
+                                    mt: 2,
+                                    gap: 1.2,
+                                    px: 1,
+                                    py: 1,
+                                    backgroundColor: "#E18BFF",
+                                    "&:hover": {
+                                        backgroundColor: "#4E3562",
+                                    },
+                                    color: "#FFFFFF",
+                                }}
+                                onClick={() => setShowApiModal(true)}
+                            >
+                                <Typography variant="caption" color="#FFFFFF">
+                                    Create an API Token
+                                </Typography>
+                            </Button>
                         </Box>
-                        <Box
+                        <Table
                             sx={{
-                                width: "98%",
-                                height: "7%",
                                 backgroundColor: "#111111",
                                 borderRadius: 2,
                                 border: "1px solid #353535",
                                 mt: 2,
-                                py: 1,
-                                display: "flex",
-                                flexDirection: "row",
-                                flexWrap: "wrap",
-                                alignItems: "center",
-                                justifyContent: "space-around",
                             }}
                         >
-                            <Typography variant="body2" color="#7E8584">
-                                Name
-                            </Typography>
-                            <Typography variant="body2" color="#7E8584">
-                                Key
-                            </Typography>
-                            <Typography variant="body2" color="#7E8584">
-                                Last Used
-                            </Typography>
-                            <Typography variant="body2" color="#7E8584">
-                                Created
-                            </Typography>
-                        </Box>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell sx={{ color: "#FFFFFF" }}>Name</TableCell>
+                                    <TableCell sx={{ color: "#FFFFFF" }}>Key</TableCell>
+                                    <TableCell sx={{ color: "#FFFFFF" }}>Created At</TableCell>
+                                    <TableCell sx={{ color: "#FFFFFF" }}></TableCell>
+                                </TableRow>
+                            </TableHead>
+
+                            <TableBody>
+                                {apiKeys?.map((key, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell sx={{ color: "#FFFFFF" }}>
+                                            {key.app_name}
+                                            {key.expired ? "[EXPIRED]" : ""}
+                                        </TableCell>
+                                        <TableCell sx={{ color: "#FFFFFF" }}>
+                                            <Tooltip
+                                                title={
+                                                    keyCopied ? "Copied!" : "Click to copy the key"
+                                                }
+                                                placement={"top"}
+                                                sx={{ cursor: "pointer" }}
+                                                onClick={() => copyKey(key.token)}
+                                            >
+                                                <span
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={() => copyKey(key.token)}
+                                                >
+                                                    ******
+                                                </span>
+                                            </Tooltip>
+                                        </TableCell>
+                                        <TableCell sx={{ color: "#FFFFFF" }}>
+                                            {moment(key.created_at).format("ll")}
+                                        </TableCell>
+                                        <TableCell sx={{ color: "#FFFFFF" }}>
+                                            {key?.expired ? (
+                                                ""
+                                            ) : (
+                                                <IconButton
+                                                    sx={{ color: "red" }}
+                                                    onClick={() => deleteApp(key.id)}
+                                                >
+                                                    <Delete />
+                                                </IconButton>
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                         {/* <Typography variant="h6" color="#D0D3D0" marginTop="30px">
                             Usage
                         </Typography>
@@ -689,6 +798,35 @@ export default function Account() {
                         </Box> */}
                     </Box>
                 </Box>
+                <Modal
+                    heading={"Create an API token"}
+                    open={showApiModal}
+                    onClose={() => setShowApiModal(false)}
+                >
+                    <TextField
+                        value={project}
+                        onChange={e => setProject(e.target.value)}
+                        fullWidth
+                        placeholder="Enter app name"
+                        sx={{
+                            "& [placeholder]": {
+                                color: "#FFFFFF",
+                            },
+                            color: "#FFFFFF",
+                            border: "1px solid white",
+                        }}
+                    />
+
+                    <Button
+                        mt={2}
+                        color={"secondary"}
+                        variant={"contained"}
+                        onClick={createToken}
+                        disabled={loading || !project}
+                    >
+                        {loading ? "Creating..." : "Create"}
+                    </Button>
+                </Modal>
             </Box>
         </>
     );

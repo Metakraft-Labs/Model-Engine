@@ -423,7 +423,6 @@ export default function Text2Texture() {
                                             backgroundColor: "#4E3562",
                                         },
                                     }}
-                                    //onClick={() => (window.location.href = model)}
                                     onClick={handleDownload}
                                 >
                                     <FileDownloadIcon
