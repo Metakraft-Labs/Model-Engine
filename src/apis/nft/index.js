@@ -9,7 +9,7 @@ export const mint = async ({ prompt, url, transactionHash, chainId, type, name, 
     return res?.data;
 };
 
-export const list = async ({ type, page = 1, limit = 10 }) => {
+export const list = async ({ type = "", page = 1, limit = 10 }) => {
     const res = await auth({
         method: "GET",
         url: `/mint-Nft?type=${type}&page=${page}&limit=${limit}`,

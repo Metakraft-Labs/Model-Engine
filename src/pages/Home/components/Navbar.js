@@ -38,12 +38,13 @@ export default function Navbar({ selectedTab }) {
                 </Box>
                 <Box className={classes.navLinks} sx={{ pl: 5 }}>
                     <Typography color="#f4f5f5" sx={{ fontSize: "16px" }}>
-                        <Link style={{ textDecoration: "none", color: "white" }} to="/user/nfts">
-                            My Project
+                        <Link
+                            style={{ textDecoration: "none", color: "white" }}
+                            to="/user/projects"
+                        >
+                            My Projects
                         </Link>
                     </Typography>
-                    <Typography sx={{ fontSize: "16px" }}>Trash</Typography>
-                    <Typography sx={{ fontSize: "16px" }}>Analytics</Typography>
                 </Box>
                 <Box>
                     <Button

@@ -8,7 +8,7 @@ import Text23D from "../pages/Text23D";
 import Text2Motion from "../pages/Text2Motion";
 import Text2Scene from "../pages/Text2Scene";
 import Text2Texture from "../pages/Text2Texture";
-import UserNfts from "../pages/User/Nfts";
+import UserProjects from "../pages/User/Projects";
 
 export const Links = [
     {
@@ -60,9 +60,9 @@ export const Links = [
         showInNavigation: false,
     },
     {
-        name: "Your NFTs",
-        path: "/user/nfts",
-        element: <UserNfts />,
+        name: "My Projects",
+        path: "/user/projects",
+        element: <UserProjects />,
         showInNavigation: true,
     },
     {

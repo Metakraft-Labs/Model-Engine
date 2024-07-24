@@ -31,10 +31,13 @@ export default function StyledModal({ open, onClose, heading, subHeading, childr
                     alignItems={"center"}
                     justifyContent={"space-between"}
                     width={"100%"}
+                    zIndex={99}
                 >
                     <div></div>
-                    <Typography variant="h4">{heading}</Typography>
-                    <IconButton onClick={onClose}>
+                    <Typography variant="h4" color={"inherit"} sx={{ filter: "invert(100%)" }}>
+                        {heading}
+                    </Typography>
+                    <IconButton onClick={onClose} color={"inherit"} sx={{ filter: "invert(100%)" }}>
                         <CloseOutlined />
                     </IconButton>
                 </Box>

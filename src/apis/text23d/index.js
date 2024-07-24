@@ -1,4 +1,5 @@
 import { auth, noAuth } from "../";
+import { convertToQueryParam } from "../../shared/objects";
 
 export const generate = async ({ prompt, image, type, quality, file = null }) => {
     let res;
@@ -34,4 +35,12 @@ export const getModel = async ({ id }) => {
         url: `/3d-model-gen/${id}`,
     });
     return res?.data;
+};
+
+export const list = async ({ filters = {}, page = 1, limit = 10 }) => {
+    const res = await auth({
+        method: "GET",
+        url: `/3d-model-gen?page=${page}&limit=${limit}&${convertToQueryParam(filters, "filters")}`,
+    });
+    return { data: res?.data, pagination: res?.pagination };
 };
