@@ -4,7 +4,6 @@ import {
     Badge,
     Box,
     Button,
-    CircularProgress,
     Divider,
     IconButton,
     Toolbar,
@@ -138,7 +137,7 @@ export default function Navbar({
                     >
                         <RiDownloadCloudLine />
                     </IconButton>
-                    <Suspense fallback={<CircularProgress />}>
+                    <Suspense fallback={<></>}>
                         <DownloadDropdown
                             open={openDownloadMenu}
                             model={model}
