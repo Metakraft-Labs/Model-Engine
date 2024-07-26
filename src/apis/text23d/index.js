@@ -44,3 +44,43 @@ export const list = async ({ filters = {}, page = 1, limit = 10 }) => {
     });
     return { data: res?.data, pagination: res?.pagination };
 };
+
+export const refine = async id => {
+    const res = await auth({
+        method: "GET",
+        url: `/3d-model-gen/refine?id=${id}`,
+    });
+    return res?.data;
+};
+
+export const stylize = async (id, style) => {
+    const res = await auth({
+        method: "GET",
+        url: `/3d-model-gen/stylize?id=${id}&style=${style}`,
+    });
+    return res?.data;
+};
+
+export const preRig = async id => {
+    const res = await auth({
+        method: "GET",
+        url: `/3d-model-gen/pre-rig?id=${id}`,
+    });
+    return res?.data;
+};
+
+export const rig = async id => {
+    const res = await auth({
+        method: "GET",
+        url: `/3d-model-gen/rig?id=${id}`,
+    });
+    return res?.data;
+};
+
+export const animate = async (id, animation) => {
+    const res = await auth({
+        method: "GET",
+        url: `/3d-model-gen/animate?id=${id}&animation=${animation}`,
+    });
+    return res?.data;
+};

@@ -1,30 +1,19 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import {
-    Box,
-    Button,
-    IconButton,
-    LinearProgress,
-    MenuItem,
-    Select,
-    Typography,
-} from "@mui/material";
+import { Box, LinearProgress, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
-import { FaBars } from "react-icons/fa6";
-import { RiGalleryFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { generate } from "../../apis/text23d";
+import { toast } from "react-toastify";
+import { animate, generate, preRig, refine, rig, stylize } from "../../apis/text23d";
 import { upload } from "../../apis/upload";
 import bg from "../../assets/img/text-2-3d/bg.svg";
-import lightBulb from "../../assets/img/text-2-3d/light-bulb.png";
 import DisplayModel from "../../components/DisplayModel";
 import UploadToIpfs from "../../components/UploadToIPFS/index";
 import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
-import Navbar from "./Navbar";
-import ImageContent from "./components/ImageContent";
-import TextContent from "./components/TextContent";
+import Leftbar from "./components/Leftbar";
+import Navbar from "./components/Navbar";
+import Rightbar from "./components/Rightbar";
 
 export default function Text23D() {
     const { updateUser } = useContext(UserStore);
@@ -33,12 +22,17 @@ export default function Text23D() {
     const [imageUrl, setImageUrl] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setModel] = useState(null);
+    const [refinedModel, setRefinedModel] = useState(null);
+    const [stylizedModel, setStylizedModel] = useState(null);
+    const [riggedModel, setRiggedModel] = useState(null);
+    const [animatedModel, setAnimatedModel] = useState(null);
     const [byteRes, setByteRes] = useState(null);
     const [selectedTab, setSelectedTab] = useState("textured");
     const [mode, setMode] = useState("text");
     const [quality, setQuality] = useState("normal");
     const [modelId, setModelId] = useState(null);
-    const [showInputBox, setShowInputBox] = useState(true);
+    const [showModel, setShowModel] = useState("draft");
+    const [selectedStyle, setSelectedStyle] = useState("");
 
     const generateModel = async e => {
         setModel(null);
@@ -59,12 +53,101 @@ export default function Text23D() {
         }
 
         if (res?.glbUrl) {
+            setShowModel("draft");
             const byteRes = await urlToFile(res?.glbUrl);
             const linkIPFS = await UploadToIpfs(byteRes.file, "Text23D");
             setByteRes(linkIPFS);
             setModelId(res?.id);
             setModel(res?.glbUrl);
             setImageUrl(res?.image);
+        }
+        await updateUser();
+
+        setLoading(false);
+    };
+
+    const refineModel = async e => {
+        setLoading(true);
+        e.preventDefault();
+        if (quality === "normal" || !modelId) {
+            toast.error("This model cannot be refined");
+            setLoading(false);
+            return;
+        }
+
+        const res = await refine(modelId);
+
+        if (res) {
+            setShowModel("refined");
+            setRefinedModel(res);
+        }
+        await updateUser();
+
+        setLoading(false);
+    };
+
+    const stylizeModel = async (e, style) => {
+        setLoading(true);
+        e.preventDefault();
+        if (quality === "normal" || !modelId) {
+            toast.error("This model cannot be stylize");
+            setLoading(false);
+            return;
+        }
+
+        const res = await stylize(modelId, style);
+
+        if (res) {
+            setSelectedStyle(style);
+            setShowModel("stylized");
+            setStylizedModel(res);
+        }
+        await updateUser();
+
+        setLoading(false);
+    };
+
+    const rigModel = async e => {
+        setLoading(true);
+        e.preventDefault();
+        if (quality === "normal" || !modelId) {
+            toast.error("This model cannot be rigged");
+            setLoading(false);
+            return;
+        }
+
+        const res = await preRig(modelId);
+
+        if (res) {
+            const model = await rig(modelId);
+            if (model) {
+                setShowModel("rigged");
+                setRiggedModel(model);
+            }
+        } else {
+            toast.error("This model cannot be rigged");
+            setLoading(false);
+            return;
+        }
+        await updateUser();
+
+        setLoading(false);
+    };
+
+    const animateModel = async (e, animation) => {
+        setLoading(true);
+        e.preventDefault();
+        if (quality === "normal" || !modelId) {
+            toast.error("This model cannot be animated");
+            setLoading(false);
+            return;
+        }
+
+        const res = await animate(modelId, animation);
+
+        if (res) {
+            setShowModel("animated");
+            setAnimatedModel(res);
         }
         await updateUser();
 
@@ -131,142 +214,24 @@ export default function Text23D() {
                     />
                 </Box>
                 <Box display={"flex"} alignItems={"center"}>
-                    <Box
-                        height="545px"
-                        display={"flex"}
-                        flexDirection={"column"}
-                        border="1px solid #E18BFF"
-                        width={"374px"}
-                        borderRadius={"23px"}
-                        padding={"23px 17px 23px 30px"}
-                        sx={{
-                            zIndex: 99,
-                            boxShadow: "0px 0px 0px 3px #000000",
-                            backgroundColor: "#000000",
-                            backgroundImage: `url(${lightBulb})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            display: showInputBox ? "flex" : "none",
-                        }}
-                    >
-                        <Box display={"flex"} flexDirection={"column"} gap={"20px"} flex={1}>
-                            <Box display={"flex"} gap={"10px"} alignItems={"center"}>
-                                {model && (
-                                    <IconButton
-                                        sx={{ color: "#FFFFFF", padding: 0 }}
-                                        onClick={() => setShowInputBox(false)}
-                                    >
-                                        <BsChevronDoubleLeft />
-                                    </IconButton>
-                                )}
-                                <Typography fontWeight={500} fontSize={"18px"}>
-                                    Generate 3D
-                                </Typography>
-                            </Box>
-                            <Box
-                                display={"flex"}
-                                justifyContent={"space-around"}
-                                alignItems={"center"}
-                            >
-                                <Box
-                                    display="flex"
-                                    gap="3px"
-                                    alignItems="center"
-                                    onClick={() => setMode("image")}
-                                    sx={{ cursor: "pointer" }}
-                                    color={mode === "image" ? "#FFFFFF" : "#B6B6B6"}
-                                >
-                                    <RiGalleryFill />
-                                    <Typography>Image to 3D</Typography>
-                                </Box>
-                                <Box
-                                    display="flex"
-                                    gap="3px"
-                                    alignItems="center"
-                                    onClick={() => setMode("text")}
-                                    sx={{ cursor: "pointer" }}
-                                    color={mode === "text" ? "#FFFFFF" : "#B6B6B6"}
-                                >
-                                    <FaBars />
-                                    <Typography>Text to 3D</Typography>
-                                </Box>
-                            </Box>
-
-                            {mode === "text" ? (
-                                <TextContent prompt={prompt} setPrompt={setPrompt} />
-                            ) : (
-                                <ImageContent image={image} setImage={setImage} loading={loading} />
-                            )}
-                        </Box>
-                        <Box
-                            display={"flex"}
-                            justifyContent={"space-between"}
-                            gap={"10px"}
-                            alignItems={"center"}
-                        >
-                            <Select
-                                value={quality}
-                                onChange={e => setQuality(e.target.value)}
-                                sx={{
-                                    border: "1px solid #B158F6",
-                                    color: "#FFFFFF",
-                                }}
-                                size="small"
-                            >
-                                <MenuItem value={"normal"}>
-                                    Quality - Normal | {mode === "text" ? "1" : "5"} credit
-                                </MenuItem>
-                                <MenuItem value={"advanced"}>
-                                    Quality - Advanced | {mode === "text" ? "20" : "50"} credit
-                                </MenuItem>
-                            </Select>
-                            <Button
-                                sx={{
-                                    backgroundColor: "#B054F8",
-                                    color: "white",
-                                    borderRadius: "12px",
-                                    padding: theme => theme.spacing(1.5, 3),
-                                    textTransform: "none",
-                                    "&:hover": {
-                                        backgroundColor: "#B054F8",
-                                        boxShadow: " 0px 0px 0px 3px rgba(81, 19, 103, 1)",
-                                    },
-                                }}
-                                onClick={e => generateModel(e)}
-                                disabled={
-                                    (mode === "image" && !image) ||
-                                    (mode === "text" && !prompt) ||
-                                    loading
-                                }
-                            >
-                                Generate
-                            </Button>
-                        </Box>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: showInputBox ? "none" : "block",
-                            background: "#b054f8",
-                            ml: -4,
-                            padding: "10px",
-                            mt: 20,
-                            zIndex: 99,
-                        }}
-                    >
-                        <IconButton
-                            sx={{ color: "#FFFFFF", padding: 0 }}
-                            onClick={() => setShowInputBox(true)}
-                        >
-                            <BsChevronDoubleRight />
-                        </IconButton>
-                    </Box>
-
-                    <Box height="100%">
+                    <Leftbar
+                        model={model}
+                        mode={mode}
+                        quality={quality}
+                        setMode={setMode}
+                        setQuality={setQuality}
+                        prompt={prompt}
+                        setPrompt={setPrompt}
+                        image={image}
+                        setImage={setImage}
+                        loading={loading}
+                        generateModel={generateModel}
+                    />
+                    <Box height="100%" flex={1}>
                         {loading && (
                             <Box
                                 height={"100%"}
                                 width={"100%"}
-                                ml={"15%"}
                                 display={"flex"}
                                 justifyContent={"center"}
                                 alignItems={"center"}
@@ -298,8 +263,37 @@ export default function Text23D() {
                                 </Box>
                             </Box>
                         )}
-                        {model && !loading && <DisplayModel link={model} type={selectedTab} />}
+                        {model && !loading && (
+                            <DisplayModel
+                                link={
+                                    showModel === "draft"
+                                        ? model
+                                        : showModel === "refined" && refinedModel
+                                          ? refinedModel
+                                          : showModel === "stylized" && stylizedModel
+                                            ? stylizedModel
+                                            : showModel === "rigged" && riggedModel
+                                              ? riggedModel
+                                              : showModel === "animated" && animatedModel
+                                                ? riggedModel
+                                                : model
+                                }
+                                type={selectedTab}
+                                style={selectedStyle}
+                            />
+                        )}
                     </Box>
+                    {model && quality === "advanced" && (
+                        <Rightbar
+                            refinedModel={refinedModel}
+                            riggedModel={riggedModel}
+                            loading={loading}
+                            rigModel={rigModel}
+                            refineModel={refineModel}
+                            stylizeModel={stylizeModel}
+                            animateModel={animateModel}
+                        />
+                    )}
                 </Box>
             </Box>
         </>

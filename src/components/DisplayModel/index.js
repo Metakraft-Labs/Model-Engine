@@ -2,18 +2,27 @@ import { OrbitControls } from "@react-three/drei";
 import { Canvas, useLoader } from "@react-three/fiber";
 import React, { useMemo } from "react";
 import { OBJExporter } from "three/addons/exporters/OBJExporter.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 
-export default function DisplayModel({ link, type = "shaded", material = "default" }) {
+export default function DisplayModel({ link, type = "shaded", material = "default", style = "" }) {
     let model;
     let modelGlb;
 
     let geometry;
 
     if (type !== "texture") {
-        modelGlb = useLoader(GLTFLoader, link);
+        modelGlb = useLoader(GLTFLoader, link, loader => {
+            if (style === "voronoi") {
+                const dracoLoader = new DRACOLoader();
+                dracoLoader.setDecoderPath(
+                    "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/jsm/libs/draco/gltf/",
+                );
+                loader.setDRACOLoader(dracoLoader);
+            }
+        });
 
         model = useMemo(() => {
             const exporter = new OBJExporter();

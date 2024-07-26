@@ -17,13 +17,13 @@ import { FaRegCircle } from "react-icons/fa";
 import { GiWireframeGlobe } from "react-icons/gi";
 import { MdOutlineSportsBasketball } from "react-icons/md";
 import { RiDownloadCloudLine, RiGalleryFill } from "react-icons/ri";
-import AccountDropdown from "../../components/AccountDropdown";
-import UserStore from "../../contexts/UserStore";
-import { CoinIcon } from "../../icons/CoinIcon";
-import DownloadDropdown from "./components/DownloadDropdown";
-import MintDropdown from "./components/MintDropdown";
-import ShareDropdown from "./components/ShareDropdown";
-import TokenDropdown from "./components/TokenDropdown";
+import AccountDropdown from "../../../components/AccountDropdown";
+import UserStore from "../../../contexts/UserStore";
+import { CoinIcon } from "../../../icons/CoinIcon";
+import DownloadDropdown from "./DownloadDropdown";
+import MintDropdown from "./MintDropdown";
+import ShareDropdown from "./ShareDropdown";
+import TokenDropdown from "./TokenDropdown";
 
 const TABS = [
     {
