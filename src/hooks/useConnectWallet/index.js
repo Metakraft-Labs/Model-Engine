@@ -86,7 +86,7 @@ export default function useConnectWallet({
 
                 const fixedBalancec = fixedBalance(balance);
 
-                if (fixedBalancec <= 0.05) {
+                if (fixedBalancec <= 0.001) {
                     toast.info("Please sign the transaction for gas refill");
                     await distributeGas({
                         provider,
