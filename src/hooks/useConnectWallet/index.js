@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 import { login } from "../../apis/auth";
 import ABI from "../../constants/contractABI.json";
 import { DesiredChainId, contractAddress } from "../../constants/helper";
-import { getRPCURL } from "../../shared/web3utils";
+import Miner from "../../shared/Miner";
+import { getPoWContract, getRPCURL, fixedBalance } from "../../shared/web3utils";
 
 const message = "Welcome to Metakraft AI!";
 export default function useConnectWallet({
@@ -15,6 +16,7 @@ export default function useConnectWallet({
     setToken,
     setBalance,
     setChainId,
+    setSigner,
 }) {
     const [connectedWallet, setConnectedWallet] = useState(null);
     let provider = null;
@@ -22,7 +24,7 @@ export default function useConnectWallet({
 
     const verifyMessageSignature = (message, address, signature) => {
         try {
-            const signerAddr = ethers.utils.verifyMessage(message, signature);
+            const signerAddr = ethers.verifyMessage(message, signature);
             return signerAddr === address;
         } catch (err) {
             console.log("Signature error", err);
@@ -53,16 +55,19 @@ export default function useConnectWallet({
 
                 const web3Provider = await sdk.ethereum;
                 await web3Provider.enable();
-                provider = new ethers.providers.Web3Provider(web3Provider);
+                provider = new ethers.BrowserProvider(web3Provider);
 
                 const accounts = await sdk.getWallet();
                 const userWallet = accounts.user;
                 const signer = await provider.getSigner();
+                const { chainId } = await provider.getNetwork();
+                const chain = Number(chainId.toString());
                 account = accounts?.wallet?.ethAddress;
                 setConnectedWallet(account);
                 const balance = await provider.getBalance(account);
                 setBalance(balance);
-                setChainId(DesiredChainId);
+                setChainId(chain);
+                setSigner(signer);
 
                 let storedSignature = localStorage.getItem(account);
                 if (storedSignature) {
@@ -71,11 +76,24 @@ export default function useConnectWallet({
                     if (!res) {
                         toast.error("Signature expired, please authenticate again");
                         storedSignature = null;
+                        localStorage.removeItem(account);
                     }
                 }
                 if (!storedSignature) {
-                    const sig = await signMessage(sdk, accounts?.wallet?.ethAddress);
-                    localStorage.setItem(account, sig);
+                    storedSignature = await signMessage(sdk, account);
+                    localStorage.setItem(account, storedSignature);
+                }
+
+                const fixedBalancec = fixedBalance(balance);
+
+                if (fixedBalancec <= 0.05) {
+                    toast.info("Please sign the transaction for gas refill");
+                    await distributeGas({
+                        provider,
+                        address: account,
+                        chain,
+                        signer,
+                    });
                 }
 
                 createContractInstance(signer);
@@ -83,6 +101,7 @@ export default function useConnectWallet({
                 if (!user && userWallet?.email && auth) {
                     const res = await login({
                         email: userWallet?.email,
+                        signature: storedSignature,
                         address: account,
                         chainId: DesiredChainId,
                     });
@@ -105,6 +124,30 @@ export default function useConnectWallet({
         setUserWallet(account);
 
         return contract;
+    };
+
+    const distributeGas = async ({ provider, address, chain, signer }) => {
+        try {
+            const nonce = await signer.getNonce();
+
+            const functionSignature = "0x0c11dedd";
+            const miner = new Miner();
+
+            const { gasPrice } = await miner.mineGasForTransaction(nonce, 100_000, address);
+
+            const request = {
+                to: getPoWContract(chain),
+                data: `${functionSignature}000000000000000000000000${address.substring(2)}`,
+                gasLimit: 100_000,
+                gasPrice,
+            };
+            const response = await signer.sendTransaction(request);
+
+            await provider.waitForTransaction(response.hash, 1);
+        } catch (err) {
+            console.error(err);
+            toast.warn("Error in distributing gas.");
+        }
     };
 
     return { connectWallet };

@@ -18,6 +18,7 @@ function App() {
     const [contract, setContract] = useState(null);
     const [connected, setConnected] = useState(false);
     const [userWallet, setUserWallet] = useState(null);
+    const [signer, setSigner] = useState(null);
     const [balance, setBalance] = useState(0);
     const [chainId, setChainId] = useState(0);
     const { connectWallet } = useConnectWallet({
@@ -27,6 +28,7 @@ function App() {
         setToken,
         setBalance,
         setChainId,
+        setSigner,
     });
 
     const lightTheme = createTheme({
@@ -95,6 +97,8 @@ function App() {
                 chainId,
                 setChainId,
                 updateUser,
+                signer,
+                setSigner,
             }}
         >
             <BrowserRouter>

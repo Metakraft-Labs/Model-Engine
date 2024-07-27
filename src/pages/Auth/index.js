@@ -8,7 +8,7 @@ import Title from "../../shared/Title";
 import { AvatarImage, Background, CustomButton, FormContainer } from "./styles";
 
 export default function Auth() {
-    const { setContract, setUserWallet, user, setToken, setBalance, setChainId } =
+    const { setContract, setUserWallet, user, setToken, setBalance, setChainId, setSigner } =
         useContext(UserStore);
     const location = useLocation();
     const navigate = useNavigate();
@@ -20,6 +20,7 @@ export default function Auth() {
         setToken,
         setBalance,
         setChainId,
+        setSigner,
     });
     const [loginLoading, setLoginLoading] = React.useState(false);
 

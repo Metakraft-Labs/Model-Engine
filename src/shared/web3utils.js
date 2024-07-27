@@ -64,9 +64,20 @@ export const getTokenSymbol = chainId => {
     }
 };
 
+export const getPoWContract = chainId => {
+    switch (chainId) {
+        case 1020352220:
+            return "0x08f98Af60eb83C18184231591A8F89577E46A4B9";
+        case 1350216234:
+            return "0xa5C297dF8f8386E4b940D61EF9A8f2bB367a6fAB";
+        default:
+            return "0x08f98Af60eb83C18184231591A8F89577E46A4B9";
+    }
+};
+
 export const fixedBalance = (value, decimals = 18, decimalPlaces = 4) => {
     return Number(
-        Math.round(parseFloat(ethers.utils.formatUnits(value, decimals) + "e" + decimalPlaces)) +
+        Math.round(parseFloat(ethers.formatUnits(value, decimals) + "e" + decimalPlaces)) +
             "e-" +
             decimalPlaces,
     );

@@ -11,17 +11,17 @@ export default function CreateNFT({ fileURI, url, prompt, type, name, descriptio
     const [cid, setCID] = useState(null);
     const [mintLoading, setMintLoading] = useState(false);
     const [contractRes, setContractRes] = useState(null);
-    const { contract, userWallet } = useContext(UserStore);
+    const { contract, userWallet, signer } = useContext(UserStore);
 
     const fetchData = async cid => {
         try {
             if (contract && userWallet) {
-                const amount = ethers.utils.parseUnits("1.0", 9);
+                const amount = ethers.parseUnits("1.0", 9);
 
                 const amt = amount.toString();
-                console.log({ cid });
+                const nonce = await signer.getNonce();
 
-                const res = await contract.safeMint(userWallet, cid, { value: amt });
+                const res = await contract.safeMint(userWallet, cid, { value: amt, nonce });
 
                 if (res) {
                     await mint({
