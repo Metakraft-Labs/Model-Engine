@@ -5,13 +5,14 @@ export const login = async data => {
     return res?.data;
 };
 
-export const register = async data => {
-    const res = await noAuth({ method: "POST", url: "/auth/register", data });
+export const status = async () => {
+    const res = await auth({ method: "GET", url: "/auth/status" });
+
     return res?.data;
 };
 
-export const status = async () => {
-    const res = await auth({ method: "GET", url: "/auth/status" });
+export const getProviderByEmail = async email => {
+    const res = await auth({ method: "GET", url: `/auth/get-provider-by-email?email=${email}` });
 
     return res?.data;
 };

@@ -1,10 +1,12 @@
 import { Box, Link, TextField, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getProviderByEmail } from "../../apis/auth";
 import metakraft from "../../assets/img/login/metakraft.png";
 import UserStore from "../../contexts/UserStore";
 import useConnectWallet from "../../hooks/useConnectWallet";
 import Title from "../../shared/Title";
+import ProviderModal from "./ProviderModal";
 import { AvatarImage, Background, CustomButton, FormContainer } from "./styles";
 
 export default function Auth() {
@@ -13,6 +15,7 @@ export default function Auth() {
     const location = useLocation();
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
+    const [showProviderModal, setShowProviderModal] = useState(false);
     const { connectWallet } = useConnectWallet({
         setContract,
         setUserWallet,
@@ -24,10 +27,21 @@ export default function Auth() {
     });
     const [loginLoading, setLoginLoading] = React.useState(false);
 
-    const loginModal = async () => {
+    const getProvider = async () => {
         setLoginLoading(true);
 
-        await connectWallet({ emailAddress: email });
+        const provider = await getProviderByEmail(email);
+
+        if (provider) {
+            await loginModal(provider);
+        } else {
+            setShowProviderModal(true);
+        }
+    };
+
+    const loginModal = async provider => {
+        setShowProviderModal(false);
+        await connectWallet({ emailAddress: email, walletProvider: provider });
 
         setLoginLoading(false);
 
@@ -96,7 +110,7 @@ export default function Auth() {
                             fullWidth
                             variant="contained"
                             color="primary"
-                            onClick={loginModal}
+                            onClick={getProvider}
                             disabled={loginLoading}
                         >
                             Continue
@@ -115,6 +129,7 @@ export default function Auth() {
                         </Typography>
                     </FormContainer>
                 </Box>
+                {showProviderModal && <ProviderModal login={loginModal} />}
             </Background>
         </>
     );

@@ -1,10 +1,12 @@
 import { Box } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { PrivyProvider } from "@privy-io/react-auth";
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { status } from "./apis/auth";
+import logo from "./assets/img/logo.jpg";
 import Routers from "./common/Routers";
 import LoadingScreen from "./components/LoadingScreen";
 import UserStore from "./contexts/UserStore";
@@ -56,7 +58,11 @@ function App() {
             const res = await status();
             if (res) {
                 setUser(res);
-                await connectWallet({ emailAddress: res?.email, auth: false });
+                await connectWallet({
+                    emailAddress: res?.email,
+                    auth: false,
+                    walletProvider: res?.provider,
+                });
             } else {
                 toast.error(`Cannot fetch user`);
             }
@@ -103,20 +109,37 @@ function App() {
         >
             <BrowserRouter>
                 <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
-                    <Box sx={{ display: "flex" }}>{loading ? <LoadingScreen /> : <Routers />}</Box>
+                    <PrivyProvider
+                        appId={process.env.REACT_APP_PRIVY_APP_ID}
+                        config={{
+                            loginMethods: ["email"],
+                            appearance: {
+                                theme: "light",
+                                accentColor: "#676FFF",
+                                logo: logo,
+                            },
+                            embeddedWallets: {
+                                createOnLogin: "users-without-wallets",
+                            },
+                        }}
+                    >
+                        <Box sx={{ display: "flex" }}>
+                            {loading ? <LoadingScreen /> : <Routers />}
+                        </Box>
 
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme={theme}
-                    />
+                        <ToastContainer
+                            position="top-right"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme={theme}
+                        />
+                    </PrivyProvider>
                 </ThemeProvider>
             </BrowserRouter>
         </UserStore.Provider>

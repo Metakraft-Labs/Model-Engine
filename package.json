@@ -8,6 +8,7 @@
         "@mui/icons-material": "^5.15.18",
         "@mui/material": "^5.15.18",
         "@mui/styles": "^5.15.18",
+        "@privy-io/react-auth": "^1.76.4",
         "@react-three/drei": "^9.105.6",
         "@react-three/fiber": "^8.16.6",
         "@skalenetwork/filestorage.js": "~1.0.1",

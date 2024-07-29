@@ -1,3 +1,4 @@
+import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { ethers } from "ethers";
 import { MetaKeep } from "metakeep";
 import { useState } from "react";
@@ -6,7 +7,7 @@ import { login } from "../../apis/auth";
 import ABI from "../../constants/contractABI.json";
 import { DesiredChainId, contractAddress } from "../../constants/helper";
 import Miner from "../../shared/Miner";
-import { getPoWContract, getRPCURL, fixedBalance } from "../../shared/web3utils";
+import { fixedBalance, getPoWContract, getRPCURL } from "../../shared/web3utils";
 
 const message = "Welcome to Metakraft AI!";
 export default function useConnectWallet({
@@ -19,9 +20,8 @@ export default function useConnectWallet({
     setSigner,
 }) {
     const [connectedWallet, setConnectedWallet] = useState(null);
-    let provider = null;
-    let account = null;
-
+    const { authenticated, login: loginPrivy, user: privyUser } = usePrivy();
+    const { wallets } = useWallets();
     const verifyMessageSignature = (message, address, signature) => {
         try {
             const signerAddr = ethers.verifyMessage(message, signature);
@@ -32,37 +32,27 @@ export default function useConnectWallet({
         }
     };
 
-    const signMessage = async (sdk, address) => {
-        const { signature } = await sdk.signMessage(message, "Login");
+    const signMessage = async (signer, address) => {
+        const { signature } = await signer.signMessage(message, "Login");
         const res = verifyMessageSignature(message, address, signature);
         return res ? signature : null;
     };
 
-    const connectWallet = async ({ emailAddress, auth = true }) => {
+    const connectWallet = async ({ emailAddress, auth = true, walletProvider = "metakeep" }) => {
         if (connectedWallet) {
             setConnectedWallet(null);
         } else {
             try {
-                const sdk = new MetaKeep({
-                    appId: process.env.REACT_APP_METAKEEP_APPID,
-                    chainId: DesiredChainId,
-                    rpcNodeUrls: {
-                        1020352220: getRPCURL(1020352220),
-                        1350216234: getRPCURL(1350216234),
-                    },
-                    user: { email: emailAddress || "" },
-                });
-
-                const web3Provider = await sdk.ethereum;
-                await web3Provider.enable();
-                provider = new ethers.BrowserProvider(web3Provider);
-
-                const accounts = await sdk.getWallet();
-                const userWallet = accounts.user;
+                let provider, account, userWallet;
+                if (walletProvider === "metakeep") {
+                    const data = await connectMetakeep(emailAddress);
+                    provider = data.provider;
+                    account = data.account;
+                    userWallet = data.userWallet;
+                }
                 const signer = await provider.getSigner();
                 const { chainId } = await provider.getNetwork();
                 const chain = Number(chainId.toString());
-                account = accounts?.wallet?.ethAddress;
                 setConnectedWallet(account);
                 const balance = await provider.getBalance(account);
                 setBalance(balance);
@@ -80,7 +70,7 @@ export default function useConnectWallet({
                     }
                 }
                 if (!storedSignature) {
-                    storedSignature = await signMessage(sdk, account);
+                    storedSignature = await signMessage(signer, account);
                     localStorage.setItem(account, storedSignature);
                 }
 
@@ -96,7 +86,7 @@ export default function useConnectWallet({
                     });
                 }
 
-                createContractInstance(signer);
+                createContractInstance({ signer, account });
 
                 if (!user && userWallet?.email && auth) {
                     const res = await login({
@@ -104,6 +94,7 @@ export default function useConnectWallet({
                         signature: storedSignature,
                         address: account,
                         chainId: DesiredChainId,
+                        provider: walletProvider,
                     });
                     if (res) {
                         setToken(res);
@@ -118,7 +109,7 @@ export default function useConnectWallet({
         }
     };
 
-    const createContractInstance = signer => {
+    const createContractInstance = ({ signer, account }) => {
         const contract = new ethers.Contract(contractAddress, ABI.abi, signer);
         setContract(contract);
         setUserWallet(account);
@@ -147,6 +138,39 @@ export default function useConnectWallet({
         } catch (err) {
             console.error(err);
             toast.warn("Error in distributing gas.");
+        }
+    };
+
+    const connectMetakeep = async email => {
+        const sdk = new MetaKeep({
+            appId: process.env.REACT_APP_METAKEEP_APPID,
+            chainId: DesiredChainId,
+            rpcNodeUrls: {
+                1020352220: getRPCURL(1020352220),
+                1350216234: getRPCURL(1350216234),
+            },
+            user: { email: email || "" },
+        });
+
+        const web3Provider = await sdk.ethereum;
+        await web3Provider.enable();
+        const provider = new ethers.BrowserProvider(web3Provider);
+        const accounts = await sdk.getWallet();
+        const userWallet = accounts.user;
+        const account = accounts?.wallet?.ethAddress;
+
+        return { provider, userWallet, account };
+    };
+
+    const connectPrivy = async email => {
+        if (authenticated) {
+            const provider = await wallets?.[0]?.getEthersProvider();
+            const emailAddress = privyUser?.email?.address;
+            const walletAddress = privyUser?.wallet?.address;
+
+            return { provider, userWallet: { email: emailAddress }, account: walletAddress };
+        } else {
+            const loginUser = loginPrivy({ loginMethods: ["email"],  });
         }
     };
 
