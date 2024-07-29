@@ -1,12 +1,26 @@
-import { Avatar, Box, Button, Typography } from "@mui/material";
-import React from "react";
+import { Avatar, Box, Button, Tooltip, Typography } from "@mui/material";
+import React, { useContext, useState } from "react";
 import memoji1 from "../../../assets/img/dashboard/memoji1.png";
 import memoji2 from "../../../assets/img/dashboard/memoji2.png";
 import memoji3 from "../../../assets/img/dashboard/memoji3.png";
 import memoji4 from "../../../assets/img/dashboard/memoji4.png";
 import zap from "../../../assets/img/dashboard/zap.png";
+import UserStore from "../../../contexts/UserStore";
+import { copyToClipboard } from "../../../shared/strings";
 
 export default function Invite() {
+    const { user } = useContext(UserStore);
+    const [copied, setCopied] = useState(false);
+
+    const copyInvite = () => {
+        copyToClipboard(`${window.location.origin}?ref=${user?.id}`);
+        setCopied(true);
+
+        setTimeout(() => {
+            setCopied(false);
+        }, 2000);
+    };
+
     return (
         <Box
             sx={{
@@ -36,22 +50,24 @@ export default function Invite() {
                 <Avatar src={memoji3} sx={{ mx: 2, width: 48, height: 48 }} />
                 <Avatar src={memoji4} sx={{ mx: -3, width: 48, height: 48 }} />
             </Box>
-            <Button
-                fullWidth
-                variant="text"
-                sx={{
-                    mt: 2,
-
-                    width: "95%",
-                    backgroundColor: "#1e1f1f",
-                    borderRadius: "500px",
-                    textTransform: "none",
-                }}
-            >
-                <Typography color="white" sx={{ fontSize: "18px", mt: 0.8, mb: 0.8 }}>
-                    Invite
-                </Typography>
-            </Button>
+            <Tooltip title={copied ? "Copied Link" : "Click to copy referral link"}>
+                <Button
+                    fullWidth
+                    variant="text"
+                    sx={{
+                        mt: 2,
+                        width: "95%",
+                        backgroundColor: "#1e1f1f",
+                        borderRadius: "500px",
+                        textTransform: "none",
+                    }}
+                    onClick={copyInvite}
+                >
+                    <Typography color="white" sx={{ fontSize: "18px", mt: 0.8, mb: 0.8 }}>
+                        Invite
+                    </Typography>
+                </Button>
+            </Tooltip>
         </Box>
     );
 }

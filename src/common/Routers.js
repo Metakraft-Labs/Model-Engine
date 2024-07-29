@@ -13,9 +13,9 @@ export default function Routers() {
     const { user, userWallet } = useContext(UserStore);
 
     useEffect(() => {
-        const ref = searchParams.get("ref");
-        if (ref) {
-            localStorage.setItem("ref_by", ref);
+        const refBy = searchParams.get("ref");
+        if (refBy) {
+            localStorage.setItem("ref_by", refBy);
         }
         ref.current.complete();
     }, [location, searchParams]);
