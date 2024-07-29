@@ -1,6 +1,7 @@
-import { Menu, TextField } from "@mui/material";
+import { Box, Menu, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import CreateNFT from "../../../components/CreateNFT";
+import { CoinIcon } from "../../../icons/CoinIcon";
 
 export default function MintDropdown({ open, handleClose, byteRes, url, prompt }) {
     const [name, setName] = useState("");
@@ -62,6 +63,21 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
                 value={description}
                 onChange={e => setDescription(e.target.value)}
             />
+
+            <Box
+                border={"1px solid #A557CA"}
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                padding={"10px 15px"}
+                mb={"10px"}
+                borderRadius={"8px"}
+            >
+                <Typography>Listing Price:</Typography>
+                <Typography display={"flex"} gap={"10px"} alignItems={"center"}>
+                    <CoinIcon /> 10
+                </Typography>
+            </Box>
 
             <CreateNFT
                 name={name}
