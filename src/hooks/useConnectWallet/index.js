@@ -6,7 +6,7 @@ import { login } from "../../apis/auth";
 import ABI from "../../constants/contractABI.json";
 import { DesiredChainId, contractAddress } from "../../constants/helper";
 import Miner from "../../shared/Miner";
-import { getPoWContract, getRPCURL, fixedBalance } from "../../shared/web3utils";
+import { fixedBalance, getPoWContract, getRPCURL } from "../../shared/web3utils";
 
 const message = "Welcome to Metakraft AI!";
 export default function useConnectWallet({
@@ -99,11 +99,13 @@ export default function useConnectWallet({
                 createContractInstance(signer);
 
                 if (!user && userWallet?.email && auth) {
+                    const ref_by = localStorage?.getItem("ref_by");
                     const res = await login({
                         email: userWallet?.email,
                         signature: storedSignature,
                         address: account,
                         chainId: DesiredChainId,
+                        ref_by,
                     });
                     if (res) {
                         setToken(res);

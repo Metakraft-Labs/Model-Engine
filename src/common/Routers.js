@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useSearchParams } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 import UserStore from "../contexts/UserStore";
 import Auth from "../pages/Auth";
@@ -7,13 +7,18 @@ import { Links } from "./Links";
 
 export default function Routers() {
     const location = useLocation();
+    const [searchParams] = useSearchParams();
     const ref = useRef(null);
 
     const { user, userWallet } = useContext(UserStore);
 
     useEffect(() => {
+        const ref = searchParams.get("ref");
+        if (ref) {
+            localStorage.setItem("ref_by", ref);
+        }
         ref.current.complete();
-    }, [location]);
+    }, [location, searchParams]);
 
     const showRoutes = useMemo(() => {
         return (user && userWallet) || location.pathname === "/model-viewer";
