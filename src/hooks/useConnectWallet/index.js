@@ -89,12 +89,14 @@ export default function useConnectWallet({
                 createContractInstance({ signer, account });
 
                 if (!user && userWallet?.email && auth) {
+                    const ref_by = localStorage?.getItem("ref_by");
                     const res = await login({
                         email: userWallet?.email,
                         signature: storedSignature,
                         address: account,
                         chainId: DesiredChainId,
                         provider: walletProvider,
+                        ref_by,
                     });
                     if (res) {
                         setToken(res);
@@ -170,7 +172,7 @@ export default function useConnectWallet({
 
             return { provider, userWallet: { email: emailAddress }, account: walletAddress };
         } else {
-            const loginUser = loginPrivy({ loginMethods: ["email"],  });
+            const loginUser = loginPrivy({ loginMethods: ["email"] });
         }
     };
 

@@ -133,7 +133,18 @@ export default function Nfts({
                 </Typography>
             )}
             {/* View modal */}
-            <Modal open={open} onClose={() => setOpen(false)} heading={project?.prompt}>
+            <Modal
+                open={open}
+                onClose={() => setOpen(false)}
+                heading={project?.prompt}
+                sx={{
+                    "> .MuiBox-root": {
+                        backgroundColor: "transparent",
+                        boxShadow: "none",
+                        "> .MuiBox-root:first-child": { background: "#606060" },
+                    },
+                }}
+            >
                 <Box
                     display={"flex"}
                     justifyContent={"center"}

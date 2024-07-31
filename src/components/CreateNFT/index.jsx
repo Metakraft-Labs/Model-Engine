@@ -1,6 +1,7 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Tooltip, Typography } from "@mui/material";
 import { ethers } from "ethers";
 import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
 import { mint } from "../../apis/nft";
 import Modal from "../../components/Modal";
 import UserStore from "../../contexts/UserStore";
@@ -11,7 +12,7 @@ export default function CreateNFT({ fileURI, url, prompt, type, name, descriptio
     const [cid, setCID] = useState(null);
     const [mintLoading, setMintLoading] = useState(false);
     const [contractRes, setContractRes] = useState(null);
-    const { contract, userWallet, signer } = useContext(UserStore);
+    const { contract, userWallet, signer, user, updateUser } = useContext(UserStore);
 
     const fetchData = async cid => {
         try {
@@ -35,6 +36,7 @@ export default function CreateNFT({ fileURI, url, prompt, type, name, descriptio
                             description ||
                             `NFT for prompt: ${prompt}. Type: ${type} from Metakraft AI`,
                     });
+                    await updateUser();
                     setContractRes(res);
                 }
             } else {
@@ -102,6 +104,9 @@ export default function CreateNFT({ fileURI, url, prompt, type, name, descriptio
     };
 
     const handleButtonClick = async () => {
+        if (user?.tokens < 10) {
+            toast.error("You do not have enough credits for this operation");
+        }
         setMintLoading(true);
         const cid = await uploadMetaDataToIPFS(nftMetadata);
         setCID(cid);
@@ -113,27 +118,33 @@ export default function CreateNFT({ fileURI, url, prompt, type, name, descriptio
 
     return (
         <>
-            <Button
-                variant="outlined"
-                type="primary"
-                onClick={handleButtonClick}
-                disabled={mintLoading}
-                sx={{
-                    border: "1px solid #E18BFF",
-                    "&:hover": {
-                        border: "1px solid #4E3562",
-                    },
-                    "&.Mui-disabled": {
-                        color: "#FFFFFF",
-                        border: "1px solid #4E3562",
-                    },
-                    color: "#FFFFFF",
-                }}
-                fullWidth
-                startIcon={<CoinIcon />}
+            <Tooltip
+                title={user?.tokens >= 10 ? "Click to mint" : "You need atleast 10 tokens to mint"}
+                placement="right"
             >
-                {mintLoading ? "Minting..." : "Mint NFT"}
-            </Button>
+                <Button
+                    variant="outlined"
+                    type="primary"
+                    onClick={() => (user?.tokens >= 10 ? handleButtonClick() : null)}
+                    disabled={mintLoading}
+                    sx={{
+                        cursor: user?.tokens >= 10 ? "pointer" : "default",
+                        border: "1px solid #E18BFF",
+                        "&:hover": {
+                            border: "1px solid #4E3562",
+                        },
+                        "&.Mui-disabled": {
+                            color: "#FFFFFF",
+                            border: "1px solid #4E3562",
+                        },
+                        color: "#FFFFFF",
+                    }}
+                    fullWidth
+                    startIcon={<CoinIcon />}
+                >
+                    {mintLoading ? "Minting..." : "Mint NFT"}
+                </Button>
+            </Tooltip>
 
             {contractRes && (
                 <Modal

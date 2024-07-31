@@ -550,6 +550,9 @@ export default function Account() {
                                         backgroundColor: "#2B2B33",
                                     },
                                 }}
+                                onClick={() =>
+                                    window.open("https://docs.metakraft.ai/docs/spark-3d", "_blank")
+                                }
                             >
                                 <img src={faq} style={{ height: "18px", width: "18px" }} />
                                 <Typography variant="caption" color="#BDC5C5">
