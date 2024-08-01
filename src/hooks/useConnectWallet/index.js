@@ -1,3 +1,4 @@
+import skynet from "@decloudlabs/skynet";
 import { ethers } from "ethers";
 import { MetaKeep } from "metakeep";
 import { useState } from "react";
@@ -17,6 +18,7 @@ export default function useConnectWallet({
     setBalance,
     setChainId,
     setSigner,
+    setSkynetBrowserInstance,
 }) {
     const [connectedWallet, setConnectedWallet] = useState(null);
     let provider = null;
@@ -96,6 +98,8 @@ export default function useConnectWallet({
                     });
                 }
 
+                await createSkynetInstance({ provider, signer, address: account });
+
                 createContractInstance(signer);
 
                 if (!user && userWallet?.email && auth) {
@@ -150,6 +154,27 @@ export default function useConnectWallet({
             console.error(err);
             toast.warn("Error in distributing gas.");
         }
+    };
+
+    const createSkynetInstance = async ({ provider, signer, address }) => {
+        const browserEnvConfig = {
+            CACHE: {
+                TYPE: "CACHE",
+            },
+        };
+
+        const contractInstance = new skynet.SkyEtherContractService(provider, signer, address, 11); // 11 is the chain Id of Skynet
+
+        const skyMainBrowser = new skynet.SkyMainBrowser(
+            browserEnvConfig,
+            contractInstance,
+            address, // connected wallet address
+            new SkyBrowserSigner(address, signer),
+        );
+
+        await skyMainBrowser.init();
+
+        setSkynetBrowserInstance(skyMainBrowser);
     };
 
     return { connectWallet };

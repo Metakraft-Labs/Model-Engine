@@ -8,8 +8,16 @@ import Title from "../../shared/Title";
 import { AvatarImage, Background, CustomButton, FormContainer } from "./styles";
 
 export default function Auth() {
-    const { setContract, setUserWallet, user, setToken, setBalance, setChainId, setSigner } =
-        useContext(UserStore);
+    const {
+        setContract,
+        setUserWallet,
+        user,
+        setToken,
+        setBalance,
+        setChainId,
+        setSigner,
+        setSkynetBrowserInstance,
+    } = useContext(UserStore);
     const location = useLocation();
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
@@ -21,6 +29,7 @@ export default function Auth() {
         setBalance,
         setChainId,
         setSigner,
+        setSkynetBrowserInstance,
     });
     const [loginLoading, setLoginLoading] = React.useState(false);
 
