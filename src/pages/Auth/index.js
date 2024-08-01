@@ -1,22 +1,30 @@
 import { Box, Link, TextField, Typography } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getProviderByEmail } from "../../apis/auth";
 import metakraft from "../../assets/img/login/metakraft.png";
-import UserStore from "../../contexts/UserStore";
+import { UserStore } from "../../contexts/UserStore";
 import useConnectWallet from "../../hooks/useConnectWallet";
 import Title from "../../shared/Title";
 import ProviderModal from "./ProviderModal";
 import { AvatarImage, Background, CustomButton, FormContainer } from "./styles";
 
 export default function Auth() {
-    const { setContract, setUserWallet, user, setToken, setBalance, setChainId, setSigner } =
-        useContext(UserStore);
+    const {
+        setContract,
+        setUserWallet,
+        user,
+        userWallet,
+        setToken,
+        setBalance,
+        setChainId,
+        setSigner,
+    } = useContext(UserStore);
     const location = useLocation();
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [showProviderModal, setShowProviderModal] = useState(false);
-    const { connectWallet } = useConnectWallet({
+    const { connectWallet, RenderPrivyOtpModal } = useConnectWallet({
         setContract,
         setUserWallet,
         user,
@@ -26,6 +34,12 @@ export default function Auth() {
         setSigner,
     });
     const [loginLoading, setLoginLoading] = React.useState(false);
+
+    useEffect(() => {
+        if (location.pathname === "/login" && user && userWallet) {
+            navigate("/");
+        }
+    }, [location, user, userWallet]);
 
     const getProvider = async () => {
         setLoginLoading(true);
@@ -43,9 +57,7 @@ export default function Auth() {
         setShowProviderModal(false);
         await connectWallet({ emailAddress: email, walletProvider: provider });
 
-        setLoginLoading(false);
-
-        if (location.pathname === "/login") {
+        if (location.pathname === "/login" && user && userWallet) {
             navigate("/");
         }
     };
@@ -129,7 +141,14 @@ export default function Auth() {
                         </Typography>
                     </FormContainer>
                 </Box>
-                {showProviderModal && <ProviderModal login={loginModal} />}
+                {showProviderModal && (
+                    <ProviderModal
+                        loginModal={loginModal}
+                        open={showProviderModal}
+                        onClose={() => setShowProviderModal(false)}
+                    />
+                )}
+                <RenderPrivyOtpModal />
             </Background>
         </>
     );

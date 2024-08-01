@@ -26,7 +26,7 @@ import bg_grad from "../../assets/img/account/bg_grad.png";
 import faq from "../../assets/img/account/faq.png";
 import red_cross from "../../assets/img/account/red_cross.png";
 import Modal from "../../components/Modal";
-import UserStore from "../../contexts/UserStore";
+import { UserStore } from "../../contexts/UserStore";
 import { CoinIcon } from "../../icons/CoinIcon";
 import Title from "../../shared/Title";
 import { copyToClipboard } from "../../shared/strings";

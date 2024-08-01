@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { generate } from "../../apis/text2texture";
 import bg_grad from "../../assets/img/account/bg_grad.png";
 import UploadToIpfs from "../../components/UploadToIPFS/index";
-import UserStore from "../../contexts/UserStore";
+import { UserStore } from "../../contexts/UserStore";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
 import { BackLink } from "../Auth/styles";

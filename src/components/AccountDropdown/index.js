@@ -2,8 +2,8 @@ import { Badge, Box, Button, Menu, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { MdOutlineLogout } from "react-icons/md";
-import UserStore from "../../contexts/UserStore";
 import { useNavigate } from "react-router-dom";
+import { UserStore } from "../../contexts/UserStore";
 
 export default function AccountDropdown({ open, handleClose, user }) {
     const navigate = useNavigate();

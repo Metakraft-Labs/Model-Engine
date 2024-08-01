@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useRef } from "react";
 import { Route, Routes, useLocation, useSearchParams } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
-import UserStore from "../contexts/UserStore";
+import { UserStore } from "../contexts/UserStore";
 import Auth from "../pages/Auth";
 import { Links } from "./Links";
 

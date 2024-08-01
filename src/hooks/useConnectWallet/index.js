@@ -1,9 +1,11 @@
-import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { Button, TextField } from "@mui/material";
+import { useLoginWithEmail, usePrivy, useWallets } from "@privy-io/react-auth";
 import { ethers } from "ethers";
 import { MetaKeep } from "metakeep";
-import { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { login } from "../../apis/auth";
+import Modal from "../../components/Modal";
 import ABI from "../../constants/contractABI.json";
 import { DesiredChainId, contractAddress } from "../../constants/helper";
 import Miner from "../../shared/Miner";
@@ -20,8 +22,33 @@ export default function useConnectWallet({
     setSigner,
 }) {
     const [connectedWallet, setConnectedWallet] = useState(null);
-    const { authenticated, login: loginPrivy, user: privyUser } = usePrivy();
+    const [showPrivyOtpModal, setShowPrivyOtpModal] = useState(false);
+    const [privyOtpVerifying, setPrivyOtpVerifying] = useState(false);
+    const [privyOtp, setPrivyOtp] = useState("");
+    const { authenticated, ready, user: privyUser, createWallet } = usePrivy();
+    const { sendCode, loginWithCode } = useLoginWithEmail();
     const { wallets } = useWallets();
+
+    const getPrivyUser = useCallback(async () => {
+        if (authenticated && privyOtpVerifying && ready) {
+            if (!wallets?.length) {
+                try {
+                    await createWallet();
+                } catch (e) {
+                    console.log("Error while creating wallet", e.message);
+                }
+            }
+
+            connectWallet({ emailAddress: privyUser?.email?.address, walletProvider: "privy" });
+            setPrivyOtpVerifying(false);
+            setShowPrivyOtpModal(false);
+        }
+    }, [authenticated, ready]);
+
+    useEffect(() => {
+        getPrivyUser();
+    }, [getPrivyUser]);
+
     const verifyMessageSignature = (message, address, signature) => {
         try {
             const signerAddr = ethers.verifyMessage(message, signature);
@@ -49,13 +76,22 @@ export default function useConnectWallet({
                     provider = data.provider;
                     account = data.account;
                     userWallet = data.userWallet;
+                } else if (walletProvider === "privy") {
+                    const data = await connectPrivy(emailAddress);
+                    if (data === 0) {
+                        return 0;
+                    } else {
+                        provider = data.provider;
+                        account = data.account;
+                        userWallet = data.userWallet;
+                    }
                 }
                 const signer = await provider.getSigner();
                 const { chainId } = await provider.getNetwork();
                 const chain = Number(chainId.toString());
                 setConnectedWallet(account);
                 const balance = await provider.getBalance(account);
-                setBalance(balance);
+                setBalance(balance?.hex || balance);
                 setChainId(chain);
                 setSigner(signer);
 
@@ -74,7 +110,7 @@ export default function useConnectWallet({
                     localStorage.setItem(account, storedSignature);
                 }
 
-                const fixedBalancec = fixedBalance(balance);
+                const fixedBalancec = fixedBalance(balance?.hex || balance);
 
                 if (fixedBalancec <= 0.001) {
                     toast.info("Please sign the transaction for gas refill");
@@ -172,9 +208,94 @@ export default function useConnectWallet({
 
             return { provider, userWallet: { email: emailAddress }, account: walletAddress };
         } else {
-            const loginUser = loginPrivy({ loginMethods: ["email"] });
+            await sendCode({ email });
+            toast.success("Otp sent successfully");
+            setShowPrivyOtpModal(true);
+            return 0;
         }
     };
 
-    return { connectWallet };
+    const RenderPrivyOtpModal = () => {
+        return (
+            <Modal
+                heading={"Enter OTP"}
+                subHeading={"Enter your otp to login with privy"}
+                open={showPrivyOtpModal}
+                onClose={() => {}}
+            >
+                <form
+                    onSubmit={async e => {
+                        setPrivyOtpVerifying(true);
+                        e.preventDefault();
+                        await loginWithCode({ code: privyOtp });
+                    }}
+                >
+                    <TextField
+                        sx={{
+                            background: "#141414",
+                            borderRadius: 3,
+                            borderColor: "#303134",
+                            "& .MuiOutlinedInput-root": {
+                                "& fieldset": {
+                                    borderColor: "#303134", // Default border color
+                                },
+                                "&.Mui-focused fieldset": {
+                                    borderColor: "#303134", // Focused border color
+                                },
+                            },
+                        }}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        value={privyOtp}
+                        onChange={e => setPrivyOtp(e.target.value)}
+                        id="otp"
+                        label="OTP"
+                        name="otp"
+                        autoComplete="otp"
+                        autoFocus
+                        InputLabelProps={{
+                            style: {
+                                color: "#49494B",
+                                border: 5,
+                                borderRadius: 12,
+                                borderColor: "#303134",
+                            },
+                        }}
+                        InputProps={{
+                            style: {
+                                color: "#3B3C3F",
+                                border: 5,
+                                borderRadius: 12,
+                                borderColor: "#303134",
+                            },
+                        }}
+                    />
+
+                    <Button
+                        variant="outlined"
+                        type="primary"
+                        disabled={privyOtpVerifying}
+                        sx={{
+                            border: "1px solid #E18BFF",
+                            "&:hover": {
+                                border: "1px solid #4E3562",
+                            },
+                            "&.Mui-disabled": {
+                                color: "#FFFFFF",
+                                border: "1px solid #4E3562",
+                            },
+                            color: "#FFFFFF",
+                        }}
+                        fullWidth
+                    >
+                        {privyOtpVerifying ? "Verifying..." : "Verify"}
+                    </Button>
+                </form>
+            </Modal>
+        );
+    };
+
+    return { connectWallet, RenderPrivyOtpModal };
 }

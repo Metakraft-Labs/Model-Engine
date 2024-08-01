@@ -5,7 +5,7 @@ import memoji2 from "../../../assets/img/dashboard/memoji2.png";
 import memoji3 from "../../../assets/img/dashboard/memoji3.png";
 import memoji4 from "../../../assets/img/dashboard/memoji4.png";
 import zap from "../../../assets/img/dashboard/zap.png";
-import UserStore from "../../../contexts/UserStore";
+import { UserStore } from "../../../contexts/UserStore";
 import { copyToClipboard } from "../../../shared/strings";
 
 export default function Invite() {

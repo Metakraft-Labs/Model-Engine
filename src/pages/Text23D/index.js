@@ -8,7 +8,7 @@ import { upload } from "../../apis/upload";
 import bg from "../../assets/img/text-2-3d/bg.svg";
 import DisplayModel from "../../components/DisplayModel";
 import UploadToIpfs from "../../components/UploadToIPFS/index";
-import UserStore from "../../contexts/UserStore";
+import { UserStore } from "../../contexts/UserStore";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
 import Leftbar from "./components/Leftbar";
