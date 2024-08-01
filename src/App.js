@@ -5,10 +5,13 @@ import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { defineChain } from "viem";
 import logo from "./assets/img/logo.jpg";
 import Routers from "./common/Routers";
 import LoadingScreen from "./components/LoadingScreen";
+import { DesiredChainId } from "./constants/helper";
 import UserProvider from "./contexts/UserStore";
+import { getSupportedChains } from "./shared/web3utils";
 
 function App() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
@@ -46,6 +49,8 @@ function App() {
                 embeddedWallets: {
                     createOnLogin: "users-without-wallets",
                 },
+                supportedChains: [getSupportedChains().map(c => defineChain(c))],
+                defaultChain: [getSupportedChains().find(c => c.id === DesiredChainId)],
             }}
         >
             <UserProvider theme={theme} setTheme={setTheme} setLoading={setLoading}>
