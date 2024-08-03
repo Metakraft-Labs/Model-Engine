@@ -26,7 +26,7 @@ export default function useConnectWallet({
 
     const verifyMessageSignature = (message, address, signature) => {
         try {
-            const signerAddr = ethers.verifyMessage(message, signature);
+            const signerAddr = ethers.utils.verifyMessage(message, signature);
             return signerAddr === address;
         } catch (err) {
             console.log("Signature error", err);
@@ -57,7 +57,7 @@ export default function useConnectWallet({
 
                 const web3Provider = await sdk.ethereum;
                 await web3Provider.enable();
-                provider = new ethers.BrowserProvider(web3Provider);
+                provider = new ethers.providers.Web3Provider(web3Provider);
 
                 const accounts = await sdk.getWallet();
                 const userWallet = accounts.user;

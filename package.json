@@ -16,7 +16,7 @@
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
         "axios": "^1.7.2",
-        "ethers": "6.13.2",
+        "ethers": "5.7.2",
         "metakeep": "^2.2.3",
         "moment": "^2.30.1",
         "prettier": "^3.2.5",

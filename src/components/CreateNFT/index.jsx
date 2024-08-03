@@ -28,7 +28,7 @@ export default function CreateNFT({
     const fetchData = async cid => {
         try {
             if (contract && userWallet) {
-                const amount = ethers.parseUnits("1.0", 9);
+                const amount = ethers.utils.parseUnits("1.0", 9);
 
                 const amt = amount.toString();
                 const nonce = await signer.getNonce();
@@ -193,7 +193,7 @@ export default function CreateNFT({
                     fullWidth
                     startIcon={<CoinIcon />}
                 >
-                    {mintLoading ? "Minting..." : "Mint NFT"}
+                    {mintLoading ? "Launching..." : "Launch"}
                 </Button>
             </Tooltip>
 

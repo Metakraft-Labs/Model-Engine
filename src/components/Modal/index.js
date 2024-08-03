@@ -15,7 +15,6 @@ export default function StyledModal({ open, onClose, heading, subHeading, childr
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                ...sx,
             }}
         >
             <Box
@@ -30,6 +29,7 @@ export default function StyledModal({ open, onClose, heading, subHeading, childr
                     borderRadius: "10px",
                     boxShadow: 24,
                     gap: "20px",
+                    ...sx,
                 }}
             >
                 <Box
