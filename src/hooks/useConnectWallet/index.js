@@ -1,4 +1,4 @@
-import skynet from "@decloudlabs/skynet";
+import SkyEtherContractService from "@decloudlabs/skynet/lib/services/SkyEtherContractService";
 import { ethers } from "ethers";
 import { MetaKeep } from "metakeep";
 import { useState } from "react";
@@ -163,9 +163,17 @@ export default function useConnectWallet({
             },
         };
 
-        const contractInstance = new skynet.SkyEtherContractService(provider, signer, address, 11); // 11 is the chain Id of Skynet
+        const contractInstance = new SkyEtherContractService(provider, signer, address, 11); // 11 is the chain Id of Skynet
 
-        const skyMainBrowser = new skynet.SkyMainBrowser(
+        // Dynamically import SkyMainBrowser and SkyBrowserSigner
+        const { default: SkyMainBrowser } = await import(
+            "@decloudlabs/skynet/lib/services/SkyMainBrowser"
+        );
+        const { default: SkyBrowserSigner } = await import(
+            "@decloudlabs/skynet/lib/services/SkyBrowserSigner"
+        );
+
+        const skyMainBrowser = new SkyMainBrowser(
             browserEnvConfig,
             contractInstance,
             address, // connected wallet address

@@ -8,7 +8,18 @@ import UserStore from "../../contexts/UserStore";
 import { CoinIcon } from "../../icons/CoinIcon";
 import { getBlockExplorer } from "../../shared/web3utils";
 
-export default function CreateNFT({ fileURI, url, prompt, type, name, description }) {
+export default function CreateNFT({
+    fileURI,
+    url,
+    prompt,
+    type,
+    name,
+    description,
+    tags,
+    download,
+    license,
+    mintCost,
+}) {
     const [cid, setCID] = useState(null);
     const [mintLoading, setMintLoading] = useState(false);
     const [contractRes, setContractRes] = useState(null);
@@ -21,6 +32,44 @@ export default function CreateNFT({ fileURI, url, prompt, type, name, descriptio
 
                 const amt = amount.toString();
                 const nonce = await signer.getNonce();
+                const signature = await skyBrowser.appManager.getUrsulaAuth();
+                if (!signature.success) {
+                    // show error.
+                    return;
+                }
+                const response = await fetch(
+                    `${process.env.REACT_APP_SKYNET_SERVICE_URL}/createCollection`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            address: userWallet,
+                            collectionName: name,
+                            collectionDescription: description,
+                            collectionImage: fileURI,
+                            encrypt: true,
+                            royalty: "10",
+                            nftImage: fileURI,
+                            userAuthPayload: signature.data,
+                            createdAt: Date.now(),
+                            ...(download === "free"
+                                ? {
+                                      license,
+                                  }
+                                : {}),
+                            applicationType: "static",
+                            tags,
+                            mintCost: mintCost || 1,
+                            staticFile: url,
+                            publicMint: cost === 0,
+                        }),
+                    },
+                );
+
+                console.log({ response });
+                return;
 
                 const res = await contract.safeMint(userWallet, cid, { value: amt, nonce });
 
@@ -35,6 +84,8 @@ export default function CreateNFT({ fileURI, url, prompt, type, name, descriptio
                         description:
                             description ||
                             `NFT for prompt: ${prompt}. Type: ${type} from Metakraft AI`,
+                        tags,
+                        download,
                     });
                     await updateUser();
                     setContractRes(res);

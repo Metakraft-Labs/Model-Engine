@@ -1294,10 +1294,10 @@
   resolved "https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
-"@decloudlabs/skynet@^0.1.18":
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/@decloudlabs/skynet/-/skynet-0.1.20.tgz#8b1570f3da03a26aeea7d20bb3e87b7626217d3c"
-  integrity sha512-5GXDBPXTczwUZyq+0WnAZxV5Yf/4lxNwM1tZq1np9GS6kdx/DqbNqT4J3W72IdEBS7Ep1GnTPPZPVpBYuJ3IdQ==
+"@decloudlabs/skynet@^0.1.25":
+  version "0.1.32"
+  resolved "https://registry.yarnpkg.com/@decloudlabs/skynet/-/skynet-0.1.32.tgz#c35dd95ec080e6ad48282369f18c9847dd751f00"
+  integrity sha512-vCx9uBzrVE14tPSuCaNM+wF7J+5BhnOOb5xVmQB9Lj/YivsJiydGzM5BxT+8DIcEJdNUGa/8Nzdd+W2gsmCwVQ==
   dependencies:
     "@lighthouse-web3/sdk" "^0.3.7"
     "@metamask/eth-sig-util" "^5.1.0"
@@ -13893,6 +13893,11 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+vm-browserify@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
+  integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"

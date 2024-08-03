@@ -6,6 +6,20 @@ import { CoinIcon } from "../../../icons/CoinIcon";
 export default function MintDropdown({ open, handleClose, byteRes, url, prompt }) {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [tags, setTags] = useState("");
+
+    const fieldStyle = {
+        border: "1px solid #A557CA",
+        background: "#000000",
+        borderRadius: "7px",
+        color: "#FFFFFF",
+        "& textarea": {
+            color: "#FFFFFF",
+        },
+        "& [placeholder]": {
+            color: "#FFFFFF",
+        },
+    };
 
     return (
         <Menu
@@ -24,44 +38,27 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
             onClose={handleClose}
         >
             <TextField
-                sx={{
-                    border: "1px solid #A557CA",
-                    background: "#000000",
-                    borderRadius: "7px",
-                    color: "#FFFFFF",
-                    "& textarea": {
-                        color: "#FFFFFF",
-                    },
-                    "& [placeholder]": {
-                        color: "#FFFFFF",
-                    },
-                }}
+                sx={fieldStyle}
                 placeholder="Name"
                 fullWidth
                 value={name}
                 onChange={e => setName(e.target.value)}
             />
             <TextField
-                sx={{
-                    border: "1px solid #A557CA",
-                    background: "#000000",
-                    borderRadius: "7px",
-                    color: "#FFFFFF",
-                    "& textarea": {
-                        color: "#FFFFFF",
-                    },
-                    "& [placeholder]": {
-                        color: "#FFFFFF",
-                    },
-                    mt: "10px",
-                    mb: "10px",
-                }}
+                sx={fieldStyle}
                 multiline
                 rows={2}
                 placeholder="Description"
                 fullWidth
                 value={description}
                 onChange={e => setDescription(e.target.value)}
+            />
+            <TextField
+                sx={fieldStyle}
+                placeholder="Tags (separated by commas)"
+                fullWidth
+                value={tags}
+                onChange={e => setTags(e.target.value)}
             />
 
             <Box
@@ -86,6 +83,10 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
                 url={url}
                 type={"3d"}
                 prompt={prompt}
+                tags={tags
+                    ?.split(",")
+                    ?.filter(t => !!t)
+                    ?.map(t => t?.trim())}
             />
         </Menu>
     );
