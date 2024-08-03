@@ -23,7 +23,8 @@ export default function CreateNFT({
     const [cid, setCID] = useState(null);
     const [mintLoading, setMintLoading] = useState(false);
     const [contractRes, setContractRes] = useState(null);
-    const { contract, userWallet, signer, user, updateUser } = useContext(UserStore);
+    const { contract, userWallet, signer, user, updateUser, skynetBrowserInstance } =
+        useContext(UserStore);
 
     const fetchData = async cid => {
         try {
@@ -31,8 +32,8 @@ export default function CreateNFT({
                 const amount = ethers.utils.parseUnits("1.0", 9);
 
                 const amt = amount.toString();
-                const nonce = await signer.getNonce();
-                const signature = await skyBrowser.appManager.getUrsulaAuth();
+                const nonce = await signer.getTransactionCount();
+                const signature = await skynetBrowserInstance.appManager.getUrsulaAuth();
                 if (!signature.success) {
                     // show error.
                     return;

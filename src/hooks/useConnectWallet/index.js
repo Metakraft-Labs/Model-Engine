@@ -134,7 +134,7 @@ export default function useConnectWallet({
 
     const distributeGas = async ({ provider, address, chain, signer }) => {
         try {
-            const nonce = await signer.getNonce();
+            const nonce = await signer.getTransactionCount();
 
             const functionSignature = "0x0c11dedd";
             const miner = new Miner();
