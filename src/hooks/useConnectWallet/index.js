@@ -25,9 +25,9 @@ export default function useConnectWallet({
     const [showPrivyOtpModal, setShowPrivyOtpModal] = useState(false);
     const [privyOtpVerifying, setPrivyOtpVerifying] = useState(false);
     const [privyOtp, setPrivyOtp] = useState("");
-    const { authenticated, ready, user: privyUser, createWallet } = usePrivy();
+    const { authenticated, user: privyUser, createWallet } = usePrivy();
     const { sendCode, loginWithCode } = useLoginWithEmail();
-    const { wallets } = useWallets();
+    const { wallets, ready } = useWallets();
 
     const getPrivyUser = useCallback(async () => {
         if (authenticated && privyOtpVerifying && ready) {
@@ -37,6 +37,7 @@ export default function useConnectWallet({
                 } catch (e) {
                     console.log("Error while creating wallet", e.message);
                 }
+                return;
             }
 
             connectWallet({ emailAddress: privyUser?.email?.address, walletProvider: "privy" });

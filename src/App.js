@@ -49,8 +49,8 @@ function App() {
                 embeddedWallets: {
                     createOnLogin: "users-without-wallets",
                 },
-                supportedChains: [getSupportedChains().map(c => defineChain(c))],
-                defaultChain: [getSupportedChains().find(c => c.id === DesiredChainId)],
+                supportedChains: getSupportedChains().map(c => defineChain(c)),
+                defaultChain: getSupportedChains().find(c => c.id === DesiredChainId),
             }}
         >
             <UserProvider theme={theme} setTheme={setTheme} setLoading={setLoading}>
