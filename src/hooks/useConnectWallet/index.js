@@ -1,6 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import { useLoginWithEmail, usePrivy, useWallets } from "@privy-io/react-auth";
-import { ethers } from "ethers";
+import { ethers, toBigInt } from "ethers";
 import { MetaKeep } from "metakeep";
 import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -25,26 +25,24 @@ export default function useConnectWallet({
     const [showPrivyOtpModal, setShowPrivyOtpModal] = useState(false);
     const [privyOtpVerifying, setPrivyOtpVerifying] = useState(false);
     const [privyOtp, setPrivyOtp] = useState("");
-    const { authenticated, user: privyUser, createWallet } = usePrivy();
+    const { authenticated, user: privyUser, createWallet, ready: privyReady } = usePrivy();
     const { sendCode, loginWithCode } = useLoginWithEmail();
     const { wallets, ready } = useWallets();
 
     const getPrivyUser = useCallback(async () => {
-        if (authenticated && privyOtpVerifying && ready) {
-            if (!wallets?.length) {
-                try {
-                    await createWallet();
-                } catch (e) {
-                    console.log("Error while creating wallet", e.message);
-                }
-                return;
-            }
-
+        if (authenticated && privyOtpVerifying && ready && privyReady && wallets?.length) {
             connectWallet({ emailAddress: privyUser?.email?.address, walletProvider: "privy" });
             setPrivyOtpVerifying(false);
             setShowPrivyOtpModal(false);
         }
-    }, [authenticated, ready]);
+        if (authenticated && privyOtpVerifying && ready && privyReady && !wallets?.length) {
+            try {
+                await createWallet();
+            } catch (e) {
+                console.log("Error while creating wallet", e.message);
+            }
+        }
+    }, [authenticated, ready, privyReady]);
 
     useEffect(() => {
         getPrivyUser();
@@ -92,7 +90,7 @@ export default function useConnectWallet({
                 const chain = Number(chainId.toString());
                 setConnectedWallet(account);
                 const balance = await provider.getBalance(account);
-                setBalance(balance?.hex || balance);
+                setBalance(toBigInt(balance?._hex || balance?.hex || balance));
                 setChainId(chain);
                 setSigner(signer);
 
@@ -111,7 +109,9 @@ export default function useConnectWallet({
                     localStorage.setItem(account, storedSignature);
                 }
 
-                const fixedBalancec = fixedBalance(balance?.hex || balance);
+                const fixedBalancec = fixedBalance(
+                    toBigInt(balance?._hex || balance?.hex || balance),
+                );
 
                 if (fixedBalancec <= 0.001) {
                     toast.info("Please sign the transaction for gas refill");
@@ -158,7 +158,7 @@ export default function useConnectWallet({
 
     const distributeGas = async ({ provider, address, chain, signer }) => {
         try {
-            const nonce = await signer.getNonce();
+            const nonce = await signer.getTransactionCount();
 
             const functionSignature = "0x0c11dedd";
             const miner = new Miner();
