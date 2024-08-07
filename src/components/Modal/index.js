@@ -15,7 +15,6 @@ export default function StyledModal({ open, onClose, heading, subHeading, childr
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                ...sx,
             }}
         >
             <Box
@@ -30,6 +29,7 @@ export default function StyledModal({ open, onClose, heading, subHeading, childr
                     borderRadius: "10px",
                     boxShadow: 24,
                     gap: "20px",
+                    ...sx,
                 }}
             >
                 <Box
@@ -40,7 +40,12 @@ export default function StyledModal({ open, onClose, heading, subHeading, childr
                     zIndex={99}
                 >
                     <div></div>
-                    <Typography variant="h4" color={"inherit"} sx={{ filter: "invert(100%)" }}>
+                    <Typography
+                        id={"modal-heading"}
+                        variant="h4"
+                        color={"inherit"}
+                        sx={{ filter: "invert(100%)" }}
+                    >
                         {heading}
                     </Typography>
                     <IconButton onClick={onClose} color={"inherit"} sx={{ filter: "invert(100%)" }}>

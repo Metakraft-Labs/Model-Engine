@@ -6,52 +6,33 @@ import {
     Button,
     Divider,
     IconButton,
-    LinearProgress,
     Table,
     TableBody,
     TableCell,
     TableHead,
     TableRow,
-    TextField,
     Tooltip,
     Typography,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import moment from "moment";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { create, deleteKey, list } from "../../apis/api-keys";
-import bar2 from "../../assets/img/account/bar2.png";
-import bg_grad from "../../assets/img/account/bg_grad.png";
-import faq from "../../assets/img/account/faq.png";
-import red_cross from "../../assets/img/account/red_cross.png";
-import Modal from "../../components/Modal";
-import UserStore from "../../contexts/UserStore";
-import { CoinIcon } from "../../icons/CoinIcon";
-import Title from "../../shared/Title";
-import { copyToClipboard } from "../../shared/strings";
-
-const useStyles = makeStyles({
-    root: {
-        height: 10,
-        borderRadius: 5,
-    },
-    bar: ({ progress }) => ({
-        borderRadius: 5,
-        background: `linear-gradient(90deg, #60a7fe ${100 - progress}%, #92fad1 100%)`,
-    }),
-});
+import { deleteKey, list } from "../../../apis/api-keys";
+import bg_grad from "../../../assets/img/account/bg_grad.png";
+import faq from "../../../assets/img/account/faq.png";
+import UserStore from "../../../contexts/UserStore";
+import { CoinIcon } from "../../../icons/CoinIcon";
+import Title from "../../../shared/Title";
+import { copyToClipboard } from "../../../shared/strings";
+import CreateAPIKeyModal from "./CreateAPIKeyModal";
+import GetKraftModal from "./GetKraftModal";
 
 export default function Account() {
     const navigate = useNavigate();
     const { user } = useContext(UserStore);
-
-    const classes = useStyles({ progress: ((user?.tokens || 0) * 100) / 40 });
-
     const [showApiModal, setShowApiModal] = useState(false);
-    const [project, setProject] = useState("");
+    const [showGetKraftModal, setShowGetKraftModal] = useState(false);
     const [apiKeys, setApiKeys] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [keyCopied, setKeyCopied] = useState(false);
 
     const getApiKeys = useCallback(async () => {
@@ -63,19 +44,6 @@ export default function Account() {
     useEffect(() => {
         getApiKeys();
     }, [getApiKeys]);
-
-    const createToken = async e => {
-        e.preventDefault();
-        setLoading(true);
-
-        const api = await create(project);
-
-        if (api) {
-            await getApiKeys();
-        }
-        setShowApiModal(false);
-        setLoading(false);
-    };
 
     const copyKey = key => {
         copyToClipboard(`Bearer ${key}`);
@@ -216,140 +184,7 @@ export default function Account() {
                                     alignItems: "center",
                                     justifyContent: "start",
                                     flexWrap: "wrap",
-                                    width: "50%",
-                                    height: "100%",
-                                    backgroundColor: "#28212E",
-                                    border: 1,
-                                    borderRadius: 2,
-                                    borderColor: "#9D50B0",
-                                    gap: 1,
-                                    mt: 1,
-                                    pt: 1,
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "start",
-                                        alignItems: "start",
-                                        width: "93%",
-                                    }}
-                                >
-                                    <Typography variant="h6" color="#C7CBCA">
-                                        Current Plan
-                                    </Typography>
-                                </Box>
-                                <Divider
-                                    orientation="horizontal"
-                                    sx={{
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        background:
-                                            "linear-gradient(to right, #7F8889, #C0C5C2, #7F8889)",
-                                        height: "0.8px",
-                                        width: "95%",
-                                    }}
-                                />
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        width: "90%",
-                                        p: 2,
-                                    }}
-                                >
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            width: "60%",
-                                        }}
-                                    >
-                                        <Typography variant="body1" color="#AA63C3">
-                                            Free
-                                        </Typography>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                alignItems: "end",
-                                                gap: 1,
-                                                mt: 1,
-                                            }}
-                                        >
-                                            <Typography variant="h3" color="#E2E5E4">
-                                                $0
-                                            </Typography>
-                                            <Typography variant="caption" color="#7E8584">
-                                                PerMonth
-                                            </Typography>
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                alignItems: "center",
-                                                gap: 2,
-                                                mt: 3,
-                                            }}
-                                        >
-                                            <Typography variant="caption" color="#7E8584">
-                                                Monthly Credits
-                                            </Typography>
-                                            <Typography variant="h6" color="#E2E5E4">
-                                                40
-                                            </Typography>
-                                            <Typography variant="caption" color="#7E8584">
-                                                APIAccess
-                                            </Typography>
-                                            <img
-                                                src={red_cross}
-                                                style={{ height: "18px", width: "18px" }}
-                                            />
-                                        </Box>
-                                    </Box>
-                                    <Box
-                                        sx={{
-                                            width: "40%",
-                                            display: "flex",
-                                            justifyContent: "flex-end",
-                                        }}
-                                    >
-                                        <Button
-                                            type="submit"
-                                            variant="contained"
-                                            sx={{
-                                                border: 1,
-                                                borderColor: "#746380",
-                                                px: 3,
-                                                py: 1,
-                                                backgroundColor: "#923DC6",
-                                                color: "white",
-                                                borderRadius: 2,
-                                                borderColor: "#622F7A",
-                                                textTransform: "none",
-                                                "&:hover": {
-                                                    backgroundColor: "#4E3562",
-                                                },
-                                                height: "25%",
-                                            }}
-                                        >
-                                            <Typography variant="caption" color="white">
-                                                Upgrade Now
-                                            </Typography>
-                                        </Button>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    justifyContent: "start",
-                                    flexWrap: "wrap",
-                                    width: "50%",
+                                    width: "100%",
                                     height: "100%",
                                     backgroundColor: "#111111",
                                     border: 5,
@@ -427,58 +262,6 @@ export default function Account() {
                                                 Left
                                             </Typography>
                                         </Box>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                justifyContent: "space-between",
-                                                alignItems: "start",
-                                                width: "100%",
-                                                mt: 1,
-                                            }}
-                                        >
-                                            <Typography variant="body2" color="#C0C5C2">
-                                                Monthly Credits
-                                            </Typography>
-                                            <Typography variant="body2" color="#C0C5C2">
-                                                {user?.tokens} of 40
-                                            </Typography>
-                                        </Box>
-                                        <LinearProgress
-                                            sx={{ width: "100%" }}
-                                            variant="determinate"
-                                            classes={{ root: classes.root, bar: classes.bar }}
-                                            value={((user?.tokens || 0) * 100) / 40}
-                                        />
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                justifyContent: "space-between",
-                                                alignItems: "start",
-                                                width: "100%",
-                                                mt: 2,
-                                            }}
-                                        >
-                                            <Typography variant="body2" color="#C0C5C2">
-                                                Perrmanent Credits
-                                            </Typography>
-                                            <Typography variant="body2" color="#C0C5C2">
-                                                0 of 0
-                                            </Typography>
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                width: "95%",
-                                                justifyContent: "space-between",
-                                                alignItems: "space-between",
-                                                backgroundImage: `url(${bar2})`,
-                                                backgroundPosition: "left",
-                                                backgroundSize: "cover",
-                                                backgroundRepeat: "no-repeat",
-                                                p: 1,
-                                            }}
-                                        />
                                     </Box>
                                     <Box
                                         sx={{
@@ -492,7 +275,7 @@ export default function Account() {
                                         }}
                                     >
                                         <Button
-                                            type="submit"
+                                            type="button"
                                             variant="contained"
                                             sx={{
                                                 border: 1,
@@ -510,6 +293,7 @@ export default function Account() {
                                                 height: "25%",
                                                 width: "80%",
                                             }}
+                                            onClick={() => setShowGetKraftModal(true)}
                                         >
                                             <Typography variant="body1" color="white">
                                                 Add KRAFT
@@ -525,9 +309,6 @@ export default function Account() {
 
                         <Typography variant="h6" color="#D0D3D0" marginTop="40px">
                             API Keys
-                        </Typography>
-                        <Typography variant="body2" color="#7E8584">
-                            Upgrade your subscription plan to request APl access.
                         </Typography>
                         <Box
                             display={"flex"}
@@ -801,35 +582,12 @@ export default function Account() {
                         </Box> */}
                     </Box>
                 </Box>
-                <Modal
-                    heading={"Create an API token"}
-                    open={showApiModal}
-                    onClose={() => setShowApiModal(false)}
-                >
-                    <TextField
-                        value={project}
-                        onChange={e => setProject(e.target.value)}
-                        fullWidth
-                        placeholder="Enter app name"
-                        sx={{
-                            "& [placeholder]": {
-                                color: "#FFFFFF",
-                            },
-                            color: "#FFFFFF",
-                            border: "1px solid white",
-                        }}
-                    />
-
-                    <Button
-                        mt={2}
-                        color={"secondary"}
-                        variant={"contained"}
-                        onClick={createToken}
-                        disabled={loading || !project}
-                    >
-                        {loading ? "Creating..." : "Create"}
-                    </Button>
-                </Modal>
+                <CreateAPIKeyModal
+                    showApiModal={showApiModal}
+                    setShowApiModal={setShowApiModal}
+                    getApiKeys={getApiKeys}
+                />
+                <GetKraftModal showModal={showGetKraftModal} setShowModal={setShowGetKraftModal} />
             </Box>
         </>
     );
