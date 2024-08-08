@@ -54,7 +54,7 @@ export default function CreateNFT({
                             royalty: "10",
                             nftImage: fileURI,
                             userAuthPayload: signature.data,
-                            createdAt: Date.now(),
+                            createdAt: new Date().getTime(),
                             ...(download === "free"
                                 ? {
                                       license,
@@ -64,7 +64,7 @@ export default function CreateNFT({
                             tags,
                             mintCost: mintCost || 1,
                             staticFile: url,
-                            publicMint: cost === 0,
+                            publicMint: mintCost === 0,
                         }),
                     },
                 );

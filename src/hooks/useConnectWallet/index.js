@@ -157,12 +157,6 @@ export default function useConnectWallet({
     };
 
     const createSkynetInstance = async ({ provider, signer, address }) => {
-        const browserEnvConfig = {
-            CACHE: {
-                TYPE: "CACHE",
-            },
-        };
-
         const contractInstance = new SkyEtherContractService(provider, signer, address, 11); // 11 is the chain Id of Skynet
 
         // Dynamically import SkyMainBrowser and SkyBrowserSigner
@@ -174,7 +168,6 @@ export default function useConnectWallet({
         );
 
         const skyMainBrowser = new SkyMainBrowser(
-            browserEnvConfig,
             contractInstance,
             address, // connected wallet address
             new SkyBrowserSigner(address, signer),

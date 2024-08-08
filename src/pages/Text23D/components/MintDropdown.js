@@ -26,7 +26,7 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
         shareAlike: false,
     });
     const [showChangeLicenseModal, setShowChangeLicenseModal] = useState(false);
-    const [mintCost, setMintCost] = useState(1);
+    const [mintCost, setMintCost] = useState(0);
 
     const fieldStyle = {
         border: "1px solid #A557CA",
