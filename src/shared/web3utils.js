@@ -53,6 +53,50 @@ export const getChainName = chainId => {
     }
 };
 
+export const getTransactionContract = chainId => {
+    switch (chainId) {
+        case 1020352220:
+            return "0x978A8c6eed3AB44959497867bc77328dAb031039";
+        case 1350216234:
+            return "Titan AI Hub";
+        default:
+            return "0x925782819B76ebC0a65165978d3Bee3Ef9214744";
+    }
+};
+
+export const getTransactionAbi = async chainId => {
+    switch (chainId) {
+        case 1020352220:
+            return (await import("../abis/TitanTestnetTransaction.json")).abi;
+        case 1350216234:
+            return "Titan AI Hub";
+        default:
+            return (await import("../abis/TitanTestnetTransaction.json")).abi;
+    }
+};
+
+export const getUSDCContract = chainId => {
+    switch (chainId) {
+        case 1020352220:
+            return "0xCCD83BbB1C36F5889d8792dD2cde9984DF811b78";
+        case 1350216234:
+            return "Titan AI Hub";
+        default:
+            return "0xCCD83BbB1C36F5889d8792dD2cde9984DF811b78";
+    }
+};
+
+export const getUSDCAbi = async chainId => {
+    switch (chainId) {
+        case 1020352220:
+            return (await import("../abis/TitanTestnetUSDC.json")).abi;
+        case 1350216234:
+            return "Titan AI Hub";
+        default:
+            return (await import("../abis/TitanTestnetUSDC.json")).abi;
+    }
+};
+
 export const getTokenSymbol = chainId => {
     switch (chainId) {
         case 1020352220:

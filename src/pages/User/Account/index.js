@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { deleteKey, list } from "../../../apis/api-keys";
 import bg_grad from "../../../assets/img/account/bg_grad.png";
 import faq from "../../../assets/img/account/faq.png";
@@ -26,14 +26,31 @@ import Title from "../../../shared/Title";
 import { copyToClipboard } from "../../../shared/strings";
 import CreateAPIKeyModal from "./CreateAPIKeyModal";
 import GetKraftModal from "./GetKraftModal";
+import PaymentStatusModal from "./PaymentStatusModal";
 
 export default function Account() {
     const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useSearchParams();
     const { user } = useContext(UserStore);
     const [showApiModal, setShowApiModal] = useState(false);
     const [showGetKraftModal, setShowGetKraftModal] = useState(false);
+    const [showPaymentStatusModal, setShowPaymentStatusModal] = useState(false);
     const [apiKeys, setApiKeys] = useState([]);
     const [keyCopied, setKeyCopied] = useState(false);
+    const [paymentStatus, setPaymentStatus] = useState("");
+    const [paymentMessage, setPaymentMessage] = useState("");
+
+    useEffect(() => {
+        const payment_status = searchTerm.get("payment_status");
+        const payment_message = searchTerm.get("payment_message");
+
+        if (payment_status && payment_message) {
+            setPaymentStatus(searchTerm.get("payment_status"));
+            setPaymentMessage(searchTerm.get("payment_message"));
+            setSearchTerm({});
+            setShowPaymentStatusModal(true);
+        }
+    }, [searchTerm]);
 
     const getApiKeys = useCallback(async () => {
         const res = await list();
@@ -588,6 +605,12 @@ export default function Account() {
                     getApiKeys={getApiKeys}
                 />
                 <GetKraftModal showModal={showGetKraftModal} setShowModal={setShowGetKraftModal} />
+                <PaymentStatusModal
+                    showModal={showPaymentStatusModal}
+                    setShowModal={setShowPaymentStatusModal}
+                    status={paymentStatus}
+                    message={paymentMessage}
+                />
             </Box>
         </>
     );
