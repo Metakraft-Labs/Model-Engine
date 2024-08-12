@@ -21,6 +21,7 @@ function App() {
     const [signer, setSigner] = useState(null);
     const [balance, setBalance] = useState(0);
     const [chainId, setChainId] = useState(0);
+    const [skynetBrowserInstance, setSkynetBrowserInstance] = useState(null);
     const { connectWallet } = useConnectWallet({
         setContract,
         setUserWallet,
@@ -29,6 +30,7 @@ function App() {
         setBalance,
         setChainId,
         setSigner,
+        setSkynetBrowserInstance,
     });
 
     const lightTheme = createTheme({
@@ -97,6 +99,8 @@ function App() {
                 updateUser,
                 signer,
                 setSigner,
+                skynetBrowserInstance,
+                setSkynetBrowserInstance,
             }}
         >
             <BrowserRouter>

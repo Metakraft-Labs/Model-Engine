@@ -1,11 +1,46 @@
-import { Box, Menu, TextField, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    ButtonGroup,
+    InputAdornment,
+    Menu,
+    TextField,
+    Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import CreateNFT from "../../../components/CreateNFT";
 import { CoinIcon } from "../../../icons/CoinIcon";
+import { USDIconCircled } from "../../../icons/USDIconCircled";
+import ChangeLicenseModal from "./ChangeLicenseModal";
 
 export default function MintDropdown({ open, handleClose, byteRes, url, prompt }) {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [tags, setTags] = useState("");
+    const [download, setDownload] = useState("no");
+    const [license, setLicense] = useState("free");
+    const [additionalInfo, setAdditionalInfo] = useState({
+        attribution: false,
+        nonCommercial: false,
+        nonDerivatives: false,
+        shareAlike: false,
+    });
+    const [showChangeLicenseModal, setShowChangeLicenseModal] = useState(false);
+    const [mintCost, setMintCost] = useState(0);
+
+    const fieldStyle = {
+        border: "1px solid #A557CA",
+        background: "#000000",
+        borderRadius: "7px",
+        color: "#FFFFFF",
+        mb: "10px",
+        "& textarea": {
+            color: "#FFFFFF",
+        },
+        "& [placeholder]": {
+            color: "#FFFFFF",
+        },
+    };
 
     return (
         <Menu
@@ -24,38 +59,14 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
             onClose={handleClose}
         >
             <TextField
-                sx={{
-                    border: "1px solid #A557CA",
-                    background: "#000000",
-                    borderRadius: "7px",
-                    color: "#FFFFFF",
-                    "& textarea": {
-                        color: "#FFFFFF",
-                    },
-                    "& [placeholder]": {
-                        color: "#FFFFFF",
-                    },
-                }}
+                sx={fieldStyle}
                 placeholder="Name"
                 fullWidth
                 value={name}
                 onChange={e => setName(e.target.value)}
             />
             <TextField
-                sx={{
-                    border: "1px solid #A557CA",
-                    background: "#000000",
-                    borderRadius: "7px",
-                    color: "#FFFFFF",
-                    "& textarea": {
-                        color: "#FFFFFF",
-                    },
-                    "& [placeholder]": {
-                        color: "#FFFFFF",
-                    },
-                    mt: "10px",
-                    mb: "10px",
-                }}
+                sx={fieldStyle}
                 multiline
                 rows={2}
                 placeholder="Description"
@@ -63,6 +74,140 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
                 value={description}
                 onChange={e => setDescription(e.target.value)}
             />
+            <TextField
+                sx={fieldStyle}
+                placeholder="Tags (separated by commas)"
+                fullWidth
+                value={tags}
+                onChange={e => setTags(e.target.value)}
+            />
+
+            <Typography
+                sx={{
+                    color: "#A8A8A8",
+                }}
+            >
+                Download
+            </Typography>
+
+            <ButtonGroup
+                variant={"outlined"}
+                color={"secondary"}
+                fullWidth
+                sx={{
+                    border: "1px solid #A557CA",
+                    mb: "10px",
+                    borderRadius: "8px",
+                }}
+            >
+                <Button
+                    onClick={() => setDownload("no")}
+                    variant={download === "no" ? "contained" : "outlined"}
+                    sx={{
+                        color: "#A8A8A8",
+                        padding: "10px 15px",
+                        border: "1px solid #A557CA",
+                    }}
+                >
+                    No
+                </Button>
+                <Button
+                    onClick={() => setDownload("free")}
+                    variant={download === "free" ? "contained" : "outlined"}
+                    sx={{
+                        padding: "10px 15px",
+                        color: "#A8A8A8",
+                        border: "1px solid #A557CA",
+                    }}
+                >
+                    Free
+                </Button>
+                <Button
+                    onClick={() => setDownload("sell")}
+                    variant={download === "sell" ? "contained" : "outlined"}
+                    sx={{
+                        padding: "10px 15px",
+                        color: "#A8A8A8",
+                        border: "1px solid #A557CA",
+                    }}
+                >
+                    Sell
+                </Button>
+            </ButtonGroup>
+
+            {download !== "no" && (
+                <Box>
+                    <Typography
+                        sx={{
+                            color: "#A8A8A8",
+                        }}
+                    >
+                        License
+                    </Typography>
+                    <Typography
+                        sx={{
+                            color: "#A8A8A8",
+                            textAlign: "center",
+                            fontWeight: 700,
+                            textTransform: "capitalize",
+                        }}
+                    >
+                        {license}
+                    </Typography>
+                    <Button
+                        variant={"text"}
+                        color={"secondary"}
+                        fullWidth
+                        onClick={() => setShowChangeLicenseModal(true)}
+                    >
+                        Change license
+                    </Button>
+                </Box>
+            )}
+
+            {download === "sell" && (
+                <Box
+                    display={"flex"}
+                    width={"100%"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    mb={"10px"}
+                >
+                    <Typography
+                        sx={{
+                            color: "#A8A8A8",
+                        }}
+                    >
+                        Set Price
+                    </Typography>
+                    <TextField
+                        type={"number"}
+                        min={1}
+                        onChange={e => setMintCost(e.target.value)}
+                        value={mintCost}
+                        placeholder="Set price"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    {<USDIconCircled height="20" width="20" />}
+                                </InputAdornment>
+                            ),
+                        }}
+                        sx={{
+                            background: "#000000",
+                            border: "1px solid #A557CA",
+                            width: "60%",
+                            color: "#BABABA",
+                            "& input": {
+                                color: "#BABABA",
+                            },
+                            "& input::[placeholder]": {
+                                color: "#BABABA",
+                            },
+                        }}
+                    />
+                </Box>
+            )}
 
             <Box
                 border={"1px solid #A557CA"}
@@ -86,6 +231,21 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
                 url={url}
                 type={"3d"}
                 prompt={prompt}
+                tags={tags
+                    ?.split(",")
+                    ?.filter(t => !!t)
+                    ?.map(t => t?.trim())}
+                download={download}
+                mintCost={mintCost}
+                license={`${license}${additionalInfo.attribution ? "-attribution required" : ""}${additionalInfo.nonCommercial ? "-non commercial" : ""}${additionalInfo.nonDerivatives ? "-no derivatives" : ""}${additionalInfo.shareAlike ? "-share alike" : ""}`}
+            />
+            <ChangeLicenseModal
+                open={showChangeLicenseModal}
+                onClose={() => setShowChangeLicenseModal(false)}
+                license={license}
+                setLicense={setLicense}
+                additionalInfo={additionalInfo}
+                setAdditionalInfo={setAdditionalInfo}
             />
         </Menu>
     );
