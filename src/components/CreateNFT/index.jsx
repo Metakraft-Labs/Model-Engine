@@ -1,4 +1,5 @@
 import { Button, Tooltip, Typography } from "@mui/material";
+import axios from "axios";
 import { ethers } from "ethers";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
@@ -38,48 +39,77 @@ export default function CreateNFT({
                     // show error.
                     return;
                 }
-                const response = await fetch(
+
+                const res = await axios.post(
                     `${process.env.REACT_APP_SKYNET_SERVICE_URL}/createCollection`,
                     {
-                        method: "POST",
+                        address: userWallet,
+                        collectionName: name,
+                        collectionDescription: description,
+                        collectionImage: fileURI,
+                        collectionSize: 0,
+                        softwareLock: false,
+                        noDeployment: true,
+                        privateImage: false,
+                        privateImageRegistry: "",
+                        privateImageUsername: "",
+                        privateImagePassword: "",
+                        encrypt: true,
+                        status: true,
+                        mintStatus: download !== "no",
+                        royalty: "10",
+                        nftImage: fileURI,
+                        tags: tags?.join(", "),
+                        licenseFee: "10",
+                        storageType: "file",
+                        attributeVariableParam: {
+                            name: "3D model",
+                            condition: "New",
+                        },
+                        userAuthPayload: signature.data,
+                        ...(download === "free"
+                            ? {
+                                  license,
+                              }
+                            : {}),
+                        applicationType: null,
+                        tags,
+                        createdAt: Date.now(),
+                        mintCost,
+                        collectionCost: 1,
+                        cpuRange: "10",
+                        bandwidthRange: "10",
+                        storageRange: "10",
+                        staticFile: [url],
+                        publicMint: download === "free",
+                        marketplaceList: download !== "no",
+                        category: "3D Model",
+                        verified: true,
+                        paymentMade: true,
+                        nftImage: cid,
+                        nftId: cid?.replace("ipfs://", ""),
+                        limitedEdition: false,
+                        bundle: cid,
+                        instanceType: "cpuStandard",
+                    },
+                    {
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({
-                            address: userWallet,
-                            collectionName: name,
-                            collectionDescription: description,
-                            collectionImage: fileURI,
-                            encrypt: true,
-                            royalty: "10",
-                            nftImage: fileURI,
-                            userAuthPayload: signature.data,
-                            createdAt: new Date().getTime(),
-                            ...(download === "free"
-                                ? {
-                                      license,
-                                  }
-                                : {}),
-                            applicationType: "static",
-                            tags,
-                            mintCost: mintCost || 1,
-                            staticFile: url,
-                            publicMint: mintCost === 0,
-                        }),
                     },
                 );
 
-                console.log({ response });
+                console.log({ response: res.data });
                 return;
 
-                const res = await contract.safeMint(userWallet, cid, { value: amt, nonce });
+                const resp = await contract.safeMint(userWallet, cid, { value: amt, nonce });
 
-                if (res) {
+                if (resp) {
                     await mint({
                         prompt,
                         url,
-                        transactionHash: res.hash,
-                        chainId: Number(res.chainId),
+                        transactionHash: resp.hash,
+                        chainId: Number(resp.chainId),
                         type,
                         name: name || prompt,
                         description:
