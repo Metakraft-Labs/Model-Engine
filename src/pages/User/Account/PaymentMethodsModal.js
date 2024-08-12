@@ -72,7 +72,7 @@ export default function PaymentMethodsModal({ plan, showModal, setShowModal }) {
                             Embedded Wallet ({getChainName(chainId)})
                         </Typography>
                     </Box>
-                    {/* <Box
+                    <Box
                         width={"100%"}
                         py={"30px"}
                         sx={{
@@ -93,7 +93,7 @@ export default function PaymentMethodsModal({ plan, showModal, setShowModal }) {
                             Coinpayments (Cryptocurrencies)
                         </Typography>
                     </Box>
-                    <Box
+                    {/* <Box
                         width={"100%"}
                         py={"30px"}
                         sx={{
