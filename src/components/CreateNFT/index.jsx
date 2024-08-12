@@ -51,9 +51,11 @@ export default function CreateNFT({
                         softwareLock: false,
                         noDeployment: true,
                         privateImage: false,
-                        privateImageRegistry: "",
+                        privateImageRegistry: "docker",
                         privateImageUsername: "",
                         privateImagePassword: "",
+                        imageName: "alethio/ethereum-lite-explorer",
+                        imageTag: "latest",
                         encrypt: true,
                         status: true,
                         mintStatus: download !== "no",
@@ -73,13 +75,12 @@ export default function CreateNFT({
                               }
                             : {}),
                         applicationType: null,
-                        tags,
                         createdAt: Date.now(),
                         mintCost,
                         collectionCost: 1,
-                        cpuRange: "10",
-                        bandwidthRange: "10",
-                        storageRange: "10",
+                        cpuRange: "1",
+                        bandwidthRange: "1",
+                        storageRange: "1",
                         staticFile: [url],
                         publicMint: download === "free",
                         marketplaceList: download !== "no",
@@ -99,12 +100,11 @@ export default function CreateNFT({
                     },
                 );
 
-                console.log({ response: res.data });
-                return;
+                const collectionId = res.data?.data;
 
                 const resp = await contract.safeMint(userWallet, cid, { value: amt, nonce });
 
-                if (resp) {
+                if (collectionId && resp) {
                     await mint({
                         prompt,
                         url,
@@ -117,6 +117,7 @@ export default function CreateNFT({
                             `NFT for prompt: ${prompt}. Type: ${type} from Metakraft AI`,
                         tags,
                         download,
+                        collectionId,
                     });
                     await updateUser();
                     setContractRes(res);

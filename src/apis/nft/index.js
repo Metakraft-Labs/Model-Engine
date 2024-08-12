@@ -10,11 +10,23 @@ export const mint = async ({
     description,
     tags,
     download,
+    collectionId,
 }) => {
     const res = await auth({
         method: "POST",
         url: "/mint-nft",
-        data: { prompt, url, transactionHash, chainId, type, name, description, tags, download },
+        data: {
+            prompt,
+            url,
+            transactionHash,
+            chainId,
+            type,
+            name,
+            description,
+            tags,
+            download,
+            collectionId,
+        },
     });
     return res?.data;
 };
