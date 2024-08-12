@@ -129,7 +129,7 @@ export default function ConfirmationModal({ plan, showModal, setShowModal }) {
                             fontWeight={500}
                             fontSize={"16px"}
                         >
-                            Your USDC balance: {fixedBalance(balance || 0, 6)}
+                            Your USDC balance: {fixedBalance(balance || 0, 6)} USDC
                         </Typography>
 
                         {balance < tokenPlans[plan]?.usd * 1000000 ? (

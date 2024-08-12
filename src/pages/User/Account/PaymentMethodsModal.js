@@ -1,7 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { toast } from "react-toastify";
-import { orderTokens } from "../../../apis/razorpay";
 import Modal from "../../../components/Modal";
 import UserStore from "../../../contexts/UserStore";
 import { getChainName } from "../../../shared/web3utils";
@@ -10,23 +8,23 @@ import SelectCoinsModal from "./SelectCoinsModal";
 
 export default function PaymentMethodsModal({ plan, showModal, setShowModal }) {
     const { chainId } = useContext(UserStore);
-    const [loading, setLoading] = useState(false);
+    const [loading, _setLoading] = useState(false);
     const [showCoinsListModal, setShowCoinsListModal] = useState(false);
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
-    const razorpayOrderToken = async () => {
-        if (!plan) {
-            toast.error("Please select a plan");
-            return;
-        }
-        setLoading(true);
-        const link = await orderTokens(plan);
+    // const razorpayOrderToken = async () => {
+    //     if (!plan) {
+    //         toast.error("Please select a plan");
+    //         return;
+    //     }
+    //     setLoading(true);
+    //     const link = await orderTokens(plan);
 
-        if (link) {
-            window.location.href = link;
-        }
-        setLoading(false);
-    };
+    //     if (link) {
+    //         window.location.href = link;
+    //     }
+    //     setLoading(false);
+    // };
 
     return (
         <>
@@ -74,7 +72,7 @@ export default function PaymentMethodsModal({ plan, showModal, setShowModal }) {
                             Embedded Wallet ({getChainName(chainId)})
                         </Typography>
                     </Box>
-                    <Box
+                    {/* <Box
                         width={"100%"}
                         py={"30px"}
                         sx={{
@@ -114,7 +112,7 @@ export default function PaymentMethodsModal({ plan, showModal, setShowModal }) {
                         >
                             Razorpay (Cards, wallets etc.)
                         </Typography>
-                    </Box>
+                    </Box> */}
                 </Box>
             </Modal>
             <SelectCoinsModal
