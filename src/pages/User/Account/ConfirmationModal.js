@@ -61,7 +61,7 @@ export default function ConfirmationModal({ plan, showModal, setShowModal }) {
 
             setApproved(true);
 
-            const tx = await contract.pay(
+            const tx = await contract.safeTransferFrom(
                 "0xcb1e08E5867C262F00813f6fCc5398727952f098",
                 amount * 1000000,
             );
