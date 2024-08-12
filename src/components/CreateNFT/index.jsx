@@ -102,6 +102,8 @@ export default function CreateNFT({
 
                 const collectionId = res.data?.data;
 
+                toast.info("Sign for first mint");
+
                 const resp = await contract.safeMint(userWallet, cid, { value: amt, nonce });
 
                 if (collectionId && resp) {
