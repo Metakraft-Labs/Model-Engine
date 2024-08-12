@@ -59,8 +59,6 @@ function App() {
             if (res) {
                 setUser(res);
                 await connectWallet({ emailAddress: res?.email, auth: false });
-            } else {
-                toast.error(`Cannot fetch user`);
             }
         }
         setLoading(false);

@@ -40,7 +40,12 @@ export default function StyledModal({ open, onClose, heading, subHeading, childr
                     zIndex={99}
                 >
                     <div></div>
-                    <Typography variant="h4" color={"inherit"} sx={{ filter: "invert(100%)" }}>
+                    <Typography
+                        id={"modal-heading"}
+                        variant="h4"
+                        color={"inherit"}
+                        sx={{ filter: "invert(100%)" }}
+                    >
                         {heading}
                     </Typography>
                     <IconButton onClick={onClose} color={"inherit"} sx={{ filter: "invert(100%)" }}>
