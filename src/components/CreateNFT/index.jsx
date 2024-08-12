@@ -122,7 +122,7 @@ export default function CreateNFT({
                         collectionId,
                     });
                     await updateUser();
-                    setContractRes(res);
+                    setContractRes(resp);
                 }
             } else {
                 console.log("Failed to connect wallet, or load contract instance");
@@ -237,7 +237,7 @@ export default function CreateNFT({
                     onClose={() => setContractRes(null)}
                     heading={"Your NFT is successfully minted."}
                 >
-                    <Typography variant="body1">
+                    <Typography variant="body1" color={"#FFFFFF"}>
                         Here is your transaction hash:{" "}
                         <a
                             href={`${getBlockExplorer(Number(contractRes?.chainId))}/tx/${contractRes?.hash}`}
