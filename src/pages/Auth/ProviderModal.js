@@ -28,7 +28,7 @@ export default function ProviderModal({ loginModal, open, onClose }) {
                 >
                     <img src={"https://metakeep.xyz/images/MetaKeep-1.png"} alt={"metakeep logo"} />
                 </Box>
-                <Box
+                {/* <Box
                     display={"flex"}
                     justifyContent={"center"}
                     padding={"20px"}
@@ -82,7 +82,7 @@ export default function ProviderModal({ loginModal, open, onClose }) {
                             fill="#FF8271"
                         ></path>
                     </svg>
-                </Box>
+                </Box> */}
             </Box>
         </Modal>
     );
