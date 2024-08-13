@@ -1,3 +1,4 @@
+import SkyEtherContractService from "@decloudlabs/skynet/lib/services/SkyEtherContractService";
 import { Button, TextField } from "@mui/material";
 import { useLoginWithEmail, usePrivy, useWallets } from "@privy-io/react-auth";
 import { ethers, toBigInt } from "ethers";
@@ -20,6 +21,7 @@ export default function useConnectWallet({
     setBalance,
     setChainId,
     setSigner,
+    setSkynetBrowserInstance,
 }) {
     const [connectedWallet, setConnectedWallet] = useState(null);
     const [showPrivyOtpModal, setShowPrivyOtpModal] = useState(false);
@@ -50,7 +52,7 @@ export default function useConnectWallet({
 
     const verifyMessageSignature = (message, address, signature) => {
         try {
-            const signerAddr = ethers.verifyMessage(message, signature);
+            const signerAddr = ethers.utils.verifyMessage(message, signature);
             return signerAddr === address;
         } catch (err) {
             console.log("Signature error", err);
@@ -124,6 +126,7 @@ export default function useConnectWallet({
                 }
 
                 createContractInstance({ signer, account });
+                await createSkynetInstance({ provider, signer, address: account });
 
                 if (!user && userWallet?.email && auth) {
                     const ref_by = localStorage?.getItem("ref_by");
@@ -296,6 +299,28 @@ export default function useConnectWallet({
                 </form>
             </Modal>
         );
+    };
+
+    const createSkynetInstance = async ({ provider, signer, address }) => {
+        const contractInstance = new SkyEtherContractService(provider, signer, address, 11); // 11 is the chain Id of Skynet
+
+        // Dynamically import SkyMainBrowser and SkyBrowserSigner
+        const { default: SkyMainBrowser } = await import(
+            "@decloudlabs/skynet/lib/services/SkyMainBrowser"
+        );
+        const { default: SkyBrowserSigner } = await import(
+            "@decloudlabs/skynet/lib/services/SkyBrowserSigner"
+        );
+
+        const skyMainBrowser = new SkyMainBrowser(
+            contractInstance,
+            address, // connected wallet address
+            new SkyBrowserSigner(address, signer),
+        );
+
+        await skyMainBrowser.init();
+
+        setSkynetBrowserInstance(skyMainBrowser);
     };
 
     return { connectWallet, RenderPrivyOtpModal };

@@ -19,6 +19,7 @@ export default function Auth() {
         setBalance,
         setChainId,
         setSigner,
+        setSkynetBrowserInstance,
     } = useContext(UserStore);
     const location = useLocation();
     const navigate = useNavigate();
@@ -32,6 +33,7 @@ export default function Auth() {
         setBalance,
         setChainId,
         setSigner,
+        setSkynetBrowserInstance,
     });
     const [loginLoading, setLoginLoading] = React.useState(false);
 

@@ -1,6 +1,5 @@
 import React from "react";
 import Error404 from "../pages/404";
-import Account from "../pages/Account";
 import Auth from "../pages/Auth";
 import Home from "../pages/Home";
 import ModelViewer from "../pages/ModelViewer";
@@ -8,6 +7,7 @@ import Text23D from "../pages/Text23D";
 import Text2Motion from "../pages/Text2Motion";
 import Text2Scene from "../pages/Text2Scene";
 import Text2Texture from "../pages/Text2Texture";
+import UserAccount from "../pages/User/Account";
 import UserProjects from "../pages/User/Projects";
 
 export const Links = [
@@ -24,9 +24,9 @@ export const Links = [
         showInNavigation: true,
     },
     {
-        name: "Account Settings",
+        name: "User Account Settings",
         path: "/user/account",
-        element: <Account />,
+        element: <UserAccount />,
         showInNavigation: true,
     },
     {

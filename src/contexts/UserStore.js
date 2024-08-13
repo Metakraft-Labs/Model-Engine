@@ -14,7 +14,8 @@ export default function UserProvider({ children, theme, setTheme, setLoading }) 
     const [signer, setSigner] = useState(null);
     const [balance, setBalance] = useState(0);
     const [chainId, setChainId] = useState(0);
-    const { connectWallet, RenderPrivyOtpModal } = useConnectWallet({
+    const [skynetBrowserInstance, setSkynetBrowserInstance] = useState(null);
+    const { connectWallet } = useConnectWallet({
         setContract,
         setUserWallet,
         user,
@@ -22,6 +23,7 @@ export default function UserProvider({ children, theme, setTheme, setLoading }) 
         setBalance,
         setChainId,
         setSigner,
+        setSkynetBrowserInstance,
     });
 
     const getUser = useCallback(async () => {
@@ -77,6 +79,8 @@ export default function UserProvider({ children, theme, setTheme, setLoading }) 
                 updateUser,
                 signer,
                 setSigner,
+                skynetBrowserInstance,
+                setSkynetBrowserInstance,
             }}
         >
             {children}
