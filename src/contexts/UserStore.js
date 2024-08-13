@@ -15,7 +15,7 @@ export default function UserProvider({ children, theme, setTheme, setLoading }) 
     const [balance, setBalance] = useState(0);
     const [chainId, setChainId] = useState(0);
     const [skynetBrowserInstance, setSkynetBrowserInstance] = useState(null);
-    const { connectWallet } = useConnectWallet({
+    const { connectWallet, RenderPrivyOtpModal } = useConnectWallet({
         setContract,
         setUserWallet,
         user,

@@ -1,20 +1,18 @@
-import { BigNumber, ethers } from "ethers";
+import { ethers, getNumber, isHexString, keccak256, randomBytes, toBeHex, toBigInt } from "ethers";
 
-const { isHexString, keccak256, randomBytes, hexlify } = ethers.utils;
-
-export default class Miner {
-    static MAX_NUMBER = ethers.constants.MaxUint256;
+class Miner {
+    static MAX_NUMBER = ethers.MaxUint256;
 
     async mineGasForTransaction(nonce, gas, from) {
         let address = from;
-        nonce = isHexString(nonce) ? BigInt(nonce).toString() : nonce;
-        gas = isHexString(gas) ? BigInt(gas).toString() : gas;
+        nonce = isHexString(nonce) ? getNumber(nonce) : nonce;
+        gas = isHexString(gas) ? getNumber(gas) : gas;
         return await this.mineFreeGas(gas, address, nonce);
     }
 
     async mineFreeGas(gasAmount, address, nonce) {
-        let nonceHash = BigNumber.from(keccak256(hexlify(nonce, 32)));
-        let addressHash = BigNumber.from(keccak256(address));
+        let nonceHash = toBigInt(keccak256(toBeHex(nonce, 32)));
+        let addressHash = toBigInt(keccak256(address));
         let nonceAddressXOR = nonceHash ^ addressHash;
         let divConstant = Miner.MAX_NUMBER;
         let candidate;
@@ -24,7 +22,7 @@ export default class Miner {
 
         while (true) {
             candidate = randomBytes(32);
-            let candidateHash = BigNumber.from(keccak256(candidate));
+            let candidateHash = toBigInt(keccak256(candidate));
             let resultHash = nonceAddressXOR ^ candidateHash;
             let externalGas = divConstant / resultHash;
 
@@ -41,7 +39,9 @@ export default class Miner {
 
         return {
             duration: start - end,
-            gasPrice: BigNumber.from(candidate),
+            gasPrice: toBigInt(candidate),
         };
     }
 }
+
+export default Miner;

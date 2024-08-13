@@ -1,7 +1,8 @@
 import SkyEtherContractService from "@decloudlabs/skynet/lib/services/SkyEtherContractService";
 import { Button, TextField } from "@mui/material";
 import { useLoginWithEmail, usePrivy, useWallets } from "@privy-io/react-auth";
-import { ethers, toBigInt } from "ethers";
+import { ethers } from "ethers";
+import { ethers as ethers5 } from "ethers-5";
 import { MetaKeep } from "metakeep";
 import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -52,7 +53,7 @@ export default function useConnectWallet({
 
     const verifyMessageSignature = (message, address, signature) => {
         try {
-            const signerAddr = ethers.utils.verifyMessage(message, signature);
+            const signerAddr = ethers.verifyMessage(message, signature);
             return signerAddr === address;
         } catch (err) {
             console.log("Signature error", err);
@@ -61,7 +62,7 @@ export default function useConnectWallet({
     };
 
     const signMessage = async (signer, address) => {
-        const { signature } = await signer.signMessage(message, "Login");
+        const signature = await signer.signMessage(message);
         const res = verifyMessageSignature(message, address, signature);
         return res ? signature : null;
     };
@@ -71,10 +72,11 @@ export default function useConnectWallet({
             setConnectedWallet(null);
         } else {
             try {
-                let provider, account, userWallet;
+                let provider, provider5, account, userWallet;
                 if (walletProvider === "metakeep") {
                     const data = await connectMetakeep(emailAddress);
                     provider = data.provider;
+                    provider5 = data.provider5;
                     account = data.account;
                     userWallet = data.userWallet;
                 } else if (walletProvider === "privy") {
@@ -83,6 +85,7 @@ export default function useConnectWallet({
                         return 0;
                     } else {
                         provider = data.provider;
+                        provider5 = data.provider5;
                         account = data.account;
                         userWallet = data.userWallet;
                     }
@@ -92,7 +95,7 @@ export default function useConnectWallet({
                 const chain = Number(chainId.toString());
                 setConnectedWallet(account);
                 const balance = await provider.getBalance(account);
-                setBalance(toBigInt(balance?._hex || balance?.hex || balance));
+                setBalance(BigInt(balance?._hex || balance?.hex || balance).toString());
                 setChainId(chain);
                 setSigner(signer);
 
@@ -112,11 +115,10 @@ export default function useConnectWallet({
                 }
 
                 const fixedBalancec = fixedBalance(
-                    toBigInt(balance?._hex || balance?.hex || balance),
+                    BigInt(balance?._hex || balance?.hex || balance),
                 );
 
                 if (fixedBalancec <= 0.001) {
-                    toast.info("Please sign the transaction for gas refill");
                     await distributeGas({
                         provider,
                         address: account,
@@ -126,7 +128,7 @@ export default function useConnectWallet({
                 }
 
                 createContractInstance({ signer, account });
-                await createSkynetInstance({ provider, signer, address: account });
+                await createSkynetInstance({ provider: provider5, address: account });
 
                 if (!user && userWallet?.email && auth) {
                     const ref_by = localStorage?.getItem("ref_by");
@@ -161,12 +163,13 @@ export default function useConnectWallet({
 
     const distributeGas = async ({ provider, address, chain, signer }) => {
         try {
-            const nonce = await signer.getTransactionCount();
+            const nonce = await signer.getNonce();
 
             const functionSignature = "0x0c11dedd";
             const miner = new Miner();
 
             const { gasPrice } = await miner.mineGasForTransaction(nonce, 100_000, address);
+            toast.info("Please sign the transaction for gas refill");
 
             const request = {
                 to: getPoWContract(chain),
@@ -197,20 +200,28 @@ export default function useConnectWallet({
         const web3Provider = await sdk.ethereum;
         await web3Provider.enable();
         const provider = new ethers.BrowserProvider(web3Provider);
+        const provider5 = new ethers5.providers.Web3Provider(web3Provider);
         const accounts = await sdk.getWallet();
         const userWallet = accounts.user;
         const account = accounts?.wallet?.ethAddress;
 
-        return { provider, userWallet, account };
+        return { provider, userWallet, account, provider5 };
     };
 
     const connectPrivy = async email => {
         if (authenticated) {
-            const provider = await wallets?.[0]?.getEthersProvider();
+            const web3Provider = await wallets?.[0]?.getEthereumProvider();
+            const provider = new ethers.BrowserProvider(web3Provider);
+            const provider5 = new ethers5.providers.Web3Provider(web3Provider);
             const emailAddress = privyUser?.email?.address;
             const walletAddress = privyUser?.wallet?.address;
 
-            return { provider, userWallet: { email: emailAddress }, account: walletAddress };
+            return {
+                provider,
+                userWallet: { email: emailAddress },
+                account: walletAddress,
+                provider5,
+            };
         } else {
             await sendCode({ email });
             toast.success("Otp sent successfully");
@@ -301,7 +312,8 @@ export default function useConnectWallet({
         );
     };
 
-    const createSkynetInstance = async ({ provider, signer, address }) => {
+    const createSkynetInstance = async ({ provider, address }) => {
+        const signer = provider.getSigner();
         const contractInstance = new SkyEtherContractService(provider, signer, address, 11); // 11 is the chain Id of Skynet
 
         // Dynamically import SkyMainBrowser and SkyBrowserSigner
