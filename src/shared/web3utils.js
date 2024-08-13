@@ -9,6 +9,53 @@ export const minifyAddress = (address, middleChars = 4, endChars = 4) => {
     )}`;
 };
 
+export const getSupportedChains = () => {
+    return [
+        {
+            id: 1020352220,
+            name: "Skale Titan AI Hub Testnet",
+            network: "Skale",
+            nativeCurrency: {
+                decimals: 18,
+                name: "sFUEL",
+                symbol: "sFUEL",
+            },
+            rpcUrls: {
+                default: {
+                    http: ["https://testnet.skalenodes.com/v1/aware-fake-trim-testnet"],
+                },
+            },
+            blockExplorers: {
+                default: {
+                    name: "Explorer",
+                    url: "https://aware-fake-trim-testnet.explorer.testnet.skalenodes.com",
+                },
+            },
+        },
+        {
+            id: 1350216234,
+            name: "Skale Titan AI Hub",
+            network: "Skale",
+            nativeCurrency: {
+                decimals: 18,
+                name: "sFUEL",
+                symbol: "sFUEL",
+            },
+            rpcUrls: {
+                default: {
+                    http: ["https://mainnet.skalenodes.com/v1/parallel-stormy-spica"],
+                },
+            },
+            blockExplorers: {
+                default: {
+                    name: "Explorer",
+                    url: "https://parallel-stormy-spica.explorer.mainnet.skalenodes.com",
+                },
+            },
+        },
+    ];
+};
+
 export const getBlockExplorer = chainId => {
     switch (chainId) {
         case 1020352220:
@@ -45,11 +92,11 @@ export const getFileStorageUrl = chainId => {
 export const getChainName = chainId => {
     switch (chainId) {
         case 1020352220:
-            return "Titan AI Hub Testnet";
+            return "Skale Titan AI Hub Testnet";
         case 1350216234:
-            return "Titan AI Hub";
+            return "Skale Titan AI Hub";
         default:
-            return "Titan AI Hub Testnet";
+            return "Skale Titan AI Hub Testnet";
     }
 };
 
@@ -121,7 +168,7 @@ export const getPoWContract = chainId => {
 
 export const fixedBalance = (value, decimals = 18, decimalPlaces = 4) => {
     return Number(
-        Math.round(parseFloat(ethers.utils.formatUnits(value, decimals) + "e" + decimalPlaces)) +
+        Math.round(parseFloat(ethers.formatUnits(value, decimals) + "e" + decimalPlaces)) +
             "e-" +
             decimalPlaces,
     );

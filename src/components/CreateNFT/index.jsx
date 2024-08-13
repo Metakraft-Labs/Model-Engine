@@ -5,7 +5,7 @@ import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { mint } from "../../apis/nft";
 import Modal from "../../components/Modal";
-import UserStore from "../../contexts/UserStore";
+import { UserStore } from "../../contexts/UserStore";
 import { CoinIcon } from "../../icons/CoinIcon";
 import { getBlockExplorer } from "../../shared/web3utils";
 
@@ -30,7 +30,7 @@ export default function CreateNFT({
     const fetchData = async cid => {
         try {
             if (contract && userWallet) {
-                const amount = ethers.utils.parseUnits("1.0", 9);
+                const amount = ethers.parseUnits("1.0", 9);
 
                 const amt = amount.toString();
                 const nonce = await signer.getTransactionCount();

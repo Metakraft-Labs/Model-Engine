@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AccountDropdown from "../../../components/AccountDropdown";
-import UserStore from "../../../contexts/UserStore";
+import { UserStore } from "../../../contexts/UserStore";
 import { LogoIcon } from "../../../icons/LogoIcon";
 
 const TABS = {

@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Grid, TablePagination, Typography } from "@mui/material";
 import React, { useCallback, useContext, useEffect } from "react";
 import { list } from "../../../../apis/text23d";
-import UserStore from "../../../../contexts/UserStore";
+import { UserStore } from "../../../../contexts/UserStore";
 
 export default function Models({
     projects,

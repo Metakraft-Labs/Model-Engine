@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { generate } from "../../apis/text2motion";
 import CreateNFT from "../../components/CreateNFT/index";
 import UploadToIpfs from "../../components/UploadToIPFS/index";
-import UserStore from "../../contexts/UserStore";
+import { UserStore } from "../../contexts/UserStore";
 import Title from "../../shared/Title";
 import { urlToFile } from "../../shared/files";
 

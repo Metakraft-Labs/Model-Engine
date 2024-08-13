@@ -1,7 +1,7 @@
 import { CloseOutlined } from "@mui/icons-material";
 import { Box, IconButton, Modal, Typography } from "@mui/material";
 import React, { useContext } from "react";
-import UserStore from "../../contexts/UserStore";
+import { UserStore } from "../../contexts/UserStore";
 
 export default function StyledModal({ open, onClose, heading, subHeading, children, sx = {} }) {
     const { theme } = useContext(UserStore);
@@ -52,7 +52,11 @@ export default function StyledModal({ open, onClose, heading, subHeading, childr
                         <CloseOutlined />
                     </IconButton>
                 </Box>
-                {subHeading ? <Typography variant="h6">{subHeading}</Typography> : null}
+                {subHeading ? (
+                    <Typography variant="h6" color={"inherit"} sx={{ filter: "invert(100%)" }}>
+                        {subHeading}
+                    </Typography>
+                ) : null}
                 {children}
             </Box>
         </Modal>
