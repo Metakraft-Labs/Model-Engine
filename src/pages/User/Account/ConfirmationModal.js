@@ -4,7 +4,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { orderTokens } from "../../../apis/contractPayments";
 import Modal from "../../../components/Modal";
-import UserStore from "../../../contexts/UserStore";
+import { UserStore } from "../../../contexts/UserStore";
 import { tokenPlans } from "../../../shared/constants";
 import {
     fixedBalance,

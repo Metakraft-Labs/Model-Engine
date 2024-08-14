@@ -20,7 +20,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { deleteKey, list } from "../../../apis/api-keys";
 import bg_grad from "../../../assets/img/account/bg_grad.png";
 import faq from "../../../assets/img/account/faq.png";
-import UserStore from "../../../contexts/UserStore";
+import { UserStore } from "../../../contexts/UserStore";
 import { CoinIcon } from "../../../icons/CoinIcon";
 import Title from "../../../shared/Title";
 import { copyToClipboard } from "../../../shared/strings";

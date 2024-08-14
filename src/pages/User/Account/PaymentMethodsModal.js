@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import Modal from "../../../components/Modal";
-import UserStore from "../../../contexts/UserStore";
+import { UserStore } from "../../../contexts/UserStore";
 import { getChainName } from "../../../shared/web3utils";
 import ConfirmationModal from "./ConfirmationModal";
 import SelectCoinsModal from "./SelectCoinsModal";
