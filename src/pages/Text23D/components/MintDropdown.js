@@ -5,6 +5,7 @@ import {
     InputAdornment,
     Menu,
     TextField,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -87,7 +88,7 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
                     color: "#A8A8A8",
                 }}
             >
-                Download
+                Allow minting?
             </Typography>
 
             <ButtonGroup
@@ -100,39 +101,48 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
                     borderRadius: "8px",
                 }}
             >
-                <Button
-                    onClick={() => setDownload("no")}
-                    variant={download === "no" ? "contained" : "outlined"}
-                    sx={{
-                        color: "#A8A8A8",
-                        padding: "10px 15px",
-                        border: "1px solid #A557CA",
-                    }}
+                <Tooltip title={"Your model will not be listed on the marketplace"} placement="top">
+                    <Button
+                        onClick={() => setDownload("no")}
+                        variant={download === "no" ? "contained" : "outlined"}
+                        sx={{
+                            color: "#A8A8A8",
+                            padding: "10px 15px",
+                            border: "1px solid #A557CA",
+                        }}
+                    >
+                        No
+                    </Button>
+                </Tooltip>
+                <Tooltip
+                    title={"Anyone would be able to mint your NFT for free on the marketplace"}
+                    placement="top"
                 >
-                    No
-                </Button>
-                <Button
-                    onClick={() => setDownload("free")}
-                    variant={download === "free" ? "contained" : "outlined"}
-                    sx={{
-                        padding: "10px 15px",
-                        color: "#A8A8A8",
-                        border: "1px solid #A557CA",
-                    }}
-                >
-                    Free
-                </Button>
-                <Button
-                    onClick={() => setDownload("sell")}
-                    variant={download === "sell" ? "contained" : "outlined"}
-                    sx={{
-                        padding: "10px 15px",
-                        color: "#A8A8A8",
-                        border: "1px solid #A557CA",
-                    }}
-                >
-                    Sell
-                </Button>
+                    <Button
+                        onClick={() => setDownload("free")}
+                        variant={download === "free" ? "contained" : "outlined"}
+                        sx={{
+                            padding: "10px 15px",
+                            color: "#A8A8A8",
+                            border: "1px solid #A557CA",
+                        }}
+                    >
+                        Free
+                    </Button>
+                </Tooltip>
+                <Tooltip title={"Sell your model as NFT on the marketplace"} placement="top">
+                    <Button
+                        onClick={() => setDownload("sell")}
+                        variant={download === "sell" ? "contained" : "outlined"}
+                        sx={{
+                            padding: "10px 15px",
+                            color: "#A8A8A8",
+                            border: "1px solid #A557CA",
+                        }}
+                    >
+                        Sell
+                    </Button>
+                </Tooltip>
             </ButtonGroup>
 
             {download !== "no" && (

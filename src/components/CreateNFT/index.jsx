@@ -33,7 +33,7 @@ export default function CreateNFT({
                 const amount = ethers.parseUnits("1.0", 9);
 
                 const amt = amount.toString();
-                const nonce = await signer.getTransactionCount();
+                const nonce = await signer.getNonce();
                 const signature = await skynetBrowserInstance.appManager.getUrsulaAuth();
                 if (!signature.success) {
                     // show error.
@@ -204,8 +204,12 @@ export default function CreateNFT({
     return (
         <>
             <Tooltip
-                title={user?.tokens >= 10 ? "Click to mint" : "You need atleast 10 tokens to mint"}
-                placement="right"
+                title={
+                    user?.tokens >= 10
+                        ? "Click to turn your model into NFT"
+                        : "You need atleast 10 tokens to mint"
+                }
+                placement="left"
             >
                 <Button
                     variant="outlined"
@@ -227,7 +231,7 @@ export default function CreateNFT({
                     fullWidth
                     startIcon={<CoinIcon />}
                 >
-                    {mintLoading ? "Launching..." : "Launch"}
+                    {mintLoading ? "Launching..." : "Launch + Mint"}
                 </Button>
             </Tooltip>
 
