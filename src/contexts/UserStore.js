@@ -32,11 +32,17 @@ export default function UserProvider({ children, theme, setTheme, setLoading }) 
             const res = await status();
             if (res) {
                 setUser(res);
-                await connectWallet({
+                const data = await connectWallet({
                     emailAddress: res?.email,
                     auth: false,
                     walletProvider: res?.provider,
                 });
+
+                if (data === 0) {
+                    await new Promise(resolve => {
+                        setTimeout(resolve, 2000);
+                    });
+                }
             } else {
                 toast.error(`Cannot fetch user`);
             }

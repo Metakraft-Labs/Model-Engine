@@ -9,7 +9,6 @@ import { defineChain } from "viem";
 import logo from "./assets/img/logo.jpg";
 import Routers from "./common/Routers";
 import LoadingScreen from "./components/LoadingScreen";
-import { DesiredChainId } from "./constants/helper";
 import UserProvider from "./contexts/UserStore";
 import { getSupportedChains } from "./shared/web3utils";
 
@@ -50,7 +49,7 @@ function App() {
                     createOnLogin: "users-without-wallets",
                 },
                 supportedChains: getSupportedChains().map(c => defineChain(c)),
-                defaultChain: getSupportedChains().find(c => c.id === DesiredChainId),
+                defaultChain: getSupportedChains().find(c => c.network === "Berachain"),
             }}
         >
             <UserProvider theme={theme} setTheme={setTheme} setLoading={setLoading}>

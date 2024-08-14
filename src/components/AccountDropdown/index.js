@@ -1,4 +1,5 @@
 import { Badge, Box, Button, Menu, Typography } from "@mui/material";
+import { usePrivy } from "@privy-io/react-auth";
 import React, { useContext } from "react";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { MdOutlineLogout } from "react-icons/md";
@@ -8,8 +9,12 @@ import { UserStore } from "../../contexts/UserStore";
 export default function AccountDropdown({ open, handleClose, user }) {
     const navigate = useNavigate();
     const { setToken, setUser } = useContext(UserStore);
+    const { authenticated, logout: privyLogout } = usePrivy();
 
-    const logout = () => {
+    const logout = async () => {
+        if (authenticated) {
+            await privyLogout();
+        }
         localStorage.removeItem("token");
         setToken(null);
         setUser(null);

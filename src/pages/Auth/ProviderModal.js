@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import Modal from "../../components/Modal";
 
@@ -14,6 +14,7 @@ export default function ProviderModal({ loginModal, open, onClose }) {
             >
                 <Box
                     display={"flex"}
+                    flexDirection={"column"}
                     justifyContent={"center"}
                     padding={"20px"}
                     alignItems={"center"}
@@ -27,9 +28,11 @@ export default function ProviderModal({ loginModal, open, onClose }) {
                     onClick={() => loginModal("metakeep")}
                 >
                     <img src={"https://metakeep.xyz/images/MetaKeep-1.png"} alt={"metakeep logo"} />
+                    <Typography fontWeight={800}>Choose for Skale Titan AI Hubs</Typography>
                 </Box>
-                {/* <Box
+                <Box
                     display={"flex"}
+                    flexDirection={"column"}
                     justifyContent={"center"}
                     padding={"20px"}
                     alignItems={"center"}
@@ -82,7 +85,8 @@ export default function ProviderModal({ loginModal, open, onClose }) {
                             fill="#FF8271"
                         ></path>
                     </svg>
-                </Box> */}
+                    <Typography fontWeight={800}>Choose for Berachain</Typography>
+                </Box>
             </Box>
         </Modal>
     );

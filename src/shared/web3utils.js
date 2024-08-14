@@ -13,7 +13,7 @@ export const getSupportedChains = () => {
     return [
         {
             id: 1020352220,
-            name: "Skale Titan AI Hub Testnet",
+            name: getChainName(1020352220),
             network: "Skale",
             nativeCurrency: {
                 decimals: 18,
@@ -22,19 +22,19 @@ export const getSupportedChains = () => {
             },
             rpcUrls: {
                 default: {
-                    http: ["https://testnet.skalenodes.com/v1/aware-fake-trim-testnet"],
+                    http: [getRPCURL(1020352220)],
                 },
             },
             blockExplorers: {
                 default: {
                     name: "Explorer",
-                    url: "https://aware-fake-trim-testnet.explorer.testnet.skalenodes.com",
+                    url: getBlockExplorer(1020352220),
                 },
             },
         },
         {
             id: 1350216234,
-            name: "Skale Titan AI Hub",
+            name: getChainName(1350216234),
             network: "Skale",
             nativeCurrency: {
                 decimals: 18,
@@ -43,13 +43,34 @@ export const getSupportedChains = () => {
             },
             rpcUrls: {
                 default: {
-                    http: ["https://mainnet.skalenodes.com/v1/parallel-stormy-spica"],
+                    http: [getRPCURL(1350216234)],
                 },
             },
             blockExplorers: {
                 default: {
                     name: "Explorer",
-                    url: "https://parallel-stormy-spica.explorer.mainnet.skalenodes.com",
+                    url: getBlockExplorer(1350216234),
+                },
+            },
+        },
+        {
+            id: 80084,
+            name: getChainName(80084),
+            network: "Berachain",
+            nativeCurrency: {
+                decimals: 18,
+                name: "BERA",
+                symbol: "BERA",
+            },
+            rpcUrls: {
+                default: {
+                    http: [getRPCURL(80084)],
+                },
+            },
+            blockExplorers: {
+                default: {
+                    name: "Explorer",
+                    url: getBlockExplorer(80084),
                 },
             },
         },
@@ -62,6 +83,8 @@ export const getBlockExplorer = chainId => {
             return "https://aware-fake-trim-testnet.explorer.testnet.skalenodes.com";
         case 1350216234:
             return "https://parallel-stormy-spica.explorer.mainnet.skalenodes.com";
+        case 80084:
+            return "https://bartio.beratrail.io";
         default:
             return "https://aware-fake-trim-testnet.explorer.testnet.skalenodes.com";
     }
@@ -73,19 +96,10 @@ export const getRPCURL = chainId => {
             return "https://testnet.skalenodes.com/v1/aware-fake-trim-testnet";
         case 1350216234:
             return "https://mainnet.skalenodes.com/v1/parallel-stormy-spica";
+        case 80084:
+            return "https://bartio.rpc.berachain.com";
         default:
             return "https://testnet.skalenodes.com/v1/aware-fake-trim-testnet";
-    }
-};
-
-export const getFileStorageUrl = chainId => {
-    switch (chainId) {
-        case 1020352220:
-            return "https://testnet.skalenodes.com/fs/aware-fake-trim-testnet";
-        case 1350216234:
-            return "https://mainnet.skalenodes.com/fs/parallel-stormy-spica";
-        default:
-            return "https://testnet.skalenodes.com/fs/aware-fake-trim-testnet";
     }
 };
 
@@ -95,6 +109,8 @@ export const getChainName = chainId => {
             return "Skale Titan AI Hub Testnet";
         case 1350216234:
             return "Skale Titan AI Hub";
+        case 80084:
+            return "Berachain bArtio";
         default:
             return "Skale Titan AI Hub Testnet";
     }
@@ -119,6 +135,32 @@ export const getTransactionAbi = async chainId => {
             return "Titan AI Hub";
         default:
             return (await import("../abis/TitanTestnetTransaction.json")).abi;
+    }
+};
+
+export const getMintContract = chainId => {
+    switch (chainId) {
+        case 1020352220:
+            return "0xCc9d605CAe26e3C9F004c641952812E3D202b888";
+        case 1350216234:
+            return "0x17f2B4DeB46CfE6b864Fd3B397dA92F9AEe51D56";
+        case 80084:
+            return "0x933A21bc4F91Ad614302d7f5bbF3DfAbA004634f";
+        default:
+            return "0xCc9d605CAe26e3C9F004c641952812E3D202b888";
+    }
+};
+
+export const getMintAbi = async chainId => {
+    switch (chainId) {
+        case 1020352220:
+            return (await import("../abis/Mint.json")).abi;
+        case 1350216234:
+            return (await import("../abis/Mint.json")).abi;
+        case 80084:
+            return (await import("../abis/Mint.json")).abi;
+        default:
+            return (await import("../abis/Mint.json")).abi;
     }
 };
 
@@ -150,6 +192,8 @@ export const getTokenSymbol = chainId => {
             return "sFUEL";
         case 1350216234:
             return "sFUEL";
+        case 80084:
+            return "BERA";
         default:
             return "sFUEL";
     }

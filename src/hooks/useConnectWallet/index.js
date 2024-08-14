@@ -8,10 +8,16 @@ import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { login } from "../../apis/auth";
 import Modal from "../../components/Modal";
-import ABI from "../../constants/contractABI.json";
-import { DesiredChainId, contractAddress } from "../../constants/helper";
+import { DesiredChainId } from "../../constants/helper";
 import Miner from "../../shared/Miner";
-import { fixedBalance, getPoWContract, getRPCURL } from "../../shared/web3utils";
+import {
+    fixedBalance,
+    getMintAbi,
+    getMintContract,
+    getPoWContract,
+    getRPCURL,
+    getSupportedChains,
+} from "../../shared/web3utils";
 
 const message = "Welcome to Metakraft AI!";
 export default function useConnectWallet({
@@ -117,8 +123,7 @@ export default function useConnectWallet({
                 const fixedBalancec = fixedBalance(
                     BigInt(balance?._hex || balance?.hex || balance),
                 );
-
-                if (fixedBalancec <= 0.001) {
+                if (fixedBalancec <= 0.001 && chain === DesiredChainId) {
                     await distributeGas({
                         provider,
                         address: account,
@@ -127,7 +132,7 @@ export default function useConnectWallet({
                     });
                 }
 
-                createContractInstance({ signer, account });
+                await createContractInstance({ signer, account, chain });
                 await createSkynetInstance({ provider: provider5, address: account });
 
                 if (!user && userWallet?.email && auth) {
@@ -153,8 +158,9 @@ export default function useConnectWallet({
         }
     };
 
-    const createContractInstance = ({ signer, account }) => {
-        const contract = new ethers.Contract(contractAddress, ABI.abi, signer);
+    const createContractInstance = async ({ signer, account, chain }) => {
+        const abi = await getMintAbi(chain);
+        const contract = new ethers.Contract(getMintContract(chain), abi, signer);
         setContract(contract);
         setUserWallet(account);
 
@@ -190,10 +196,10 @@ export default function useConnectWallet({
         const sdk = new MetaKeep({
             appId: process.env.REACT_APP_METAKEEP_APPID,
             chainId: DesiredChainId,
-            rpcNodeUrls: {
-                1020352220: getRPCURL(1020352220),
-                1350216234: getRPCURL(1350216234),
-            },
+            rpcNodeUrls: getSupportedChains().reduce((old, curr) => {
+                old[curr.id] = getRPCURL(curr.id);
+                return old;
+            }, {}),
             user: { email: email || "" },
         });
 
@@ -209,7 +215,7 @@ export default function useConnectWallet({
     };
 
     const connectPrivy = async email => {
-        if (authenticated) {
+        if (authenticated && ready && privyReady && wallets?.length) {
             const web3Provider = await wallets?.[0]?.getEthereumProvider();
             const provider = new ethers.BrowserProvider(web3Provider);
             const provider5 = new ethers5.providers.Web3Provider(web3Provider);
@@ -222,10 +228,13 @@ export default function useConnectWallet({
                 account: walletAddress,
                 provider5,
             };
-        } else {
+        } else if (ready) {
             await sendCode({ email });
             toast.success("Otp sent successfully");
             setShowPrivyOtpModal(true);
+            return 0;
+        } else {
+            setPrivyOtpVerifying(true);
             return 0;
         }
     };
