@@ -150,29 +150,6 @@ export default function Account() {
                                 {user?.email}
                             </Typography>
                         </Box>
-                        <Box>
-                            <Button
-                                sx={{
-                                    border: 1,
-                                    gap: 1.2,
-                                    px: 3,
-                                    py: 1,
-                                    backgroundColor: "#181819",
-                                    color: "white",
-                                    borderRadius: 2,
-                                    borderColor: "#414141",
-                                    textTransform: "none",
-                                    "&:hover": {
-                                        backgroundColor: "#2B2B33",
-                                    },
-                                }}
-                            >
-                                <img src={faq} style={{ height: "18px", width: "18px" }} />
-                                <Typography variant="caption" color="#BDC5C5">
-                                    FAQ
-                                </Typography>
-                            </Button>
-                        </Box>
                     </Box>
                     <Box
                         sx={{
@@ -316,9 +293,6 @@ export default function Account() {
                                                 Add KRAFT
                                             </Typography>
                                         </Button>
-                                        <Typography variant="body1" color="#D17337">
-                                            Get Free KRAFT?
-                                        </Typography>
                                     </Box>
                                 </Box>
                             </Box>
