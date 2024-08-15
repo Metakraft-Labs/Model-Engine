@@ -9,6 +9,7 @@ import { tokenPlans } from "../../../shared/constants";
 import {
     fixedBalance,
     getRPCURL,
+    getSupportedChains,
     getTransactionAbi,
     getTransactionContract,
     getUSDCAbi,
@@ -159,6 +160,54 @@ export default function ConfirmationModal({ plan, showModal, setShowModal }) {
                                 >
                                     USDC Contract Address: {USDC_CONTRACT_ADDRESS}
                                 </Typography>
+
+                                {chainId ===
+                                    getSupportedChains().find(c => c.network === "Skale")?.id && (
+                                    <ol style={{ color: "#FFFFFF" }}>
+                                        <li>
+                                            <Typography
+                                                color={"#FFFFFF"}
+                                                fontWeight={500}
+                                                fontSize={"16px"}
+                                            >
+                                                Visit the SKALE Portal bridge to get USDC on the{" "}
+                                                <a href="https://testnet.portal.skale.space/bridge?from=juicy-low-small-testnet&to=aware-fake-trim-testnet&token=usdc&type=erc20">
+                                                    Titan Hub
+                                                </a>
+                                            </Typography>
+                                        </li>
+                                        <li>
+                                            <Typography
+                                                color={"#FFFFFF"}
+                                                fontWeight={500}
+                                                fontSize={"16px"}
+                                            >
+                                                Connect your wallet with Mainnet USDC. Then bridge
+                                                the USDC
+                                            </Typography>
+                                        </li>
+                                        <li>
+                                            <Typography
+                                                color={"#FFFFFF"}
+                                                fontWeight={500}
+                                                fontSize={"16px"}
+                                            >
+                                                Open the wallet where you&apos;ve the Titan Hubs
+                                                USDC.
+                                            </Typography>
+                                        </li>
+                                        <li>
+                                            <Typography
+                                                color={"#FFFFFF"}
+                                                fontWeight={500}
+                                                fontSize={"16px"}
+                                            >
+                                                Transfer your Titan Hubs USDC to your metakraft
+                                                wallet.
+                                            </Typography>
+                                        </li>
+                                    </ol>
+                                )}
                             </>
                         ) : (
                             ""

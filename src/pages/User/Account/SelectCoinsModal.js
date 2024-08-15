@@ -47,7 +47,6 @@ export default function SelectCoinsModal({ plan, showModal, setShowModal }) {
                 "& #modal-heading": {
                     fontWeight: 500,
                 },
-                maxHeight: "500px",
             }}
         >
             <Box
@@ -57,7 +56,9 @@ export default function SelectCoinsModal({ plan, showModal, setShowModal }) {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
+                    maxHeight: "500px",
                     gap: "20px",
+                    pt: "30px",
                     overflowY: "auto",
                     overflowX: "hidden",
                 }}
