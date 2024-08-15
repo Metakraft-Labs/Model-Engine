@@ -199,7 +199,7 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    {<USDCIconCircled height="20" width="20" />}
+                                    {<USDCIconCircled height="10" width="10" />}
                                 </InputAdornment>
                             ),
                         }}
