@@ -231,7 +231,7 @@ export default function CreateNFT({
                     fullWidth
                     startIcon={<CoinIcon />}
                 >
-                    {mintLoading ? "Launching..." : "Launch + Mint"}
+                    {mintLoading ? "Launching..." : `${download !== "no" ? "Launch + " : ""}Mint`}
                 </Button>
             </Tooltip>
 

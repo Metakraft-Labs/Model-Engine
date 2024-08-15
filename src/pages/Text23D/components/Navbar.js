@@ -230,7 +230,7 @@ export default function Navbar({
                         sx={{ border: 1, borderColor: "#746380", mr: 2 }}
                         disabled={!model}
                     >
-                        Launch
+                        Mint
                     </Button>
                     <MintDropdown
                         open={openMintMenu}

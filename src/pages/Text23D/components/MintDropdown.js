@@ -11,7 +11,7 @@ import {
 import React, { useState } from "react";
 import CreateNFT from "../../../components/CreateNFT";
 import { CoinIcon } from "../../../icons/CoinIcon";
-import { USDIconCircled } from "../../../icons/USDIconCircled";
+import { USDCIconCircled } from "../../../icons/USDCIconCircled";
 import ChangeLicenseModal from "./ChangeLicenseModal";
 
 export default function MintDropdown({ open, handleClose, byteRes, url, prompt }) {
@@ -199,7 +199,7 @@ export default function MintDropdown({ open, handleClose, byteRes, url, prompt }
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    {<USDIconCircled height="20" width="20" />}
+                                    {<USDCIconCircled height="20" width="20" />}
                                 </InputAdornment>
                             ),
                         }}
