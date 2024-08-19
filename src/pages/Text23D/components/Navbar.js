@@ -249,7 +249,7 @@ const useStyles = makeStyles(theme => ({
     appBar: {
         backgroundColor: "#000000",
         borderRadius: 10,
-        width: "60%",
+        width: "fit-content",
         height: "100%",
         padding: "2px 0",
         color: "#FFFFFF",
