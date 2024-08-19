@@ -3,6 +3,7 @@ import Error404 from "../pages/404";
 import Auth from "../pages/Auth";
 import Home from "../pages/Home";
 import ModelViewer from "../pages/ModelViewer";
+import SceneEditor from "../pages/SceneEditor";
 import Text23D from "../pages/Text23D";
 import Text2Motion from "../pages/Text2Motion";
 import Text2Scene from "../pages/Text2Scene";
@@ -57,6 +58,12 @@ export const Links = [
         name: "Model Viewer",
         path: "/model-viewer",
         element: <ModelViewer />,
+        showInNavigation: false,
+    },
+    {
+        name: "Scene Editor",
+        path: "/scene-editor",
+        element: <SceneEditor />,
         showInNavigation: false,
     },
     {
