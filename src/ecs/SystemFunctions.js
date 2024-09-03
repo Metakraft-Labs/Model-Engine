@@ -1,0 +1,206 @@
+import { v4 as uuidv4 } from "uuid";
+import { getMutableState, getState, startReactor, useImmediateEffect } from "../hyperflux";
+
+import { SystemState } from "./SystemState";
+import { nowMilliseconds } from "./Timer";
+
+export const filterAndSortSystemsByAvgDuration = (minAvg = 0.0) => {
+    const systems = SystemDefinitions;
+    const sorted = [...systems.values()]
+        .filter(system => system.avgSystemDuration > minAvg)
+        .sort((left, right) => {
+            return right.avgSystemDuration - left.avgSystemDuration;
+        });
+
+    return sorted;
+};
+
+export const sortSystemsByAvgDuration = () => {
+    const systems = SystemDefinitions;
+    const sorted = [...systems.values()].sort((left, right) => {
+        return right.avgSystemDuration - left.avgSystemDuration;
+    });
+
+    return sorted;
+};
+
+export const SystemDefinitions = new Map();
+globalThis.SystemDefinitions = SystemDefinitions;
+
+const lastWarningTime = new Map();
+const warningCooldownDuration = 1000 * 10; // 10 seconds
+
+export function executeSystem(systemUUID) {
+    const system = SystemDefinitions.get(systemUUID);
+    if (!system) {
+        console.warn(`System ${systemUUID} does not exist.`);
+        return;
+    }
+
+    for (let i = 0; i < system.preSystems.length; i++) {
+        executeSystem(system.preSystems[i]);
+    }
+
+    /** @todo when we fully remove deprecated system reactors in favour of state reactors, we can just wrap system.execute with flushSync */
+    if (system.reactor && !getState(SystemState).activeSystemReactors.has(system.uuid)) {
+        const reactor = startReactor(system.reactor);
+        getState(SystemState).activeSystemReactors.set(system.uuid, reactor);
+    }
+
+    const startTime = nowMilliseconds();
+
+    try {
+        getMutableState(SystemState).currentSystemUUID.set(systemUUID);
+        system.execute();
+    } catch (e) {
+        console.error(`Failed to execute system ${system.uuid}`);
+        console.error(e);
+    } finally {
+        getMutableState(SystemState).currentSystemUUID.set("__null__");
+    }
+
+    const endTime = nowMilliseconds();
+    const systemDuration = endTime - startTime;
+    system.systemDuration = systemDuration;
+    if (system.systemDuration != 0)
+        system.avgSystemDuration = (systemDuration + system.avgSystemDuration) * 0.5;
+    if (getState(SystemState).performanceProfilingEnabled) {
+        if (
+            systemDuration > 50 &&
+            (lastWarningTime.get(systemUUID) ?? 0) < endTime - warningCooldownDuration
+        ) {
+            lastWarningTime.set(systemUUID, endTime);
+            console.warn(
+                `Long system execution detected. System: ${system.uuid} \n Duration: ${systemDuration}`,
+            );
+        }
+    }
+
+    for (let i = 0; i < system.subSystems.length; i++) {
+        executeSystem(system.subSystems[i]);
+    }
+    for (let i = 0; i < system.postSystems.length; i++) {
+        executeSystem(system.postSystems[i]);
+    }
+}
+
+/**
+ * Defines a system
+ * @param systemConfig
+ * @returns
+ */
+export function defineSystem(systemConfig) {
+    if (SystemDefinitions.has(systemConfig.uuid)) {
+        throw new Error(`System ${systemConfig.uuid} already exists.`);
+    }
+
+    const system = {
+        preSystems: [],
+        subSystems: [],
+        postSystems: [],
+        sceneSystem: false,
+        execute: () => {},
+        ...systemConfig,
+        uuidConfig: systemConfig.uuid,
+        enabled: false,
+        systemDuration: 0,
+        avgSystemDuration: 0,
+    };
+
+    SystemDefinitions.set(system.uuid, system);
+
+    const insert = system.insert;
+
+    /** these are here to ensure we aren't failing to specify an insertion system that ts-node fails with higher level module imports */
+    if ("before" in insert && typeof insert.before === "undefined") {
+        console.log(system);
+        throw new Error("System insert.before is undefined");
+    }
+    if ("with" in insert && typeof insert.with === "undefined") {
+        console.log(system);
+        throw new Error("System insert.with is undefined");
+    }
+    if ("after" in insert && typeof insert.after === "undefined") {
+        console.log(system);
+        throw new Error("System insert.after is undefined");
+    }
+
+    if (insert?.before) {
+        const referenceSystem = SystemDefinitions.get(insert.before);
+        if (!referenceSystem) throw new Error(`System ${insert.before} does not exist.`);
+        referenceSystem.preSystems.push(system.uuid);
+        console.log(`Registered system ${systemConfig.uuid} before ${insert.before}`);
+    }
+
+    if (insert?.with) {
+        const referenceSystem = SystemDefinitions.get(insert.with);
+        if (!referenceSystem) throw new Error(`System ${insert.with} does not exist.`);
+        referenceSystem.subSystems.push(system.uuid);
+        console.log(`Registered system ${systemConfig.uuid} with ${insert.with}`);
+    }
+
+    if (insert?.after) {
+        const referenceSystem = SystemDefinitions.get(insert.after);
+        if (!referenceSystem) throw new Error(`System ${insert.after} does not exist.`);
+        referenceSystem.postSystems.push(system.uuid);
+        console.log(`Registered system ${systemConfig.uuid} after ${insert.after}`);
+    }
+
+    return systemConfig.uuid;
+}
+
+export const useExecute = (execute, insert) => {
+    useImmediateEffect(() => {
+        const handle = defineSystem({ uuid: uuidv4(), execute, insert });
+        return () => {
+            destroySystem(handle);
+        };
+    }, []);
+};
+
+/**
+ * Disables a system
+ * @param systemUUID
+ * @todo Should this be async?
+ */
+export const destroySystem = systemUUIDUUID => {
+    const system = SystemDefinitions.get(systemUUID);
+    if (!system) throw new Error(`System ${systemUUID} does not exist.`);
+
+    for (const subSystem of system.subSystems) {
+        destroySystem(subSystem);
+    }
+
+    const reactor = getState(SystemState).activeSystemReactors.get(system.uuid);
+    if (reactor) {
+        getState(SystemState).activeSystemReactors.delete(system.uuid);
+        reactor.stop();
+    }
+
+    for (const postSystem of system.postSystems) {
+        destroySystem(postSystem);
+    }
+
+    for (const preSystem of system.preSystems) {
+        destroySystem(preSystem);
+    }
+
+    const insert = system.insert;
+
+    if (insert?.before) {
+        const referenceSystem = SystemDefinitions.get(insert.before);
+        referenceSystem.preSystems.splice(referenceSystem.preSystems.indexOf(system.uuid), 1);
+    }
+
+    if (insert?.with) {
+        const referenceSystem = SystemDefinitions.get(insert.with);
+        referenceSystem.subSystems.splice(referenceSystem.subSystems.indexOf(system.uuid), 1);
+    }
+
+    if (insert?.after) {
+        const referenceSystem = SystemDefinitions.get(insert.after);
+        referenceSystem.postSystems.splice(referenceSystem.postSystems.indexOf(system.uuid), 1);
+    }
+
+    SystemDefinitions.delete(systemUUID);
+};

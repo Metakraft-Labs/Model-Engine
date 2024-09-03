@@ -52,7 +52,7 @@ export default function ShareDropdown({ open, handleClose, model, id }) {
             </Box>
 
             <Typography color={"#B4B4B4"} textAlign={"center"} fontSize={"17px"} mb={"10px"}>
-                Share to win 10 credits!
+                Share to win 10 credits
             </Typography>
             <Typography color={"#707071"} fontSize={"13px"} mb={"10px"}>
                 Earn up to 100 free credits monthly by sharing the model on Twitter or the link with

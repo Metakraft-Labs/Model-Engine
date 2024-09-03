@@ -1,0 +1,89 @@
+import { useCallback, useEffect, useState } from "react";
+
+import { defineSystem, PresentationSystemGroup } from "../../../ecs";
+import { readGraphFromJSON, VisualScriptEngine } from "../../../visual-script";
+
+/** Runs the visual script by building the execution
+ * engine and triggering start on the lifecycle event emitter.
+ */
+let systemCounter = 0;
+let system = undefined;
+
+export const getOnAsyncExecuteSystemUUID = () => "visual-script-asyncExecute" + systemCounter;
+export const useVisualScriptRunner = ({ visualScriptJson, autoRun = false, registry }) => {
+    const [engine, setEngine] = useState();
+    const [run, setRun] = useState(autoRun);
+
+    const play = useCallback(() => {
+        setRun(true);
+    }, []);
+
+    const pause = useCallback(() => {
+        setRun(false);
+    }, []);
+
+    const togglePlay = useCallback(() => {
+        setRun(existing => !existing);
+    }, []);
+
+    useEffect(() => {
+        if (!visualScriptJson || !registry.values || !run || !registry.dependencies) return;
+        let visualScriptNodes;
+        try {
+            visualScriptNodes = readGraphFromJSON({
+                graphJson: visualScriptJson,
+                registry,
+            }).nodes;
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+        const engine = new VisualScriptEngine(visualScriptNodes);
+
+        setEngine(engine);
+
+        return () => {
+            engine.dispose();
+            setEngine(undefined);
+        };
+    }, [visualScriptJson, registry.values, run, registry.nodes, registry.dependencies]);
+
+    useEffect(() => {
+        if (!engine || !run) return;
+        const eventEmitter = registry.dependencies?.ILifecycleEventEmitter;
+        engine.executeAllSync();
+
+        if (eventEmitter.startEvent.listenerCount === 0) {
+            console.warn("No onStart Node found in graph.  Graph will not run.");
+            return;
+        }
+        eventEmitter.startEvent.emit();
+        if (engine.asyncNodes.length) {
+            if (system === undefined) {
+                systemCounter++;
+                const systemUUID = defineSystem({
+                    uuid: getOnAsyncExecuteSystemUUID(),
+                    execute: () => {
+                        if (!engine || !run) return;
+                        engine.executeAllAsync(500);
+                    },
+                    insert: { after: PresentationSystemGroup },
+                });
+                system = systemUUID;
+            }
+        }
+        return () => {
+            if (system === undefined) return;
+            system = undefined; // setting variable to undefined will destroy the system
+        };
+        // start up
+    }, [engine, registry.dependencies?.ILifecycleEventEmitter, run]);
+
+    return {
+        engine,
+        playing: run,
+        play,
+        togglePlay,
+        pause,
+    };
+};

@@ -1,0 +1,203 @@
+import React, { useEffect } from "react";
+
+import {
+    defineQuery,
+    defineSystem,
+    Engine,
+    entityExists,
+    getComponent,
+    getOptionalComponent,
+    hasComponent,
+    removeComponent,
+    setComponent,
+    SimulationSystemGroup,
+    UUIDComponent,
+} from "../../../ecs";
+import {
+    defineActionQueue,
+    defineState,
+    dispatchAction,
+    getMutableState,
+    getState,
+    none,
+    useHookstate,
+    useMutableState,
+} from "../../../hyperflux";
+import { NetworkObjectAuthorityTag, NetworkState, WorldNetworkAction } from "../../../network";
+import { ClientInputSystem } from "../../../spatial";
+import { Vector3_Zero } from "../../../spatial/common/constants/MathConstants";
+import { EngineState } from "../../../spatial/EngineState";
+import { InputComponent } from "../../../spatial/input/components/InputComponent";
+import { InputSourceComponent } from "../../../spatial/input/components/InputSourceComponent";
+import { Physics } from "../../../spatial/physics/classes/Physics";
+import { RigidBodyComponent } from "../../../spatial/physics/components/RigidBodyComponent";
+import { BodyTypes } from "../../../spatial/physics/types/PhysicsTypes";
+import { TransformComponent } from "../../../spatial/transform/components/TransformComponent";
+
+import { getHandTarget } from "../../avatar/components/AvatarIKComponents";
+import {
+    GrabbableComponent,
+    GrabbedComponent,
+    GrabberComponent,
+    onDrop,
+} from "../components/GrabbableComponent";
+import { GrabbableNetworkAction } from "../functions/grabbableFunctions";
+
+export const GrabbableState = defineState({
+    name: "ee.engine.grabbables.GrabbableState",
+
+    initial: {},
+
+    receptors: {
+        onSetGrabbedObject: GrabbableNetworkAction.setGrabbedObject.receive(action => {
+            const state = getMutableState(GrabbableState);
+            if (action.grabbed)
+                state[action.entityUUID].set({
+                    attachmentPoint: action.attachmentPoint ?? "right",
+                    grabberUserId: action.grabberUserId,
+                });
+            else state[action.entityUUID].set(none);
+        }),
+        onDestroyObject: WorldNetworkAction.destroyEntity.receive(action => {
+            const state = getMutableState(GrabbableState);
+            state[action.entityUUID].set(none);
+        }),
+    },
+
+    reactor: () => {
+        const grabbableState = useMutableState(GrabbableState);
+        return (
+            <>
+                {grabbableState.keys.map(entityUUID => (
+                    <GrabbableReactor key={entityUUID} entityUUID={entityUUID} />
+                ))}
+            </>
+        );
+    },
+});
+
+const GrabbableReactor = ({ entityUUID }) => {
+    const state = useHookstate(getMutableState(GrabbableState)[entityUUID]);
+    const entity = UUIDComponent.useEntityByUUID(entityUUID);
+    const grabberEntity = UUIDComponent.useEntityByUUID(state.grabberUserId.value);
+    const attachmentPoint = state.attachmentPoint.value;
+
+    useEffect(() => {
+        if (!entity || !grabberEntity) return;
+
+        setComponent(grabberEntity, GrabberComponent, { [attachmentPoint]: entity });
+        setComponent(entity, GrabbedComponent, {
+            grabberEntity,
+            attachmentPoint,
+        });
+
+        if (hasComponent(entity, RigidBodyComponent)) {
+            setComponent(entity, RigidBodyComponent, { type: BodyTypes.Kinematic });
+            // for (let i = 0; i < body.numColliders(); i++) {
+            //   const collider = body.collider(i)
+            //   let oldCollisionGroups = collider.collisionGroups()
+            //   oldCollisionGroups ^= CollisionGroups.Default << 16
+            //   collider.setCollisionGroups(oldCollisionGroups)
+            // }
+        }
+
+        return () => {
+            if (hasComponent(grabberEntity, GrabbedComponent))
+                setComponent(grabberEntity, GrabberComponent, { [attachmentPoint] });
+            if (!entityExists(entity)) return;
+            removeComponent(entity, GrabbedComponent);
+            if (hasComponent(entity, RigidBodyComponent)) {
+                setComponent(entity, RigidBodyComponent, { type: BodyTypes.Dynamic });
+                // for (let i = 0; i < body.numColliders(); i++) {
+                //   const collider = body.collider(i)
+                //   let oldCollisionGroups = collider.collisionGroups()
+                //   oldCollisionGroups ^= CollisionGroups.Default << 16
+                //   collider.setCollisionGroups(oldCollisionGroups)
+                // }
+            }
+        };
+    }, [entity, grabberEntity]);
+
+    return null;
+};
+
+/** @deprecated @todo - replace with reactor */
+export function transferAuthorityOfObjectReceptor(action) {
+    if (action.newAuthority !== Engine.instance.store.peerID) return;
+    const grabbableEntity = UUIDComponent.getEntityByUUID(action.entityUUID);
+    if (hasComponent(grabbableEntity, GrabbableComponent)) {
+        const grabberUserId = NetworkState.worldNetwork.peers[action.newAuthority]?.userId;
+        dispatchAction(
+            GrabbableNetworkAction.setGrabbedObject({
+                entityUUID: getComponent(grabbableEntity, UUIDComponent),
+                grabberUserId: grabberUserId,
+                grabbed: !hasComponent(grabbableEntity, GrabbedComponent),
+                // todo, pass attachment point through actions somehow
+                attachmentPoint: "right",
+            }),
+        );
+    }
+}
+
+/**
+ * @todo refactor this into i18n and configurable
+ */
+
+/** @todo replace this with event sourcing */
+const transferAuthorityOfObjectQueue = defineActionQueue(
+    WorldNetworkAction.transferAuthorityOfObject.matches,
+);
+const ownedGrabbableQuery = defineQuery([GrabbableComponent, NetworkObjectAuthorityTag]);
+
+const execute = () => {
+    if (getState(EngineState).isEditing) return;
+
+    for (const action of transferAuthorityOfObjectQueue())
+        transferAuthorityOfObjectReceptor(action);
+
+    for (const entity of ownedGrabbableQuery()) {
+        const grabbedComponent = getOptionalComponent(entity, GrabbedComponent);
+        if (!grabbedComponent) return;
+        const attachmentPoint = grabbedComponent.attachmentPoint;
+
+        const target = getHandTarget(grabbedComponent.grabberEntity, attachmentPoint ?? "right");
+
+        const rigidbodyComponent = getOptionalComponent(entity, RigidBodyComponent);
+        const world = Physics.getWorld(entity);
+
+        if (rigidbodyComponent) {
+            rigidbodyComponent.targetKinematicPosition.copy(target.position);
+            rigidbodyComponent.targetKinematicRotation.copy(target.rotation);
+            Physics.setRigidbodyPose(
+                world,
+                entity,
+                target.position,
+                target.rotation,
+                Vector3_Zero,
+                Vector3_Zero,
+            );
+        }
+
+        const grabbableTransform = getComponent(entity, TransformComponent);
+        grabbableTransform.position.copy(target.position);
+        grabbableTransform.rotation.copy(target.rotation);
+    }
+};
+
+const executeInput = () => {
+    const inputSources = InputSourceComponent.nonCapturedInputSources();
+    const buttons = InputComponent.getMergedButtonsForInputSources(inputSources);
+    if (buttons.KeyU?.down) onDrop();
+};
+
+export const GrabbableSystem = defineSystem({
+    uuid: "ee.engine.GrabbableSystem",
+    insert: { with: SimulationSystemGroup },
+    execute,
+});
+
+export const GrabbableInputSystem = defineSystem({
+    uuid: "ee.engine.GrabbableInputSystem",
+    insert: { after: ClientInputSystem },
+    execute: executeInput,
+});

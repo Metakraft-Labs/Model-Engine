@@ -1,0 +1,29 @@
+export class RemoveMaterialsExtension {
+    name = "EXT_remove_materials";
+    parser;
+    constructor(parser) {
+        this.parser = parser;
+    }
+    async beforeRoot() {
+        const parser = this.parser;
+        const json = parser.json;
+        json.images = [];
+        json.textures = [];
+        json.materials = [];
+        json.samplers = [];
+        json.meshes?.forEach(mesh => {
+            mesh.primitives.forEach(primitive => {
+                delete primitive.material;
+            });
+        });
+    }
+    loadImage() {
+        return null;
+    }
+    loadMaterial() {
+        return null;
+    }
+    loadTexture() {
+        return null;
+    }
+}

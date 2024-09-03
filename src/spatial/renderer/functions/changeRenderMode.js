@@ -1,0 +1,40 @@
+import { MeshBasicMaterial, MeshNormalMaterial } from "three";
+
+import { getComponent } from "../../../ecs";
+import { getState } from "../../../hyperflux";
+
+import { RendererState } from "../RendererState";
+import { RendererComponent } from "../WebGLRendererSystem";
+import { RenderModes } from "../constants/RenderModes";
+
+/**
+ * Change render mode of the renderer
+ * @param mode Mode which will be set to renderer
+ */
+
+export function changeRenderMode(entity) {
+    const renderMode = getState(RendererState).renderMode;
+
+    const passes = getComponent(entity, RendererComponent).effectComposer?.passes.filter(
+        p => p.name === "RenderPass",
+    );
+    const renderPass = passes ? passes[0] : undefined;
+    if (!renderPass) return;
+
+    switch (renderMode) {
+        case RenderModes.UNLIT:
+        case RenderModes.LIT:
+        case RenderModes.SHADOW:
+            renderPass.overrideMaterial = null;
+            break;
+        case RenderModes.WIREFRAME:
+            renderPass.overrideMaterial = new MeshBasicMaterial({
+                color: 0x000000,
+                wireframe: true,
+            });
+            break;
+        case RenderModes.NORMALS:
+            renderPass.overrideMaterial = new MeshNormalMaterial();
+            break;
+    }
+}

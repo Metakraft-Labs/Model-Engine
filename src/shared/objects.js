@@ -15,3 +15,8 @@ export const convertToQueryParam = (object = {}, keyName = "data") => {
 
     return query;
 };
+
+export function resolveObject(obj, path) {
+    const keyPath = Array.isArray(path) ? path : path.split(".");
+    return keyPath.reduce((prev, curr) => prev?.[curr], obj);
+}

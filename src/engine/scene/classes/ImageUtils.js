@@ -1,0 +1,256 @@
+import {
+    BackSide,
+    ClampToEdgeWrapping,
+    CubeCamera,
+    CubeTexture,
+    DoubleSide,
+    IcosahedronGeometry,
+    LinearFilter,
+    Mesh,
+    MeshBasicMaterial,
+    OrthographicCamera,
+    PlaneGeometry,
+    RawShaderMaterial,
+    RGBAFormat,
+    Scene,
+    SRGBColorSpace,
+    Uniform,
+    UnsignedByteType,
+    WebGLCubeRenderTarget,
+    WebGLRenderTarget,
+} from "three";
+
+import { defineState, getState } from "../../../hyperflux";
+import { KTX2Encoder, UASTCFlags } from "../../../xrui/core/textures/KTX2Encoder";
+
+export const ImageProjection = {
+    Flat: "Flat",
+    Equirectangular360: "Equirectangular360",
+};
+
+export const ImageAlphaMode = {
+    Opaque: "Opaque",
+    Blend: "Blend",
+    Mask: "Mask",
+};
+
+//#region CubemapToEquirectangular Shader
+const vertexShader = `
+	attribute vec3 position;
+	attribute vec2 uv;
+
+	uniform mat4 projectionMatrix;
+	uniform mat4 modelViewMatrix;
+
+	varying vec2 vUv;
+
+	void main()  {
+
+		vUv = vec2( 1.- uv.x, uv.y );
+		gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+	}
+`;
+
+const fragmentShader = `
+	precision mediump float;
+
+	uniform samplerCube map;
+
+	varying vec2 vUv;
+
+	#define M_PI 3.1415926535897932384626433832795
+
+	void main()  {
+
+		vec2 uv = vUv;
+
+		float longitude = uv.x * 2. * M_PI - M_PI + M_PI / 2.;
+		float latitude = uv.y * M_PI;
+
+		vec3 dir = vec3(
+			- sin( longitude ) * sin( latitude ),
+			cos( latitude ),
+			- cos( longitude ) * sin( latitude )
+		);
+		normalize( dir );
+
+		gl_FragColor = textureCube( map, dir );
+
+	}
+`;
+
+//#endregion
+
+//download the imagedata as png
+export const downloadImage = (imageData, imageName = "Image", width, height) => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = width;
+    canvas.height = height;
+    ctx.putImageData(imageData, 0, 0);
+    canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const fileName = `${imageName}.png`;
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.setAttribute("download", fileName);
+        anchor.className = "download-js-link";
+        anchor.innerHTML = "downloading...";
+        anchor.style.display = "none";
+        document.body.appendChild(anchor);
+        setTimeout(() => {
+            anchor.click();
+            document.body.removeChild(anchor);
+        }, 1);
+    }, "image/png");
+};
+
+/** Used in editor */
+export const ScreenshotSettings = defineState({
+    name: "ScreenshotSettings",
+    initial: {
+        ktx2: {
+            srgb: true,
+            uastc: true,
+            uastcZstandard: true,
+            uastcFlags: UASTCFlags.UASTCLevelFastest,
+        },
+    },
+});
+
+const ktx2write = new KTX2Encoder();
+
+export const convertImageDataToKTX2Blob = async imageData => {
+    const ktx2texture = await ktx2write.encode(imageData, getState(ScreenshotSettings).ktx2);
+    return new Blob([ktx2texture]);
+};
+
+export const blurAndScaleImageData = (
+    imageData,
+    width,
+    height,
+    blur = 0,
+    newSize = 0, // 0 is no scaling
+) => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = width;
+    canvas.height = height;
+    ctx.putImageData(imageData, 0, 0);
+
+    if (blur > 0) {
+        ctx.filter = `blur(${blur}px)`;
+        ctx.drawImage(canvas, 0, 0);
+    }
+
+    if (newSize > 0) {
+        const scaledCanvas = document.createElement("canvas");
+        const scaledCtx = scaledCanvas.getContext("2d");
+        scaledCanvas.width = newSize;
+        scaledCanvas.height = newSize;
+        scaledCtx.drawImage(canvas, 0, 0, newSize, newSize);
+        return scaledCtx.getImageData(0, 0, newSize, newSize);
+    } else {
+        return ctx.getImageData(0, 0, width, height);
+    }
+};
+
+//convert Cubemap To Equirectangular map
+export const convertCubemapToEquiImageData = (
+    renderer,
+    source,
+    width,
+    height,
+    returnAsBlob = false,
+) => {
+    const scene = new Scene();
+    const material = new RawShaderMaterial({
+        uniforms: {
+            map: new Uniform(new CubeTexture()),
+        },
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        side: DoubleSide,
+        transparent: true,
+    });
+    const quad = new Mesh(new PlaneGeometry(1, 1), material);
+    scene.add(quad);
+    const camera = new OrthographicCamera(1 / -2, 1 / 2, 1 / 2, 1 / -2, -10000, 10000);
+
+    quad.scale.set(width, height, 1);
+    camera.left = width / 2;
+    camera.right = width / -2;
+    camera.top = height / -2;
+    camera.bottom = height / 2;
+    camera.updateProjectionMatrix();
+    const renderTarget = new WebGLRenderTarget(width, height, {
+        minFilter: LinearFilter,
+        magFilter: LinearFilter,
+        wrapS: ClampToEdgeWrapping,
+        wrapT: ClampToEdgeWrapping,
+        colorSpace: SRGBColorSpace,
+        format: RGBAFormat,
+        type: UnsignedByteType,
+    });
+
+    const originalColorSpace = renderer.outputColorSpace;
+    renderer.outputColorSpace = SRGBColorSpace;
+    renderer.setRenderTarget(renderTarget);
+    quad.material.uniforms.map.value = source;
+    renderer.render(scene, camera);
+    const pixels = new Uint8Array(4 * width * height);
+    renderer.readRenderTargetPixels(renderTarget, 0, 0, width, height, pixels);
+    renderer.setRenderTarget(null); // pass `null` to set canvas as render target
+    renderer.outputColorSpace = originalColorSpace;
+
+    const imageData = new ImageData(new Uint8ClampedArray(pixels), width, height);
+
+    if (returnAsBlob) return imageDataToBlob(imageData);
+
+    return imageData;
+};
+
+export const imageDataToBlob = imageData => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = imageData.width;
+    canvas.height = imageData.height;
+    ctx.putImageData(imageData, 0, 0);
+    return new Promise(resolve => canvas.toBlob(resolve));
+};
+
+//convert Equirectangular map to WebGlCubeRenderTarget
+export const convertEquiToCubemap = (renderer, source, size) => {
+    const convertScene = new Scene();
+
+    const gl = renderer.getContext();
+    const maxSize = gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE);
+
+    const material = new MeshBasicMaterial({
+        map,
+        side: BackSide,
+    });
+
+    const mesh = new Mesh(new IcosahedronGeometry(100, 4), material);
+    convertScene.add(mesh);
+
+    const mapSize = Math.min(size, maxSize);
+    const cubeRenderTarget = new WebGLCubeRenderTarget(mapSize);
+    const cubecam = new CubeCamera(1, 100000, cubeRenderTarget);
+    material.map = source;
+    cubecam.update(renderer, convertScene);
+    return cubeRenderTarget;
+};
+
+export const imageDataToImage = imagedata => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = imagedata.width;
+    canvas.height = imagedata.height;
+    ctx.putImageData(imagedata, 0, 0);
+
+    const image = new Image();
+    image.src = canvas.toDataURL();
+    return image;
+};

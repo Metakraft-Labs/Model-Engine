@@ -74,7 +74,7 @@ export default function CreateNFT({
                                   license,
                               }
                             : {}),
-                        applicationType: null,
+                        applicationType,
                         createdAt: Date.now(),
                         mintCost,
                         collectionCost: 1,
@@ -214,7 +214,7 @@ export default function CreateNFT({
                 <Button
                     variant="outlined"
                     type="primary"
-                    onClick={() => (user?.tokens >= 10 ? handleButtonClick() : null)}
+                    onClick={() => (user?.tokens >= 10 ? handleButtonClick() )}
                     disabled={mintLoading}
                     sx={{
                         cursor: user?.tokens >= 10 ? "pointer" : "default",

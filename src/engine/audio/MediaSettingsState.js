@@ -1,0 +1,15 @@
+import { defineState } from "../../hyperflux";
+
+export const MediaSettingsState = defineState({
+    name: "MediaSettingsState",
+    initial: {
+        immersiveMedia: false,
+        refDistance: 20,
+        rolloffFactor: 1,
+        maxDistance: 10000,
+        distanceModel: "linear",
+        coneInnerAngle: 360,
+        coneOuterAngle: 0,
+        coneOuterGain: 0,
+    },
+});

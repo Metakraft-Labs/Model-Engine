@@ -6,7 +6,7 @@ import useConnectWallet from "../hooks/useConnectWallet";
 export const UserStore = createContext(null);
 
 export default function UserProvider({ children, theme, setTheme, setLoading }) {
-    const [token, setToken] = useState(localStorage.getItem("token") || null);
+    const [token, setToken] = useState(localStorage.getItem("token") |);
     const [user, setUser] = useState(null);
     const [contract, setContract] = useState(null);
     const [connected, setConnected] = useState(false);

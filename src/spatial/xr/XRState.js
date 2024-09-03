@@ -1,0 +1,164 @@
+import { Quaternion, Vector3 } from "three";
+import matches from "ts-matches";
+
+import {
+    defineAction,
+    defineState,
+    getMutableState,
+    getState,
+    useMutableState,
+} from "../../hyperflux";
+
+export class XRAction {
+    static sessionChanged = defineAction({
+        type: "xre.xr.sessionChanged",
+        active: matches.boolean,
+        $cache: { removePrevious: true },
+    });
+
+    // todo, support more haptic formats other than just vibrating controllers
+    static vibrateController = defineAction({
+        type: "xre.xr.vibrateController",
+        handedness: matches.literals("left", "right"),
+        value: matches.number,
+        duration: matches.number,
+    });
+}
+
+// TODO: divide this up into the systems that manage these states
+export const XRState = defineState({
+    name: "XRState",
+    initial: () => {
+        return {
+            sessionActive: false, // TODO: remove this; it's redundant, just need to check if session exists
+            requestingSession: false,
+            scenePosition: new Vector3(),
+            sceneRotation: new Quaternion(),
+            sceneScale: 1,
+            sceneScaleAutoMode: true,
+            sceneScaleTarget: 1,
+            sceneRotationOffset: 0,
+            scenePlacementMode: "unplaced",
+            supportedSessionModes: {
+                inline: false,
+                "immersive-ar": false,
+                "immersive-vr": false,
+            },
+            avatarCameraMode: "auto",
+            unassingedInputSources: [],
+            session,
+            sessionMode: "none",
+            /** Stores the depth map data - will exist if depth map is supported */
+            depthDataTexture,
+            is8thWallActive: false,
+            viewerPose,
+            /** @todo replace with proper proportions API */
+            userEyeHeight: 1.75,
+            userHeightRatio: 1,
+            xrFrame,
+        };
+    },
+
+    /**
+     * Gets the world scale according to avatar scaling factor and scene scale
+     * - divide any world-space distances by this to get the real-world distance
+     * @todo - can we think of a better name for this?
+     * @returns {number} the world scale
+     */
+    get worldScale() {
+        const { sceneScale, userHeightRatio } = getState(XRState);
+        return sceneScale * userHeightRatio;
+    },
+
+    /**
+     * Specifies that the user has movement controls if:
+     * - in an immersive session
+     * - or in an immersive session with a world-space interaction mode
+     * - or in an immersive-ar and dollhouse mode
+     */
+    get isMovementControlsEnabled() {
+        const { sessionActive, sessionMode, sceneScale } = getState(XRState);
+        if (!sessionActive) return true;
+        const isMiniatureScale = sceneScale !== 1;
+        return sessionMode === "immersive-ar" ? isMiniatureScale : true;
+    },
+
+    useMovementControlsEnabled: () => {
+        const { sessionActive, sessionMode, sceneScale } = useMutableState(XRState).value;
+        if (!sessionActive) return true;
+        const isMiniatureScale = sceneScale !== 1;
+        return sessionMode === "immersive-ar" ? isMiniatureScale : true;
+    },
+
+    /**
+     * Specifies that the camera is attached to the avatar if:
+     * - in an immersion session and not in placement mode or miniature mode
+     */
+    get isCameraAttachedToAvatar() {
+        const { session, sceneScale, scenePlacementMode, avatarCameraMode } = getState(XRState);
+        if (!session || scenePlacementMode === "placing") return false;
+        if (avatarCameraMode === "auto") {
+            return sceneScale === 1;
+        }
+        return avatarCameraMode === "attached";
+    },
+
+    useCameraAttachedToAvatar: () => {
+        const { session, sceneScale, scenePlacementMode, avatarCameraMode } =
+            useMutableState(XRState).value;
+        if (!session || scenePlacementMode === "placing") return false;
+        if (avatarCameraMode === "auto") {
+            return sceneScale === 1;
+        }
+        return avatarCameraMode === "attached";
+    },
+
+    setTrackingSpace: () => {
+        const { xrFrame, userEyeHeight } = getState(XRState);
+
+        if (!xrFrame) {
+            getMutableState(XRState).userHeightRatio.set(1);
+            return;
+        }
+
+        const viewerPose = xrFrame.getViewerPose(ReferenceSpace.localFloor);
+
+        if (!viewerPose) {
+            getMutableState(XRState).userHeightRatio.set(1);
+            return;
+        }
+
+        getMutableState(XRState).userHeightRatio.set(
+            viewerPose.transform.position.y / userEyeHeight,
+        );
+    },
+});
+
+export const ReferenceSpace = {
+    /**
+     * The scene origin reference space describes where the origin of the tracking space is
+     * TODO: this will be deprecated in a future reference space refactor
+     */
+    origin,
+    /**
+     * @see https://www.w3.org/TR/webxr/#dom-xrreferencespacetype-local-floor
+     */
+    localFloor,
+    /**
+     * @see https://www.w3.org/TR/webxr/#dom-xrreferencespacetype-viewer
+     */
+    viewer,
+};
+globalThis.ReferenceSpace = ReferenceSpace;
+
+const userAgent = "navigator" in globalThis ? navigator.userAgent : "";
+
+/**
+ * Wheter or not this is a mobile XR headset
+ **/
+export const isMobileXRHeadset =
+    userAgent.includes("Oculus") ||
+    userAgent.includes("VR") ||
+    userAgent.includes("AR") ||
+    userAgent.includes("Reality") ||
+    userAgent.includes("Wolvic");
