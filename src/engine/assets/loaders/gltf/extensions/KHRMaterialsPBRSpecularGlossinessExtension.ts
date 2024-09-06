@@ -35,7 +35,7 @@ export class KHRMaterialsPBRSpecularGlossinessExtension extends ImporterExtensio
       }
       await parser.assignTexture(dud, 'texture', extension.specularGlossinessTexture)
       const mapData = (await createReadableTexture(dud.texture, { canvas: true }))
-      const canvas = mapData.image as HTMLCanvasElement
+      const canvas = mapData.image
       const ctx = canvas.getContext('2d')
       ctx.globalCompositeOperation = 'difference'
       ctx.fillStyle = 'white'
