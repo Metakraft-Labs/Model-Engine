@@ -1,7 +1,5 @@
 import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
 
-import { isClient } from "@ir-engine/common/src/utils/getEnvironment";
-
 import { WebLayer } from "./WebLayer";
 
 const ResizeObserver = self.ResizeObserver || Polyfill;
@@ -59,8 +57,8 @@ export class WebRenderer {
         return this.ATTRIBUTE_PREFIX + "-rendering-document";
     }
 
-    static serializer = isClient ? new XMLSerializer() : null;
-    static textEncoder = isClient ? new TextEncoder() : null;
+    static serializer = new XMLSerializer();
+    static textEncoder = new TextEncoder();
 
     // static containsHover(element) {
     //   for (const t of this.virtualHoverElements) {

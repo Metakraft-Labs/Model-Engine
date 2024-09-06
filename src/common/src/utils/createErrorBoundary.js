@@ -3,7 +3,7 @@ import React from "react";
 export function createErrorBoundary(component, errorHandler) {
     return class extends React.Component {
         state = {
-            error,
+            error: undefined,
         };
 
         static getDerivedStateFromError(error) {

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 
-import config from "../../../common/src/config";
 import { getComponent } from "../../../ecs/ComponentFunctions";
 import { Engine } from "../../../ecs/Engine";
 import { defineQuery, useQuery } from "../../../ecs/QueryFunctions";
@@ -32,7 +31,7 @@ function loadScript(url) {
  */
 const initialize8thwall = async () => {
     const [xr8Script, xrExtrasScript /*, xrCoachingOverlayScript*/] = await Promise.all([
-        loadScript(`https://apps.8thwall.com/xrweb?appKey=${config.client.key8thWall}`),
+        loadScript(`https://apps.8thwall.com/xrweb?appKey=`),
         loadScript(`https://cdn.8thwall.com/web/xrextras/xrextras.js`),
         // loadScript(`https://cdn.8thwall.com/web/coaching-overlay/coaching-overlay.js`)
     ]);

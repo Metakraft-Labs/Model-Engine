@@ -1,5 +1,5 @@
+import { insertionSort } from "../../../common/src/utils/insertionSort";
 import { entityExists } from "../../../ecs/EntityFunctions";
-import { insertionSort } from "../../../shared/sort";
 import {
     DistanceFromCameraComponent,
     FrustumCullCameraComponent,

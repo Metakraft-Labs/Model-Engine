@@ -1,0 +1,2 @@
+export const MULTIPART_CUTOFF_SIZE = 1000 * 1000 * 1000;
+export const MULTIPART_CHUNK_SIZE = 100 * 1000 * 1000;

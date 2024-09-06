@@ -2,7 +2,7 @@ import { hookstate } from "@hookstate/core";
 import React, { Suspense, useTransition } from "react";
 import Reconciler from "react-reconciler";
 import { ConcurrentRoot, DefaultEventPriority } from "react-reconciler/constants";
-import { createErrorBoundary } from "../shared/createErrorBoundary";
+import { createErrorBoundary } from "../common/src/utils/createErrorBoundary";
 
 import { HyperFlux } from "./StoreFunctions";
 

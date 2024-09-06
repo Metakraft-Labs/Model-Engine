@@ -1,6 +1,5 @@
 import matches from "ts-matches";
 
-import multiLogger from "../../../common/src/logger";
 import { UUIDComponent, getComponent, useOptionalComponent } from "../../../ecs";
 import {
     defineAction,
@@ -24,13 +23,13 @@ export const GLTFNodeState = defineState({
         const source = getComponent(entity, SourceComponent);
         const uuid = getComponent(entity, UUIDComponent);
         if (!source || !uuid) {
-            multiLogger.error(
+            console.error(
                 "GLTFNodeState.getMutableNode: entity does not have SourceComponent or UUIDComponent",
             );
         }
         const nodeLookup = getState(GLTFNodeState)[source][uuid];
         if (!nodeLookup) {
-            multiLogger.error("GLTFNodeState.getMutableNode: node not found in lookup");
+            console.error("GLTFNodeState.getMutableNode: node not found in lookup");
         }
         const gltf = getMutableState(GLTFDocumentState)[source];
         return gltf.nodes[nodeLookup.nodeIndex];

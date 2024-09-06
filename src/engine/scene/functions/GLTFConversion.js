@@ -1,6 +1,5 @@
 import { Matrix4 } from "three";
 
-import config from "../../../common/src/config";
 import { sceneRelativePathIdentifier } from "../../../common/src/utils/parseSceneJSON";
 import { generateEntityUUID, UUIDComponent } from "../../../ecs";
 import { TransformComponent } from "../../../spatial";
@@ -55,7 +54,7 @@ export const gltfToSceneJson = gltf => {
  * @param mode 'encode' or 'decode'
  */
 export const handleScenePaths = (gltf, mode) => {
-    const cacheRe = getCacheRegex(config.client.fileServer);
+    const cacheRe = getCacheRegex(`${process.env.REACT_APP_S3_ASSETS}/editor`);
     const symbolRe = /__\$project\$__/;
     const frontier = [...(gltf.scenes ?? []), ...(gltf.nodes ?? [])];
     while (frontier.length > 0) {

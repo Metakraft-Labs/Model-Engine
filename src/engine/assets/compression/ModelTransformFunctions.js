@@ -32,7 +32,6 @@ import { LoaderUtils } from "three";
 import { v4 as uuidv4 } from "uuid";
 
 import { API } from "../../../common";
-import config from "../../../common/src/config";
 import { fileBrowserPath } from "../../../common/src/schema.type.module";
 import { baseName, pathJoin } from "../../../common/src/utils/miscUtils";
 import { extractParameters } from "../../../engine/assets/classes/ModelTransform";
@@ -379,7 +378,7 @@ export async function transformModel(args, onMetadata = (key, data) => {}) {
     };
 
     const fileUploadPath = fUploadPath => {
-        const relativePath = fUploadPath.replace(config.client.fileServer, "");
+        const relativePath = fUploadPath.replace(`${process.env.REACT_APP_S3_ASSETS}/editor`, "");
         const pathCheck = /projects\/([^/]+)\/assets\/([\w\d\s\-|_./]*)$/;
         const [_, projectName, fileName] =
             pathCheck.exec(fUploadPath) ??
@@ -728,25 +727,6 @@ export async function transformModel(args, onMetadata = (key, data) => {}) {
             finalPath += `.${parms.modelFormat}`;
         }
         await doUpload(data, finalPath);
-
-        /*
-    const uploadArgs = {
-      path: savePath,
-      fileName,
-      body: data,
-      contentType: (await getContentType(args.dst)) || ''
-    }
-    result = await API.instance.service('file-browser').patch(null, uploadArgs)
-    */
-        /*dispatchAction(
-      BufferHandlerExtension.saveBuffer({
-        {
-          name: fileName,
-          byteLength: data.byteLength,
-
-        }
-      })
-    )*/
         result = finalPath;
         console.log("Handled glb file");
     } else if (parms.modelFormat === "gltf") {
@@ -792,8 +772,7 @@ export async function transformModel(args, onMetadata = (key, data) => {}) {
             format: Format.GLTF,
             basename: resourceName,
         });
-        const folderURL = resourcePath.replace(config.client.fileServer, "");
-        //await API.instance.service(fileBrowserPath).remove(folderURL)
+        const folderURL = resourcePath.replace(`${process.env.REACT_APP_S3_ASSETS}/editor`, "");
         await API.instance.service(fileBrowserPath).create(folderURL);
 
         json.images?.map(image => {
@@ -817,20 +796,6 @@ export async function transformModel(args, onMetadata = (key, data) => {}) {
             resources[localPath] = resources[uri];
             delete resources[uri];
         });
-        /*
-    const doUpload = async (uri, data) => {
-      const [savePath, fileName] = fileUploadPath(uri)
-      const args = {
-        path: savePath,
-        fileName,
-        body: data,
-        contentType: (await getContentType(uri)) || ''
-      }
-      return API.instance.service(fileBrowserPath).patch(null, args)
-    }
-    await Promise.all(Object.entries(resources).map(([uri, data]) => doUpload(uri, data)))
-    result = await doUpload(args.dst.replace(/\.glb$/, '.gltf'), Buffer.from(JSON.stringify(json)))
-    */
 
         await Promise.all(
             Object.entries(resources).map(async ([uri, data]) => {

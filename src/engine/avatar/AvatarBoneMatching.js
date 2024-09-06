@@ -1,7 +1,7 @@
 import { VRM, VRMHumanoid } from "@pixiv/three-vrm";
 import { Euler, Quaternion, Skeleton, Vector3 } from "three";
 
-import { Object3DUtils } from "../../shared/Object3DUtils";
+import { Object3DUtils } from "../../common/src/utils/Object3DUtils";
 
 const _getTailBones = root => {
     const result = [];
@@ -101,7 +101,7 @@ const _findHead = tailBones => {
             }
         })
         .filter(bone => bone);
-    const headBone = headBones.length > 0 ? headBones[0] ;
+    const headBone = headBones.length > 0 ? headBones[0] : null;
     if (headBone) {
         return headBone;
     } else {
@@ -134,7 +134,7 @@ const _findEye = (tailBones, left) => {
                 return bLeftBalance - aLeftBalance;
             }
         });
-    const eyeBone = eyeBones.length > 0 ? eyeBones[0] ;
+    const eyeBone = eyeBones.length > 0 ? eyeBones[0] : null;
     if (eyeBone) {
         return eyeBone;
     } else {
@@ -190,7 +190,7 @@ const _findShoulder = (tailBones, left) => {
                 }
             }
         });
-    const shoulderBone = shoulderBones.length > 0 ? shoulderBones[0].bone ;
+    const shoulderBone = shoulderBones.length > 0 ? shoulderBones[0].bone : null;
     if (shoulderBone) {
         return shoulderBone;
     } else {
@@ -250,7 +250,7 @@ const _findFoot = (tailBones, left) => {
                 }
             }
         });
-    const footBone = legBones.length > 0 ? legBones[0].footBone ;
+    const footBone = legBones.length > 0 ? legBones[0].footBone : null;
     if (footBone) {
         return footBone;
     } else {
@@ -282,7 +282,7 @@ const _findFinger = (r, left, parent) => {
     const fingerRootBone =
         fingerTipBone.length > 0
             ? _findFurthestParentBone(fingerTipBone[0], bone => r.test(bone.name))
-            ;
+            : null;
     return fingerRootBone;
 };
 

@@ -1,0 +1,181 @@
+export function wait(ms) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < ms);
+}
+export function waitS(seconds) {
+    wait(seconds * 1000);
+}
+
+export function isNumber(value) {
+    return value != null && value !== "" && !isNaN(Number(value.toString()));
+}
+
+export function toPrecision(value, precision) {
+    const p = 1 / precision;
+    return Math.round(value * p) / p;
+}
+
+export function combine(first, second, third) {
+    const res = [];
+
+    for (let i = 0; i < first.length; i++) res.push(first[i]);
+    for (let i = 0; i < second.length; i++) res.push(second[i]);
+    for (let i = 0; i < third.length; i++) res.push(third[i]);
+
+    return res;
+}
+
+export const unique = (arr, keyFinder) => {
+    const set = new Set();
+    const newArr = [];
+    if (!keyFinder) keyFinder = item => item;
+
+    for (const item of arr) {
+        const key = keyFinder(item);
+        if (set.has(key)) continue;
+
+        newArr.push(item);
+        set.add(key);
+    }
+
+    return newArr;
+};
+
+export function combineArrays(arrays) {
+    const res = [];
+
+    for (let i = 0; i < arrays.length; i++) {
+        for (let j = 0; j < arrays[i].length; j++) {
+            res.push(arrays[i][j]);
+        }
+    }
+
+    return res;
+}
+
+export function insertArraySeparator(children, separatorFn) {
+    if (!Array.isArray(children)) {
+        return children;
+    }
+    const length = children.length;
+    if (length === 1) {
+        return children[0];
+    }
+    return children.reduce((acc, item, index) => {
+        acc.push(item);
+        if (index !== length - 1) {
+            acc.push(separatorFn(index));
+        }
+        return acc;
+    }, []);
+}
+
+export function arraysAreEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) return false;
+
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+export function pathJoin(...parts) {
+    const separator = "/";
+
+    return parts
+        .map((part, index) => {
+            // If it's the first part, we only want to remove trailing slashes
+            if (index === 0) {
+                while (part.endsWith(separator)) {
+                    part = part.substring(0, part.length - 1);
+                }
+            }
+            // If it's the last part, we only want to remove leading slashes
+            else if (index === parts.length - 1) {
+                if (part) {
+                    while (part.startsWith(separator)) {
+                        part = part.substring(1);
+                    }
+                }
+            }
+            // For all other parts, remove leading and trailing slashes
+            else {
+                if (part) {
+                    while (part.startsWith(separator)) {
+                        part = part.substring(1);
+                    }
+                    while (part.endsWith(separator)) {
+                        part = part.substring(0, part.length - 1);
+                    }
+                }
+            }
+
+            return part;
+        })
+        .join(separator);
+}
+
+export function baseName(path) {
+    return path.split(/[\\/]/).pop();
+}
+
+export function relativePathTo(src, dst) {
+    const normalizePath = path => path.split("/").filter(Boolean);
+
+    const srcSegments = normalizePath(src);
+    const dstSegments = normalizePath(dst);
+    let commonIndex = 0;
+
+    // Find common path segments
+    while (
+        srcSegments[commonIndex] === dstSegments[commonIndex] &&
+        commonIndex < Math.min(srcSegments.length, dstSegments.length)
+    ) {
+        commonIndex++;
+    }
+
+    // Calculate the number of '../' needed
+    let relativePathArray = [];
+    for (let i = commonIndex; i < srcSegments.length; i++) {
+        relativePathArray.push("..");
+    }
+
+    // Append the destination path
+    relativePathArray = relativePathArray.concat(dstSegments.slice(commonIndex));
+
+    // Handle the special case where src and dst are the same directory
+    if (relativePathArray.length === 0) {
+        return ".";
+    }
+
+    return relativePathArray.join("/");
+}
+
+/**
+ * Converts a string to title case. For example, "hello world" becomes "Hello World".
+ * Reference: https://stackoverflow.com/a/196991
+ * @param source
+ * @returns
+ */
+export const toCapitalCase = source => {
+    return source.replace(/\w\S*/g, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+};
+
+export function toCamelPad(source) {
+    return source
+        .replace(/([A-Z]+)([A-Z][a-z])/g, " $1 $2")
+        .replace(/([a-z\d])([A-Z])/g, "$1 $2")
+        .replace(/([a-zA-Z])(\d)/g, "$1 $2")
+        .replace(/^./, str => {
+            return str.toUpperCase();
+        })
+        .trim();
+}

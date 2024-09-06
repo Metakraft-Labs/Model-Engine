@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Frustum, Matrix4, Vector3 } from "three";
 
+import { insertionSort } from "../../../common/src/utils/insertionSort";
 import {
     AnimationSystemGroup,
     defineQuery,
@@ -11,7 +12,6 @@ import {
 } from "../../../ecs";
 import { getMutableState, getState, none } from "../../../hyperflux";
 import { NetworkState } from "../../../network";
-import { insertionSort } from "../../../shared/sort";
 import { EntityTreeComponent } from "../../../spatial/transform/components/EntityTree";
 
 import { CameraComponent } from "../../camera/components/CameraComponent";
