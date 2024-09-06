@@ -69,9 +69,9 @@ export const TextComponent = defineComponent({
 
             // Advanced Configuration
             textOrientation: "+x+y",
-            clipActive: false, // sends []: Array<number> to Text.clipRect when true
-            clipRectMin: new Vector2(-1024, -1024), // pixels. Sent to troika as [minX, minY, maxX, maxY] :Array<number>
-            clipRectMax: new Vector2(1024, 1024), // pixels. Sent to troika as [minX, minY, maxX, maxY] :Array<number>
+            clipActive: false, // sends []: Array to Text.clipRect when true
+            clipRectMin: new Vector2(-1024, -1024), // pixels. Sent to troika as [minX, minY, maxX, maxY] :Array
+            clipRectMax: new Vector2(1024, 1024), // pixels. Sent to troika as [minX, minY, maxX, maxY] :Array
             gpuAccelerated: true,
             glyphResolution: 6, // Maps to troika.Text.sdfGlyphSize. Sent to troika as 2^N :number
             glyphDetail: 1, // Maps to troika.Text.glyphGeometryDetail
@@ -378,7 +378,7 @@ export const TextComponent = defineComponent({
             const troikaMesh = text.troikaMesh.value;
             troikaMesh.clipRect = text.clipActive.value
                 ? [
-                      // Send as [minX, minY, maxX, maxY] :Array<number>
+                      // Send as [minX, minY, maxX, maxY] :Array
                       text.clipRectMin.x.value,
                       text.clipRectMin.y.value,
                       text.clipRectMax.x.value,

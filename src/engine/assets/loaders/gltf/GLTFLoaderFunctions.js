@@ -144,9 +144,9 @@ export function addMorphTargets(geometry, targets, parser) {
 
     if (!hasMorphPosition && !hasMorphNormal && !hasMorphColor) return Promise.resolve(geometry);
 
-    const pendingPositionAccessors = [] as Promise<unknown>[];
-    const pendingNormalAccessors = [] as Promise<unknown>[];
-    const pendingColorAccessors = [] as Promise<unknown>[];
+    const pendingPositionAccessors = [];
+    const pendingNormalAccessors = [];
+    const pendingColorAccessors = [];
 
     for (let i = 0, il = targets.length; i < il; i++) {
         const target = targets[i];
@@ -394,7 +394,7 @@ export function computeBounds(geometry, primitiveDef, parser) {
 export function addPrimitiveAttributes(geometry, primitiveDef, parser) {
     const attributes = primitiveDef.attributes;
 
-    const pending = [] as Promise<unknown>[];
+    const pending = [];
 
     function assignAttributeAccessor(accessorIndex, attributeName) {
         return parser.getDependency("accessor", accessorIndex).then(function (accessor) {

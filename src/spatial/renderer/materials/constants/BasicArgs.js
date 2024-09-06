@@ -15,7 +15,7 @@ import {
     TangentSpaceNormalMap,
 } from "three";
 
-import { BoolArg, ColorArg, FloatArg, NormalizedFloatArg, SelectArg, Vec2Arg } from "./DefaultArgs";
+import { BoolArg, ColorArg, FloatArg, NormalizedFloatArg, SelectArg } from "./DefaultArgs";
 
 export const BasicArgs = {
     alphaTest: NormalizedFloatArg,
@@ -108,7 +108,7 @@ export const NormalMapArgs = {
             { label: "Tangent Space", value: TangentSpaceNormalMap },
         ],
     },
-    normalScale: Vec2Arg,
+    normalScaleArg,
 };
 
 export const RoughhnessMapArgs = {

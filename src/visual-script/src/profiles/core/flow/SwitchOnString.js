@@ -33,9 +33,9 @@ export const SwitchOnString = makeFlowNodeDefinition({
     },
     initialState: undefined,
     triggered: ({ read, commit, configuration }) => {
-        const selection = read<string>("selection");
+        const selection = read("selection");
         for (const index of sequence(1, configuration.numCases + 1)) {
-            if (selection === read<string>(`${index}`)) {
+            if (selection === read(`${index}`)) {
                 commit(`${index}`);
                 return;
             }

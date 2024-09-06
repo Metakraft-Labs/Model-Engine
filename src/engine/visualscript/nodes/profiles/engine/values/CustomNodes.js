@@ -191,7 +191,7 @@ export const makeRaycast = makeFlowNodeDefinition({
       volume = component.volume
     }
     setComponent(entity, PositionalAudioComponent)
-    const media = read<string>('mediaPath')
+    const media = read('mediaPath')
     resources = media ? [media, ...resources] : resources
     const paused = read<boolean>('paused')
     volume = MathUtils.clamp(read('volume') ?? volume, 0, 1)
@@ -442,8 +442,8 @@ export const switchScene = makeFlowNodeDefinition({
     out: {},
     initialState: undefined,
     triggered: ({ read, commit }) => {
-        // const projectName = read<string>('projectName')
-        // const sceneName = read<string>('sceneName')
+        // const projectName = read('projectName')
+        // const sceneName = read('sceneName')
         // SceneServices.setCurrentScene(projectName, sceneName)
     },
 });

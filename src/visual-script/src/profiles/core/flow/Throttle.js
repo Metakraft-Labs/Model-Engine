@@ -61,7 +61,7 @@ export class Throttle extends AsyncNode {
                 engine.commitToNewFiber(this, "flow");
                 finished();
             },
-            this.readInput<number>("duration") * 1000,
+            this.readInput("duration") * 1000,
         );
     }
 

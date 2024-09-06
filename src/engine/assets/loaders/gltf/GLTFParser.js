@@ -1753,7 +1753,7 @@ export class GLTFParser {
         if (PATH_PROPERTIES[target.path] === PATH_PROPERTIES.weights) {
             node.traverse(function (object) {
                 if (object.morphTargetInfluences) {
-                    targetNames.push(object.name ? object.name : object.uuid);
+                    targetNames.push(object.name ? object.name .uuid);
                 }
             });
         } else {
