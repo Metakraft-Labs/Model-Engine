@@ -448,7 +448,9 @@ const RendererShadowReactor = () => {
 const reactor = () => {
     const useShadows = useShadowsEnabled();
 
-    const [shadowTexture] = useTexture(`/projects/spark/default-project/assets/drop-shadow.png`);
+    const [shadowTexture] = useTexture(
+        `${process.env.REACT_APP_S3_ASSETS}/editor/projects/spark/default-project/assets/drop-shadow.png`,
+    );
 
     useEffect(() => {
         if (!shadowTexture) return;

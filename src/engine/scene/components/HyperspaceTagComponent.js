@@ -165,7 +165,7 @@ export const HyperspaceTagComponent = defineComponent({
     reactor: () => {
         const entity = useEntityContext();
         const [galaxyTexture] = useTexture(
-            `/projects/spark/default-project/assets/galaxyTexture.jpg`,
+            `${process.env.REACT_APP_S3_ASSETS}/editor/projects/spark/default-project/assets/galaxyTexture.jpg`,
             entity,
         );
 

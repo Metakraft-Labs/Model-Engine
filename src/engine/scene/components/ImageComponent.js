@@ -31,7 +31,7 @@ export const ImageComponent = defineComponent({
 
     onInit: entity => {
         return {
-            source: `/projects/spark/default-project/assets/sample_etc1s.ktx2`,
+            source: `${process.env.REACT_APP_S3_ASSETS}/editor/projects/spark/default-project/assets/sample_etc1s.ktx2`,
             alphaMode: ImageAlphaMode.Opaque,
             alphaCutoff: 0.5,
             projection: ImageProjection.Flat,

@@ -39,7 +39,7 @@ export const preloadedAnimations = {
     emotes: "emotes",
 };
 
-export const defaultAnimationPath = `/projects/spark/default-project/assets/animations/`;
+export const defaultAnimationPath = `${process.env.REACT_APP_S3_ASSETS}/editor/projects/spark/default-project/assets/animations/`;
 
 export const matchesIkTarget = matches.some(...Object.keys(ikTargets).map(k => matches.literal(k)));
 
