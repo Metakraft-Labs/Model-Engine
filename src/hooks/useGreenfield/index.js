@@ -41,7 +41,7 @@ export default function useGreenfield() {
         const provider = {};
         provider.request = async ({ params }) => {
             params[0] = `0x${Buffer.from(params[0], "utf8").toString("hex")}`;
-            await getMessage({ message: params[0], type: "personal" });
+            return await getMessage({ message: params[0], type: "personal" });
         };
         const storageResStr = localStorage.getItem(`storage-res-str-${address}`);
 
