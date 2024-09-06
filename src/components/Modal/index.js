@@ -56,7 +56,7 @@ export default function StyledModal({ open, onClose, heading, subHeading, childr
                     <Typography variant="h6" color={"inherit"} sx={{ filter: "invert(100%)" }}>
                         {subHeading}
                     </Typography>
-                ) }
+                ) : null}
                 {children}
             </Box>
         </Modal>

@@ -70,7 +70,7 @@ export default function useConnectWallet({
     const signMessage = async (signer, address) => {
         const signature = await signer.signMessage(message);
         const res = verifyMessageSignature(message, address, signature);
-        return res ? signature ;
+        return res ? signature : undefined;
     };
 
     const connectWallet = async ({ emailAddress, auth = true, walletProvider = "metakeep" }) => {

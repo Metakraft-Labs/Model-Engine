@@ -214,7 +214,7 @@ export default function CreateNFT({
                 <Button
                     variant="outlined"
                     type="primary"
-                    onClick={() => (user?.tokens >= 10 ? handleButtonClick() )}
+                    onClick={() => (user?.tokens >= 10 ? handleButtonClick() : null)}
                     disabled={mintLoading}
                     sx={{
                         cursor: user?.tokens >= 10 ? "pointer" : "default",

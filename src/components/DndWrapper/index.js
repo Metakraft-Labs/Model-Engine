@@ -13,5 +13,7 @@ export const DndWrapper = React.memo(({ id, children }) => {
         <DndProvider backend={HTML5Backend} options={{ rootElement: context }}>
             {children}
         </DndProvider>
-    ) ;
+    ) : null;
 });
+
+DndWrapper.displayName = "DndWrapper";
