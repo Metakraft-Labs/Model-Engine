@@ -19,8 +19,9 @@ export default function useGreenfield() {
 
     const getSps = async () => {
         const sps = await client.sp.getStorageProviders();
+        const finalSps = (sps ?? []).filter(v => v.endpoint.includes("nodereal"));
 
-        return sps;
+        return finalSps;
     };
 
     const getAllSps = async () => {
