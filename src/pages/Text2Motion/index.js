@@ -1,19 +1,12 @@
 import { Box, Button, TextField } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { generate } from "../../apis/text2motion";
-import CreateNFT from "../../components/CreateNFT/index";
-import UploadToIpfs from "../../components/UploadToIPFS/index";
-import { UserStore } from "../../contexts/UserStore";
 import Title from "../../shared/Title";
-import { urlToFile } from "../../shared/files";
 
 export default function Text2Motion() {
     const [prompt, setPrompt] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setMotion] = useState(null);
-    const [byteRes, setByteRes] = useState(null);
-
-    const { userWallet } = useContext(UserStore);
 
     const generateModel = async e => {
         setMotion(null);
@@ -23,9 +16,6 @@ export default function Text2Motion() {
         const res = await generate(prompt);
 
         if (res) {
-            const byteRes = await urlToFile(res);
-            const linkIPFS = await UploadToIpfs(byteRes.file, "Text2Motion");
-            setByteRes(linkIPFS);
             setMotion(res);
         }
 
@@ -84,10 +74,9 @@ export default function Text2Motion() {
                         </Box>
                     </form>
                 </Box>
-                {model && byteRes && userWallet ? (
+                {model ? (
                     <div>
                         <Button onClick={() => (window.location.href = model)}>Download</Button>
-                        <CreateNFT fileURI={byteRes} url={model} type={"motion"} prompt={prompt} />
                     </div>
                 ) : (
                     <></>

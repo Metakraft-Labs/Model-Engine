@@ -23,7 +23,7 @@ export const urlToFile = async (url, type = "images/png") => {
         reader.onload = () => {
             const arrayBuffer = reader.result;
             const bytes = new Uint8Array(arrayBuffer);
-            resolve({ arrayBuffer, bytes, file });
+            resolve({ arrayBuffer, bytes, file, size: blob.size });
         };
         reader.onerror = reject;
     });

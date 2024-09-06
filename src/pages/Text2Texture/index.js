@@ -1,13 +1,10 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { Box, Button, LinearProgress, Slider, TextField, Typography } from "@mui/material";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { generate } from "../../apis/text2texture";
 import bg_grad from "../../assets/img/account/bg_grad.png";
-import UploadToIpfs from "../../components/UploadToIPFS/index";
-import { UserStore } from "../../contexts/UserStore";
 import Title from "../../shared/Title";
-import { urlToFile } from "../../shared/files";
 import { BackLink } from "../Auth/styles";
 
 const defaultSettings = {
@@ -22,8 +19,6 @@ export default function Text2Texture() {
     const [prompt, setPrompt] = useState("");
     const [loading, setLoading] = useState(false);
     const [model, setTexture] = useState(null);
-    const [byteRes, setByteRes] = useState(null);
-    const { userWallet } = useContext(UserStore);
     const [selectedSize, setSelectedSize] = useState(1080);
 
     const generateModel = async e => {
@@ -35,9 +30,6 @@ export default function Text2Texture() {
         const res = await generate(prompt, selectedSize);
 
         if (res) {
-            const byteRes = await urlToFile(res);
-            const linkIPFS = await UploadToIpfs(byteRes.file, "Text2Texture");
-            setByteRes(linkIPFS);
             setTexture(res);
             setImage(res);
             resetFilters();
@@ -407,7 +399,7 @@ export default function Text2Texture() {
                                 </Button>
                             </form>
                         </Box>
-                        {model && byteRes && userWallet ? (
+                        {model ? (
                             <Box
                                 sx={{
                                     display: "flex",

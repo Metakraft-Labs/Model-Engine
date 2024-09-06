@@ -6,11 +6,12 @@ import { toast } from "react-toastify";
 import { mint } from "../../apis/nft";
 import Modal from "../../components/Modal";
 import { UserStore } from "../../contexts/UserStore";
+import useGreenfield from "../../hooks/useGreenfield";
 import { CoinIcon } from "../../icons/CoinIcon";
+import { urlToFile } from "../../shared/files";
 import { getBlockExplorer } from "../../shared/web3utils";
 
 export default function CreateNFT({
-    fileURI,
     url,
     prompt,
     type,
@@ -22,10 +23,12 @@ export default function CreateNFT({
     mintCost,
 }) {
     const [cid, setCID] = useState(null);
+    const [fileURI, setFileURI] = useState("");
     const [mintLoading, setMintLoading] = useState(false);
     const [contractRes, setContractRes] = useState(null);
     const { contract, userWallet, signer, user, updateUser, skynetBrowserInstance } =
         useContext(UserStore);
+    const { createObject, uploadObject } = useGreenfield();
 
     const fetchData = async cid => {
         try {
@@ -137,49 +140,23 @@ export default function CreateNFT({
         }
     };
 
-    const metaData = {
-        name: name || prompt,
-        description: description || `NFT for prompt: ${prompt}. Type: ${type} from Metakraft AI`,
-        image: `${fileURI}`,
-    };
-
-    const nftMetadata = JSON.stringify(metaData);
-
-    const uploadMetaDataToIPFS = async metaData => {
+    const uploadMetaData = async () => {
         if (!cid) {
             try {
-                const formData = new FormData();
+                const objName = name || prompt;
 
-                // Convert metadata string to Blob
-                const blob = new Blob([metaData], { type: "application/json" });
-                formData.append("file", blob, "metadata.json");
+                const byteRes = await urlToFile(url);
+                const file = byteRes?.file;
 
-                const metadata = JSON.stringify({
-                    name: "User's NFT Metadata",
-                });
-                formData.append("pinataMetadata", metadata);
-
-                const options = JSON.stringify({
-                    cidVersion: 0,
-                });
-                formData.append("pinataOptions", options);
-
-                const res = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-                    method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${process.env.REACT_APP_JWT}`,
-                    },
-                    body: formData,
-                });
+                const { txHash, objNewName } = await createObject(objName, file);
+                const res = await uploadObject({ file, name: objNewName, txHash });
 
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
                 }
+                setFileURI(link);
 
-                const resData = await res.json();
-                let nftcid = `ipfs://${resData.IpfsHash}`;
-
-                return nftcid;
+                return link;
             } catch (error) {
                 console.log(error);
             }
@@ -193,7 +170,7 @@ export default function CreateNFT({
             toast.error("You do not have enough credits for this operation");
         }
         setMintLoading(true);
-        const cid = await uploadMetaDataToIPFS(nftMetadata);
+        const cid = await uploadMetaData();
         setCID(cid);
 
         await fetchData(cid);
