@@ -211,6 +211,13 @@ export default function Text23D() {
                         imageUrl={imageUrl}
                         setMode={setMode}
                         id={modelId}
+                        showModel={showModel}
+                        models={{
+                            refined: refinedModel,
+                            stylized: stylizedModel,
+                            rigged: riggedModel,
+                            animated: animatedModel,
+                        }}
                     />
                 </Box>
                 <Box display={"flex"} alignItems={"center"}>

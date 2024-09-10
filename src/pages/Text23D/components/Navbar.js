@@ -49,6 +49,13 @@ export default function Navbar({
     imageUrl,
     setMode,
     id,
+    showModel,
+    models = {
+        refined,
+        stylized,
+        rigged,
+        animated,
+    },
 }) {
     const classes = useStyles();
     const { user } = useContext(UserStore);
@@ -140,7 +147,19 @@ export default function Navbar({
                     <Suspense fallback={<></>}>
                         <DownloadDropdown
                             open={openDownloadMenu}
-                            model={model}
+                            model={
+                                showModel === "draft"
+                                    ? model
+                                    : showModel === "refined"
+                                      ? models?.refined
+                                      : showModel === "stylized"
+                                        ? models?.stylized
+                                        : showModel === "rigged"
+                                          ? models?.rigged
+                                          : showModel === "animated"
+                                            ? models?.animated
+                                            : model
+                            }
                             handleClose={() => setOpenDownloadMenu(null)}
                         />
                     </Suspense>
