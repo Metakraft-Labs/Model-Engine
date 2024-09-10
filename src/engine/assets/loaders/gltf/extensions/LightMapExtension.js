@@ -1,21 +1,11 @@
 // https://github.com/mozilla/hubs/blob/27eb7f3d9eba3b938f1ca47ed5b161547b6fb3f2/src/components/gltf-model-plus.js
-import { Mesh, MeshBasicMaterial, MeshStandardMaterial, RepeatWrapping } from "three";
+import { RepeatWrapping } from "three";
 
-import iterateObject3D from "../../../spatial/common/functions/iterateObject3D";
+import iterateObject3D from "../../../../../spatial/common/functions/iterateObject3D";
 
-import { GLTF, GLTFLoaderPlugin } from "../GLTFLoader";
 import { ImporterExtension } from "./ImporterExtension";
 
-export type MOZ_lightmap = {
-    index;
-    texCoord;
-    intensity;
-    extensions: {
-        [extname];
-    };
-};
-
-export class HubsLightMapExtension extends ImporterExtension implements GLTFLoaderPlugin {
+export class HubsLightMapExtension extends ImporterExtension {
     name = "MOZ_lightmap";
 
     // @TODO: Ideally we should use extendMaterialParams hook.
@@ -28,7 +18,7 @@ export class HubsLightMapExtension extends ImporterExtension implements GLTFLoad
             return null;
         }
 
-        const extensionDef: MOZ_lightmap = materialDef.extensions[this.name];
+        const extensionDef = materialDef.extensions[this.name];
 
         const pending = [];
 
@@ -36,7 +26,7 @@ export class HubsLightMapExtension extends ImporterExtension implements GLTFLoad
         pending.push(parser.getDependency("texture", extensionDef.index));
 
         return Promise.all(pending).then(results => {
-            const material: MeshStandardMaterial | MeshBasicMaterial = results[0];
+            const material = results[0];
             const lightMap = results[1].clone();
             lightMap.channel = 1;
             const transform = extensionDef.extensions
@@ -61,10 +51,10 @@ export class HubsLightMapExtension extends ImporterExtension implements GLTFLoad
         });
     }
 
-    afterRoot(result: GLTF) {
-        iterateObject3D(result.scene, (mesh: Mesh) => {
+    afterRoot(result) {
+        iterateObject3D(result.scene, mesh => {
             if (!mesh?.isMesh) return;
-            const material = mesh.material as MeshStandardMaterial | MeshBasicMaterial;
+            const material = mesh.material;
             if (!material.lightMap) return;
             if (!mesh.geometry.hasAttribute("uv1")) {
                 console.warn("Mesh has lightmap but no uv2 attribute", mesh);

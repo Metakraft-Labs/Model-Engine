@@ -1,15 +1,9 @@
-import { ComponentJSONIDMap } from "../../../ecs/ComponentFunctions";
+import { ComponentJSONIDMap } from "../../../../../ecs/ComponentFunctions";
 
-import { ComponentJsonType } from "../../../../scene/types/SceneTypes";
-import { UUIDComponent, generateEntityUUID } from "../../../ecs";
-import { GLTFLoaderPlugin } from "../GLTFLoader";
+import { UUIDComponent, generateEntityUUID } from "../../../../../ecs";
 import { ImporterExtension } from "./ImporterExtension";
 
-export type EE_ecs = {
-    data: [string, any][];
-};
-
-export default class EEECSImporterExtension extends ImporterExtension implements GLTFLoaderPlugin {
+export default class EEECSImporterExtension extends ImporterExtension {
     name = "EE_ecs";
 
     beforeRoot() {
@@ -29,7 +23,7 @@ export default class EEECSImporterExtension extends ImporterExtension implements
 
             // CURRENT ECS EXTENSION FORMAT //../../..
             const ecsExtensions = nodeDef.extensions ?? {};
-            const componentJson: ComponentJsonType[] = [];
+            const componentJson = [];
             for (const jsonID of Object.keys(ecsExtensions)) {
                 const component = ComponentJSONIDMap.get(jsonID);
                 if (!component) {
@@ -58,7 +52,7 @@ export default class EEECSImporterExtension extends ImporterExtension implements
 
             // LEGACY ECS EXTENSION FORMAT //
             if (!nodeDef.extensions?.[this.name]) continue;
-            const extensionDef: EE_ecs = nodeDef.extensions[this.name];
+            const extensionDef = nodeDef.extensions[this.name];
             const containsECSData =
                 !!extensionDef.data && extensionDef.data.some(([k]) => k.startsWith("xrengine."));
             if (!containsECSData) continue;

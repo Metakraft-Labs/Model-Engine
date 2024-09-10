@@ -193,7 +193,7 @@ export const makeRaycast = makeFlowNodeDefinition({
     setComponent(entity, PositionalAudioComponent)
     const media = read('mediaPath')
     resources = media ? [media, ...resources] : resources
-    const paused = read<boolean>('paused')
+    const paused = read('paused')
     volume = MathUtils.clamp(read('volume') ?? volume, 0, 1)
     const playMode = read<PlayMode>('playMode')
     setComponent(entity, MediaComponent, { paused: paused, resources: resources, volume: volume, playMode: playMode! }) // play

@@ -194,10 +194,10 @@ export function useMutation(serviceName, forceRefetch = true) {
         error,
     });
 
-    const create = useMethod("create", forceRefetch ? created , serviceName, state);
-    const update = useMethod("update", forceRefetch ? updated , serviceName, state);
-    const patch = useMethod("patch", forceRefetch ? updated , serviceName, state);
-    const remove = useMethod("remove", forceRefetch ? removed , serviceName, state);
+    const create = useMethod("create", forceRefetch ? created : undefined, serviceName, state);
+    const update = useMethod("update", forceRefetch ? updated : undefined, serviceName, state);
+    const patch = useMethod("patch", forceRefetch ? updated : undefined, serviceName, state);
+    const remove = useMethod("remove", forceRefetch ? removed : undefined, serviceName, state);
 
     return useMemo(
         () => ({

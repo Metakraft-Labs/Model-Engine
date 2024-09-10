@@ -1,26 +1,26 @@
 import React from "react";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { PopoverState } from "../../../client-core/src/common/services/PopoverState";
-import { RouterState } from "../../../client-core/src/common/services/RouterService";
-import { useProjectPermissions } from "../../../client-core/src/user/useUserProjectPermission";
-import { useUserHasAccessHook } from "../../../client-core/src/user/userHasAccess";
-import { locationPath } from "../../../common/src/schema.type.module";
-import { GLTFModifiedState } from "../../../engine/gltf/GLTFDocumentState";
-import { ContextMenu } from "../../../ui/src/components/tailwind/ContextMenu";
-import { SidebarButton } from "../../../ui/src/components/tailwind/SidebarButton";
-import Button from "../../../ui/src/primitives/tailwind/Button";
-import { inputFileWithAddToScene } from "../../functions/assetFunctions";
-import { onNewScene } from "../../functions/sceneFunctions";
-import { cmdOrCtrlString } from "../../functions/utils";
+import { useProjectPermissions } from "../../client-core/src/user/useUserProjectPermission";
+import { useUserHasAccessHook } from "../../client-core/src/user/userHasAccess";
+import { locationPath } from "../../common/src/schema.type.module";
+import { GLTFModifiedState } from "../../engine/gltf/GLTFDocumentState";
 import { getMutableState, getState, useHookstate, useMutableState } from "../../hyperflux";
-import { EditorState } from "../../services/EditorServices";
 import { useFind } from "../../spatial/common/functions/FeathersHooks";
-import CreateSceneDialog from "../dialogs/CreateScenePanelDialog";
-import ImportSettingsPanel from "../dialogs/ImportSettingsPanelDialog";
-import { SaveNewSceneDialog, SaveSceneDialog } from "../dialogs/SaveSceneDialog";
+import { ContextMenu } from "../../ui/src/components/tailwind/ContextMenu";
+import { SidebarButton } from "../../ui/src/components/tailwind/SidebarButton";
+import Button from "../../ui/src/primitives/tailwind/Button";
 import AddEditSceneModal from "./AddEditSceneModal";
+import CreateSceneDialog from "./dialogs/CreateScenePanelDialog";
+import ImportSettingsPanel from "./dialogs/ImportSettingsPanelDialog";
+import { SaveNewSceneDialog, SaveSceneDialog } from "./dialogs/SaveSceneDialog";
+import { inputFileWithAddToScene } from "./functions/assetFunctions";
+import { onNewScene } from "./functions/sceneFunctions";
+import { cmdOrCtrlString } from "./functions/utils";
+import { EditorState } from "./services/EditorServices";
+import { PopoverState } from "./services/PopoverState";
 
 const onImportAsset = async () => {
     const { projectName } = getState(EditorState);
@@ -65,7 +65,7 @@ const onClickNewScene = async () => {
     }
 };
 
-const onCloseProject = async () => {
+const onCloseProject = async navigate => {
     if (!(await confirmSceneSaveIfModified())) return;
 
     const editorState = getMutableState(EditorState);
@@ -73,7 +73,7 @@ const onCloseProject = async () => {
     editorState.projectName.set(null);
     editorState.scenePath.set(null);
     editorState.sceneName.set(null);
-    RouterState.navigate("/studio");
+    navigate("/studio");
 
     const parsed = new URL(window.location.href);
     const query = parsed.searchParams;
@@ -120,6 +120,7 @@ const generateToolbarMenu = () => {
 const toolbarMenu = generateToolbarMenu();
 
 export default function Toolbar() {
+    const navigate = useNavigate();
     const anchorEvent = useHookstate(null);
     const anchorPosition = useHookstate({ left: 0, top: 0 });
 
@@ -136,7 +137,10 @@ export default function Toolbar() {
         <>
             <div className="flex items-center justify-between bg-theme-primary">
                 <div className="flex items-center">
-                    <div className="ml-3 mr-6 cursor-pointer" onClick={onCloseProject}>
+                    <div
+                        className="ml-3 mr-6 cursor-pointer"
+                        onClick={() => onCloseProject(navigate)}
+                    >
                         <img
                             src="favicon-32x32.png"
                             alt="Spark Logo"
@@ -197,7 +201,7 @@ export default function Toolbar() {
                                 size="small"
                                 fullWidth
                                 onClick={() => {
-                                    action();
+                                    name === "Close" ? action(navigate) : action();
                                     anchorEvent.set(null);
                                 }}
                                 endIcon={hotkey}

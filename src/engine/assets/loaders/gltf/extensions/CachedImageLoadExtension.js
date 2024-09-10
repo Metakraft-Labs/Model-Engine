@@ -1,9 +1,8 @@
 import { LoaderUtils, TextureLoader } from "three";
 
-import { GLTFLoaderPlugin } from "../GLTFLoader";
 import { ImporterExtension } from "./ImporterExtension";
 
-class CachedImageLoadExtension extends ImporterExtension implements GLTFLoaderPlugin {
+class CachedImageLoadExtension extends ImporterExtension {
     name = "EE_cachedImageLoad";
 
     static cache = new Map();

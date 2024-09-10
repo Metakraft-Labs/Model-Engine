@@ -27,7 +27,7 @@ export const MultiGate = makeFlowNodeDefinition({
             isInitialized = true;
         }
 
-        if (read<boolean>("loop")) {
+        if (read("loop")) {
             nextIndex = nextIndex % outputSocketKeys.length;
         }
 

@@ -1,16 +1,15 @@
-import { ResourceManager } from "../../../spatial/resources/ResourceState";
+import { ResourceManager } from "../../../../../spatial/resources/ResourceState";
 
-import { GLTFLoaderPlugin } from "../GLTFLoader";
 import { ImporterExtension } from "./ImporterExtension";
 
-class ResourceManagerLoadExtension extends ImporterExtension implements GLTFLoaderPlugin {
+class ResourceManagerLoadExtension extends ImporterExtension {
     name = "EE_resourceManagerLoadExtension";
 
     beforeRoot() {
         return null;
     }
 
-    afterRoot(result: GLTF) {
+    afterRoot(result) {
         this.AddAssetToResourceManager(result.scene);
         return null;
     }
