@@ -277,31 +277,6 @@ export default function Rightbar({
                             </Box>
                         </Button>
                     )}
-                    {!riggedModel && (
-                        <Button
-                            variant="contained"
-                            color={"secondary"}
-                            sx={{
-                                borderRadius: "20px",
-                                "&.Mui-disabled": {
-                                    color: "#FFFFFF",
-                                    border: "1px solid #4E3562",
-                                },
-                            }}
-                            disabled={loading}
-                            onClick={rigModel}
-                        >
-                            Rig
-                            <Box display={"flex"} alignItems={"center"} gap={"5px"} ml={"10px"}>
-                                <CoinIcon width="13" height="14" />
-                                <Typography fontWeight={600} color={"#FFFFFF"} fontSize={"14px"}>
-                                    40
-                                </Typography>
-                            </Box>
-                        </Button>
-                    )}
-                </Box>
-                {!refinedModel && (
                     <Button
                         variant="contained"
                         color={"secondary"}
@@ -313,17 +288,42 @@ export default function Rightbar({
                             },
                         }}
                         disabled={loading}
-                        onClick={refineModel}
+                        onClick={rigModel}
                     >
-                        Refine
+                        Rig
+                        {!riggedModel && (
+                            <Box display={"flex"} alignItems={"center"} gap={"5px"} ml={"10px"}>
+                                <CoinIcon width="13" height="14" />
+                                <Typography fontWeight={600} color={"#FFFFFF"} fontSize={"14px"}>
+                                    40
+                                </Typography>
+                            </Box>
+                        )}
+                    </Button>
+                </Box>
+                <Button
+                    variant="contained"
+                    color={"secondary"}
+                    sx={{
+                        borderRadius: "20px",
+                        "&.Mui-disabled": {
+                            color: "#FFFFFF",
+                            border: "1px solid #4E3562",
+                        },
+                    }}
+                    disabled={loading}
+                    onClick={refineModel}
+                >
+                    Refine
+                    {!refinedModel && (
                         <Box display={"flex"} alignItems={"center"} gap={"5px"} ml={"10px"}>
                             <CoinIcon width="13" height="14" />
                             <Typography fontWeight={600} color={"#FFFFFF"} fontSize={"14px"}>
                                 40
                             </Typography>
                         </Box>
-                    </Button>
-                )}
+                    )}
+                </Button>
             </Box>
             <Box
                 sx={{
