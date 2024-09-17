@@ -6,7 +6,7 @@ export class WebLayer {
     isVideoElement = false;
     isCanvasElement = false;
 
-    constructor(managerBase, element, eventCallback) {
+    constructor(managerBase, element, _eventCallback) {
         if (!manager) throw new Error("WebLayerManager must be initialized");
         WebRenderer.layers.set(element, this);
         element.setAttribute(WebRenderer.LAYER_ATTRIBUTE, "");

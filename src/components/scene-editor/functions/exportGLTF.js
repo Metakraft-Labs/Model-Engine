@@ -1,5 +1,5 @@
 import { STATIC_ASSET_REGEX } from "../../../common/src/regex";
-import exportModelGLTF from "../../../engine/src/assets/functions/exportModelGLTF";
+import exportModelGLTF from "../../../engine/assets/functions/exportModelGLTF";
 
 import { uploadProjectFiles } from "./assetFunctions";
 

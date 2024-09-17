@@ -4,7 +4,7 @@ import { WebLayer } from "./WebLayer";
 
 const ResizeObserver = self.ResizeObserver || Polyfill;
 
-function ensureElementIsInDocument(element, optionsOptions) {
+function ensureElementIsInDocument(element) {
     if (document.contains(element)) {
         return element;
     }
@@ -206,20 +206,20 @@ export class WebRenderer {
 
             window.addEventListener(
                 "focusout",
-                evt => {
+                () => {
                     // @ts-ignore
                     this.focusElement = null;
                 },
                 false,
             );
 
-            window.addEventListener("load", event => {
+            window.addEventListener("load", () => {
                 setNeedsRefreshOnAllLayers();
             });
         }
 
         const setNeedsRefreshOnAllLayers = () => {
-            for (const [e, l] of this.layers) l.needsRefresh = true;
+            for (const [_, l] of this.layers) l.needsRefresh = true;
         };
 
         const setNeedsRefreshOnStyleLoad = node => {
@@ -254,7 +254,7 @@ export class WebRenderer {
         layer.needsRefresh = true;
     }
 
-    static createLayerTree(element, optionsOptions, eventCallback) {
+    static createLayerTree(element, options, eventCallback) {
         if (WebRenderer.getClosestLayer(element))
             throw new Error("A root WebLayer for the given element already exists");
 
@@ -364,7 +364,7 @@ export class WebRenderer {
                     // if the style tag has changed, we need to remove it from the embedded styles cache
                     // to reprocess later
                     const style = target.parentElement;
-                    const rootNode = style.getRootNode() | Document;
+                    // const rootNode = style.getRootNode() | Document;
                     this.embeddedStyles.delete(style);
                 }
             }

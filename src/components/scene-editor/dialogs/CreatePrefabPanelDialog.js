@@ -21,7 +21,7 @@ import { EditorState } from "../services/EditorServices";
 import { PopoverState } from "../services/PopoverState";
 import { SelectionState } from "../services/SelectionServices";
 
-export default function CreatePrefabPanel({ entity, open }) {
+export default function CreatePrefabPanel({ entity }) {
     const defaultPrefabFolder = useHookstate("assets/custom-prefabs");
     const prefabName = useHookstate("prefab");
     const prefabTag = useHookstate([]);
@@ -112,7 +112,7 @@ export default function CreatePrefabPanel({ entity, open }) {
     return (
         <Modal
             heading="Create Prefab"
-            open={open}
+            open={true}
             className="w-[50vw] max-w-2xl"
             onClose={PopoverState.hidePopupover}
         >

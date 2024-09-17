@@ -11,11 +11,11 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { HiLink } from "react-icons/hi2";
-import { saveSceneGLTF } from "../../editor/src/functions/sceneFunctions";
-import { EditorState } from "../../editor/src/services/EditorServices";
 import { useFind, useMutation } from "../../hooks/feathersHooks";
 import { getState, useHookstate } from "../../hyperflux";
 import Modal from "../Modal";
+import { saveSceneGLTF } from "./functions/sceneFunctions";
+import { EditorState } from "./services/EditorServices";
 
 const getDefaultErrors = () => ({
     name: "",

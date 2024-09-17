@@ -102,7 +102,7 @@ export const PositionalAudioComponent = defineComponent({
                 const name = getOptionalComponent(entity, NameComponent);
                 setComponent(entity, PositionalAudioHelperComponent, {
                     audio: audioNodes,
-                    name: name ? `${name}-positional-audio-helper` ,
+                    name: name ? `${name}-positional-audio-helper` : null,
                 });
             }
 

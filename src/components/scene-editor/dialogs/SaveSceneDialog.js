@@ -1,15 +1,15 @@
-import { saveSceneGLTF } from "..functions/sceneFunctions";
-import { EditorState } from "..services/EditorServices";
 import { Box, Button, CircularProgress, TextField } from "@mui/material";
 import React from "react";
-import { PopoverState } from "../../../client-core/src/common/services/PopoverState";
 import isValidSceneName from "../../../common/src/utils/validateSceneName";
 import { getComponent } from "../../../ecs";
 import { GLTFModifiedState } from "../../../engine/gltf/GLTFDocumentState";
 import { SourceComponent } from "../../../engine/scene/components/SourceComponent";
 import { getMutableState, getState, none, useHookstate } from "../../../hyperflux";
-import ErrorDialog from "../../../ui/src/components/tailwind/ErrorDialog";
 import Modal from "../../Modal";
+import { saveSceneGLTF } from "../functions/sceneFunctions";
+import { EditorState } from "../services/EditorServices";
+import { PopoverState } from "../services/PopoverState";
+import ErrorDialog from "./ErrorDialog";
 
 export const SaveSceneDialog = props => {
     const modalProcessing = useHookstate(false);
@@ -61,7 +61,7 @@ export const SaveSceneDialog = props => {
         <Modal
             heading={props.isExiting ? "Unsaved Changes" : "Save"}
             onSubmit={handleSubmit}
-            open={props.open}
+            open={true}
             onClose={() => {
                 PopoverState.hidePopupover();
                 if (props.onCancel) props.onCancel();

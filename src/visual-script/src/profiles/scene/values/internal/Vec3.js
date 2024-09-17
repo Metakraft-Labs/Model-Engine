@@ -9,7 +9,7 @@ import {
 import { mat4ToMat3, quatToMat3 } from "./Mat3";
 
 export class Vec3 {
-    constructor(x = 0, y = 0, z = 0) {}
+    constructor() {}
 
     clone(result = new Vec3()) {
         return result.set(this.x, this.y, this.z);
@@ -173,11 +173,9 @@ export function mat3ToEuler(m, result = new Vec3()) {
     const m11 = te[0],
         m12 = te[3],
         m13 = te[6];
-    const m21 = te[1],
-        m22 = te[4],
+    const m22 = te[4],
         m23 = te[7];
-    const m31 = te[2],
-        m32 = te[5],
+    const m32 = te[5],
         m33 = te[8];
 
     result.y = Math.asin(clamp(m13, -1, 1));

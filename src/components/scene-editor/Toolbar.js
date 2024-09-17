@@ -1,17 +1,15 @@
+import { Button } from "@mui/material";
 import React from "react";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useProjectPermissions } from "../../client-core/src/user/useUserProjectPermission";
-import { useUserHasAccessHook } from "../../client-core/src/user/userHasAccess";
 import { locationPath } from "../../common/src/schema.type.module";
 import { GLTFModifiedState } from "../../engine/gltf/GLTFDocumentState";
 import { getMutableState, getState, useHookstate, useMutableState } from "../../hyperflux";
 import { useFind } from "../../spatial/common/functions/FeathersHooks";
-import { ContextMenu } from "../../ui/src/components/tailwind/ContextMenu";
-import { SidebarButton } from "../../ui/src/components/tailwind/SidebarButton";
-import Button from "../../ui/src/primitives/tailwind/Button";
+import { ContextMenu } from "../ContextMenu";
+import { SidebarButton } from "../SidebarButton";
 import AddEditSceneModal from "./AddEditSceneModal";
 import CreateSceneDialog from "./dialogs/CreateScenePanelDialog";
 import ImportSettingsPanel from "./dialogs/ImportSettingsPanelDialog";
@@ -59,7 +57,7 @@ const onClickNewScene = async () => {
 
     const newSceneUIAddons = getState(EditorState).uiAddons.newScene;
     if (Object.keys(newSceneUIAddons).length > 0) {
-        PopoverState.showPopupover(<CreateSceneDialog />);
+        PopoverState.showPopupover(<CreateSceneDialog open={true} />);
     } else {
         onNewScene();
     }
@@ -125,11 +123,6 @@ export default function Toolbar() {
     const anchorPosition = useHookstate({ left: 0, top: 0 });
 
     const { projectName, sceneName, sceneAssetID } = useMutableState(EditorState);
-
-    const hasLocationWriteScope = useUserHasAccessHook("location:write");
-    const permission = useProjectPermissions(projectName.value);
-    const hasPublishAccess =
-        hasLocationWriteScope || permission?.type === "owner" || permission?.type === "editor";
     const locationQuery = useFind(locationPath, { query: { sceneId: sceneAssetID.value } });
     const currentLocation = locationQuery.data[0];
 
@@ -155,7 +148,6 @@ export default function Toolbar() {
                             />
                         }
                         iconContainerClassName="ml-2 mr-1"
-                        rounded="none"
                         startIcon={<RxHamburgerMenu size={24} className="text-theme-input" />}
                         className="-mr-1 border-0 bg-transparent p-0"
                         onClick={event => {
@@ -177,7 +169,6 @@ export default function Toolbar() {
                 {sceneAssetID.value && (
                     <Button
                         rounded="none"
-                        disabled={!hasPublishAccess}
                         onClick={() =>
                             PopoverState.showPopupover(
                                 <AddEditSceneModal

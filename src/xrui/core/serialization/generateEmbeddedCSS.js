@@ -11,7 +11,6 @@ export async function getEmbeddedCSS(url) {
 }
 
 export async function generateEmbeddedCSS(url, css) {
-    let found;
     const promises = [];
 
     // Add classes for psuedo-classes

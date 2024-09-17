@@ -6,10 +6,10 @@ import { onNewScene } from "../functions/sceneFunctions";
 import { EditorState } from "../services/EditorServices";
 import { PopoverState } from "../services/PopoverState";
 
-export default function CreateSceneDialog({ open }) {
+export default function CreateSceneDialog() {
     const element = useMutableState(EditorState).uiAddons.newScene.get(NO_PROXY);
     return (
-        <Modal heading={"New Scene"} open={open} onClose={PopoverState.hidePopupover}>
+        <Modal heading={"New Scene"} open={true} onClose={PopoverState.hidePopupover}>
             <div className="flex justify-center">
                 <Button
                     size="small"

@@ -8,7 +8,7 @@ import { mat4ToMat3 } from "./Mat3";
 import { Vec3 } from "./Vec3";
 
 export class Vec4 {
-    constructor(x = 0, y = 0, z = 0, w = 0) {}
+    constructor() {}
     clone(result = new Vec4()) {
         return result.set(this.x, this.y, this.z, this.w);
     }

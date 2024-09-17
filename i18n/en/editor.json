@@ -1,0 +1,1473 @@
+{
+  "loading": "Loading Project",
+  "loadingNode": "Loading {{name}} Editor...",
+  "loadingError": "Error loading project",
+  "loadingErrorMsg": "There was an error when loading the project.",
+  "selectSceneMsg": "Select a Scene in the Project to Start",
+  "error": "Error",
+  "errorMsg": "There was an unknown error.",
+  "generateScreenshot": "Generating Project Screenshot",
+  "newScene": "Add Scene",
+  "saving": "Saving Project",
+  "savingError": "Error Saving Project",
+  "savingErrorMsg": "There was an error when saving the project.",
+  "savingSceneErrorMsg": "Scene is not loaded properly. Try reloading the scene.",
+  "duplicating": "Duplicating Project",
+  "exporting": "Exporting Project",
+  "exportingError": "Error Exporting Project",
+  "exportingErrorMsg": "There was an error when exporting the project.",
+  "importLegacy": "Import Legacy World",
+  "importLegacyMsg": "Warning! This will overwrite your existing scene! Are you sure you wish to continue?",
+  "publishingError": "Error Publishing Project",
+  "publishingErrorMsg": "There was an unknown error.",
+  "publishingScene": "Publishing Scene",
+  "publishingSceneMsg": "Publishing scene...",
+  "uploadingThumbnailMsg": "Uploading thumbnail...",
+  "uploadingSceneMsg": "Uploading scene: {{percentage}}%",
+  "envMapError": "Error loading cubemap images {{files}}",
+  "lbl-return": "Return",
+  "loadingAssets": "Loading Assets",
+  "loadingScenes": "Loading Scenes",
+  "loadingScenesWithProgress": "Scene Loading... {{progress}}% ({{assetsLeft}} assets left)",
+  "help": "Help",
+  "menubar": {
+    "newScene": "New Scene",
+    "newEmptyScene": "New Empty Scene",
+    "saveScene": "Save Scene",
+    "saveAs": "Save As",
+    "importAsset": "Import Asset",
+    "importSettings": "Import Settings",
+    "exportGLB": "Export as binary glTF (.glb) ...",
+    "importScene": "Import scene",
+    "exportScene": "Export scene",
+    "quit": "Quit to Dashboard"
+  },
+  "errors": {
+    "fileTypeNotSupported": "Unsupported file type for file: \"{{name}}\". File must be an image, video, or glb model.",
+    "addObject": "addObject: before object not found",
+    "removeObject": "removeObject: node not found. This is due to removing a node that is no longer in the scene.",
+    "noParent": "{{node}} \"{{name}}\" has no parent. Reparent only works on objects that are currently in the scene.",
+    "undefinedParent": "editor.reparent: newParent is undefined",
+    "notAuthenticated": "Not authenticated",
+    "fetchingProjectError": "Error fetching projects: {{error}}",
+    "fetchingRouteError": "Error fetching routes: {{error}}",
+    "unknownError": "Unknown error",
+    "resolveURL": "Error resolving url \"{{url}}\":\n",
+    "mediaSearchAborted": "Media search aborted",
+    "methodNotImplemented": "Method not implemented.",
+    "saveProjectAborted": "Save scene aborted",
+    "sceneAlreadyExists": "Scene already exists with this name.",
+    "unsavedChanges": "Unsaved Changes",
+    "unsavedChangesMsg": "The scene has been modified. Please save your changes.",
+    "projectCreationFail": "Project creation failed. {{reason}}",
+    "projectDeletionFail": "Project deletion failed. {{reason}}",
+    "savingProjectFail": "Saving Project failed. {{reason}}",
+    "sceneTooLarge": "Scene is too large ({{size}} MB) to publish. Maximum size is {{maxSize}} MB.",
+    "sceneCreationFail": "Scene creation failed. {{reason}}",
+    "uploadAborted": "Upload aborted",
+    "uploadFailed": "Upload failed {{reason}}",
+    "assetDeletionFail": "Asset deletion failed. {{reason}}",
+    "projectAssetDeletionFail": "Project Asset deletion failed. {{reason}}",
+    "networkError": "Network Error: {{status}}. {{text}}",
+    "unknownStatus": "Unknown Status",
+    "CORS": "Possibly a CORS error",
+    "urlFetchError": "Failed to fetch \"{{url}}\"",
+    "invalidSceneName": "Scene name must be 4-64 characters long, using only alphanumeric characters and hyphens, and begin and end with an alphanumeric."
+  },
+  "viewport": {
+    "title": "Viewport",
+    "command": {
+      "movecamera": "Move Camera",
+      "flyFast": "Fly faster",
+      "orbit": "Orbit / Select",
+      "pan": "Pan",
+      "fly": "Fly",
+      "focus": "Focus",
+      "rotateLeft": "Rotate Left",
+      "rotateRight": "Rotate Right",
+      "cancelPlacement": "Cancel Placement",
+      "placeDuplicate": "Place Duplicate",
+      "deselectAll": "Deselect All"
+    },
+    "state": {
+      "header": "Stats",
+      "memory": "Memory",
+      "geometries": "Geometries",
+      "textures": "Textures",
+      "render": "Render",
+      "FPS": "FPS",
+      "frameTime": "Frame Time",
+      "calls": "Calls",
+      "triangles": "Triangles",
+      "points": "Points",
+      "lines": "Lines"
+    }
+  },
+  "toolbar": {
+    "lbl-publish": "Publish",
+    "lbl-published": "Published",
+    "lbl-simple": "Simple",
+    "lbl-advanced": "Advanced",
+    "gizmo": {
+      "pointer": "Pointer",
+      "description": "Transform Gizmo",
+      "translate": "[W] Translate",
+      "rotate": "[E] Rotate",
+      "scale": "[R] Scale",
+      "combined": "[U] Combined Transform"
+    },
+    "transformSpace": {
+      "description": "Sets your transform control to be oriented to the object(selection) or world",
+      "lbl-world": "World",
+      "info-world": "World space relates to the entire scene’s orientation",
+      "lbl-selection": "Object",
+      "info-selection": "Object Space (your selection) relates to transforms made to a specific object in relationship to the world space",
+      "lbl-toggleTransformSpace": "[Z] Toggle Transform Space"
+    },
+    "transformPivot": {
+      "toggleTransformPivot": "[X] Toggle Transform Pivot",
+      "lbl-selection": "Selection",
+      "info-selection": "The center pivot of the final asset you selected in the sequence.",
+      "lbl-center": "Center",
+      "info-center": "A pivot that sits at an equal distance between all selections.",
+      "lbl-bottom": "Bottom",
+      "info-bottom": "A pivot that sits equally between all selections and at the bottom of your final selection in the sequence.",
+      "lbl-origin": "Origin",
+      "info-origin": "Sets pivot mode to the world origin (0,0,0)"
+    },
+    "transformSnapTool": {
+      "toggleBBoxSnap": "[B] Toggle Bounding Box Snap",
+      "toggleSnapMode": "[C] Toggle Grid Snap",
+      "info-translate": "Translate objects by a unit of measurement.",
+      "info-rotate": "Snap rotation angle"
+    },
+    "placement": {
+      "click": "Point & Click Placement",
+      "drag": "Drag & Drop Placement"
+    },
+    "command": {
+      "translate": "Translate",
+      "rotate": "Rotate",
+      "scale": "Scale",
+      "toggleSpace": "Toggle Transform Space",
+      "togglePivot": "Toggle Transform Pivot",
+      "toggleSnapMode": "Toggle Snap Mode",
+      "toggleGrid": "Toggle Grid Visibility",
+      "increaseGridSize": "Increase Grid Size",
+      "descreaseGridSize": "Decrease Grid Size",
+      "lbl-stopPreview": "Stop Previewing Scene",
+      "info-stopPreview": "Remove your avatar from scene",
+      "lbl-playPreview": "Preview Scene",
+      "info-playPreview": "Spawns you into the scene"
+    },
+    "instance": {
+      "none": "None",
+      "users": "Users",
+      "user": "User"
+    },
+    "render-settings": {
+      "lbl": "Render Settings",
+      "info": "How you view materials in the Engine",
+      "lbl-usePostProcessing": "Use Post Processing",
+      "info-usePostProcessing": "Enables post processing",
+      "lbl-shadowMapResolution": "Shadow Map Resolution",
+      "info-shadowMapResolution": "Set shadowmap resolution",
+      "lbl-renderMode": "Render Mode",
+      "info-renderMode": "Choose render mode"
+    },
+    "grid": {
+      "info-toggleGridVisibility": "Toggle Grid Visibility",
+      "info-gridSpacing": "Set grid spacing meters",
+      "info-incrementHeight": "Increment Grid Height",
+      "info-decrementHeight": "Decrement Grid Height"
+    },
+    "stats": {
+      "lbl": "Toggle Stats",
+      "info": "Show stats about the scene and gives you a clue as to how optimized your scene is."
+    },
+    "helpersToggle": {
+      "lbl-helpers": "Toggle Helpers",
+      "info-helpers": "View hidden information about your scene, ie: colliders",
+      "lbl-nodeHelpers": "Toggle Node Helpers",
+      "info-nodeHelpers": "Helper geometry that helps components have visibility in the scene when inactive."
+    },
+    "sceneScreenshot": {
+      "lbl": "Screenshot",
+      "info": "Takes a screenshot of your scene at the current view."
+    },
+    "publishLocation": {
+      "title": "Publish",
+      "create": "Publish Location",
+      "update": "Update Published Location",
+      "unpublish": "Unpublish Location",
+      "saveAndPublish": "Save and Publish",
+      "locationLinkCopied": "Location link copied"
+    }
+  },
+  "properties": {
+    "title": "Properties",
+    "info": "Properties let you access and edit detailed information about objects in the scene.",
+    "lbl-visible": "Visible",
+    "lbl-preventBake": "Prevent Bake",
+    "lbl-dynamicLoad": "Load Children Dynamically",
+    "lbl-dynamicLoadDistance": "Distance",
+    "lbl-addComponent": "Add Component",
+    "multipleNodeSelected": "Multiple Nodes of different types selected",
+    "noNodeSelected": "No node selected",
+    "ambientLight": {
+      "name": "Ambient Light",
+      "description": "A light which illuminates all objects in your scene.",
+      "lbl-intensity": "Intensity",
+      "lbl-color": "Color"
+    },
+    "envmap": {
+      "name": "Environment Map",
+      "description": "Environment Map properties",
+      "lbl-source": "Environment Map Source",
+      "lbl-color": "Environment Map Color",
+      "lbl-bake": "Environment Map Bake",
+      "lbl-textureType": "Texture Type",
+      "lbl-textureUrl": "Texture URL",
+      "lbl-intensity": "Envmap Intensity",
+      "bake-reflection-probes": "Bake Probes"
+    },
+    "trigger": {
+      "name": "Trigger",
+      "description": "A trigger component fires callbacks on the target when a collider enters and exits the trigger volume collider.",
+      "lbl-target": "Target",
+      "lbl-onenter": "On Enter",
+      "lbl-onexit": "On Exit"
+    },
+    "rigidbody": {
+      "name": "Rigidbody",
+      "description": "A rigidbody component that allows the entity to be affected by physics.",
+      "lbl-type": "Body Type"
+    },
+    "prefab": {
+      "name": "Prefab",
+      "description": "A grouping of scene components which can be dynamically loaded and unloaded",
+      "lbl-options": "Options",
+      "lbl-prefabPath": "Prefab Path",
+      "lbl-prefabName": "Export Name",
+      "lbl-exportOptions": "Export Options",
+      "lbl-export": "Export Prefab",
+      "lbl-load": "Load Into Scene",
+      "lbl-loadOptions": "Load Options",
+      "lbl-unload": "Unload",
+      "lbl-reload": "Reload"
+    },
+    "persistent-anchor": {
+      "name": "Persistent Anchor",
+      "description": "Anchors this entity to a real life reference",
+      "lbl-name": "Anchor Name"
+    },
+    "input": {
+      "name": "Input Component",
+      "description": "Input component that listens for input events and passes them to InputSink components",
+      "lbl-activationDistance": "Proximity focus distance",
+      "lbl-sinkTarget": "Sink Target",
+      "lbl-addSinkTarget": "Add Sink Target",
+      "lbl-removeSinkTarget": "Remove Sink Target"
+    },
+    "interactable": {
+      "name": "Interactable",
+      "description": "An interactable component with an optional XRUI with text of Label that can trigger callbacks",
+      "lbl-label": "Label",
+      "lbl-activationDistance": "Activation Distance",
+      "lbl-addcallback": "Add Callback",
+      "lbl-removecallback": "Remove Callback",
+      "lbl-clickInteract": "Click to Interact",
+      "info-clickInteract": "Enables clicking to interact with the object",
+      "callbacks": {
+        "lbl-target": "Target",
+        "lbl-callbackID": "Callback ID"
+      }
+    },
+    "lookAt": {
+      "name": "LookAt",
+      "description": "A component that makes the entity always face the user, or another entity",
+      "target": "Target Entity",
+      "xAxis": "X Axis",
+      "yAxis": "Y Axis"
+    },
+    "grabbable": {
+      "name": "Grabbable",
+      "description": "A grabbable component that can be picked up and manipulated by the user"
+    },
+    "media": {
+      "name": "Media",
+      "description": "Audio and video playback",
+      "path": "Path",
+      "paths": "Source Paths",
+      "playmode": "Play Mode",
+      "playtitle": "Play",
+      "pausetitle": "Pause",
+      "resettitle": "Reset",
+      "lbl-ui-offset": "UI Offset",
+      "lbl-controls": "controls",
+      "lbl-paused": "Paused",
+      "info-paused": "Toggle media playback",
+      "info-controls": "Toggle the visibility of the media controls.",
+      "lbl-autoplay": "Autoplay",
+      "info-autoplay": "Toggle whether this video autoplays",
+      "lbl-synchronize": "Synchronize",
+      "info-synchronize": "If true, the media will be synchronized on all the connected clients.",
+      "lbl-volume": "Volume",
+      "lbl-currentTime": "Current Time",
+      "lbl-isMusic": "Is Music",
+      "lbl-size": "Size",
+      "seektime": "Start Time",
+      "lbl-mediaControls": "Media Controls"
+    },
+    "mesh": {
+      "name": "Mesh",
+      "description": "A mesh is a collection of vertices, edges, and faces that describe the shape of a 3D object.",
+      "geometryEditor": "Geometry Editor",
+      "materialEditor": "Material Editor",
+      "geometry": {
+        "name": "Name:",
+        "count": "Count:",
+        "itemSize": "Item Size:",
+        "recalculateNormals": "Recalculate Normals"
+      },
+      "material": {
+        "name": "Name",
+        "source": "Source",
+        "type": "Type:",
+        "path": "Path:",
+        "prototype": "Prototype",
+        "loading": "Loading...",
+        "setPlugin": "Set Plugin",
+        "plugin": "Plugin"
+      },
+      "materialProperties": {
+        "title": "Material",
+        "info": "Access and edit detailed information about materials in the scene."
+      }
+    },
+    "audio": {
+      "name": "Positional Audio",
+      "description": "Positional audio settings",
+      "lbl-distanceModel": "Distance Model",
+      "info-distanceModel": "The algorithim used to calculate audio rolloff.",
+      "lbl-rolloffFactor": "Rolloff Factor",
+      "info-rolloffFactor": "A double value describing how quickly the volume is reduced as the source moves away from the listener. 0 to 1",
+      "info-rfInfinity": "A double value describing how quickly the volume is reduced as the source moves away from the listener. 0 to Infinity",
+      "lbl-refDistance": "Ref Distance",
+      "info-refDistance": "A double value representing the reference distance for reducing volume as the audio source moves further from the listener.",
+      "lbl-maxDistance": "Max Distance",
+      "info-maxDistance": "A double value representing the maximum distance between the audio source and the listener, after which the volume is not reduced any further.",
+      "lbl-coneInnerAngle": "Cone Inner Angle",
+      "info-coneInnerAngle": "A double value describing the angle, in degrees, of a cone inside of which there will be no volume reduction.",
+      "lbl-coneOuterAngle": "Cone Outer Angle",
+      "info-coneOuterAngle": "A double value describing the angle, in degrees, of a cone outside of which the volume will be reduced by a constant value, defined by the coneOuterGain attribute.",
+      "lbl-coreOuterGain": "Cone Outer Gain",
+      "info-coreOuterGain": "A double value describing the amount of volume reduction outside the cone defined by the coneOuterAngle attribute. Its default value is 0, meaning that no sound can be heard.",
+      "lbl-play": "Play",
+      "lbl-pause": "Pause",
+      "error-url": "Error Loading From URL"
+    },
+    "collider": {
+      "name": "Collider",
+      "description": "An invisible box that objects will bounce off of or rest on top of.\nWithout colliders, objects will fall through floors and go through walls.",
+      "lbl-isTrigger": "Trigger",
+      "lbl-shape": "Shape",
+      "lbl-type": "Body Type",
+      "lbl-mass": "Mass",
+      "lbl-massCenter": "Mass Center",
+      "lbl-friction": "Friction",
+      "lbl-restitution": "Restitution",
+      "lbl-collisionLayer": "Collision Layer",
+      "lbl-collisionMask": "Collision Mask",
+      "lbl-removeMesh": "Remove Mesh"
+    },
+    "camera": {
+      "name": "Camera",
+      "description": "Camera settings.",
+      "lbl-camera-raycast": "Camera Raycasting",
+      "lbl-camera-raycast-toggle": "Enabled",
+      "lbl-camera-raycast-frequency": "Frequency",
+      "lbl-camera-raycast-count": "Ray Count",
+      "lbl-camera-raycast-length": "Ray Length"
+    },
+    "directionalLight": {
+      "name": "Directional Light",
+      "description": "A light which illuminates the entire scene, but emits along a single direction.",
+      "lbl-color": "Color",
+      "lbl-intensity": "Intensity",
+      "lbl-cameraFar": "Camera Far",
+      "lbl-cameraNear": "Camera Near",
+      "lbl-cameraTop": "Camera Top",
+      "lbl-cameraBottom": "Camera Bottom",
+      "lbl-cameraLeft": "Camera Left",
+      "lbl-cameraRight": "Camera Right",
+      "lbl-castShadow": "Cast Shadow",
+      "lbl-disableForCSM": "Disabled when CSM is enabled",
+      "lbl-shadowmapResolution": "Shadow Map Resolution",
+      "lbl-shadowBias": "Shadow Bias",
+      "lbl-shadowRadius": "Shadow Radius",
+      "lbl-showCameraHelper": "Show Camera Helper",
+      "lbl-castShadows": "Cast Shadows"
+    },
+    "groundPlane": {
+      "name": "Ground Plane",
+      "description": "A flat ground plane that extends into the distance.",
+      "lbl-color": "Color",
+      "lbl-visible": "Visible",
+      "info-visible": "Toggle the visibility of the ground plane. Setting to false will still allow shadows to be received, rather than setting the entity visibility."
+    },
+    "loopAnimation": {
+      "title": "Loop Animation",
+      "description": "Looped animation associated with your 3d model, loaded from a GLTF URL or file.",
+      "lbl-loopAnimation": "Loop Animation",
+      "lbl-timeScale": "Time Scale",
+      "lbl-animationPack": "Animation Pack (via Mixamo Rig)"
+    },
+    "variant": {
+      "name": "Variant",
+      "description": "Load different assets based on heuristics",
+      "device": "Device",
+      "device-mobile": "Mobile",
+      "device-desktop": "Desktop",
+      "device-xr": "XR",
+      "heuristic": "Heuristic",
+      "heuristic-distance": "Distance",
+      "heuristic-sceneScale": "Scene Scale",
+      "heuristic-manual": "Manual",
+      "heuristic-device": "Device",
+      "heuristic-budget": "Budget",
+      "useDistance": "Use Distance",
+      "textureSize": "Texture Size: ",
+      "vertexCount": "Vertices: ",
+      "preview": "Preview",
+      "minDistance": "Minimum Distance",
+      "maxDistance": "Maximum Distance",
+      "src": "Source"
+    },
+    "map": {
+      "description": "3D geospatial map of e.g. a city."
+    },
+    "shadow": {
+      "name": "Shadows",
+      "description": "Shadow properties for the model",
+      "lbl-castShadow": "Cast Shadow",
+      "lbl-receiveShadow": "Receive Shadow"
+    },
+    "model": {
+      "title": "Model",
+      "description": "A 3D model in your scene, loaded from a GLTF URL or file.",
+      "lbl-usingGPUInstancingFlag": "Use GPU Instancing",
+      "lbl-modelurl": "Model Url",
+      "lbl-envmapUrl": "Environment Map Url",
+      "lbl-exportType": "File Extension",
+      "lbl-textureOverride": "Override Texture",
+      "lbl-materialOverride": "Material Overrides",
+      "error-url": "Error Loading From URL",
+      "lbl-loopAnimation": "Loop Animation",
+      "lbl-animationSpeed": "Animation Speed",
+      "lbl-convertToVRM": "Force VRM",
+      "lbl-isGPUInstancing": "Is Using GPU Instancing",
+      "lbl-cameraOcclusion": "Occlude Camera",
+      "lbl-matrixAutoUpdate": "MatrixAutoUpdate",
+      "lbl-name": "Name",
+      "lbl-url": "Model Url",
+      "lbl-buy": "Buy Url",
+      "lbl-learnMore": "Learn More Url",
+      "lbl-htmlContent": "Html Content",
+      "lbl-interactionText": "Interaction Text",
+      "lbl-interactionType": "Interaction Type",
+      "saveChanges": "Save Changes",
+      "transform": {
+        "lodLevels": "LOD Levels",
+        "lodLevelNumber": "LOD Level {{index}}",
+        "compress": "Compress",
+        "compressImage": "Compress Image",
+        "applyPresetConfirmation": "Would you like to apply this preset?",
+        "savePreset": "Save Preset",
+        "useDraco": "Use DRACO Mesh Compression",
+        "useMeshopt": "Use Meshoptimizer",
+        "useQuantization": "Use Mesh Quantization",
+        "textureFormat": "Image Format",
+        "modelFormat": "Model Format",
+        "resourceUri": "Resource URL",
+        "dst": "File name",
+        "resampleAnimations": "Resample Animations",
+        "maxTextureSize": "Max Texture Size",
+        "simplifyRatio": "Simplify Ratio",
+        "simplifyErrorThreshold": "Simplify Error Threshold",
+        "flatten": "Flatten Scene Graph",
+        "join": "Join Meshes",
+        "palette": "Generate Palette Textures",
+        "flipY": "Flip Y",
+        "linear": "Linear Color Space",
+        "flipYTooltip": "If checked, the source images will be Y flipped before compression",
+        "instance": "Instance Identical Meshes",
+        "srgb": "Linear Color Space",
+        "srgbTooltip": "If checked, the provided map is assumed to be in sRGB space",
+        "textureCompressionType": "Texture Compression Type",
+        "ktx2Quality": "Compression Quality",
+        "weldVertices": "Weld Vertices",
+        "weldThreshold": "Weld Threshold",
+        "split": "Split Multi-Material Meshes",
+        "combineMaterials": "Combine Duplicate Materials",
+        "removeDuplicates": "Remove Duplicates",
+        "pruneUnused": "Prune Unused",
+        "reorder": "Reorder",
+        "resourceOverrides": "Resource Overrides",
+        "quality": "Quality",
+        "qualityTooltip": "Sets the ETC1S encoder's quality level, which controls the file size vs. quality tradeoff",
+        "mode": "Mode",
+        "modeTooltip": "If checked, the encoder will output a UASTC texture, otherwise a ETC1S texture",
+        "mipmaps": "Mipmaps",
+        "mipmapsTooltip": "If checked, the encoder will generate mipmaps",
+        "compressionLevel": "Compression Level",
+        "compressionLevelTooltip": "The compression level parameter controls the encoder perf vs. file size tradeoff for ETC1S files. It does not directly control file size vs. quality (see Quality)",
+        "uastcFlags": "UASTC Flags",
+        "uastcFlagsTooltip": "Sets the UASTC encoding performance vs. quality tradeoff, and other lesser used UASTC encoder flags. This is a combination of flags",
+        "normalMap": "Normal Map",
+        "normalMapTooltip": "Tunes several codec parameters so compression works better on normal maps",
+        "uastcZstandard": "UASTC Zstandard",
+        "uastcZstandardTooltip": "Use UASTC Zstandard supercompression",
+        "useMeshoptimizer": "Use Meshoptimizer",
+        "maxCodebooks": "Max Codebooks"
+      },
+      "lods": {
+        "label": "Level of Detail",
+        "serialize": "Serialize",
+        "generate": "Generate LODs"
+      },
+      "lbl-export": "Export Settings"
+    },
+    "materialAssignment": {
+      "lbl-materialID": "Material",
+      "error-materialID": "Error finding Material",
+      "placeholder-materialID": "Select Material",
+      "lbl-patternTarget": "Pattern Match",
+      "lbl-pattern": "Pattern",
+      "lbl-isRegex": "Regex"
+    },
+    "object3d": {
+      "name": "Object3D",
+      "description": "Scene Object Properties"
+    },
+    "interaction": {
+      "type": "Interaction Type",
+      "text": "Interaction Text",
+      "distance": "Interaction Distance",
+      "theme": "Interaction Theme",
+      "name": "Interaction Name",
+      "description": "Interaction Description",
+      "images": "Interaction Images",
+      "videos": "Interaction Videos",
+      "urls": "Interaction Urls",
+      "models": "Interaction Models"
+    },
+    "group": {
+      "name": "Group",
+      "description": "A group of multiple objects that can be moved or duplicated together.\nDrag and drop objects into the Group in the Hierarchy."
+    },
+    "hemisphere": {
+      "name": "Hemisphere Light",
+      "description": "A light which illuminates the scene with a sky color from above and a ground color from below.",
+      "lbl-skyColor": "Sky Color",
+      "lbl-groundColor": "Ground Color",
+      "lbl-intensity": "Intensity"
+    },
+    "image": {
+      "name": "Image",
+      "description": "Dynamically loads an image.",
+      "lbl-imgURL": "Image URL",
+      "lbl-transparency": "Transparency",
+      "lbl-alphaCutoff": "Alpha Cutoff",
+      "lbl-projection": "Projection",
+      "lbl-side": "Side",
+      "info-controls": "Toggle the visibility of the media controls.",
+      "info-transparency": "How to apply transparency:",
+      "info-opaque": "'opaque' = no transparency",
+      "info-blend": "'blend' = use the images alpha channel",
+      "info-mask": "'mask' = Use a specified cutoff value for on/off transparency (more performant)",
+      "info-alphaCutoff": "Pixels with alpha values lower than this will be transparent",
+      "error-url": "Invalid URL"
+    },
+    "screenshare": {
+      "name": "Screenshare Target",
+      "description": "Allows this object to be a target for screen-share projection."
+    },
+    "name": {
+      "lbl-name": "Name"
+    },
+    "particle-system": {
+      "name": "Particle System",
+      "description": "Particle emitter to create particles.",
+      "looping": "Looping",
+      "duration": "Duration",
+      "prewarm": "Prewarm",
+      "emitter-shape": "Emitter Shape",
+      "emission-bursts": "Emission Bursts",
+      "shape-mesh": "Emitter Shape Mesh",
+      "start-life": "Start Life",
+      "start-size": "Start Size",
+      "start-speed": "Start Speed",
+      "start-rotation": "Start Rotation",
+      "start-color": "Start Color",
+      "emission-over-time": "Emission Over Time",
+      "render-mode": "Render Mode",
+      "texture": "Particle Texture",
+      "u-tiles": "U Tiles",
+      "v-tiles": "V Tiles",
+      "start-tile-index": "Starting Tile Index",
+      "mesh": "Particle Mesh",
+      "blending": "Blending",
+      "transparent": "Transparent",
+      "world-space": "Use World Space",
+      "burst": {
+        "time": "Burst Time",
+        "count": "Burst Count",
+        "cycle": "Burst Cycle",
+        "interval": "Burst Interval",
+        "probability": "Burst Probability"
+      },
+      "addBehavior": "Add Behavior"
+    },
+    "clouds": {
+      "name": "Cloud",
+      "description": "Sprite based cloud volume.",
+      "lbl-image": "Sprite Image",
+      "lbl-wroldScale": "World Scale",
+      "lbl-dimensions": "Dimensions",
+      "lbl-noiseZoom": "Noise Zoom",
+      "lbl-noiseOffset": "Noise Offset",
+      "lbl-spriteScale": "Sprite Scale",
+      "lbl-fogColor": "Fog Color",
+      "lbl-fogRange": "Fog Range",
+      "error-url": "Error Loading From URL"
+    },
+    "ocean": {
+      "name": "Ocean",
+      "description": "Ocean surface with waves and foam",
+      "lbl-normalMap": "Normal Map",
+      "lbl-distortionMap": "Distortion Map",
+      "lbl-envMap": "Environment Map",
+      "lbl-color": "Color",
+      "lbl-shallowWaterColor": "Shallow Water Color",
+      "lbl-shallowToDeepDistance": "Shallow to Deep Distance",
+      "lbl-opacityFadeDistance": "Opacity Fade Distance",
+      "lbl-opacityRange": "Opacity Range",
+      "lbl-shininess": "Shininess",
+      "lbl-reflectivity": "Reflectivity",
+      "lbl-foamColor": "Foam Color",
+      "lbl-foamSpeed": "Foam Speed",
+      "lbl-foamTiling": "Foam Tiling",
+      "lbl-bigWaveTiling": "Big Wave Tiling",
+      "lbl-bigWaveSpeed": "Big Wave Speed",
+      "lbl-bigWaveHeight": "Big Wave Height",
+      "lbl-waveSpeed": "Wave Speed",
+      "lbl-waveScale": "Wave Scale",
+      "lbl-waveTiling": "Wave Tiling",
+      "lbl-waveDistortionSpeed": "Wave Distortion Speed",
+      "lbl-waveDistortionTiling": "Wave Distortion Tiling",
+      "error-url": "Error Loading From URL"
+    },
+    "water": {
+      "name": "Water",
+      "description": "Small water surface"
+    },
+    "interior": {
+      "name": "Interior",
+      "description": "A surface with mapped cube texture to emulate interior environments",
+      "lbl-cubeMap": "Cube Map texture",
+      "lbl-tiling": "Tiling amount",
+      "lbl-size": "Surface size",
+      "error-url": "Error Loading From URL"
+    },
+    "pointLight": {
+      "name": "Point Light",
+      "description": "A light which emits in all directions from a single point.",
+      "lbl-color": "Color",
+      "lbl-intensity": "Intensity",
+      "lbl-range": "Range",
+      "lbl-decay": "Decay"
+    },
+    "instancing": {
+      "name": "Instancing",
+      "description": "Generates instanced geometry according to input",
+      "count": "Instance Count",
+      "lbl-surface": "Target Surface",
+      "error-surface": "Error occurred finding target surface",
+      "placeholder-surface": "No Target Selected",
+      "lbl-mode": "Instancing Mode",
+      "lbl-load": "Stage",
+      "lbl-unload": "Unstage",
+      "lbl-reload": "Restage",
+      "lbl-options": "Options",
+      "samplingMode": "Sampling Mode",
+      "sampling": {
+        "properties": "Sampling Properties",
+        "heightMap": "Height Map",
+        "heightMapStrength": "Height Map Strength",
+        "densityMap": "Density Map",
+        "densityMapStrength": "Density Map Strength",
+        "root": "Root Node"
+      },
+      "grass": {
+        "properties": "Grass Properties",
+        "bladeHeight": "Blade Height",
+        "bladeWidth": "Blade Width",
+        "joints": "Blade Joint Count",
+        "alphaMap": "Alpha Map",
+        "texture": "Grass Texture",
+        "ambientStrength": "Ambient Strength",
+        "diffuseStrength": "Diffuse Strength",
+        "shininess": "Shininess",
+        "sunColor": "Sun Color"
+      },
+      "mesh": {
+        "properties": "Mesh Instancing Properties",
+        "instancedMesh": "Instanced Mesh",
+        "error-instancedMesh": "Error loading instanced mesh",
+        "placeholder-instancedMesh": "Select Mesh to Instance"
+      }
+    },
+    "cameraSettings": {
+      "name": "Camera Settings",
+      "description": "Change the camera settings for this scene."
+    },
+    "cameraComponent": {
+      "name": "Camera",
+      "description": "Camera Component",
+      "lbl-fov": "FOV",
+      "lbl-aspect": "Aspect",
+      "lbl-near": "Near",
+      "lbl-far": "Far"
+    },
+    "postprocessing": {
+      "name": "Post Processing Effect",
+      "enabled": "Enabled",
+      "description": "For applying Post Processing effects to you scene."
+    },
+    "mediaSettings": {
+      "name": "Media Settings",
+      "description": "Customise the scene media settings",
+      "lbl-audioSettings": "Use Positional Audio",
+      "lbl-avatarDistanceModel": "Avatar Distance Model",
+      "lbl-avatarRolloffFactor": "Avatar Rolloff Factor",
+      "lbl-avatarRefDistance": "Avatar Ref Distance",
+      "lbl-avatarMaxDistance": "Avatar Max Distance",
+      "lbl-mediaVolume": "Media Volume",
+      "lbl-mediaDistanceModel": "Media Distance Model",
+      "lbl-immersiveMedia": "Use Immersive Media",
+      "lbl-mediaRolloffFactor": "Media Rolloff Factor",
+      "lbl-mediaRefDistance": "Media Ref Distance",
+      "lbl-mediaMaxDistance": "Media Max Distance",
+      "lbl-mediaConeInnerAngle": "Media Cone Inner Angle",
+      "lbl-mediaConeOuterAngle": "Media Cone Outer Angle",
+      "lbl-mediaConeOuterGain": "Media Cone Outer Gain",
+      "info-avatarDistanceModel": "The algorithim used to calculate audio rolloff.",
+      "info-avatarRolloffFactor": "A double value describing how quickly the volume is reduced as the source moves away from the listener. 0 to 1",
+      "info-avatarRolloffFactorInifinity": "A double value describing how quickly the volume is reduced as the source moves away from the listener. 0 to Infinity",
+      "info-avatarRefDistance": "A double value representing the reference distance for reducing volume as the audio source moves further from the listener.",
+      "info-avatarMaxDistance": "A double value representing the maximum distance between the audio source and the listener, after which the volume is not reduced any further.",
+      "info-mediaDistanceModel": "The algorithim used to calculate audio rolloff.",
+      "info-immersiveMedia": "Enable immersive media for non-immersive platforms.",
+      "info-mediaRolloffFactor": "A double value describing how quickly the volume is reduced as the source moves away from the listener. 0 to 1",
+      "info-mediaRolloffFactorInfinity": "A double value describing how quickly the volume is reduced as the source moves away from the listener. 0 to Infinity",
+      "info-mediaRefDistance": "A double value representing the reference distance for reducing volume as the audio source moves further from the listener.",
+      "info-mediaMaxDistance": "A double value representing the maximum distance between the audio source and the listener, after which the volume is not reduced any further.",
+      "info-mediaConeInnerAngle": "A double value describing the angle, in degrees, of a cone inside of which there will be no volume reduction.",
+      "info-mediaConeOuterAngle": "A double value describing the angle, in degrees, of a cone outside of which the volume will be reduced by a constant value, defined by the coneOuterGain attribute.",
+      "info-mediaConeOuterGain": "A double value describing the amount of volume reduction outside the cone defined by the coneOuterAngle attribute. Its default value is 0, meaning that no sound can be heard."
+    },
+    "audioAnalysis": {
+      "name": "Audio Analysis",
+      "lbl-bassEnabled": "Bass Enabled",
+      "lbl-trebleEnabled": "Treble Enabled",
+      "lbl-midEnabled": "Mid Enabled",
+      "lbl-bassMultiplier": "Bass Multiplier",
+      "lbl-trebleMultiplier": "Treble Multiplier",
+      "lbl-midMultiplier": "Mid Multiplier"
+    },
+    "reflectionProbe": {
+      "name": "Reflection Probe",
+      "description": "A reflection probe that captures the environment and uses it for reflection.",
+      "src": "Source"
+    },
+    "renderSettings": {
+      "name": "Render Settings",
+      "description": "Customise the scene renderer settings",
+      "lbl-bgcolor": "Background Color",
+      "lbl-lods": "LODs",
+      "info-lods": "Sets the distances at which levels of detail change.",
+      "lbl-rendererSettings": "Override Renderer Settings",
+      "lbl-usePostProcessing": "Use Post Processing",
+      "info-usePostProcessing": "Enables post processing",
+      "lbl-useShadows": "Use Shadows",
+      "info-useShadows": "Enables shadows",
+      "lbl-primaryLight": "Primary Light",
+      "info-primaryLight": "Set the primary light for the scene",
+      "lbl-csm": "Cascading Shadow Maps",
+      "info-csm": "Enables cascading shadow maps.",
+      "lbl-csm-cascades": "Cascades",
+      "info-csm-cascades": "Smaller the size of the scene. More efficient to have less cascades.",
+      "lbl-toneMapping": "Tone Mapping",
+      "info-toneMapping": "Enables tone mapping on the scene renderer. Has no effect when a post processing is enabled.",
+      "lbl-toneMappingExposure": "Tone Mapping Exposure",
+      "info-toneMappingExposure": "Specifies the tone mapping exposure on the scene renderer. Has no effect when a post processing is enabled.",
+      "lbl-shadowMapType": "Shadow Map Type",
+      "info-shadowMapType": "Type of shadow map"
+    },
+    "sceneSettings": {
+      "name": "Scene Settings",
+      "description": "Customise the scene settings",
+      "lbl-thumbnail": "Thumbnail",
+      "info-thumbnail": "Change the thumbnail",
+      "generate": "Generate",
+      "save": "Save",
+      "lbl-loading": "Loading Screen",
+      "info-loading": "Change the loading screen",
+      "lbl-colors": "Colors",
+      "lbl-killHeight": "Kill Height",
+      "lbl-spectate": "Force Spectator",
+      "info-spectate": "Disable avatars and force the user to spectate the scene",
+      "lbl-uuid": "Spectate Entity",
+      "info-uuid": "Optional entity to spectate"
+    },
+    "scene": {
+      "name": "Scene",
+      "description": "The root object of the scene.",
+      "error-url": "Error Loading From URL"
+    },
+    "sceneCamera": {
+      "name": "Scene Preview Camera",
+      "description": "The camera used to generate the thumbnail for your scene and the starting position for the preview camera.",
+      "lbl-setFromViewPort": "Set From Viewport"
+    },
+    "skybox": {
+      "name": "Skybox",
+      "description": "",
+      "lbl-timeOfDay": "Time of Day",
+      "lbl-color": "Color",
+      "lbl-latitude": "Latitude",
+      "lbl-luminance": "Luminance",
+      "lbl-scattering": "Scattering Amount",
+      "lbl-scatteringDistance": "Scattering Distance",
+      "lbl-horizonStart": "Horizon Start",
+      "lbl-horizonEnd": "Horizon End",
+      "lbl-texture": "Texture",
+      "lbl-skyType": "Sky Type",
+      "error-url": "Error Loading From URL"
+    },
+    "spawnPoint": {
+      "name": "Spawn Point",
+      "description": "A point where people will appear when they enter your scene.\nThe icon in the Viewport represents the actual size of an avatar."
+    },
+    "linkComp": {
+      "title": "link Component",
+      "lbl-url": "Link URL",
+      "lbl-navigateScene": "Scene navigation",
+      "lbl-locaiton": "Location Name",
+      "description": "Adds an interactable that opens links or navigates scene"
+    },
+    "spotLight": {
+      "name": "Spot Light",
+      "description": "A light which emits along a direction, illuminating objects within a cone.",
+      "lbl-color": "Color",
+      "lbl-intensity": "Intensity",
+      "lbl-penumbra": "Penumbra",
+      "lbl-angle": "Angle",
+      "lbl-range": "Range",
+      "lbl-decay": "Decay"
+    },
+    "transform": {
+      "title": "Transform",
+      "description": "Change transform of an entity",
+      "lbl-position": "Position",
+      "lbl-rotation": "Rotation",
+      "lbl-scale": "Scale",
+      "lbl-useGlobalTransform": "Use Global Transform"
+    },
+    "triggerVolume": {
+      "name": "Trigger",
+      "description": "Sets a property on the target object on enter and leave.",
+      "lbl-addTrigger": "Add Trigger",
+      "lbl-removeTrigger": "Remove Trigger",
+      "lbl-target": "Object",
+      "lbl-onenter": "On Enter",
+      "lbl-onexit": "On Exit",
+      "lbl-showHelper": "Show Helper Mesh",
+      "ph-errorNode": "Error missing node.",
+      "ph-selectNode": "Select node...",
+      "lbl-addRigidBody": "Add RigidBody..."
+    },
+    "video": {
+      "name": "Video",
+      "lbl-media": "Media Source",
+      "lbl-size": "Canvas Size",
+      "lbl-size-info": "The dimensions of the surface on which the video will be presented",
+      "lbl-fit": "Video Fit",
+      "lbl-fit-info": "How the video should be stretched within the given canvas size",
+      "lbl-media-info": "An entity w/ a media component that should be sourced for display",
+      "description": "Display a video",
+      "lbl-projection": "Projection",
+      "lbl-side": "Side",
+      "lbl-side-info": "The side of the video to display",
+      "lbl-use-alpha": "Use Alpha",
+      "lbl-use-alpha-info": "If true, the video will be rendered with an alpha channel",
+      "lbl-alpha-threshold": "Alpha Threshold",
+      "lbl-alpha-threshold-info": "The alpha value below which the video will be considered transparent",
+      "lbl-uv-offset": "UV Offset",
+      "lbl-uv-offset-info": "The offset of the video texture in UV space",
+      "lbl-uv-scale": "UV Scale",
+      "lbl-uv-scale-info": "The scale of the video texture in UV space",
+      "lbl-wrap-s": "Wrap S",
+      "lbl-wrap-s-info": "The wrap mode of the video texture in the S direction",
+      "lbl-wrap-t": "Wrap T",
+      "lbl-wrap-t-info": "The wrap mode of the video texture in the T direction",
+      "lbl-use-alpha-uv-transform": "Use Alpha UV Transform",
+      "lbl-use-alpha-uv-transform-info": "If true, the alpha channel will be transformed by its own UV transform",
+      "lbl-alpha-uv-offset": "Alpha UV Offset",
+      "lbl-alpha-uv-offset-info": "The offset of the alpha channel in UV space",
+      "lbl-alpha-uv-scale": "Alpha UV Scale",
+      "lbl-alpha-uv-scale-info": "The scale of the alpha channel in UV space"
+    },
+    "volumetric": {
+      "name": "Volumetric",
+      "description": "Dynamically loads a volumetric video.",
+      "lbl-useLoadingEffect": "Use Loading Effect"
+    },
+    "spline": {
+      "name": "Spline",
+      "description": "Create and customize curves.",
+      "lbl-addNode": "Nodes"
+    },
+    "splinetrack": {
+      "name": "Spline Track",
+      "description": "Have an entity follow a Spline",
+      "lbl-spline": "Source Spline",
+      "lbl-velocity": "Velocity",
+      "lbl-enableRotation": "Enable Rotation",
+      "lbl-lockXZ": "Lock To XZ Plane",
+      "lbl-loop": "Loop"
+    },
+    "systemnode": {
+      "name": "System Node",
+      "description": "Attach script.",
+      "lbl-filePath": "Url",
+      "lbl-insertUUID": "Reference System",
+      "lbl-insertOrder": "Insertion Order",
+      "lbl-enableClient": "Client",
+      "lbl-enableServer": "Server",
+      "lbl-args": "Args",
+      "error-url": "Error Loading Script From URL"
+    },
+    "primitiveGeometry": {
+      "name": "Primitive Geometry",
+      "description": "3D models of Basic Geometry shapes",
+      "lbl-geometryType": "Geometry Type",
+      "lbl-box": "Box",
+      "lbl-sphere": "Sphere",
+      "lbl-cylinder": "Cylinder",
+      "lbl-capsule": "Capsule",
+      "lbl-plane": "Plane",
+      "lbl-circle": "Circle",
+      "lbl-ring": "Ring",
+      "lbl-torus": "Torus",
+      "lbl-polyhedron": "Polyhedron",
+      "lbl-torusknot": "Torus Knot"
+    },
+    "portal": {
+      "name": "Portal",
+      "lbl-portal": "Linked Portal",
+      "lbl-redirect": "Use Page Redirect",
+      "description": "A Portal to teleport players to specified location",
+      "lbl-locationName": "Location",
+      "lbl-modelUrl": "Model URL",
+      "lbl-displayText": "Display Text",
+      "lbl-effectType": "Loading Effect",
+      "lbl-previewType": "Preview Type",
+      "lbl-previewImageURL": "Preview Image URL",
+      "lbl-savedImageURL": "Saved Image",
+      "lbl-generateImage": "Generate Image",
+      "lbl-saveImage": "Save Image",
+      "lbl-spawnPosition": "Spawn Position",
+      "lbl-spawnRotation": "Spawn Rotation",
+      "lbl-triggerPosition": "Trigger Position",
+      "lbl-triggerRotation": "Trigger Rotation",
+      "lbl-triggerScale": "Trigger Scale"
+    },
+    "fog": {
+      "name": "Fog",
+      "description": "A universal fog",
+      "lbl-fogType": "Fog Type",
+      "lbl-fogColor": "Fog Color",
+      "lbl-fogHeight": "Fog Height",
+      "lbl-fogTimeScale": "Fog Time Scale",
+      "lbl-forNearDistance": "Fog Near Distance",
+      "lbl-fogFarDistance": "Fog Far Distance",
+      "lbl-fogDensity": "Fog Density"
+    },
+    "xr": {
+      "name": "XR Settings"
+    },
+    "mountPoint": {
+      "name": "Mount point",
+      "description": "An object with a pose to define interactable behaviors.",
+      "lbl-type": "Type",
+      "lbl-dismount": "Dismount point, offsets this transform"
+    },
+    "text": {
+      "textGroup": "Text",
+      "textOpacity": "Opacity",
+      "textWidth": "Width",
+      "textIndent": "Indent",
+      "textAlign": "Align",
+      "textWrap": "Wrap",
+      "textAnchor": "Anchor",
+      "textDepthOffset": "Depth offset",
+      "textCurveRadius": "Curve radius",
+      "letterSpacing": "Letter spacing",
+      "lineHeight": "Line Height",
+      "textDirection": "Direction",
+      "fontGroup": "Font",
+      "fontFamily": "Family",
+      "fontSize": "Size",
+      "fontColor": "Color",
+      "fontMaterial": "Material",
+      "outlineGroup": "Outline",
+      "outlineColor": "Color",
+      "outlineOpacity": "Opacity",
+      "outlineWidth": "Width",
+      "outlineBlur": "Blur",
+      "outlineOffset": "Offset",
+      "strokeGroup": "Stroke",
+      "strokeColor": "Color",
+      "strokeOpacity": "Opacity",
+      "strokeWidth": "Width",
+      "advancedActive": "Show Advanced",
+      "advancedGroup": "Advanced",
+      "clippingActive": "clip.active",
+      "clippingMin": "clip.min",
+      "clippingMax": "clip.max",
+      "glyphResolution": "glyph.resolution",
+      "glyphDetail": "glyph.detail",
+      "gpuAccelerated": "GPU Accelerated"
+    },
+    "textBox": {
+      "name": "Textbox Component",
+      "description": "An XRUI text box component",
+      "lbl-text": "Text",
+      "lbl-family": "Family",
+      "lbl-size": "Size",
+      "lbl-fontStroke": "Font Stroke",
+      "lbl-fontColor": "Font Color",
+      "lbl-cornerRadius": "Corner Radius",
+      "lbl-backgroundColor": "Background Color",
+      "lbl-opacity": "Opacity",
+      "lbl-padding": "Padding"
+    },
+    "gallery": {
+      "name": "Gallery Component",
+      "description": "XRUI Gallery Component",
+      "lbl-imageGrid": "ImageGrid Component",
+      "lbl-thumbnail": "Thumbnail",
+      "lbl-outfitURL": "Outfit URL",
+      "lbl-performerURL": "Performer URL",
+      "lbl-asset": "Asset",
+      "assets": "Assets"
+    }
+  },
+  "projects": {
+    "createProject": {
+      "header": "New Project",
+      "backLink": "Back to projects",
+      "featured": "Featured",
+      "all": "All",
+      "newProject": "New Empty Project",
+      "ph-search": "Search scenes..."
+    },
+    "grid": {
+      "loading": "Loading..."
+    },
+    "page": {
+      "header": "Welcome",
+      "headerMsg": "If you're new here we recommend going through the tutorial. Otherwise, jump right in and create a project from scratch or from one of our templates.",
+      "lbl-startTutorial": "Start Tutorial",
+      "projects": "Projects",
+      "lbl-newProject": "New Project"
+    }
+  },
+  "visualScript": {
+    "panel": {
+      "title": "Visual Script",
+      "addVisualScript": "Add Visual Script"
+    },
+    "picker": {
+      "title": "Add Node"
+    },
+    "modal": {
+      "clear": {
+        "title": "Clear Visual Script",
+        "confirm": "Are you sure?"
+      },
+      "help": {
+        "title": "Help",
+        "addNodeHelp": " Right click anywhere to add a new node.",
+        "addConnectionHelp": "Drag from the output of one node to the input of another to create a connection or into empty space to add a new node and connect it",
+        "deleteNodeHelp": "Left click to select individual or use Shift+Left click to box select nodes or connections, backspace to delete selected nodes or connections."
+      },
+      "load": {
+        "title": "Load Visual Script",
+        "examples": "Select an example"
+      },
+      "save": "Save Visual Script",
+      "buttons": {
+        "clear": "Clear",
+        "cancel": "Cancel",
+        "load": "Load",
+        "close": "Close",
+        "copy": {
+          "done": "Copied!",
+          "begin": "Copy"
+        }
+      }
+    },
+    "sidePanel": {
+      "title": "Graph Utilities",
+      "node": {
+        "name": "Nodes",
+        "description": "Individual logic units connected together to create a graph"
+      },
+      "template": {
+        "name": "Templates",
+        "description": "Reusable graphs that can be added to other graphs."
+      },
+      "variables": {
+        "name": "Variables",
+        "description": "Variables that can be used in the graph.",
+        "add": "Add Variable"
+      }
+    },
+    "editorPanel": {
+      "makeTemplate": "Make into template"
+    }
+  },
+  "layout": {
+    "assetGrid": {
+      "loading": "Loading...",
+      "copyURL": "Copy URL",
+      "openInNewTab": "Open URL in New Tab",
+      "deleteAsset": "Delete Asset",
+      "prefab": "Prefab",
+      "prefabs": "Prefabs",
+      "prefabs-search": "Search Prefabs ...",
+      "components": "Components",
+      "components-search": "Search Components ...",
+      "component-detail": {
+        "model": "Creates objects in the hierarchy. Drag a model from the assets folder into the URL box or drag assets directly from project files into the hierarchy.",
+        "volumetric": "Import volumetric files. Accepts DRCS, UVOL, or Manifest Files. Links to cloud hosting.",
+        "video": "Imports a 2D plane that accepts .mp4, .mkv, .avi",
+        "variant": "Add model variant for level of detail",
+        "audio": "Import audio clips, .mp3, .flac, .ogg, .wav, .m4a",
+        "image": "Imports an image into the scene",
+        "ground-plane": "Create collision ground plane.",
+        "group": "Collection of models or assets.",
+        "collider": "Creates a collision ball, cuboid, capsule, or cylinder to be manually placement.",
+        "spawn-point": "A point where people will appear when they enter your scene.",
+        "portal": "A portal to teleport a player to a port in a different location.",
+        "ambient-light": "A combination of direct and indirect light, provides general lighting to all assets.",
+        "point-light": "A light which emits in all directions from a single point.",
+        "spot-light": "Creates a light that shines in a specific direction.",
+        "directional-light": "Creates a light that emits evenly in a single direction.",
+        "hemisphere-light": "A light which illuminates the scene with a sky color from above and a ground color from below.",
+        "particle-system": "Creates a particle emitter.",
+        "system": "Inserts code into the scene by creating a new Entity Component System based on the provided .ts file",
+        "visual-script": "Customizes state and behavior of entities through a visual node connections.",
+        "envmapbake": "Add Env Mapbake to your scene.",
+        "scene-preview-camera": "A preview camera which generates a scene thumbnail and the starting position.",
+        "skybox": "Sets the area outside your map (skybox) with a specific sky type.",
+        "spline-track": "Creates a spline track.",
+        "spline": "Create and customize curves.",
+        "envmap": "Add environment map to your scene",
+        "postprocessing": "Add postprocessing effects to your scene",
+        "primitive-geometry": "Add basic Geometry to the scene",
+        "link": "Add clickable Link to entity to route to different webpage",
+        "dynamic-load": "Load entities dynamically"
+      },
+      "placeObject": "Place Object",
+      "placeObjectAtOrigin": "Place Object at Origin"
+    },
+    "filebrowser": {
+      "tab-name": "Project Files",
+      "addNewFolder": "Add New Folder",
+      "cutAsset": "Cut",
+      "copyAsset": "Copy",
+      "pasteAsset": "Paste",
+      "renameAsset": "Rename",
+      "renameFile": "Rename File",
+      "renameFileError": "Not a valid file name",
+      "deleteFile": "Delete File",
+      "viewAssetProperties": "View Properties",
+      "refresh": "Refresh",
+      "back": "Back",
+      "loadingFiles": "Loading Files",
+      "loadingProjects": "Loading Projects",
+      "compress": "Compress",
+      "convert": "Convert",
+      "downloadProject": "Download Project",
+      "uploadAssets": "Upload Assets",
+      "generateAssets": "Generate Assets",
+      "uploadFiles": "Upload Files",
+      "uploadFolder": "Upload Folder",
+      "uploadingFiles": "Uploading Files ({{completed}}/{{total}})",
+      "downloadingProject": "Downloading Project ({{completed}}/{{total}})",
+      "search-placeholder": "Search",
+      "generatingThumbnails": "Generating Thumbnails ({{count}} remaining)",
+      "file": "File",
+      "directory": "Directory",
+      "fileProperties": {
+        "header": "Info for {{fileName}}",
+        "header-plural": "Info for {{itemCount}} Items",
+        "regenerateThumbnail": "Regenerate Thumbnail",
+        "name": "Name",
+        "type": "Type",
+        "size": "Size",
+        "url": "URL",
+        "author": "Author",
+        "attribution": "Attribution",
+        "licensing": "Licensing",
+        "tag": "Tag",
+        "addTag": "Add New Tag",
+        "add": "Add",
+        "save-changes": "Save Changes",
+        "discard": "Discard",
+        "mixedValues": "Mixed"
+      },
+      "view-mode": {
+        "icons": "View: Icons",
+        "list": "View: List",
+        "settings": {
+          "name": "View Options",
+          "iconSize": "Icon Size",
+          "select-listColumns": "Select List Columns",
+          "fontSize": "Font Size"
+        }
+      },
+      "table-list": {
+        "headers": {
+          "name": "Name",
+          "type": "Type",
+          "dateModified": "Date Modified",
+          "size": "Size"
+        }
+      },
+      "image-convert": {
+        "format": "Format",
+        "resize": "Resize",
+        "width": "Width",
+        "height": "Height"
+      }
+    },
+    "scene-assets": {
+      "no-category": "No category selected",
+      "search-placeholder": "Search",
+      "preview": "Preview",
+      "info-drag-drop": "Drag and Drop these items into the scene",
+      "settings": "Settings",
+      "no-search-results": "No results found"
+    }
+  },
+  "hierarchy": {
+    "lbl": "Hierarchy",
+    "info": "The scene Hierarchy contains all element currently in your scene (assets, lighting, items from the tool menu, etc).",
+    "lbl-rename": "Rename",
+    "lbl-renameScene": "Rename Scene",
+    "lbl-edited": "Edited",
+    "lbl-duplicate": "Duplicate",
+    "lbl-group": "Group",
+    "lbl-copy": "Copy",
+    "lbl-paste": "Paste",
+    "lbl-delete": "Delete",
+    "lbl-deleteScene": "Delete Scene",
+    "lbl-deleteSceneDescription": "Are you sure you want to delete '{{sceneName}}' scene?",
+    "lbl-expandAll": "Expand All",
+    "lbl-collapseAll": "Collapse All",
+    "lbl-explode": "Explode Objects",
+    "lbl-addEntity": "Add Entity",
+    "lbl-createPrefab": "Create Prefab",
+    "issues": "Issues",
+    "copy-paste": {
+      "no-hierarchy-nodes": "No hierarchy nodes found"
+    }
+  },
+  "materialLibrary": {
+    "lbl": "Material Library",
+    "tab-materials": "Materials",
+    "info": "Location of an assets materials and where you can select and edit them."
+  },
+  "dnd": {
+    "nodes": "{{count}} Nodes Selected",
+    "models": "{{count}} Models Selected",
+    "images": "{{count}} Images Selected",
+    "videos": "{{count}} Videos Selected",
+    "audio": "{{count}} Audio Sources Selected"
+  },
+  "dialog": {
+    "title": "Editor",
+    "lbl-confirm": "Ok",
+    "lbl-cancel": "Cancel",
+    "sure-confirm": "Are you sure?",
+    "exportProject": {
+      "title": "Export Project",
+      "lbl-confirm": "Export Project",
+      "lbl-combineMesh": "Combine Meshes",
+      "lbl-removeUnused": "Remove Unused Objects"
+    },
+    "performance": {
+      "title": "Performance Check",
+      "lbl-confirm": "Publish Scene",
+      "learnMore": "Learn More",
+      "lbl-polycount": "Polygon Count",
+      "lbl-material": "Materials",
+      "lbl-texture": "Textures",
+      "lbl-lights": "Lights",
+      "lbl-fileSize": "File Size",
+      "info-polycount": "We recommend your scene use no more than 50,000 triangles for mobile devices.",
+      "info-material": "We recommend using no more than 25 unique materials in your scene to reduce draw calls on mobile devices.",
+      "info-texture": "We recommend your textures use no more than 256MB of video RAM for mobile devices. We also recommend against using textures larger than 2048 x 2048.",
+      "info-lights": "While dynamic lights are not enabled on mobile devices, we recommend using no more than 3 lights in your scene (excluding ambient and hemisphere lights) for your scene to run on low end PCs.",
+      "info-fileSize": "We recommend a final file size of no more than 16MB for low bandwidth connections. Reducing the file size will reduce the time it takes to download your scene.",
+      "txt-polycount": "{{count}} Triangles",
+      "txt-material": "{{count}} Materials",
+      "txt-ram": "~{{count}} Video RAM",
+      "txt-texture": "{{count}} Large Textures",
+      "txt-lights": "{{count}} Lights"
+    },
+    "progress": {
+      "title": "Loading...",
+      "msg": "Loading...",
+      "lbl-cancel": "Cancel"
+    },
+    "publish": {
+      "title": "Publish Scene",
+      "lbl-confirm": "Save and Publish",
+      "lbl-name": "Scene Name",
+      "info-name": "Name must be between 4 and 64 characters and cannot contain underscores"
+    },
+    "published": {
+      "title": "Scene Published",
+      "header": "Your scene has been published.",
+      "lbl-view": "View Your Scene"
+    },
+    "saveScene": {
+      "title": "Save",
+      "lbl-thumbnail": "Generate thumbnail & envmap",
+      "lbl-confirm": "Save Scene",
+      "info-confirm": "Are you sure you want to save the scene?",
+      "info-question": "Do you want to save the current scene?",
+      "unsavedChanges": {
+        "title": "Unsaved Changes"
+      }
+    },
+    "saveNewScene": {
+      "title": "Save As",
+      "lbl-name": "Scene Name",
+      "info-name": "Name must be between 4 and 64 characters (with only alphabets, numbers, dashes allowed)",
+      "lbl-confirm": "Save Scene"
+    },
+    "support": {
+      "title": "Support",
+      "header": "Need to report a problem?",
+      "msg": "You can file a <1>GitHub Issue</1> or e-mail us for support at <3>{{mail}}</3>",
+      "discord": "You can also find us on <1>Discord</1>"
+    },
+    "delete": {
+      "confirm-content": "Do you want to delete {{content}}?",
+      "confirm-multiple": "Do you want to delete {{first}}, and {{count}} others?",
+      "not-allowed-local-dev": "To prevent accidental loss of data, projects cannot be deleted from this menu in a local dev environment. Use the file system instead."
+    },
+    "createScene": {
+      "title": "New Scene",
+      "create": "New Empty Scene"
+    },
+    "file": "file",
+    "folder": "folder"
+  },
+  "sources": {
+    "bingImage": {
+      "name": "Bing Images",
+      "search": "Search by Bing"
+    },
+    "bingVideo": {
+      "name": "Bing Videos",
+      "search": "Search by Bing"
+    },
+    "element": {
+      "name": "Elements"
+    },
+    "myAssets": {
+      "name": "My Assets"
+    },
+    "googlePoly": {
+      "name": "Google Poly",
+      "search": "Search by Google"
+    },
+    "tenor": {
+      "name": "Tenor GIFs",
+      "search": "Search by Tenor",
+      "ph-search": "Search GIFs..."
+    },
+    "sketchfab": {
+      "name": "Sketchfab",
+      "search": "Search by Sketchfab"
+    }
+  },
+  "asset": {
+    "dropZone": {
+      "title": "Upload Asset"
+    },
+    "imageSourcePanel": {
+      "ph-search": "Search images..."
+    },
+    "videoSourcePanel": {
+      "ph-search": "Search videos..."
+    },
+    "assetSourcePanel": {
+      "ph-search": "Search assets..."
+    },
+    "modelSourcePanel": {
+      "ph-search": "Search models..."
+    },
+    "useUpload": {
+      "multipleFileError": "Input does not accept multiple files.",
+      "mineTypeError": "\"{{name}}\" does not match the following mime types or extensions: {{types}}",
+      "progressMsg": "Uploading files {{uploaded}} of {{total}}: {{percentage}}%",
+      "uploadError": "Upload Error",
+      "uploadErrorMsg": "Error uploading file: {{message}}",
+      "uploadErrorDefaultMsg": "There was an unknown error"
+    }
+  },
+  "openLink": {
+    "description": "Please click the Open to navigate to the link.",
+    "lbl-open": "Open"
+  },
+  "interactableModel": {
+    "lbl-buy": "Buy",
+    "lbl-learnMore": "Learn More"
+  },
+  "corsProxyButton": {
+    "tooltip": "Use Cors Proxy Server"
+  },
+  "tabs": {
+    "scene-assets": "Assets",
+    "project-assets": "Project Assets"
+  },
+  "generatingThumbnails": {
+    "title": "Generating Thumbnails",
+    "amountRemaining": "{{count}} remaining"
+  },
+  "assetMetadata": {
+    "name": "Name",
+    "path": "Path",
+    "type": "Type",
+    "tags": "Tags"
+  }
+}

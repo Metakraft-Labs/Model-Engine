@@ -3,7 +3,28 @@ import { Box, IconButton, Modal, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { UserStore } from "../../contexts/UserStore";
 
-export default function StyledModal({ open, onClose, heading, subHeading, children, sx = {} }) {
+/**
+ *
+ * @param {Object} props
+ * @param {Boolean} props.open
+ * @param {Function} props.onClose
+ * @param {String} props.heading
+ * @param {String} props.subHeading
+ * @param {React.JSX} props.children
+ * @param {import("@mui/styles").CSSProperties} sx
+ * @param {String} className
+ * @returns
+ */
+
+export default function StyledModal({
+    open,
+    onClose,
+    heading,
+    subHeading,
+    children,
+    sx = {},
+    className,
+}) {
     const { theme } = useContext(UserStore);
 
     return (
@@ -16,6 +37,7 @@ export default function StyledModal({ open, onClose, heading, subHeading, childr
                 alignItems: "center",
                 justifyContent: "center",
             }}
+            className={className}
         >
             <Box
                 sx={{

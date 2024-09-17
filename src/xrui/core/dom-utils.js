@@ -37,12 +37,12 @@ export function path(el, rootNode = document.documentElement) {
     return hasParent ? path(el.parentNode, rootNode) + " > " + selector : selector;
 }
 
-export function hash(el) {
-    const cssPath = path(el);
-    const type = el.type;
-    const checked = el.checked;
-    const value = el.value;
-    const textContent = el.textContent;
+export function hash(_el) {
+    // const cssPath = path(el);
+    // const type = el.type;
+    // const checked = el.checked;
+    // const value = el.value;
+    // const textContent = el.textContent;
 }
 
 export function traverseChildElements(element, each, bind, level = 0) {
@@ -177,8 +177,8 @@ export function getBounds(element, bounds = new Bounds(), referenceElement) {
     //   top -= el.scrollTop
     //   if (el === offsetParent) {
     //     const style = window.getComputedStyle(el)
-    //     left += el.offsetLeft + parseFloat(style.borderLeftWidth!) || 0
-    //     top += el.offsetTop + parseFloat(style.borderTopWidth!) || 0
+    //     left += el.offsetLeft + parseFloat(style.borderLeftWidth) || 0
+    //     top += el.offsetTop + parseFloat(style.borderTopWidth) || 0
     //     offsetParent = el.offsetParent
     //   }
     //   el = el.offsetParent

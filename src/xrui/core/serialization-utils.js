@@ -83,9 +83,9 @@ function serializeText(node) {
     return serializeTextContent(text);
 }
 
-function serializeComment(node) {
-    return "<!--" + node.data.replace(/-/g, "&#45;") + "-->";
-}
+// function serializeComment(node) {
+//     return "<!--" + node.data.replace(/-/g, "&#45;") + "-->";
+// }
 
 function serializeCDATA(node) {
     return "<![CDATA[" + node.nodeValue + "]]>";

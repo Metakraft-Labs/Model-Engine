@@ -176,7 +176,6 @@ export class GLTFParser {
     }
 
     parse(onLoad, onError) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const parser = this;
         const json = this.json;
         const extensions = this.extensions;
@@ -436,7 +435,6 @@ export class GLTFParser {
         let dependencies = this.cache.get(type);
 
         if (!dependencies) {
-            // eslint-disable-next-line @typescript-eslint/no-this-alias
             const parser = this;
             const defs = this.json[type + (type === "mesh" ? "es" : "s")] || [];
 
@@ -511,7 +509,6 @@ export class GLTFParser {
      * @return {Promise<BufferAttribute|InterleavedBufferAttribute>}
      */
     loadAccessor(accessorIndex) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const parser = this;
         const json = this.json;
 
@@ -675,7 +672,6 @@ export class GLTFParser {
     }
 
     loadTextureImage(textureIndex, sourceIndex, loader) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const parser = this;
         const json = this.json;
 
@@ -728,7 +724,6 @@ export class GLTFParser {
     }
 
     loadImageSource(sourceIndex, loader) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const parser = this;
         const json = this.json;
         const options = this.options;
@@ -818,7 +813,6 @@ export class GLTFParser {
      * @return {Promise}
      */
     assignTexture(materialParams, mapName, mapDef, colorSpace) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const parser = this;
 
         return this.getDependency("texture", mapDef.index).then(function (texture) {
@@ -948,7 +942,6 @@ export class GLTFParser {
      * @return {Promise<Material>}
      */
     loadMaterial(materialIndex) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const parser = this;
         const json = this.json;
         const extensions = this.extensions;
@@ -1141,7 +1134,6 @@ export class GLTFParser {
      * @return {Promise<Array<BufferGeometry>>}
      */
     loadGeometries(primitives) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const parser = this;
         const extensions = this.extensions;
         const cache = this.primitiveCache;
@@ -1200,7 +1192,6 @@ export class GLTFParser {
      * @return {Promise<Group|Mesh|SkinnedMesh>}
      */
     loadMesh(meshIndex) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const parser = this;
         const json = this.json;
         const extensions = this.extensions;
@@ -1419,7 +1410,7 @@ export class GLTFParser {
      */
     loadAnimation(animationIndex) {
         const json = this.json;
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
+
         const parser = this;
 
         const animationDef = json.animations[animationIndex];
@@ -1503,7 +1494,7 @@ export class GLTFParser {
 
     createNodeMesh(nodeIndex) {
         const json = this.json;
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
+
         const parser = this;
         const nodeDef = json.nodes[nodeIndex];
 
@@ -1534,7 +1525,7 @@ export class GLTFParser {
      */
     loadNode(nodeIndex) {
         const json = this.json;
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
+
         const parser = this;
 
         const nodeDef = json.nodes[nodeIndex];
@@ -1583,7 +1574,7 @@ export class GLTFParser {
     _loadNodeShallow(nodeIndex) {
         const json = this.json;
         const extensions = this.extensions;
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
+
         const parser = this;
 
         // This method is called from .loadNode() and .loadSkin().
@@ -1691,7 +1682,7 @@ export class GLTFParser {
     loadScene(sceneIndex) {
         const extensions = this.extensions;
         const sceneDef = this.json.scenes[sceneIndex];
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
+
         const parser = this;
 
         // Loader returns Group, not Scene.

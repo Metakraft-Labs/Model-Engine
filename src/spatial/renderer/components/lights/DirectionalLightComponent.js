@@ -82,7 +82,7 @@ export const DirectionalLightComponent = defineComponent({
     name: "DirectionalLightComponent",
     jsonID: "EE_directional_light",
 
-    onInit: entity => {
+    onInit: () => {
         return {
             light,
             color: new Color(),

@@ -2,12 +2,12 @@ import React from "react";
 import Modal from "../../Modal";
 import { PopoverState } from "../services/PopoverState";
 
-const ErrorDialog = ({ title, description, modalProps, open }) => {
+const ErrorDialog = ({ title, description, modalProps }) => {
     return (
         <Modal
             heading={title}
             subHeading={description}
-            open={open}
+            open={true}
             onClose={PopoverState.hidePopupover}
             {...modalProps}
         >

@@ -11,7 +11,9 @@ import Routers from "./common/Routers";
 import LoadingScreen from "./components/LoadingScreen";
 import UserProvider from "./contexts/UserStore";
 import { getSupportedChains } from "./shared/web3utils";
+import { initializei18n } from "./util";
 
+initializei18n();
 function App() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
     const [loading, setLoading] = useState(true);

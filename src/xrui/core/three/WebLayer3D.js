@@ -36,7 +36,7 @@ export class WebLayer3D extends Object3D {
     static GEOMETRY = new PlaneGeometry(1, 1, 2, 2);
     static FLIPPED_GEOMETRY = flipY(new PlaneGeometry(1, 1, 2, 2));
 
-    static shouldApplyDOMLayout(layer3D) {
+    static shouldApplyDOMLayout() {
         const should = layer.shouldApplyDOMLayout;
         if (should === "always" || should === true) return true;
         if (should === "never" || should === false) return false;
@@ -51,7 +51,7 @@ export class WebLayer3D extends Object3D {
 
     _camera;
 
-    constructor(element, container) {
+    constructor(element) {
         super();
         this.name = element.id;
         this._webLayer = WebRenderer.getClosestLayer(element)(element).layer = this;
@@ -182,7 +182,7 @@ export class WebLayer3D extends Object3D {
     //   const _layer = this._webLayer
     //   if (_layer.prerasterizedRange.length) {
     //     const hash = this._webLayer.prerasterizedImages.get(char)
-    //     const textureData = manager.getTexture(hash!)
+    //     const textureData = manager.getTexture(hash)
     //     console.log(textureData, char)
     //     if (textureData) {
     //       if (!this.characterMap.has(char)) this.characterMap.set(char, textureData)

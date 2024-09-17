@@ -1,6 +1,5 @@
 // scene profile
 export * from "./abstractions/drivers/DummyScene";
-export * from "./abstractions/IScene";
 export * from "./nodes/actions/EaseSceneProperty";
 export * from "./nodes/actions/SetSceneProperty";
 export * from "./nodes/events/OnSceneNodeClick";

@@ -5,7 +5,7 @@ export const ObjectValue = {
     serialize: value => JSON.stringify(value),
     equals: (a, b) => a === b,
     clone: value => value,
-    lerp: value => {
+    lerp: () => {
         throw new Error("Not implemented");
     },
 };

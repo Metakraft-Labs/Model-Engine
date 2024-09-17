@@ -57,7 +57,7 @@ export class MOZLightmapExtension extends Extension {
 
     read(readerContext) {
         const materialDefs = readerContext.jsonDoc.json.materials || [];
-        const textureDefs = readerContext.jsonDoc.json.textures || [];
+        // const textureDefs = readerContext.jsonDoc.json.textures || [];
         materialDefs.forEach((def, idx) => {
             if (def.extensions && def.extensions[EXTENSION_NAME]) {
                 const mozLightmap = new MOZLightmap(this.document.getGraph());

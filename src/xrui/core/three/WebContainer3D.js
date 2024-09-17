@@ -136,7 +136,7 @@ export class WebContainer3D extends Object3D {
     _previousHoverLayers = new Set();
     _contentMeshes = [];
 
-    _prepareHitTest = layer3D => {
+    _prepareHitTest = () => {
         if (layer.desiredPseudoStates.hover) this._previousHoverLayers.add(layer);
         layer.cursor.visible = false;
         layer.desiredPseudoStates.hover = false;

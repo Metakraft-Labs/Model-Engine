@@ -6,7 +6,6 @@ import {
     Group,
     InterpolateDiscrete,
     InterpolateLinear,
-    LinearSRGBColorSpace,
     LinearFilter,
     LinearMipmapLinearFilter,
     LinearMipmapNearestFilter,
@@ -16,15 +15,15 @@ import {
     NearestFilter,
     NearestMipmapLinearFilter,
     NearestMipmapNearestFilter,
+    NoColorSpace,
     PropertyBinding,
-    RGBAFormat,
     RepeatWrapping,
+    RGBAFormat,
     Scene,
     Source,
     SRGBColorSpace,
-    Vector3,
     Texture,
-    NoColorSpace,
+    Vector3,
 } from "three";
 
 import { cleanStorageProviderURLs } from "../../../common/src/utils/parseSceneJSON";

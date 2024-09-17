@@ -7,7 +7,7 @@ export const ListValue = {
     serialize: value => JSON.stringify(value),
     equals: (a, b) => equals(a, b),
     clone: value => value,
-    lerp: value => {
+    lerp: () => {
         throw new Error("Not implemented");
     },
 };

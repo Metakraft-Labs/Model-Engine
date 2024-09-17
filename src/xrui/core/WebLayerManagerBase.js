@@ -86,7 +86,7 @@ export class WebLayerManagerBase {
 
     saveStore() {
         const stateData = Array.from(this._stateData.entries())
-            .filter(([k, v]) => typeof k === "string")
+            .filter(([k]) => typeof k === "string")
             .map(([k, v]) => ({ hash: k, textureHash: v.texture?.hash }));
         const textureData = Array.from(this._unsavedTextureData.values());
         this._unsavedTextureData.clear();
@@ -657,7 +657,7 @@ export class WebLayerManagerBase {
         return promise;
     }
 
-    optimizeImageData(stateHash) {}
+    optimizeImageData(_stateHash) {}
 
-    addToOptimizeQueue(hash) {}
+    addToOptimizeQueue(_hash) {}
 }

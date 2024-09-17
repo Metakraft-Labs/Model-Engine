@@ -171,7 +171,7 @@ const ImageCompressionBox = ({ compressProperties }) => {
     );
 };
 
-export default function ImportSettingsPanel({ open }) {
+export default function ImportSettingsPanel() {
     const importSettingsState = useHookstate(getMutableState(ImportSettingsState));
     const compressProperties = useHookstate(
         getMutableState(ImportSettingsState).imageSettings.get(NO_PROXY),
@@ -216,7 +216,7 @@ export default function ImportSettingsPanel({ open }) {
     };
 
     return (
-        <Modal title="Import Settings" onClose={PopoverState.hidePopupover} open={open}>
+        <Modal title="Import Settings" onClose={PopoverState.hidePopupover} open={true}>
             <TextField
                 value={defaultImportFolder}
                 onChange={event => setDefaultImportFolder(event.target.value)}
