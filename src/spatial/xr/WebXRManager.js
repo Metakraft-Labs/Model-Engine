@@ -6,7 +6,6 @@ import {
     UnsignedByteType,
     UnsignedInt248Type,
     UnsignedIntType,
-    WebGLMultiviewRenderTarget,
     WebGLRenderTarget,
 } from "three";
 
@@ -176,11 +175,13 @@ export function createWebXRManager(renderer) {
                 if (scope.isMultiview) {
                     const extension = extensions.get("OCULUS_multiview");
                     this.maxNumViews = gl.getParameter(extension.MAX_VIEWS_OVR);
-                    newRenderTarget = new WebGLMultiviewRenderTarget(
+                    newRenderTarget = new WebGLRenderTarget(
                         glProjLayer.textureWidth,
                         glProjLayer.textureHeight,
-                        2,
-                        rtOptions,
+                        {
+                            ...rtOptions,
+                            count: 2,
+                        },
                     );
                 } else {
                     newRenderTarget = new WebGLRenderTarget(
