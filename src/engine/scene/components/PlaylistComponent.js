@@ -11,7 +11,7 @@ export const PlaylistComponent = defineComponent({
     name: "PlaylistComponent",
     jsonID: "EE_playlist",
 
-    onInit: entity => ({
+    onInit: _entity => ({
         tracks: [],
         currentTrackUUID: "",
         currentTrackIndex: -1,

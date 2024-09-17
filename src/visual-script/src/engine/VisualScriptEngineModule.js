@@ -9,8 +9,6 @@ export * from "./Execution/VisualScriptEngine";
 // main data model
 export * from "./Graphs/Graph";
 // json types
-export * from "./Graphs/IO/GraphJSON";
-export * from "./Graphs/IO/NodeSpecJSON";
 export * from "./Graphs/IO/readGraphFromJSON";
 export * from "./Graphs/IO/writeGraphToJSON";
 export * from "./Graphs/IO/writeNodeSpecsToJSON";
@@ -28,20 +26,16 @@ export * from "./Nodes/NodeDefinitions";
 export * from "./Nodes/NodeInstance";
 // registry
 export * from "./Nodes/Registry/NodeCategory";
-export * from "./Nodes/Registry/NodeDefinitionsMap";
 export * from "./Nodes/Registry/NodeDescription";
 // registry validation
 export * from "./mathUtilities";
 export * from "./memo";
 export * from "./Nodes/Validation/validateNodeRegistry";
 export * from "./parseFloats";
-export * from "./Registry";
 export * from "./sequence";
 export * from "./sleep";
 export * from "./Sockets/Socket";
 export * from "./toCamelCase";
 export * from "./validateRegistry";
 export * from "./Values/Validation/validateValueRegistry";
-export * from "./Values/ValueType";
-export * from "./Values/ValueTypeMap";
 export * from "./Values/Variables/Variable";

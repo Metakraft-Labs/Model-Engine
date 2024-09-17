@@ -29,13 +29,13 @@ export const flowToVisual = (nodes, edges, variables, specGenerator) => {
             visualNode.parameters[key] = { value: value };
         });
         if (node.parentNode) {
-            visualNode.metadata?.parentNode = node.parentNode;
+            visualNode.metadata.parentNode = node.parentNode;
         }
         if (node.style) {
-            visualNode.metadata?.style = node.style;
+            visualNode.metadata.style = node.style;
         }
         if (node.data.label) {
-            visualNode.metadata?.label = node.data.label;
+            visualNode.metadata.label = node.data.label;
         }
         // check for
         edges

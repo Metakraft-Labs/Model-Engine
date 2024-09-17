@@ -29,7 +29,7 @@ export const ImageComponent = defineComponent({
     name: "EE_image",
     jsonID: "EE_image",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             source: `${process.env.REACT_APP_S3_ASSETS}/editor/projects/spark/default-project/assets/sample_etc1s.ktx2`,
             alphaMode: ImageAlphaMode.Opaque,

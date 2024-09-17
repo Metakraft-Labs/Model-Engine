@@ -5,5 +5,5 @@ export class CustomEvent {
     metadata = {};
     eventEmitter = new EventEmitter();
 
-    constructor(id, name, parameters = []) {}
+    constructor(_id, _name, _parameters = []) {}
 }

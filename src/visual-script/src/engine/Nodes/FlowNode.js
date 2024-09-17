@@ -21,7 +21,7 @@ export class FlowNode extends Node {
         Assert.mustBeTrue(this.inputs.some(socket => socket.valueTypeName === "flow"));
     }
 
-    triggered(fiber, triggeringSocketName) {
+    triggered() {
         throw new Error("not implemented");
     }
 }
@@ -54,8 +54,6 @@ export class FlowNodeInstance extends Node {
             state: this.state,
             configuration: this.configuration,
             outputSocketKeys: this.outputSocketKeys,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             triggeringSocketName,
         });
     };

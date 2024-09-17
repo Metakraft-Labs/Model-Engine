@@ -1,9 +1,7 @@
-import { Logger } from "../VisualScriptEngineModule";
-
 export const createNode = ({ graph, registry, nodeTypeName, nodeConfiguration = {} }) => {
     const nodeDefinition = registry.nodes[nodeTypeName] ? registry.nodes[nodeTypeName] : undefined;
     if (nodeDefinition === undefined) {
-        Logger.verbose("known nodes: " + Object.keys(registry.nodes).join(", "));
+        console.log("known nodes: " + Object.keys(registry.nodes).join(", "));
         throw new Error(`no registered node descriptions with the typeName ${nodeTypeName}`);
     }
 

@@ -124,7 +124,7 @@ export const MountPointComponent = defineComponent({
     name: "MountPointComponent",
     jsonID: "EE_mount_point",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             type: MountPoint.seat,
             dismountOffset: new Vector3(0, 0, 0.75),

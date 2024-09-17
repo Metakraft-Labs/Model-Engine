@@ -10,7 +10,7 @@ export const RenderSettingsComponent = defineComponent({
     name: "RenderSettingsComponent",
     jsonID: "EE_render_settings",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             primaryLight: "",
             csm: true,

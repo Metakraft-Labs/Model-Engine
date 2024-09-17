@@ -12,7 +12,7 @@ export const SceneDynamicLoadTagComponent = defineComponent({
     name: "SceneDynamicLoadTagComponent",
     jsonID: "EE_dynamic_load",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             mode: "distance",
             distance: 20,

@@ -15,21 +15,17 @@ import { Object3DUtils } from "../shared/Object3DUtils";
 
 import { overrideOnBeforeCompile } from "./common/functions/OnBeforeCompilePlugin";
 
-//@ts-ignore
 Vector3.prototype.toJSON = function () {
     return { x: this.x, y: this.y, z: this.z };
 };
-//@ts-ignore
 Vector2.prototype.toJSON = function () {
     return { x: this.x, y: this.y };
 };
 
-//@ts-ignore
 Quaternion.prototype.toJSON = function () {
     return { x: this._x, y: this._y, z: this._z, w: this._w };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-loss-of-precision
 const opmu = 1.90110745351730037;
 const u = new Float32Array(8);
 const v = new Float32Array(8);
@@ -114,7 +110,6 @@ const fastSlerp = function (target, t) {
 
 Quaternion.prototype.fastSlerp = fastSlerp;
 
-//@ts-ignore
 Euler.prototype.toJSON = function () {
     return { x: this._x, y: this._y, z: this._z, order: this._order };
 };

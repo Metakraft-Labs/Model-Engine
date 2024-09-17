@@ -238,7 +238,7 @@ function sortAndMergeBufferMetadata(rangesState, gapTolerance) {
 export const UVOL2Component = defineComponent({
     name: "UVOL2Component",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             canPlay: false,
             manifestPath: "",

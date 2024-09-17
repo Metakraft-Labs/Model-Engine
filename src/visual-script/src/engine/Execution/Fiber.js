@@ -15,7 +15,7 @@ export class Fiber {
     }
 
     // this is syncCommit.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+    // eslint-disable-next-line no-unused-vars
     commit(node, outputSocketName, fiberCompletedListener = undefined) {
         Assert.mustBeTrue(isFlowNode(node));
         Assert.mustBeTrue(this.nextEval === null);

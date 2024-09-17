@@ -36,7 +36,7 @@ export const TransformComponent = defineComponent({
     jsonID: "EE_transform",
     schema: TransformSchema,
 
-    onInit: entity => {
+    onInit: _entity => {
         const dirtyTransforms = TransformComponent.dirtyTransforms;
         const component = {
             position: proxifyVector3WithDirty(TransformComponent.position, entity, dirtyTransforms),

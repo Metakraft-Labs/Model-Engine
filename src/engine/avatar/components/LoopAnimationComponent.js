@@ -26,7 +26,7 @@ export const LoopAnimationComponent = defineComponent({
     name: "LoopAnimationComponent",
     jsonID: "EE_loop_animation",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             activeClipIndex: -1,
             animationPack: "",

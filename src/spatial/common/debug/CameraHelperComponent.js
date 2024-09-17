@@ -7,7 +7,7 @@ import { useHelperEntity } from "./DebugComponentUtils";
 export const CameraHelperComponent = defineComponent({
     name: "CameraHelperComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             name: "camera-helper",
             camera,

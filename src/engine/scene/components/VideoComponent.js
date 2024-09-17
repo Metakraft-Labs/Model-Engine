@@ -65,7 +65,7 @@ export const VideoComponent = defineComponent({
     name: "EE_video",
     jsonID: "EE_video",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             side: DoubleSide,
             size: new Vector2(1, 1),

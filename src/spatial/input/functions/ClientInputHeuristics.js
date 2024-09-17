@@ -152,7 +152,7 @@ export function findPhysicsColliders(intersectionData, raycast) {
     }
 }
 
-const boundingBoxesQuery = defineQuery([VisibleComponent, BoundingBoxComponent]);
+// const boundingBoxesQuery = defineQuery([VisibleComponent, BoundingBoxComponent]);
 
 export function findBBoxes(intersectionData, ray, hitTarget) {
     const inputState = getState(InputState);

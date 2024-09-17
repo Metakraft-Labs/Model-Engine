@@ -7,13 +7,13 @@ export const TriggerComponent = defineComponent({
     name: "TriggerComponent",
     jsonID: "EE_trigger",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             triggers: [],
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         // backwards compatibility

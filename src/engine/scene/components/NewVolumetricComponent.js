@@ -1,49 +1,49 @@
 import { useEffect, useRef } from "react";
 import { Group, LinearFilter, Mesh, SRGBColorSpace, SphereGeometry, Texture, Vector2 } from "three";
 import {
-    AnimationSystemGroup,
-    Engine,
-    defineComponent,
-    getComponent,
-    getMutableComponent,
-    getOptionalComponent,
-    getOptionalMutableComponent,
-    hasComponent,
-    setComponent,
-    useComponent,
-    useEntityContext,
-    useExecute,
-    useOptionalComponent,
+  AnimationSystemGroup,
+  Engine,
+  defineComponent,
+  getComponent,
+  getMutableComponent,
+  getOptionalComponent,
+  getOptionalMutableComponent,
+  hasComponent,
+  setComponent,
+  useComponent,
+  useEntityContext,
+  useExecute,
+  useOptionalComponent,
 } from "../../../ecs";
 import { NO_PROXY, getMutableState, getState } from "../../../hyperflux";
 import {
-    addObjectToGroup,
-    removeObjectFromGroup,
+  addObjectToGroup,
+  removeObjectFromGroup,
 } from "../../../spatial/renderer/components/GroupComponent";
 import { CORTOLoader } from "../../assets/loaders/corto/CORTOLoader";
 import { AssetLoaderState } from "../../assets/state/AssetLoaderState";
 import { AudioState } from "../../audio/AudioState";
 import {
-    GeometryFormatToType,
-    GeometryType,
-    TIME_UNIT_MULTIPLIER,
-    textureTypeToUniformKey,
+  GeometryFormatToType,
+  GeometryType,
+  TIME_UNIT_MULTIPLIER,
+  textureTypeToUniformKey,
 } from "../constants/NewUVOLTypes";
 import { addError, clearErrors } from "../functions/ErrorFunctions";
 import BufferDataContainer from "../util/BufferDataContainer";
 import {
-    bufferLimits,
-    deleteUsedGeometryBuffers,
-    deleteUsedTextureBuffers,
-    fetchGeometry,
-    fetchTextures,
+  bufferLimits,
+  deleteUsedGeometryBuffers,
+  deleteUsedTextureBuffers,
+  fetchGeometry,
+  fetchTextures,
 } from "../util/VolumetricBufferingUtils";
 import {
-    createMaterial,
-    getGeometry,
-    getSortedSupportedTargets,
-    getTexture,
-    handleMediaAutoplay,
+  createMaterial,
+  getGeometry,
+  getSortedSupportedTargets,
+  getTexture,
+  handleMediaAutoplay,
 } from "../util/VolumetricUtils";
 import { AudioNodeGroups, MediaElementComponent, createAudioNodeGroup } from "./MediaComponent";
 import { PlaylistComponent } from "./PlaylistComponent";
@@ -119,7 +119,7 @@ const resetState = {
 export const NewVolumetricComponent = defineComponent({
     name: "NewVolumetricComponent",
     jsonID: "EE_NewVolumetric",
-    onInit: entity => structuredClone(initialState),
+    onInit: _entity => structuredClone(initialState),
     onSet: (entity, component, json) => {
         if (!json) return;
         if (typeof json.useLoadingEffect === "boolean") {

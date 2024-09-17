@@ -18,7 +18,7 @@ export const SplineComponent = defineComponent({
     name: "SplineComponent",
     jsonID: "EE_spline",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             elements: [
                 { position: new Vector3(-1, 0, -1), quaternion: new Quaternion() },

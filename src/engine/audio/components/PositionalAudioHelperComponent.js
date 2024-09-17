@@ -10,7 +10,7 @@ import { useDisposable, useResource } from "../../../spatial/resources/resourceH
 export const PositionalAudioHelperComponent = defineComponent({
     name: "PositionalAudioHelperComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             name: "positional-audio-helper",
             audio,

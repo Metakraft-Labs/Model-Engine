@@ -27,7 +27,7 @@ export const VisualScriptComponent = defineComponent({
     name: "VisualScriptComponent",
     jsonID: "EE_visual_script",
 
-    onInit: entity => {
+    onInit: _entity => {
         const domain = VisualScriptDomain.ECS;
         const visualScript = parseStorageProviderURLs(defaultVisualScript);
         return {

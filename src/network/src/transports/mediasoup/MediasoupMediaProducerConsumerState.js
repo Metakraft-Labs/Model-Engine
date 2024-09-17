@@ -187,7 +187,7 @@ export const MediasoupMediaProducerConsumerState = defineState({
                 ? Object.values(state.value[networkID].consumers).find(
                       consumer => consumer.producerID === action.producerID,
                   )
-                ;
+                : undefined;
             if (matchingConsumer)
                 state[networkID].consumers[matchingConsumer.consumerID].producerPaused.set(
                     action.paused,
@@ -423,7 +423,7 @@ export const NetworkMediaConsumer = props => {
             // TODO, for some reason this is triggering more often than it should, so check if it actually has been removed
             if (consumerObjectState.value || consumer.closed || consumer._closed) return;
 
-            const network = getState(NetworkState).networks[networkID];
+            // const network = getState(NetworkState).networks[networkID];
             consumer.close();
         };
     }, [consumerObjectState]);

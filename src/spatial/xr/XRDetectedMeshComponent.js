@@ -18,7 +18,7 @@ import { ReferenceSpace, XRState } from "./XRState";
 export const XRDetectedMeshComponent = defineComponent({
     name: "XRDetectedMeshComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             mesh,
             // internal
@@ -29,7 +29,7 @@ export const XRDetectedMeshComponent = defineComponent({
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
         if (matches.object.test(json.mesh)) {
             component.mesh.set(json.mesh);
@@ -110,7 +110,7 @@ export const XRDetectedMeshComponent = defineComponent({
 
     updateMeshGeometry: (entity, mesh) => {
         XRDetectedMeshComponent.meshesLastChangedTimes.set(mesh, mesh.lastChangedTime);
-        const geometry = XRDetectedMeshComponent.createGeometryFromMesh(mesh);
+        // const geometry = XRDetectedMeshComponent.createGeometryFromMesh(mesh);
     },
 
     updateMeshPose: (entity, mesh) => {

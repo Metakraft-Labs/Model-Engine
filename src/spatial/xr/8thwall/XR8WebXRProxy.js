@@ -151,12 +151,12 @@ export class XRSessionProxy extends EventDispatcher {
         this.inputSources = inputSources;
     }
 
-    async requestReferenceSpace(type) {
+    async requestReferenceSpace(_type) {
         const space = new XRReferenceSpace();
         return space;
     }
 
-    async requestHitTestSource(args) {
+    async requestHitTestSource(_args) {
         const source = new XRHitTestSource();
         return source;
     }
@@ -190,7 +190,7 @@ export class XRFrameProxy {
         XRFrameProxy._lastFrame = this;
     }
 
-    getHitTestResults(source) {
+    getHitTestResults(_source) {
         const hits = XR8.XrController.hitTest(0.5, 0.5, ["FEATURE_POINT"]);
         return hits.map(
             ({ position, rotation }) =>
@@ -211,7 +211,7 @@ export class XRFrameProxy {
         return new XRPose(new XRRigidTransform(_pos, _rot));
     }
 
-    getViewerPose(space) {
+    getViewerPose(_space) {
         return this._viewerPose;
     }
 }

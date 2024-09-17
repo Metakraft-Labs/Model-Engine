@@ -44,7 +44,7 @@ export const LinkComponent = defineComponent({
     name: "LinkComponent",
     jsonID: "EE_link",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             url: "",
             sceneNav: false,

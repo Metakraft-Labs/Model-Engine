@@ -1,5 +1,4 @@
 import { makeFlowNodeDefinition, NodeCategory } from "../../../VisualScriptModule";
-import { LogSeverity } from "../abstractions/ILogger";
 
 export const Log = makeFlowNodeDefinition({
     typeName: "debug/log",
@@ -17,9 +16,8 @@ export const Log = makeFlowNodeDefinition({
     },
     out: { flow: "flow" },
     initialState: undefined,
-    triggered: ({ read, commit, graph: { getDependency } }) => {
-        const logger = getDependency("ILogger");
-        logger?.log(read < LogSeverity > "severity", read < string > "text");
+    triggered: ({ read, commit }) => {
+        console.log(read("severity"), read("test"));
         commit("flow");
     },
 });

@@ -28,7 +28,7 @@ export const eyeOffset = 0.25;
 export const AvatarControllerComponent = defineComponent({
     name: "AvatarControllerComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             /** The camera entity that should be updated by this controller */
             cameraEntity: getState(EngineState).viewerEntity || UndefinedEntity,
@@ -47,7 +47,7 @@ export const AvatarControllerComponent = defineComponent({
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         if (matches.number.test(json.cameraEntity)) component.cameraEntity.set(json.cameraEntity);
@@ -141,12 +141,12 @@ export const AvatarControllerComponent = defineComponent({
 
 export const AvatarColliderComponent = defineComponent({
     name: "AvatarColliderComponent",
-    onInit(entity) {
+    onInit(_entity) {
         return {
             colliderEntity: UndefinedEntity,
         };
     },
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
         if (matches.number.test(json.colliderEntity))
             component.colliderEntity.set(json.colliderEntity);

@@ -36,10 +36,10 @@ export class DummyScene {
     setProperty() {
         this.onSceneChanged.emit();
     }
-    addOnClickedListener(jsonPath, callback) {
+    addOnClickedListener() {
         console.log("added on clicked listener");
     }
-    removeOnClickedListener(jsonPath, callback) {
+    removeOnClickedListener() {
         console.log("removed on clicked listener");
     }
 

@@ -3,7 +3,7 @@ import { defineComponent } from "../../../ecs/ComponentFunctions";
 export const AnimationComponent = defineComponent({
     name: "AnimationComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             mixer,
             animations: [],

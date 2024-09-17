@@ -147,7 +147,7 @@ class PortalEffect extends Object3D {
 export const HyperspaceTagComponent = defineComponent({
     name: "HyperspaceTagComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             // all internals
             sceneVisible: true,

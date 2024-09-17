@@ -1,7 +1,5 @@
 export * from "./abstractions/Drivers/DefaultLogger";
 export * from "./abstractions/Drivers/ManualLifecycleEventEmitter";
-export * from "./abstractions/ILifecycleEventEmitter";
-export * from "./abstractions/ILogger";
 export * from "./customEvents/OnCustomEvent";
 export * from "./customEvents/TriggerCustomEvent";
 export * from "./debug/AssertExpectTrue";

@@ -13,7 +13,7 @@ export const AmbientLightComponent = defineComponent({
     name: "AmbientLightComponent",
     jsonID: "EE_ambient_light",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             // todo, maybe we want to reference light.color instead of creating a new Color?
             color: new Color(),

@@ -1,7 +1,6 @@
 import { Raycaster } from "three";
 import { defineQuery } from "../../../ecs";
 import { defineComponent, getComponent, setComponent } from "../../../ecs/ComponentFunctions";
-import { Entity } from "../../../ecs/Entity";
 import { getState } from "../../../hyperflux";
 import { XRHandComponent, XRSpaceComponent } from "../../xr/XRComponents";
 import { ReferenceSpace, XRState } from "../../xr/XRState";
@@ -66,7 +65,6 @@ export const InputSourceComponent = defineComponent({
     /**
      * Gets the preferred controller entity - will return null if the entity is not in an active session or the controller is not available
      * @param {boolean} offhand specifies to return the non-preferred hand instead
-     * @returns {Entity}
      */
     getPreferredInputSource: (offhand = false) => {
         const xrState = getState(XRState);

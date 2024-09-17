@@ -24,7 +24,7 @@ export const PositionalAudioComponent = defineComponent({
 
     jsonID: "EE_audio",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             // default values as suggested at https://medium.com/@kfarr/understanding-web-audio-api-positional-audio-distance-models-for-webxr-e77998afcdff
             distanceModel: "inverse",

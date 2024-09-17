@@ -6,7 +6,6 @@ import {
     DoubleSide,
     LineBasicMaterial,
     NormalBlending,
-    Plane,
     PlaneGeometry,
     ShaderMaterial,
 } from "three";
@@ -18,7 +17,6 @@ import { EntityTreeComponent } from "../../../spatial/transform/components/Entit
 
 import { NameComponent } from "../../common/NameComponent";
 import { setVisibleComponent } from "../../renderer/components/VisibleComponent";
-import { useResource } from "../../resources/resourceHooks";
 import LogarithmicDepthBufferMaterialChunk from "../constants/LogarithmicDepthBufferMaterialChunk";
 import { RendererState } from "../RendererState";
 import { LineSegmentComponent } from "./LineSegmentComponent";
@@ -103,7 +101,7 @@ void main() {
 
 export const InfiniteGridComponent = defineComponent({
     name: "InfiniteGridComponent",
-    onInit(entity) {
+    onInit(_entity) {
         return {
             size: 1,
             color: new Color(0x535353),
@@ -111,7 +109,7 @@ export const InfiniteGridComponent = defineComponent({
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         if (typeof json.size === "number") component.size.set(json.size);
@@ -143,7 +141,7 @@ export const InfiniteGridComponent = defineComponent({
                     },
                 }),
         );
-        const [plane] = useResource(() => new Plane(mesh.up.value), entity);
+        // const [plane] = useResource(() => new Plane(mesh.up.value), entity);
 
         useEffect(() => {
             mesh.position.y.set(engineRendererSettings.gridHeight.value);

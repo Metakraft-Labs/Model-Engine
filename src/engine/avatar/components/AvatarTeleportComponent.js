@@ -3,7 +3,7 @@ import { defineComponent } from "../../../ecs/ComponentFunctions";
 export const AvatarTeleportComponent = defineComponent({
     name: "AvatarTeleportComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             side,
         };

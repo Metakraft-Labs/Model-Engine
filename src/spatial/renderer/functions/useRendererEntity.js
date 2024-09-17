@@ -1,20 +1,9 @@
 import React, { useLayoutEffect } from "react";
-import {
-    Entity,
-    UndefinedEntity,
-    getComponent,
-    useOptionalComponent,
-    useQuery,
-} from "../../../ecs";
+import { UndefinedEntity, getComponent, useOptionalComponent, useQuery } from "../../../ecs";
 import { startReactor, useHookstate, useImmediateEffect } from "../../../hyperflux";
 import { EntityTreeComponent } from "../../transform/components/EntityTree";
 import { RendererComponent } from "../WebGLRendererSystem";
 
-/**
- * Returns the renderer entity that is rendering the specified entity
- * @param {Entity} entity
- * @returns {Entity}
- */
 export function useRendererEntity(entity) {
     const result = useHookstate(UndefinedEntity);
 

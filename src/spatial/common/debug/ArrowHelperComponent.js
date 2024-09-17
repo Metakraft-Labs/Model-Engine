@@ -8,7 +8,7 @@ import { useHelperEntity } from "./DebugComponentUtils";
 export const ArrowHelperComponent = defineComponent({
     name: "ArrowHelperComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             name: "arrow-helper",
             dir: new Vector3(0, 0, 1),

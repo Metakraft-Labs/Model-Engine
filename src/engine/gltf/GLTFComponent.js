@@ -51,7 +51,7 @@ const buildComponentDependencies = json => {
 export const GLTFComponent = defineComponent({
     name: "GLTFComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             src: "",
             // internals
@@ -61,7 +61,7 @@ export const GLTFComponent = defineComponent({
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (typeof json?.src === "string") component.src.set(json.src);
     },
 

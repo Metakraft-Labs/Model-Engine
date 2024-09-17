@@ -43,10 +43,10 @@ export const getSceneStringConversions = values =>
     );
 
 export const getSceneNodesMap = memo(() => {
-    const allValueTypeNames = Object.keys({
-        ...getCoreValuesMap(),
-        ...getSceneValuesMap(),
-    });
+    // const allValueTypeNames = Object.keys({
+    //     ...getCoreValuesMap(),
+    //     ...getSceneValuesMap(),
+    // });
 
     const nodeDefinitions = [
         // pull in value type nodes

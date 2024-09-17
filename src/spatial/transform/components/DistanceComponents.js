@@ -18,7 +18,7 @@ export const FrustumCullCameraComponent = defineComponent({
     name: "FrustumCullCameraComponent",
     schema: FrustumCullCameraSchema,
 
-    onRemove(entity, component) {
+    onRemove(entity) {
         // reset upon removing the component
         FrustumCullCameraComponent.isCulled[entity] = 0;
     },

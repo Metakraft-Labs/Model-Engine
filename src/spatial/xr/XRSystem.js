@@ -11,7 +11,7 @@ import { XRAction, XRState } from "./XRState";
  * System for XR session and input handling
  */
 
-const updateSessionSupportForMode = modeMode => {
+const updateSessionSupportForMode = mode => {
     navigator.xr
         ?.isSessionSupported(mode)
         .then(supported => getMutableState(XRState).supportedSessionModes[mode].set(supported));

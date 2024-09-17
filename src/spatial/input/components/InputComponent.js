@@ -68,7 +68,7 @@ export const InputComponent = defineComponent({
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
         if (Array.isArray(json.inputSinks)) component.inputSinks.set(json.inputSinks);
         if (typeof json.highlight === "boolean") component.highlight.set(json.highlight);

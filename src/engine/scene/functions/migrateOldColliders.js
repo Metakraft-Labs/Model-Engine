@@ -9,7 +9,7 @@ const oldColliderJSONID = "collider";
 /**
  * Converts old ColliderComponent to RigidbodyComponent, new ColliderComponent and TriggerComponent
  */
-export const migrateOldColliders = oldJSONJsonType => {
+export const migrateOldColliders = oldJSON => {
     /** models need to be manually converted in the studio */
     const hasModel = Object.values(oldJSON.components).some(
         comp => comp.name === ModelComponent.jsonID,

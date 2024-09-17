@@ -63,7 +63,7 @@ export class HolographicMaterial extends MeshStandardMaterial {
                 "hologramOpacity",
             ].map(k => [k, uniform(k)]),
         );
-        addOBCPlugin(this, (shader, renderer) => {
+        addOBCPlugin(this, shader => {
             Object.entries(this._uniforms).map(([k, v]) => (shader.uniforms[k] = v));
 
             shader.vertexShader =

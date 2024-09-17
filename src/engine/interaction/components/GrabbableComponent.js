@@ -79,14 +79,14 @@ export const onDrop = () => {
 export const GrabbedComponent = defineComponent({
     name: "GrabbedComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             attachmentPoint: "none",
             grabberEntity,
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         if (typeof json.attachmentPoint === "string")
@@ -102,14 +102,14 @@ export const GrabbedComponent = defineComponent({
 export const GrabberComponent = defineComponent({
     name: "GrabberComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             left,
             right,
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
         if (typeof json.left === "number" || json.left === null) component.left.set(json.left);
         if (typeof json.right === "number" || json.right === null) component.right.set(json.right);

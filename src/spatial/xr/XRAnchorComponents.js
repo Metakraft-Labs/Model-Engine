@@ -33,7 +33,7 @@ export const PersistentAnchorComponent = defineComponent({
      * @param entity
      * @returns
      */
-    onInit: entity => {
+    onInit: _entity => {
         return {
             /** an identifiable name for this anchor */
             name: "",

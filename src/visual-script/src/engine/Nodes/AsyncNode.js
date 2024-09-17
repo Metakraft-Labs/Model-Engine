@@ -24,7 +24,7 @@ export class AsyncNode extends Node {
         Assert.mustBeTrue(this.outputs.some(socket => socket.valueTypeName === "flow"));
     }
 
-    triggered(engine, triggeringSocketName, finished) {
+    triggered(_engine, _triggeringSocketName, _finished) {
         throw new Error("not implemented");
     }
 
@@ -61,8 +61,6 @@ export class AsyncNodeInstance extends Node {
             configuration: this.configuration,
             graph: this.graph,
             finished,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             triggeringSocketName,
         });
     };

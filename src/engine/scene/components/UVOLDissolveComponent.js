@@ -4,7 +4,7 @@ import { defineComponent, getComponent } from "../../../ecs/ComponentFunctions";
 
 export const UVOLDissolveComponent = defineComponent({
     name: "UVOLDissolveComponent",
-    onInit: entity => ({
+    onInit: _entity => ({
         currentTime: 0,
         duration: 2,
     }),

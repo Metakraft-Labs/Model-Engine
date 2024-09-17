@@ -3,11 +3,11 @@ import { defineComponent } from "../../../ecs/ComponentFunctions";
 export const TweenComponent = defineComponent({
     name: "TweenComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return null;
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         component.set(json);
     },
 });

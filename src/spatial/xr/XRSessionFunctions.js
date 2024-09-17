@@ -123,7 +123,7 @@ export const setupXRSession = async requestedMode => {
 };
 
 export const getReferenceSpaces = xrSession => {
-    const onLocalFloorReset = evEvent => {
+    const onLocalFloorReset = _ev => {
         /** @todo ev.transform is not yet implemented on the Quest browser */
         // if (ev.transform) {
         //   ReferenceSpace.localFloor = ev.referenceSpace.getOffsetReferenceSpace(ev.transform)

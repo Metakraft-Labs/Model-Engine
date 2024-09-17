@@ -12,7 +12,7 @@ import { useHelperEntity } from "./DebugComponentUtils";
 export const DebugMeshComponent = defineComponent({
     name: "DebugMeshComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             name: "debug-mesh",
             geometry,

@@ -7,7 +7,7 @@ import { addObjectToGroup, removeObjectFromGroup } from "../../renderer/componen
 export const CameraComponent = defineComponent({
     name: "CameraComponent",
     jsonID: "EE_camera",
-    onInit: entity => {
+    onInit: _entity => {
         const camera = new ArrayCamera();
         camera.fov = 60;
         camera.aspect = 1;

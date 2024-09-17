@@ -211,7 +211,7 @@ const onTouchMove = ev => {
     ];
 };
 
-const onTouchEnd = ev => {
+const onTouchEnd = _ev => {
     const xrState = getState(XRState);
     xrState.session.dispatchEvent({
         type: "inputsourceschange",
@@ -229,7 +229,7 @@ const overrideXRSessionFunctions = () => {
     const xrState = getMutableState(XRState);
     xrState.supportedSessionModes["immersive-ar"].set(true);
 
-    requestXRSession.implementation = async action => {
+    requestXRSession.implementation = async _action => {
         if (xrState.requestingSession.value) return;
 
         xrState.is8thWallActive.set(true);

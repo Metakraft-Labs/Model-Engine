@@ -18,7 +18,7 @@ export class NodeSpecGenerator {
     specsWithoutConfig;
     specsCache = {};
 
-    constructor(registry) {}
+    constructor() {}
 
     getNodeTypes() {
         return Object.keys(this.registry.nodes);

@@ -7,7 +7,7 @@ import { NetworkObjectComponent } from "../../../network";
 export const AvatarComponent = defineComponent({
     name: "AvatarComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             /** The total height of the avatar in a t-pose, must always be non zero and positive for the capsule collider */
             avatarHeight: 1.8,

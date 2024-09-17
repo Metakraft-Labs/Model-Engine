@@ -28,7 +28,7 @@ import { RendererState } from "../../renderer/RendererState";
 export const BoundingBoxComponent = defineComponent({
     name: "BoundingBoxComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             box: new Box3(),
             helper: UndefinedEntity,

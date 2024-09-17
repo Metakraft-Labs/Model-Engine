@@ -1,3 +1,4 @@
+export * from "./ActionFunctions";
 export * from "./ReactorFunctions";
 export * from "./StateFunctions";
 export * from "./StoreFunctions";

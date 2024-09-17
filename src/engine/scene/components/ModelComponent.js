@@ -55,7 +55,7 @@ export const ModelComponent = defineComponent({
     name: "ModelComponent",
     jsonID: "EE_model",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             src: "",
             cameraOcclusion: true,

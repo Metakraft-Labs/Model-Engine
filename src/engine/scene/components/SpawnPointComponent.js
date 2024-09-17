@@ -27,7 +27,7 @@ export const SpawnPointComponent = defineComponent({
     name: "SpawnPointComponent",
     jsonID: "EE_spawn_point",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             permissionedUsers: [],
             helperEntity,

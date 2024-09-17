@@ -10,22 +10,16 @@ import {
     setComponent,
     useOptionalComponent,
 } from "../../../ecs/ComponentFunctions";
-import { Entity, UndefinedEntity } from "../../../ecs/Entity";
+import { UndefinedEntity } from "../../../ecs/Entity";
 import { entityExists, removeEntity } from "../../../ecs/EntityFunctions";
 import { NO_PROXY, none, startReactor, useHookstate, useImmediateEffect } from "../../../hyperflux";
 
 import { TransformComponent } from "./TransformComponent";
 
-/**
- * EntityTreeComponent describes parent-child relationship between entities.
- * A root entity has it's parentEntity set to null.
- * @param {Entity} parentEntity
- * @param {Readonly<Entity[]>} children
- */
 export const EntityTreeComponent = defineComponent({
     name: "EntityTreeComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             // api
             parentEntity: UndefinedEntity,
@@ -196,7 +190,7 @@ export function traverseEntityNodeChildFirst(entity, cb, index = 0) {
 export function iterateEntityNode(
     entity,
     cb,
-    pred = x => true,
+    pred = () => true,
     snubChildren = false,
     breakOnFind = false,
 ) {

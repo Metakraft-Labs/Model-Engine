@@ -38,7 +38,7 @@ occlusionMat.polygonOffsetFactor = -0.01;
 export const XRDetectedPlaneComponent = defineComponent({
     name: "XRDetectedPlaneComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             plane,
             // internal
@@ -49,7 +49,7 @@ export const XRDetectedPlaneComponent = defineComponent({
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
         if (matches.object.test(json.plane)) {
             component.plane.set(json.plane);

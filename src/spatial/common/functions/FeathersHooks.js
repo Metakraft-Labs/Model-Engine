@@ -168,15 +168,15 @@ const forceRefetch = serviceName => {
     }
 };
 
-const created = ({ serviceName, item }) => {
+const created = ({ serviceName }) => {
     forceRefetch(serviceName);
 };
 
-const updated = ({ serviceName, item }) => {
+const updated = ({ serviceName }) => {
     forceRefetch(serviceName);
 };
 
-const removed = ({ serviceName, item }) => {
+const removed = ({ serviceName }) => {
     forceRefetch(serviceName);
 };
 

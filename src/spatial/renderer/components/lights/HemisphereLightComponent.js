@@ -21,7 +21,7 @@ export const HemisphereLightComponent = defineComponent({
     name: "HemisphereLightComponent",
     jsonID: "EE_hemisphere_light",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             skyColor: new Color(),
             groundColor: new Color(),

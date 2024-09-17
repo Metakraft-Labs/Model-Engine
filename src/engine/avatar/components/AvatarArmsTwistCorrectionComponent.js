@@ -5,7 +5,7 @@ import { defineComponent } from "../../../ecs/ComponentFunctions";
 export const AvatarArmsTwistCorrectionComponent = defineComponent({
     name: "AvatarArmsTwistCorrectionComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             LeftHandBindRotationInv: new Quaternion(),
             LeftArmTwistAmount: 0,

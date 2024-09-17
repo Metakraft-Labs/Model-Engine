@@ -14,7 +14,7 @@ export const EnvMapBakeComponent = defineComponent({
     name: "EnvMapBakeComponent",
     jsonID: "EE_envmapbake",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             bakePosition: new Vector3(),
             bakePositionOffset: new Vector3(),
@@ -27,7 +27,7 @@ export const EnvMapBakeComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.bakePosition))
             component.bakePosition.value.copy(json.bakePosition);

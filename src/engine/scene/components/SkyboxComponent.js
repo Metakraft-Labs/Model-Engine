@@ -28,7 +28,7 @@ export const SkyboxComponent = defineComponent({
 
     jsonID: "EE_skybox",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             backgroundColor: new Color(0x000000),
             equirectangularPath: "",

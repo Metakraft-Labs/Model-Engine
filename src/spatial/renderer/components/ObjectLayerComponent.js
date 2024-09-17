@@ -14,11 +14,11 @@ export const ObjectLayerComponents = Array.from({ length: maxBitWidth }, (_, i) 
     return defineComponent({
         name: `ObjectLayer${i}`,
 
-        onSet(entity, component) {
+        onSet(entity) {
             ObjectLayerMaskComponent.mask[entity] |= (1 << i) | 0;
         },
 
-        onRemove(entity, component) {
+        onRemove(entity) {
             ObjectLayerMaskComponent.mask[entity] &= ~((1 << i) | 0);
         },
     });
@@ -30,7 +30,7 @@ export const ObjectLayerMaskComponent = defineComponent({
     name: "ObjectLayerMaskComponent",
     schema: { mask: Types.i32 },
 
-    onInit(entity) {
+    onInit(_entity) {
         return ObjectLayerMaskDefault; // enable layer 0
     },
 
@@ -45,7 +45,7 @@ export const ObjectLayerMaskComponent = defineComponent({
      * setComponent(entity, ObjectLayerMaskComponent, ObjectLayerMasks.NodeHelper)
      * ```
      */
-    onSet(entity, component, mask = ObjectLayerMaskDefault) {
+    onSet(_entity, component, mask = ObjectLayerMaskDefault) {
         for (let i = 0; i < maxBitWidth; i++) {
             const isSet = (mask & ((1 << i) | 0)) !== 0;
             if (isSet) {

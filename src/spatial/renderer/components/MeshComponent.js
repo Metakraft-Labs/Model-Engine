@@ -19,7 +19,7 @@ export const MeshComponent = defineComponent({
     name: "MeshComponent",
     jsonID: "EE_mesh",
 
-    onInit: entity => null,
+    onInit: _entity => null,
 
     onSet: (entity, component, mesh) => {
         if (!mesh || !mesh.isMesh) throw new Error("MeshComponent: Invalid mesh");

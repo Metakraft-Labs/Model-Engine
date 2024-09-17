@@ -42,7 +42,7 @@ import { TweenComponent } from "../../../spatial/transform/components/TweenCompo
 
 export const SpawnEffectComponent = defineComponent({
     name: "SpawnEffectComponent",
-    onInit: entity => {
+    onInit: _entity => {
         return {
             sourceEntity: UndefinedEntity,
             opacityMultiplier: 1,

@@ -6,14 +6,14 @@ export class NodeDescription {
     nodeFactory;
 
     constructor(
-        typeName,
-        category,
-        label = "",
+        _typeName,
+        _category,
+        _label = "",
         factory,
-        otherTypeNames = [],
-        helpDescription = "",
+        _otherTypeNames = [],
+        _helpDescription = "",
 
-        configurationDescription = {},
+        _configurationDescription = {},
     ) {
         this.nodeFactory = (graph, config) => factory(this, graph, config);
     }

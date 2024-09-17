@@ -34,7 +34,7 @@ export class WaitAll extends FlowNode {
         this.reset();
     }
 
-    triggeredMap: { [key] } = {};
+    triggeredMap = {};
     triggeredCount = 0;
     outputTriggered = false;
 

@@ -154,12 +154,12 @@ export const useXRInputSources = () => {
             for (const inputSource of session.inputSources) addInputSource(inputSource);
         }
 
-        const onInputSourcesChanged = eventChangeEvent => {
+        const onInputSourcesChanged = event => {
             event.added.map(addInputSource);
             event.removed.map(removeInputSource);
         };
 
-        const onXRSelectStart = eventEvent => {
+        const onXRSelectStart = event => {
             const eid = InputSourceComponent.entitiesByInputSource.get(event.inputSource);
             if (!eid) return;
             const inputSourceComponent = getComponent(eid, InputSourceComponent);
@@ -167,7 +167,7 @@ export const useXRInputSources = () => {
             const state = inputSourceComponent.buttons;
             state.PrimaryClick = createInitialButtonState(eid);
         };
-        const onXRSelectEnd = eventEvent => {
+        const onXRSelectEnd = event => {
             const eid = InputSourceComponent.entitiesByInputSource.get(event.inputSource);
             if (!eid) return;
             const inputSourceComponent = getComponent(eid, InputSourceComponent);
@@ -289,7 +289,7 @@ export const CanvasInputReactor = () => {
             ClientInputFunctions.redirectPointerEventsToXRUI(cameraEntity, event);
         };
 
-        const onVisibilityChange = event => {
+        const onVisibilityChange = _event => {
             if (
                 document.visibilityState === "hidden" ||
                 !canvas.checkVisibility({

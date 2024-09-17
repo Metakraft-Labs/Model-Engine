@@ -31,7 +31,7 @@ import { RendererComponent } from "../../renderer/WebGLRendererSystem";
 
 const pointerPositionDelta = new Vector2();
 const rendererQuery = defineQuery([RendererComponent]);
-const epsilon = 0.001;
+// const epsilon = 0.001;
 
 const followCameraModeCycle = [
     FollowCameraMode.FirstPerson,

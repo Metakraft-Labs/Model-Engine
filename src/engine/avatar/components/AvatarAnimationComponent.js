@@ -43,7 +43,7 @@ import { AvatarPendingComponent } from "./AvatarPendingComponent";
 export const AvatarAnimationComponent = defineComponent({
     name: "AvatarAnimationComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             animationGraph: {
                 blendAnimation,
@@ -75,7 +75,7 @@ export const AvatarAnimationComponent = defineComponent({
 export const AvatarRigComponent = defineComponent({
     name: "AvatarRigComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             /** rig bones with quaternions relative to the raw bones in their bind pose */
             normalizedRig,

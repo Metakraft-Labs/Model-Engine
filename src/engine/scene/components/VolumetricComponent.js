@@ -60,7 +60,7 @@ export function handleAutoplay(audioContext, media, volumetric) {
 export const VolumetricComponent = defineComponent({
     name: "Volumetric Component",
     jsonID: "EE_volumetric",
-    onInit: entity => {
+    onInit: _entity => {
         return {
             paths: [],
             useLoadingEffect: true,

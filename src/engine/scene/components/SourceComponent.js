@@ -6,7 +6,7 @@ const entitiesBySource = {};
 export const SourceComponent = defineComponent({
     name: "SourceComponent",
 
-    onInit: entity => "",
+    onInit: _entity => "",
 
     onSet: (entity, component, src) => {
         if (typeof src !== "string") throw new Error("SourceComponent expects a non-empty string");

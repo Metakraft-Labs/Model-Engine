@@ -29,7 +29,7 @@ export const SpawnPoseState = defineState({
         const state = useMutableState(SpawnPoseState);
         return (
             <>
-                {state.keys.map(uuidUUID => (
+                {state.keys.map(uuid => (
                     <EntityNetworkReactor uuid={uuid} key={uuid} />
                 ))}
             </>

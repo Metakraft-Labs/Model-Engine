@@ -1,165 +1,169 @@
 import {
-  LineBasicMaterial,
-  LineDashedMaterial,
-  Material,
-  MeshBasicMaterial,
-  MeshDepthMaterial,
-  MeshDistanceMaterial,
-  MeshLambertMaterial,
-  MeshMatcapMaterial,
-  MeshNormalMaterial,
-  MeshPhongMaterial,
-  MeshPhysicalMaterial,
-  MeshStandardMaterial,
-  MeshToonMaterial,
-  PointsMaterial,
-  RawShaderMaterial,
-  ShaderMaterial,
-  ShadowMaterial,
-  SpriteMaterial
-} from 'three'
+    LineBasicMaterial,
+    LineDashedMaterial,
+    Material,
+    MeshBasicMaterial,
+    MeshDepthMaterial,
+    MeshDistanceMaterial,
+    MeshLambertMaterial,
+    MeshMatcapMaterial,
+    MeshNormalMaterial,
+    MeshPhongMaterial,
+    MeshPhysicalMaterial,
+    MeshStandardMaterial,
+    MeshToonMaterial,
+    PointsMaterial,
+    RawShaderMaterial,
+    ShaderMaterial,
+    ShadowMaterial,
+    SpriteMaterial,
+} from "three";
 
 /**@deprecated Use setPlugin instead */
 export function addOBCPlugin(material, plugin) {
-  material.onBeforeCompile = plugin
-  material.needsUpdate = true
+    material.onBeforeCompile = plugin;
+    material.needsUpdate = true;
 }
 
 /**@deprecated Use removePlugin instead */
 export function removeOBCPlugin(material, plugin) {
-  if (material.plugins) {
-    const index = indexOfPlugin(plugin, material.plugins)
-    if (index > -1) material.plugins.splice(index, 1)
-    material.plugins?.sort(sortPluginsByPriority)
-  }
+    if (material.plugins) {
+        const index = indexOfPlugin(plugin, material.plugins);
+        if (index > -1) material.plugins.splice(index, 1);
+        material.plugins?.sort(sortPluginsByPriority);
+    }
 }
 
 /**@deprecated use hasPlugin instead */
 export function hasOBCPlugin(material, plugin) {
-  if (!material.plugins) return false
-  return indexOfPlugin(plugin, material.plugins) > -1
+    if (!material.plugins) return false;
+    return indexOfPlugin(plugin, material.plugins) > -1;
 }
 
 function indexOfPlugin(plugin, arr) {
-  if (typeof plugin === 'function') {
-    for (let i = 0; i < arr.length; i++) {
-      if (typeof arr[i] === 'function' && arr[i] === plugin) return i
+    if (typeof plugin === "function") {
+        for (let i = 0; i < arr.length; i++) {
+            if (typeof arr[i] === "function" && arr[i] === plugin) return i;
+        }
+    } else {
+        for (let i = 0; i < arr.length; i++) {
+            if (typeof arr[i] === "function") continue;
+            else if (arr[i].id === plugin.id) return i;
+        }
     }
-  } else {
-    for (let i = 0; i < arr.length; i++) {
-      if (typeof arr[i] === 'function') continue
-      else if ((arr[i]).id === plugin.id) return i
-    }
-  }
 
-  return -1
+    return -1;
 }
 
 function sortPluginsByPriority(a, b) {
-  return (b).priority - (a).priority
+    return b.priority - a.priority;
 }
 
 const onBeforeCompile = {
-  get: function (this) {
-    if (!this._onBeforeCompile.toString) {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
+    get: function (_this) {
+        if (!_this._onBeforeCompile.toString) {
+            const self = _this;
 
-      this._onBeforeCompile.toString = function () {
-        let code = ''
+            _this._onBeforeCompile.toString = function () {
+                let code = "";
 
-        if (self.plugins) {
-          for (let i = 0, l = self.plugins.length; i < l; i++) {
-            const plugin = self.plugins[i]
-            code += plugin instanceof Function ? plugin.toString() : plugin.compile.toString()
-          }
+                if (self.plugins) {
+                    for (let i = 0, l = self.plugins.length; i < l; i++) {
+                        const plugin = self.plugins[i];
+                        code +=
+                            plugin instanceof Function
+                                ? plugin.toString()
+                                : plugin.compile.toString();
+                    }
+                }
+
+                return code;
+            };
         }
 
-        return code
-      }
-    }
+        return _this._onBeforeCompile;
+    },
+    set: function (_this, plugins) {
+        if (plugins === null) {
+            if (_this.plugins) {
+                while (_this.plugins.length) removeOBCPlugin(_this, _this.plugins[0]);
+            }
+        } else if (plugins instanceof Array) {
+            for (let i = 0, l = plugins.length; i < l; i++) this.onBeforeCompile = plugins[i];
+        } else if (plugins instanceof Function || plugins instanceof Object) {
+            const plugin = plugins;
 
-    return this._onBeforeCompile
-  },
-  set: function (this, plugins) {
-    if (plugins === null) {
-      if (this.plugins) {
-        while (this.plugins.length) removeOBCPlugin(this, this.plugins[0])
-      }
-    } else if (plugins instanceof Array) {
-      for (let i = 0, l = plugins.length; i < l; i++) (this).onBeforeCompile = plugins[i]
-    } else if (plugins instanceof Function || plugins instanceof Object) {
-      const plugin = plugins
+            if (hasOBCPlugin(_this, plugin)) return;
+            if (!_this.plugins) _this.plugins = [];
+            plugin.priority = typeof plugin.priority === "undefined" ? 1 : plugin.priority;
 
-      if (hasOBCPlugin(this, plugin)) return
-      if (!this.plugins) this.plugins = []
-      ;(plugin).priority =
-        typeof (plugin).priority === 'undefined' ? 1 : (plugin).priority
+            _this.plugins.unshift(plugin);
+            _this.plugins.sort(sortPluginsByPriority);
 
-      this.plugins.unshift(plugin)
-      this.plugins.sort(sortPluginsByPriority)
-
-      this.customProgramCacheKey = () => {
-        let result = this.shader ? this.shader.fragmentShader + this.shader.vertexShader : ''
-        for (let i = 0; i < this.plugins?.length; i++) {
-          const plugin = this.plugins?.[i]
-          const pluginObj = plugin
-          if (typeof pluginObj.compile === 'function') result += pluginObj.compile.toString()
-          else result += plugin.toString()
+            _this.customProgramCacheKey = () => {
+                let result = _this.shader
+                    ? _this.shader.fragmentShader + _this.shader.vertexShader
+                    : "";
+                for (let i = 0; i < _this.plugins?.length; i++) {
+                    const plugin = _this.plugins?.[i];
+                    const pluginObj = plugin;
+                    if (typeof pluginObj.compile === "function")
+                        result += pluginObj.compile.toString();
+                    else result += plugin.toString();
+                }
+                // if (typeof _this._onBeforeCompile.toString === 'function') return _this._onBeforeCompile.toString()
+                // else return _this.onBeforeCompile.toString()
+                return result;
+            };
+        } else {
+            console.error('Invalid type "%s" assigned to onBeforeCompile', typeof plugins);
         }
-        // if (typeof this._onBeforeCompile.toString === 'function') return this._onBeforeCompile.toString()
-        // else return this.onBeforeCompile.toString()
-        return result
-      }
-    } else {
-      console.error('Invalid type "%s" assigned to onBeforeCompile', typeof plugins)
-    }
-  }
-}
+    },
+};
 
 export function overrideOnBeforeCompile() {
-  const Materials = [
-    ShadowMaterial,
-    SpriteMaterial,
-    RawShaderMaterial,
-    ShaderMaterial,
-    PointsMaterial,
-    MeshPhysicalMaterial,
-    MeshStandardMaterial,
-    MeshPhongMaterial,
-    MeshToonMaterial,
-    MeshNormalMaterial,
-    MeshLambertMaterial,
-    MeshDepthMaterial,
-    MeshDistanceMaterial,
-    MeshBasicMaterial,
-    MeshMatcapMaterial,
-    LineDashedMaterial,
-    LineBasicMaterial,
-    Material
-  ]
+    const Materials = [
+        ShadowMaterial,
+        SpriteMaterial,
+        RawShaderMaterial,
+        ShaderMaterial,
+        PointsMaterial,
+        MeshPhysicalMaterial,
+        MeshStandardMaterial,
+        MeshPhongMaterial,
+        MeshToonMaterial,
+        MeshNormalMaterial,
+        MeshLambertMaterial,
+        MeshDepthMaterial,
+        MeshDistanceMaterial,
+        MeshBasicMaterial,
+        MeshMatcapMaterial,
+        LineDashedMaterial,
+        LineBasicMaterial,
+        Material,
+    ];
 
-  for (let i = 0, l = Materials.length; i < l; i++) {
-    const Material = Materials[i]
+    for (let i = 0, l = Materials.length; i < l; i++) {
+        const Material = Materials[i];
 
-    Material.prototype._onBeforeCompile = function (shader, renderer) {
-      if (!this.shader) this.shader = shader
-      if (!this.plugins) return
+        Material.prototype._onBeforeCompile = function (shader, renderer) {
+            if (!this.shader) this.shader = shader;
+            if (!this.plugins) return;
 
-      for (let i = 0, l = this.plugins.length; i < l; i++) {
-        const plugin = this.plugins[i]
-        ;(plugin instanceof Function ? plugin : plugin.compile).call(this, shader, renderer)
-      }
+            for (let i = 0, l = this.plugins.length; i < l; i++) {
+                const plugin = this.plugins[i];
+                (plugin instanceof Function ? plugin : plugin.compile).call(this, shader, renderer);
+            }
+        };
+        Material.prototype._onBeforeCompile.toString = null;
+
+        const dispose = Material.prototype.dispose;
+
+        Material.prototype.dispose = function () {
+            this.onBeforeCompile = null;
+            dispose.call(this);
+        };
+
+        Object.defineProperty(Material.prototype, "onBeforeCompile", onBeforeCompile);
     }
-    Material.prototype._onBeforeCompile.toString = null
-
-    const dispose = Material.prototype.dispose
-
-    Material.prototype.dispose = function () {
-      this.onBeforeCompile = null
-      dispose.call(this)
-    }
-
-    Object.defineProperty(Material.prototype, 'onBeforeCompile', onBeforeCompile)
-  }
 }

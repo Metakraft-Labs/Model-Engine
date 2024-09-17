@@ -26,7 +26,7 @@ import { TransformGizmoVisualComponent } from "./TransformGizmoVisualComponent";
 export const TransformGizmoControlledComponent = defineComponent({
     name: "TransformGizmoControlled",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             controller: UndefinedEntity,
         };

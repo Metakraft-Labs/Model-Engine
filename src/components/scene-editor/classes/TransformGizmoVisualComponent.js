@@ -64,7 +64,7 @@ const cleanupGizmo = gizmoObj => {
 export const TransformGizmoVisualComponent = defineComponent({
     name: "TransformGizmoVisual",
 
-    onInit(entity) {
+    onInit(_entity) {
         const visual = {
             gizmo: {
                 translate: UndefinedEntity,
@@ -85,7 +85,7 @@ export const TransformGizmoVisualComponent = defineComponent({
         };
         return visual;
     },
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
     },
     onRemove: (entity, component) => {

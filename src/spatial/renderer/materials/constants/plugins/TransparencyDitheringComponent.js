@@ -21,7 +21,7 @@ export const MAX_DITHER_POINTS = 2; //should be equal to the length of the vec3 
 
 export const TransparencyDitheringRoot = defineComponent({
     name: "TransparencyDitheringRoot",
-    onInit: entity => {
+    onInit: _entity => {
         return { materials: [] };
     },
     onSet: (entity, component, json) => {
@@ -31,7 +31,7 @@ export const TransparencyDitheringRoot = defineComponent({
 
 export const TransparencyDitheringPlugin = defineComponent({
     name: "TransparencyDithering",
-    onInit: entity => {
+    onInit: _entity => {
         return {
             centers: new Uniform(Array.from({ length: MAX_DITHER_POINTS }, () => new Vector3())),
             exponents: new Uniform(Array.from({ length: MAX_DITHER_POINTS }, () => 1)),

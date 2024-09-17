@@ -104,9 +104,9 @@ const execute = () => {
     }
 };
 
-const reactor = () => {
-    return <CameraReactor />;
-};
+// const reactor = () => {
+//     return <CameraReactor />;
+// };
 
 export const CameraSystem = defineSystem({
     uuid: "ee.engine.CameraSystem",

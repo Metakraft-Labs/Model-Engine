@@ -93,7 +93,7 @@ export const initializeSpatialEngine = () => {
 };
 
 export const destroySpatialEngine = () => {
-    const { originEntity, localFloorEntity, viewerEntity } = getState(EngineState);
+    const { originEntity, localFloorEntity } = getState(EngineState);
 
     if (localFloorEntity) {
         removeEntity(localFloorEntity);

@@ -11,7 +11,7 @@ import { migrateSceneSettings } from "../scene/functions/migrateSceneSettings";
 export const migrateSceneJSONToGLTF = data => {
     migrateOldComponentJSONIDs(data);
     migrateSceneSettings(data);
-    for (const [uuid, entityJson] of Object.entries(data.entities)) {
+    for (const [_uuid, entityJson] of Object.entries(data.entities)) {
         migrateOldColliders(entityJson);
     }
     migrateDirectionalLightUseInCSM(data);
@@ -44,7 +44,7 @@ export const convertSceneJSONToGLTF = json => {
             extensions: {},
         };
 
-        node.extensions?.[UUIDComponent.jsonID] = uuid;
+        node.extensions[UUIDComponent.jsonID] = uuid;
         if (!gltf.extensionsUsed?.includes(UUIDComponent.jsonID))
             gltf.extensionsUsed?.push(UUIDComponent.jsonID);
 
@@ -57,7 +57,7 @@ export const convertSceneJSONToGLTF = json => {
                 node.matrix = matrix.toArray();
                 continue;
             }
-            node.extensions?.[component.name] = component.props;
+            node.extensions[component.name] = component.props;
             if (!gltf.extensionsUsed?.includes(component.name)) {
                 gltf.extensionsUsed?.push(component.name);
             }

@@ -44,7 +44,7 @@ import { TransformGizmoVisualComponent } from "./TransformGizmoVisualComponent";
 export const TransformGizmoControlComponent = defineComponent({
     name: "TransformGizmoControl",
 
-    onInit(entity) {
+    onInit(_entity) {
         const control = {
             controlledEntities: [],
             visualEntity: UndefinedEntity,
@@ -74,7 +74,7 @@ export const TransformGizmoControlComponent = defineComponent({
         };
         return control;
     },
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         if (matches.array.test(json.controlledEntities))
@@ -97,13 +97,13 @@ export const TransformGizmoControlComponent = defineComponent({
         if (typeof json.showY === "number") component.showY.set(json.showY);
         if (typeof json.showZ === "number") component.showZ.set(json.showZ);
     },
-    onRemove: (entity, component) => {
+    onRemove: (_entity, component) => {
         component.controlledEntities.set([]);
         component.visualEntity.set(UndefinedEntity);
         component.planeEntity.set(UndefinedEntity);
         component.pivotEntity.set(UndefinedEntity);
     },
-    reactor: function (props) {
+    reactor: function () {
         const gizmoControlEntity = useEntityContext();
         const gizmoControlComponent = useComponent(
             gizmoControlEntity,
@@ -112,7 +112,7 @@ export const TransformGizmoControlComponent = defineComponent({
         getComponent(
             Engine.instance.viewerEntity,
             RendererComponent,
-        ).renderer?.domElement.style.touchAction = "none"; // disable touch scroll , hmm the editor window isnt scrollable anyways
+        ).renderer.domElement.style.touchAction = "none"; // disable touch scroll , hmm the editor window isnt scrollable anyways
         const editorHelperState = useMutableState(EditorHelperState);
         const inputPointerEntities = InputPointerComponent.usePointersForCamera(
             Engine.instance.viewerEntity,

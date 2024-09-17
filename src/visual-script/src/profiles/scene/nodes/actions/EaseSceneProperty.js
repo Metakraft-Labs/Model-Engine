@@ -27,7 +27,7 @@ export class EaseSceneProperty extends AsyncNode {
         );
     }
 
-    constructor(description, graph, valueTypeName, scene, lifecycleEventEmitter) {
+    constructor(description, graph, valueTypeName, _scene, _lifecycleEventEmitter) {
         super(
             description,
             graph,

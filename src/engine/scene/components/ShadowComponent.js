@@ -9,7 +9,7 @@ export const ShadowComponent = defineComponent({
     name: "ShadowComponent",
     jsonID: "EE_shadow",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             cast: true,
             receive: true,

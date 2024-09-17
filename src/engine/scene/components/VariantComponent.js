@@ -29,7 +29,7 @@ export const VariantComponent = defineComponent({
     name: "EE_variant",
     jsonID: "EE_variant",
 
-    onInit: entity => ({
+    onInit: _entity => ({
         levels: [],
         heuristic: Heuristic.MANUAL,
         useDistance: false,

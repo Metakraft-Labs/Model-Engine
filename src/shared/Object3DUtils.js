@@ -1,4 +1,4 @@
-import { Matrix4, Object3D, Quaternion, Vector3 } from "three";
+import { Matrix4, Quaternion, Vector3 } from "three";
 
 const _v1 = new Vector3();
 const _m1 = new Matrix4();
@@ -87,12 +87,6 @@ export class Object3DUtils {
         return outVector;
     }
 
-    /**
-     * Extracts the position part of the object's matrixWorld.
-     * Does not update the matrix chain
-     * @param {Object3D} object
-     * @param {Vector3} outPosition
-     */
     static getWorldPosition(object, outPosition) {
         outPosition.x = object.matrixWorld.elements[12];
         outPosition.y = object.matrixWorld.elements[13];

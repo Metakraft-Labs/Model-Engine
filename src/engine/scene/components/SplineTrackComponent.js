@@ -28,7 +28,7 @@ export const SplineTrackComponent = defineComponent({
     name: "SplineTrackComponent",
     jsonID: "EE_spline_track",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             alpha: 0, // internal
             splineEntityUUID,

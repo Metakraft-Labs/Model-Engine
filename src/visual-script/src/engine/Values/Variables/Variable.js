@@ -8,12 +8,12 @@ export class Variable {
     onChanged = new EventEmitter();
 
     constructor(
-        id,
-        name,
-        valueTypeName,
+        _id,
+        _name,
+        _valueTypeName,
         initialValue, // this is assumed to be properly deseriealized from a string.
     ) {
-        this.value = this.initialValue;
+        this.value = initialValue;
     }
 
     get() {

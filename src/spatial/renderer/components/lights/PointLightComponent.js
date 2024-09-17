@@ -22,7 +22,7 @@ export const PointLightComponent = defineComponent({
     name: "PointLightComponent",
     jsonID: "EE_point_light",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             color: new Color(),
             intensity: 1,

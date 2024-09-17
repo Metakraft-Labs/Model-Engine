@@ -16,7 +16,7 @@ export const PrimitiveGeometryComponent = defineComponent({
     name: "PrimitiveGeometryComponent",
     jsonID: "EE_primitive_geometry",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             geometryType: "BoxGeometry",
             geometryParams: {},

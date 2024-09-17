@@ -31,7 +31,7 @@ export const InputPointerComponent = defineComponent({
         };
     },
 
-    onSet(entity, component, args) {
+    onSet(_entity, component, args) {
         component.pointerId.set(args.pointerId);
         component.cameraEntity.set(args.cameraEntity);
         const pointerHash = `canvas-${args.cameraEntity}.pointer-${args.pointerId}`;

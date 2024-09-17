@@ -3,7 +3,7 @@ import { defineComponent } from "../../../ecs/ComponentFunctions";
 export const AvatarPendingComponent = defineComponent({
     name: "AvatarPendingComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             url: "",
         };

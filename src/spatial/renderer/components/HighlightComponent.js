@@ -17,7 +17,7 @@ const execute = () => {
 
     const highlightObjects = new Set();
     for (const entity of highlightQuery()) {
-        traverseEntityNode(entity, (child, index) => {
+        traverseEntityNode(entity, child => {
             if (!hasComponent(child, MeshComponent)) return;
             if (!hasComponent(child, GroupComponent)) return;
             if (!hasComponent(child, VisibleComponent)) return;

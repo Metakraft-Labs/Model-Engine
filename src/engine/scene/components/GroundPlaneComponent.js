@@ -21,14 +21,14 @@ export const GroundPlaneComponent = defineComponent({
     name: "GroundPlaneComponent",
     jsonID: "EE_ground_plane",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             color: new Color(),
             visible: true,
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         if (

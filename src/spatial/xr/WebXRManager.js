@@ -255,10 +255,10 @@ export function createWebXRManager(renderer) {
 
     scope.setAnimationLoop = function () {};
     scope.dispose = function () {};
-    scope.addEventListener = function (type, listener) {};
-    scope.hasEventListener = function (type, listener) {};
-    scope.removeEventListener = function (type, listener) {};
-    scope.dispatchEvent = function (event) {};
+    scope.addEventListener = function (_type, _listener) {};
+    scope.hasEventListener = function (_type, _listener) {};
+    scope.removeEventListener = function (_type, _listener) {};
+    scope.dispatchEvent = function (_event) {};
 
     return scope;
 }

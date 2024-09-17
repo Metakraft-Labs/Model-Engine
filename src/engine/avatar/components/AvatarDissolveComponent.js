@@ -18,7 +18,7 @@ import { SkinnedMeshComponent } from "./SkinnedMeshComponent";
 export const AvatarDissolveComponent = defineComponent({
     name: "AvatarDissolveComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             height: 1,
             currentTime: 0,

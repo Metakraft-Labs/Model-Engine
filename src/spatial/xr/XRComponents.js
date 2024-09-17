@@ -151,7 +151,7 @@ export const XRHandComponent = defineComponent({
 export const XRLeftHandComponent = defineComponent({
     name: "XRLeftHandComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             hand,
             rotations: new Float32Array(4 * 19),
@@ -167,7 +167,7 @@ export const XRLeftHandComponent = defineComponent({
 export const XRRightHandComponent = defineComponent({
     name: "XRRightHandComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             hand,
             rotations: new Float32Array(4 * 19),
@@ -183,7 +183,7 @@ export const XRRightHandComponent = defineComponent({
 export const XRHitTestComponent = defineComponent({
     name: "XRHitTest",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             options,
             source,
@@ -241,7 +241,7 @@ export const XRHitTestComponent = defineComponent({
 export const XRAnchorComponent = defineComponent({
     name: "XRAnchor",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             anchor,
         };
@@ -260,7 +260,7 @@ export const XRAnchorComponent = defineComponent({
 export const XRSpaceComponent = defineComponent({
     name: "XRSpace",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             space,
             baseSpace,

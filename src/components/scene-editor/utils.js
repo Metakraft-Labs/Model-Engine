@@ -9,7 +9,8 @@ export const isValidHttpUrl = urlString => {
 
     try {
         url = new URL(urlString);
-    } catch (_) {
+    } catch (err) {
+        console.log("Err:", err.message);
         return false;
     }
 

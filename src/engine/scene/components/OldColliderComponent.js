@@ -1,4 +1,4 @@
-import { ShapeType } from "@dimforge/rapier3d-compat";
+import { ShapeType as ShapeTypeIm } from "@dimforge/rapier3d-compat";
 import { useLayoutEffect } from "react";
 import matches from "ts-matches";
 
@@ -85,10 +85,10 @@ export const OldColliderComponent = defineComponent({
     name: "OldColliderComponent",
     jsonID: "collider",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             bodyType: 1,
-            shapeType: ShapeType.Cuboid,
+            shapeType: ShapeTypeIm.Cuboid,
             isTrigger: false,
             /**
              * removeMesh will clean up any objects in the scene hierarchy after the collider bodies have been processed.
@@ -121,7 +121,7 @@ export const OldColliderComponent = defineComponent({
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         if (typeof json.bodyType === "number") component.bodyType.set(json.bodyType);

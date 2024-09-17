@@ -26,7 +26,7 @@ export const FogSettingsComponent = defineComponent({
     name: "FogSettingsComponent",
     jsonID: "EE_fog",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             type: FogType.Disabled,
             color: "#FFFFFF",

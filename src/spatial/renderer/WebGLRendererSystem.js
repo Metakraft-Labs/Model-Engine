@@ -89,7 +89,7 @@ export const RendererComponent = defineComponent({
      */
     activeRender: false,
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (json?.canvas) component.canvas.set(json.canvas);
         if (json?.scenes) component.scenes.set(json.scenes);
     },

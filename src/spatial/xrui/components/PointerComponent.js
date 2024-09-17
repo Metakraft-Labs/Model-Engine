@@ -39,7 +39,7 @@ import { TransformComponent } from "../../transform/components/TransformComponen
 export const PointerComponent = defineComponent({
     name: "PointerComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             inputSource,
             lastHit,
@@ -49,13 +49,13 @@ export const PointerComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (matches.object.test(json.inputSource)) component.inputSource.set(json.inputSource);
     },
 
-    onRemove: (entity, component) => {
+    onRemove: (_entity, component) => {
         PointerComponent.pointers.delete(component.inputSource.value);
     },
 

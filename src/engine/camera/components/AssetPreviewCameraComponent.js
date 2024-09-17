@@ -14,7 +14,7 @@ import { ModelComponent } from "../../scene/components/ModelComponent";
 export const AssetPreviewCameraComponent = defineComponent({
     name: "AssetPreviewCameraComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return { targetModelEntity: UndefinedEntity };
     },
 

@@ -3,7 +3,7 @@ import { defineComponent } from "../../../ecs/ComponentFunctions";
 export const SkinnedMeshComponent = defineComponent({
     name: "SkinnedMeshComponent",
 
-    onInit: entity => null,
+    onInit: _entity => null,
 
     onSet: (entity, component, mesh) => {
         if (!mesh || !mesh.isSkinnedMesh)

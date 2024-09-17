@@ -59,7 +59,7 @@ const decodeCorto = (url, start, end) => {
 export const UVOL1Component = defineComponent({
     name: "UVOL1Component",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             manifestPath: "",
             data: {},

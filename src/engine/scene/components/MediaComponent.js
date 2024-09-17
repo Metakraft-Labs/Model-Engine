@@ -45,7 +45,7 @@ export const createAudioNodeGroup = (el, source, mixbus) => {
 export const MediaElementComponent = defineComponent({
     name: "MediaElement",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             element,
             hls,
@@ -88,7 +88,7 @@ export const MediaComponent = defineComponent({
     name: "MediaComponent",
     jsonID: "EE_media",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             controls: false,
             synchronize: true,

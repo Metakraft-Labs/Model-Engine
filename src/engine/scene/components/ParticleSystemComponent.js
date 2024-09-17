@@ -444,7 +444,7 @@ export const ParticleSystemComponent = defineComponent({
     name: "ParticleSystemComponent",
     jsonID: "EE_particle_system",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             systemParameters: DEFAULT_PARTICLE_SYSTEM_PARAMETERS,
             behaviorParameters: [],

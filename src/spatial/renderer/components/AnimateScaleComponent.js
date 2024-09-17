@@ -15,13 +15,13 @@ import { TweenComponent } from "../../transform/components/TweenComponent";
 export const AnimateScaleComponent = defineComponent({
     name: "AnimateScaleComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             multiplier: 1.05,
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         if (typeof json.multiplier === "number") component.multiplier.set(json.multiplier);

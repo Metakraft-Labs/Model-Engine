@@ -2,7 +2,7 @@ import { defineComponent } from "../../../ecs";
 export const LookAtComponent = defineComponent({
     name: "LookAtComponent",
     jsonID: "IR_lookAt",
-    onInit: entity => ({
+    onInit: _entity => ({
         target,
         xAxis: true,
         yAxis: true,

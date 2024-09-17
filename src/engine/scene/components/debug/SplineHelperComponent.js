@@ -43,7 +43,7 @@ const redMeshMaterial = () => new MeshBasicMaterial({ color: "red", opacity: 0.2
 export const SplineHelperComponent = defineComponent({
     name: "SplineHelperComponent",
 
-    onInit: entity => ({
+    onInit: _entity => ({
         layerMask: ObjectLayerMasks.NodeHelper,
     }),
 

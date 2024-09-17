@@ -18,7 +18,7 @@ import { setPlugin } from "../../materialFunctions";
 
 export const NoiseOffsetPlugin = defineComponent({
     name: "NoiseOffsetPlugin",
-    onInit: entity => {
+    onInit: _entity => {
         return {
             textureSize: new Uniform(64),
             frequency: new Uniform(0.00025),

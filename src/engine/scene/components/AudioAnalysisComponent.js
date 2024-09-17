@@ -18,7 +18,7 @@ export const AudioAnalysisComponent = defineComponent({
     name: "EE_audio_analyzer",
     jsonID: "audio-analyzer",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             src: "",
             session,
@@ -31,7 +31,7 @@ export const AudioAnalysisComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.src === "string" && component.src.value !== json.src) {
             component.src.set(json.src);
@@ -74,7 +74,7 @@ export const AudioAnalysisComponent = defineComponent({
         }
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             src: component.src.value,
             bassEnabled: component.bassEnabled.value,

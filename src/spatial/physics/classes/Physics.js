@@ -560,8 +560,7 @@ function setMass(world, entity, mass) {
 function setMassCenter(world, entity, massCenter) {
     const collider = world.Colliders.get(entity);
     if (!collider) return;
-    /** @todo */
-    // collider.setMassProperties(massCenter, collider.mass())
+    collider.setMassProperties(massCenter, collider.mass());
 }
 
 function setCollisionLayer(world, entity, collisionLayer) {

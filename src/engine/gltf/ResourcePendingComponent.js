@@ -10,7 +10,7 @@ import { none } from "../../../hyperflux";
 export const ResourcePendingComponent = defineComponent({
     name: "ResourcePendingComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {};
     },
 

@@ -30,7 +30,7 @@ export const SpotLightComponent = defineComponent({
     name: "SpotLightComponent",
     jsonID: "EE_spot_light",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             color: new Color(),
             intensity: 10,

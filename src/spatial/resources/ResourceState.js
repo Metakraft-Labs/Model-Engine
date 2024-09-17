@@ -117,7 +117,7 @@ const checkBudgets = () => {
 //#region resource loading callbacks
 const resourceCallbacks = {
     [ResourceType.GLTF]: {
-        onStart: resource => {},
+        onStart: _resource => {},
         onLoad: (asset, resource, resourceState) => {
             const resources = getMutableState(ResourceState).nested("resources");
             const geometryIDs = resource.assetRefs[ResourceType.Geometry];
@@ -150,8 +150,8 @@ const resourceCallbacks = {
         onProgress: (request, resource) => {
             resource.metadata.size.set(request.total);
         },
-        onError: (event, resource) => {},
-        onUnload: (asset, resource, resourceState) => {
+        onError: (_event, _resource) => {},
+        onUnload: (_asset, resource, resourceState) => {
             const metadata = resource.metadata.value;
             if (metadata.vertexCount)
                 resourceState.totalVertexCount.set(
@@ -196,8 +196,8 @@ const resourceCallbacks = {
                 resourceState.totalBufferCount.value + resource.metadata.size.value,
             );
         },
-        onProgress: (request, resource) => {},
-        onError: (event, resource) => {},
+        onProgress: (_request, _resource) => {},
+        onError: (_event, _resource) => {},
         onUnload: (asset, resource, resourceState) => {
             asset.dispose();
             const size = resource.metadata.size.value;
@@ -206,17 +206,17 @@ const resourceCallbacks = {
         },
     },
     [ResourceType.Material]: {
-        onStart: resource => {},
-        onLoad: (asset, resource, resourceState) => {},
-        onProgress: (request, resource) => {},
-        onError: (event, resource) => {},
-        onUnload: (asset, resource, resourceState) => {
+        onStart: _resource => {},
+        onLoad: (_asset, _resource, _resourceState) => {},
+        onProgress: (_request, _resource) => {},
+        onError: (_event, _resource) => {},
+        onUnload: (asset, _resource, _resourceState) => {
             disposeMaterial(asset);
         },
     },
     [ResourceType.Geometry]: {
-        onStart: resource => {},
-        onLoad: (asset, resource, resourceState) => {
+        onStart: _resource => {},
+        onLoad: (asset, resource, _resourceState) => {
             // Estimated geometry size
             const attributeKeys = Object.keys(asset.attributes);
             let needsUploaded = asset.index ? attributeKeys.length + 1 : attributeKeys.length;
@@ -253,43 +253,43 @@ const resourceCallbacks = {
             }
             resource.metadata.size.set(size);
         },
-        onProgress: (request, resource) => {},
-        onError: (event, resource) => {},
-        onUnload: (asset, resource, resourceState) => {
+        onProgress: (_request, _resource) => {},
+        onError: (_event, _resource) => {},
+        onUnload: (asset, _resource, _resourceState) => {
             disposeGeometry(asset);
         },
     },
     [ResourceType.Mesh]: {
-        onStart: resource => {},
-        onLoad: (asset, resource, resourceState) => {},
-        onProgress: (request, resource) => {},
-        onError: (event, resource) => {},
-        onUnload: (asset, resource, resourceState) => {
+        onStart: _resource => {},
+        onLoad: (_asset, _resource, _resourceState) => {},
+        onProgress: (_request, _resource) => {},
+        onError: (_event, _resource) => {},
+        onUnload: (asset, _resource, _resourceState) => {
             disposeMesh(asset);
         },
     },
     [ResourceType.Object3D]: {
-        onStart: resource => {},
-        onLoad: (asset, resource, resourceState) => {},
-        onProgress: (request, resource) => {},
-        onError: (event, resource) => {},
-        onUnload: (asset, resource, resourceState) => {
+        onStart: _resource => {},
+        onLoad: (_asset, _resource, _resourceState) => {},
+        onProgress: (_request, _resource) => {},
+        onError: (_event, _resource) => {},
+        onUnload: (asset, _resource, _resourceState) => {
             tryUnloadObj(asset);
         },
     },
     [ResourceType.Audio]: {
-        onStart: resource => {},
-        onLoad: (asset, resource, resourceState) => {},
-        onProgress: (request, resource) => {},
-        onError: (event, resource) => {},
-        onUnload: (asset, resource, resourceState) => {},
+        onStart: _resource => {},
+        onLoad: (_asset, _resource, _resourceState) => {},
+        onProgress: (_request, _resource) => {},
+        onError: (_event, _resource) => {},
+        onUnload: (_asset, _resource, _resourceState) => {},
     },
     [ResourceType.Unknown]: {
-        onStart: resource => {},
-        onLoad: (asset, resource, resourceState) => {},
-        onProgress: (request, resource) => {},
-        onError: (event, resource) => {},
-        onUnload: (asset, resource, resourceState) => {
+        onStart: _resource => {},
+        onLoad: (_asset, _resource, _resourceState) => {},
+        onProgress: (_request, _resource) => {},
+        onError: (_event, _resource) => {},
+        onUnload: (asset, _resource, _resourceState) => {
             dispose(asset);
         },
     },

@@ -1,12 +1,6 @@
 import { makeInNOutFunctionDesc, toCamelCase } from "../VisualScriptModule";
 
-export function getStringConversionsForValueType({
-    values,
-    valueTypeName,
-}: {
-    values;
-    valueTypeName;
-}) {
+export function getStringConversionsForValueType({ values, valueTypeName }) {
     const camelCaseValueTypeName = toCamelCase(valueTypeName);
 
     return [

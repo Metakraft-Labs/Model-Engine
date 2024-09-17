@@ -19,7 +19,7 @@ import { setVisibleComponent } from "./VisibleComponent";
 export const LineSegmentComponent = defineComponent({
     name: "LineSegmentComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             name: "line-segment",
             geometry,

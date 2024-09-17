@@ -23,7 +23,7 @@ export const NetworkObjectComponent = defineComponent({
         networkId: ECS.Types.ui32,
     },
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             /** The user who is authority over this object. */
             ownerId: "",

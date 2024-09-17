@@ -21,7 +21,7 @@ export const ColliderComponent = defineComponent({
     name: "ColliderComponent",
     jsonID: "EE_collider",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             shape: "box",
             mass: 1,
@@ -33,7 +33,7 @@ export const ColliderComponent = defineComponent({
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         if (typeof json.shape === "string") component.shape.set(json.shape);

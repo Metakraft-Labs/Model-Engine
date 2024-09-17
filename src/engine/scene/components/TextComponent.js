@@ -28,7 +28,7 @@ export const TextComponent = defineComponent({
     name: "TextComponent",
     jsonID: "EE_text_spatial",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             // Text contents to render
             text: DefaultText,

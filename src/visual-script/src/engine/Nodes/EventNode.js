@@ -24,11 +24,11 @@ export class EventNode extends Node {
         Assert.mustBeTrue(this.outputs.some(socket => socket.valueTypeName === "flow"));
     }
 
-    init(engine) {
+    init(_engine) {
         throw new Error("not implemented");
     }
 
-    dispose(engine) {
+    dispose(_engine) {
         throw new Error("not implemented");
     }
 }

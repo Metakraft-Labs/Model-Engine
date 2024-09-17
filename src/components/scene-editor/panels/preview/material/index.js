@@ -82,7 +82,7 @@ export const MaterialPreviewCanvas = () => {
     );
 };
 
-export const MaterialPreviewPanel = props => {
+export const MaterialPreviewPanel = () => {
     const selectedMaterial = useHookstate(getMutableState(MaterialSelectionState).selectedMaterial);
     if (!selectedMaterial.value) return null;
     return <MaterialPreviewCanvas key={selectedMaterial.value} />;

@@ -56,7 +56,7 @@ export const GLTFAssetState = defineState({
         const scene = useGet(staticResourcePath, sceneID).data;
         const scenes = useMutableState(GLTFAssetState);
         const sceneKey = scene?.url;
-        return sceneKey ? scenes[sceneKey].value ;
+        return sceneKey ? scenes[sceneKey].value : undefined;
     },
 
     loadScene: (sceneURL, uuid) => {

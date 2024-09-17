@@ -7,6 +7,7 @@ export default class WEBGL {
                 (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))
             );
         } catch (e) {
+            console.log("Err:", e.message);
             return false;
         }
     }
@@ -16,6 +17,7 @@ export default class WEBGL {
             const canvas = document.createElement("canvas");
             return !!(window.WebGL2RenderingContext && canvas.getContext("webgl2"));
         } catch (e) {
+            console.log("Err:", e.message);
             return false;
         }
     }

@@ -190,7 +190,7 @@ const updatePlacementEntitySnapshot = placementEntity => {
     const entityJson = toEntityJson(placementEntity);
     const entityGLTFNode = entityJSONToGLTFNode(entityJson, uuid);
     delete entityGLTFNode.matrix;
-    snapshot.data.nodes?.[nodeIndex] = entityGLTFNode;
+    snapshot.data.nodes[nodeIndex] = entityGLTFNode;
     dispatchAction(GLTFSnapshotAction.createSnapshot(snapshot));
 };
 
@@ -275,7 +275,7 @@ export const ClickPlacementSystem = defineSystem({
         const camera = getComponent(Engine.instance.cameraEntity, CameraComponent);
         const pointerScreenRaycaster = new Raycaster();
 
-        let intersectEntity = UndefinedEntity;
+        // let intersectEntity = UndefinedEntity;
         let targetIntersection = null;
 
         const viewerEntity = Engine.instance.viewerEntity;
@@ -317,7 +317,7 @@ export const ClickPlacementSystem = defineSystem({
             const intersectPosition = cameraPosition
                 .clone()
                 .add(cameraDirection.clone().multiplyScalar(physicsIntersection.toi));
-            intersectEntity = physicsIntersection.collider.parent().userData.entity;
+            // intersectEntity = physicsIntersection.collider.parent().userData.entity;
             const intersectNormal = new Vector3(
                 physicsIntersection.normal.x,
                 physicsIntersection.normal.y,

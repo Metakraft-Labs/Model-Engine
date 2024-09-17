@@ -33,7 +33,7 @@ export const PortalComponent = defineComponent({
     name: "PortalComponent",
     jsonID: "EE_portal",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             linkedPortalId: "",
             location: "",

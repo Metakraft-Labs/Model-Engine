@@ -8,7 +8,7 @@ import { useHelperEntity } from "./DebugComponentUtils";
 export const AxesHelperComponent = defineComponent({
     name: "AxesHelperComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             name: "axes-helper",
             size: 1,

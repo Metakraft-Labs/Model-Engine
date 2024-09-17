@@ -7,14 +7,14 @@ import { TransformComponent } from "./TransformComponent";
 export const ComputedTransformComponent = defineComponent({
     name: "ComputedTransformComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             referenceEntities: [],
             computeFunction: () => {},
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         matches.arrayOf(matches.number).test(json.referenceEntities) &&

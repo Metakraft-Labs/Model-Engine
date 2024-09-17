@@ -24,7 +24,7 @@ import { Layer } from "./ObjectLayerComponent";
 export const GroupComponent = defineComponent({
     name: "GroupComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return [];
     },
 
@@ -116,12 +116,13 @@ export const GroupReactor = memo(props => {
     const groupComponent = useComponent(entity, GroupComponent);
     return (
         <>
-            {groupComponent.value.map((obj, i) => (
+            {groupComponent.value.map(obj => (
                 <props.GroupChildReactor key={obj.uuid} entity={entity} obj={obj} />
             ))}
         </>
     );
 });
+GroupReactor.displayName = "GroupReactor";
 
 export const GroupQueryReactor = memo(props => {
     return (
@@ -131,3 +132,5 @@ export const GroupQueryReactor = memo(props => {
         />
     );
 });
+
+GroupQueryReactor.displayName = "GroupQueryReactor";

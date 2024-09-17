@@ -4,13 +4,13 @@ import { UndefinedEntity } from "../../../ecs/Entity";
 export const SittingComponent = defineComponent({
     name: "SittingComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             mountPointEntity: UndefinedEntity,
         };
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (!json) return;
 
         if (typeof json.mountPointEntity === "number")

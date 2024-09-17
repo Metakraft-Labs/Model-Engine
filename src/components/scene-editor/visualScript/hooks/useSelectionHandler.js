@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useKeyPress } from "reactflow";
 import { v4 as uuidv4 } from "uuid";
 
-export const useSelectionHandler = ({ nodes, onNodesChange, onEdgesChange }) => {
+export const useSelectionHandler = ({ onNodesChange, onEdgesChange }) => {
     const ctrlCPressed = useKeyPress(["Control+c", "Meta+c"]);
     const ctrlVPressed = useKeyPress(["Control+v", "Meta+v"]);
     const [selectedNodes, setSelectedNodes] = useState([]);

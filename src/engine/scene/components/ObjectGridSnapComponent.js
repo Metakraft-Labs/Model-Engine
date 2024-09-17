@@ -105,7 +105,7 @@ function createBBoxGridGeometry(matrixWorld, bbox, density) {
 export const BoundingBoxHelperComponent = defineComponent({
     name: "BoundingBoxHelperComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             name: "bounding-box-helper",
             bbox: new Box3(),
@@ -174,7 +174,7 @@ const originalScale = new Vector3();
 export const ObjectGridSnapComponent = defineComponent({
     name: "ObjectGridSnapComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             bbox: new Box3(),
         };

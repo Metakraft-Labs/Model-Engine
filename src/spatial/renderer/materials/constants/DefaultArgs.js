@@ -1,4 +1,4 @@
-import { Color, Euler, Vector2, Vector4 } from "three";
+import { Color } from "three";
 
 export const BoolArg = { default: false, type: "boolean" };
 
@@ -53,7 +53,7 @@ export function getDefaultType(value) {
 export function generateDefaults(value) {
     return Object.fromEntries(
         Object.entries(value)
-            .filter(([k, v]) => getDefaultType(v))
+            .filter(([_k, v]) => getDefaultType(v))
             .map(([k, v]) => {
                 return [
                     k,

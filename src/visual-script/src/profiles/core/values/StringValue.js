@@ -1,5 +1,3 @@
-import { ValueType } from "../../../VisualScriptModule";
-
 export const StringValue = {
     name: "string",
     creator: () => "",

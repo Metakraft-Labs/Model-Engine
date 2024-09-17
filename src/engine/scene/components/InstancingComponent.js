@@ -5,7 +5,7 @@ import { defineComponent } from "../../../ecs/ComponentFunctions";
 export const InstancingComponent = defineComponent({
     name: "InstancingComponent",
     jsonID: "EE_instancing",
-    onInit: entity => ({
+    onInit: _entity => ({
         instanceMatrix: new InstancedBufferAttribute(new Float32Array(16), 16),
     }),
     onSet: (entity, component, json) => {

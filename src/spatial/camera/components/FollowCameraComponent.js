@@ -31,7 +31,7 @@ const window = "window" in globalThis ? globalThis.window : {};
 
 export const FollowCameraComponent = defineComponent({
     name: "FollowCameraComponent",
-    onInit: entity => {
+    onInit: _entity => {
         /** @todo add a reactor to dynamically update to these values */
         const cameraSettings = getState(CameraSettingsState);
 
@@ -472,7 +472,7 @@ const getMaxCamDistance = (cameraEntity, target) => {
     }
 
     //Check the cone for minimum distance
-    cameraRays.forEach((rayDir, i) => {
+    cameraRays.forEach(rayDir => {
         raycaster.set(target, rayDir);
         const hits = raycaster.intersectObjects(sceneObjects, false);
 

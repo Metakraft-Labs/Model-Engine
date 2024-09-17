@@ -5,7 +5,7 @@ import { matches } from "../../../hyperflux";
 
 export const DropShadowComponent = defineComponent({
     name: "DropShadowComponent",
-    onInit: entity => {
+    onInit: _entity => {
         return {
             radius: 0,
             center: new Vector3(),
@@ -13,7 +13,7 @@ export const DropShadowComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.center)) component.center.set(json.center);
         if (matches.number.test(json.radius)) component.radius.set(json.radius);

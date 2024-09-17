@@ -6,7 +6,7 @@ import {
 } from "../../../../VisualScriptModule";
 
 export class Vec2 {
-    constructor(x = 0, y = 0) {}
+    constructor(_x = 0, _y = 0) {}
 
     clone(result = new Vec2()) {
         return result.set(this.x, this.y);

@@ -3,7 +3,7 @@ import { defineComponent } from "../../../ecs/ComponentFunctions";
 export const GLTFLoadedComponent = defineComponent({
     name: "GLTFLoadedComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return [];
     },
 

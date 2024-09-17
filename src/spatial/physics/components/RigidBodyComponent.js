@@ -16,7 +16,7 @@ import { BodyTypes } from "../types/PhysicsTypes";
 
 const { f64 } = Types;
 const Vector3Schema = { x: f64, y: f64, z: f64 };
-const QuaternionSchema = { x: f64, y: f64, z: f64, w: f64 };
+// const QuaternionSchema = { x: f64, y: f64, z: f64, w: f64 };
 const SCHEMA = {
     previousPosition: Vector3Schema,
     previousRotationSchema,
@@ -33,7 +33,7 @@ export const RigidBodyComponent = defineComponent({
     jsonID: "EE_rigidbody",
     schema: SCHEMA,
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             type: "fixed",
             ccd: false,

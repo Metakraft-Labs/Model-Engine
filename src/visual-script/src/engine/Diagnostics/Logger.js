@@ -27,11 +27,6 @@ export const PrefixStyle = {
     Time: 2,
 };
 
-const Reset = "\x1b[0m";
-const FgRed = "\x1b[31m";
-const BgYellow = "\x1b[43m";
-const Dim = "\x1b[2m";
-
 export class Logger {
     static logLevel = LogLevel.Info;
     static prefixStyle = PrefixStyle.Default;

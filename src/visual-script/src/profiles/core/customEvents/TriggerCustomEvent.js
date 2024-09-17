@@ -43,7 +43,7 @@ export class TriggerCustomEvent extends FlowNode2 {
         graph.customEvents[configuration.customEventId] = customEvent;
     }
 
-    triggered(fiber, triggeringSocketName) {
+    triggered(fiber) {
         const parameters = {};
         this.customEvent.parameters.forEach(parameterSocket => {
             parameters[parameterSocket.name] = this.readInput(parameterSocket.name);

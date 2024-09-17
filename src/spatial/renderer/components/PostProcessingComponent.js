@@ -9,7 +9,7 @@ export const PostProcessingComponent = defineComponent({
     name: "PostProcessingComponent",
     jsonID: "EE_postprocessing",
 
-    onInit(entity) {
+    onInit(_entity) {
         return {
             enabled: false,
             effects: {}, // effect name, parameters

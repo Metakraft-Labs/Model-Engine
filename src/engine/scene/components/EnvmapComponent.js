@@ -49,7 +49,7 @@ const tempColor = new Color();
 export const EnvmapComponent = defineComponent({
     name: "EnvmapComponent",
     jsonID: "EE_envmap",
-    onInit: entity => {
+    onInit: _entity => {
         return {
             type: EnvMapSourceType.None,
             envMapTextureType: EnvMapTextureType.Equirectangular,
@@ -275,7 +275,7 @@ export const updateEnvMapIntensity = (obj, intensity) => {
 
 export const BoxProjectionPlugin = defineComponent({
     name: "BoxProjectionPlugin",
-    onInit: entity => {
+    onInit: _entity => {
         return {
             cubeMapSize: new Uniform(new Vector3()),
             cubeMapPos: new Uniform(new Vector3()),

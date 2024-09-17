@@ -60,7 +60,7 @@ export const XR8Pipeline = cameraCanvas => {
 
     return {
         name: "EE_CameraPipeline",
-        onAttach: ({ canvas, orientation }) => {
+        onAttach: ({ orientation }) => {
             orientCameraFeed(orientation);
         },
         onDeviceOrientationChange: ({ orientation }) => {
@@ -68,7 +68,7 @@ export const XR8Pipeline = cameraCanvas => {
         },
         onStart: () => {
             const { camera, renderer } = XR8.Threejs.xrScene();
-            renderer.render = (scene, camera) => {
+            renderer.render = (_scene, _camera) => {
                 /** disable the 8thwall threejs renderer */
             };
             /** sync camera */
@@ -76,13 +76,13 @@ export const XR8Pipeline = cameraCanvas => {
                 origin: camera.position,
                 facing: camera.quaternion,
             });
-            const watcher = XR8.Vps.makeWayspotWatcher({
-                onVisible: () => {},
-                onHidden: () => {},
-                pollGps: true,
-                lat: 0,
-                lng: 0,
-            });
+            // const watcher = XR8.Vps.makeWayspotWatcher({
+            //     onVisible: () => {},
+            //     onHidden: () => {},
+            //     pollGps: true,
+            //     lat: 0,
+            //     lng: 0,
+            // });
         },
         // onUpdate: (props) => {
         //   const { processCpuResult } = props

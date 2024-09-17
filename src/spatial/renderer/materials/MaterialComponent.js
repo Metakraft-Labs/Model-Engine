@@ -37,7 +37,7 @@ export const MaterialPlugins = { TransparencyDitheringPlugin, NoiseOffsetPlugin 
 
 export const MaterialStateComponent = defineComponent({
     name: "MaterialStateComponent",
-    onInit: entity => {
+    onInit: _entity => {
         return {
             // material & material specific data
             material: {},
@@ -74,7 +74,7 @@ export const MaterialStateComponent = defineComponent({
 
 export const MaterialInstanceComponent = defineComponent({
     name: "MaterialInstanceComponent",
-    onInit: entity => {
+    onInit: _entity => {
         return {
             uuid: [],
         };
@@ -97,7 +97,7 @@ export const MaterialInstanceComponent = defineComponent({
 
 export const MaterialPrototypeComponent = defineComponent({
     name: "MaterialPrototypeComponent",
-    onInit: entity => {
+    onInit: _entity => {
         return {
             prototypeArguments: {},
             prototypeConstructor: {},

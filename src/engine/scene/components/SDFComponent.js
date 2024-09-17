@@ -33,7 +33,7 @@ export const SDFComponent = defineComponent({
     name: "SDFComponent",
     jsonID: "EE_sdf",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             color: new Color(0xffffff),
             scale: new Vector3(0.25, 0.001, 0.25),

@@ -122,7 +122,7 @@ export const setComponent = (entity, Component, args = undefined) => {
         bitECS.addComponent(HyperFlux.store, Component, entity, false); // don't clear data on-add
     }
 
-    Component.onSet(entity, Component.stateMap[entity], args);
+    Component.onSet(_entity, Component.stateMap[entity], args);
 
     if (!componentExists && Component.reactor && !Component.reactorMap.has(entity)) {
         const root = startReactor(() => {

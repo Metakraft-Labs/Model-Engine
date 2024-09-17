@@ -2,7 +2,7 @@ import { defineComponent } from "../../../ecs/ComponentFunctions";
 
 export const CollisionComponent = defineComponent({
     name: "CollisionComponent",
-    onInit(entity) {
+    onInit(_entity) {
         return new Map();
     },
 });

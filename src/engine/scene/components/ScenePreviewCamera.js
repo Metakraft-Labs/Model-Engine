@@ -25,7 +25,7 @@ export const ScenePreviewCameraComponent = defineComponent({
     name: "EE_scenePreviewCamera",
     jsonID: "EE_scene_preview_camera",
 
-    onInit: entity => {
+    onInit: _entity => {
         const camera = new PerspectiveCamera(80, 16 / 9, 0.2, 8000);
 
         return {

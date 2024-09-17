@@ -7,11 +7,11 @@ export const SceneComponent = defineComponent({
 export const BackgroundComponent = defineComponent({
     name: "BackgroundComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return null;
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (typeof json === "object") component.set(json);
     },
 });
@@ -19,11 +19,11 @@ export const BackgroundComponent = defineComponent({
 export const EnvironmentMapComponent = defineComponent({
     name: "EnvironmentMapComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return null;
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (typeof json === "object") component.set(json);
     },
 });
@@ -31,11 +31,11 @@ export const EnvironmentMapComponent = defineComponent({
 export const FogComponent = defineComponent({
     name: "FogComponent",
 
-    onInit(entity) {
+    onInit(_entity) {
         return null;
     },
 
-    onSet(entity, component, json) {
+    onSet(_entity, component, json) {
         if (typeof json === "object") component.set(json);
     },
 });

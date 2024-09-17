@@ -9,7 +9,7 @@ import { CollisionEvents } from "../../../spatial/physics/types/PhysicsTypes";
 
 import { TriggerComponent } from "../components/TriggerComponent";
 
-export const triggerEnter = (triggerEntity, otherEntity, hit) => {
+export const triggerEnter = (triggerEntity, otherEntity, _hit) => {
     const triggerComponent = getComponent(triggerEntity, TriggerComponent);
     for (const trigger of triggerComponent.triggers) {
         if (trigger.target && !UUIDComponent.getEntityByUUID(trigger.target)) continue;
@@ -24,7 +24,7 @@ export const triggerEnter = (triggerEntity, otherEntity, hit) => {
     }
 };
 
-export const triggerExit = (triggerEntity, otherEntity, hit) => {
+export const triggerExit = (triggerEntity, otherEntity, _hit) => {
     const triggerComponent = getComponent(triggerEntity, TriggerComponent);
     for (const trigger of triggerComponent.triggers) {
         if (trigger.target && !UUIDComponent.getEntityByUUID(trigger.target)) continue;

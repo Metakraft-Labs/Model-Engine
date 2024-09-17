@@ -84,7 +84,7 @@ export const createMaterialPrototype = prototype => {
     setComponent(prototypeEntity, UUIDComponent, generateEntityUUID());
 };
 
-export const getMaterial = uuidUUID => {
+export const getMaterial = uuid => {
     return (
         getOptionalComponent(UUIDComponent.getEntityByUUID(uuid), MaterialStateComponent)
             ?.material ??
@@ -156,7 +156,7 @@ export const updateMaterialPrototype = materialEntity => {
     }
     newMaterial.userData = {
         ...newMaterial.userData,
-        ...Object.fromEntries(Object.entries(material.userData).filter(([k, v]) => k !== "type")),
+        ...Object.fromEntries(Object.entries(material.userData).filter(([k]) => k !== "type")),
     };
     setComponent(materialEntity, MaterialStateComponent, {
         material: newMaterial,
