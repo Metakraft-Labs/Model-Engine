@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 
-import { getMutableState, useHookstate } from "../../../hyperflux";
 import { defineSystem } from "../../ecs/SystemFunctions";
 import { PresentationSystemGroup } from "../../ecs/SystemGroups";
+import { getMutableState, useHookstate } from "../../hyperflux";
 
 import { GroupQueryReactor } from "../renderer/components/GroupComponent";
 import { MeshComponent } from "../renderer/components/MeshComponent";

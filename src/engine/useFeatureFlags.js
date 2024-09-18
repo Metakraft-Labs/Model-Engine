@@ -1,5 +1,5 @@
-import { featureFlagSettingPath } from "../../common/src/schema.type.module";
-import { useFind } from "../../spatial/common/functions/FeathersHooks";
+import { featureFlagSettingPath } from "../common/src/schema.type.module";
+import { useFind } from "../spatial/common/functions/FeathersHooks";
 
 const useFeatureFlags = flagNames => {
     const response = useFind(featureFlagSettingPath, {

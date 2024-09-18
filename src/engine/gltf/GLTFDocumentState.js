@@ -1,6 +1,5 @@
 import matches from "ts-matches";
 
-import { UUIDComponent, getComponent, useOptionalComponent } from "../../../ecs";
 import {
     defineAction,
     defineState,
@@ -8,6 +7,7 @@ import {
     getState,
     useHookstate,
 } from "../../../hyperflux";
+import { UUIDComponent, getComponent, useOptionalComponent } from "../../ecs";
 import { SourceComponent } from "../scene/components/SourceComponent";
 
 export const GLTFDocumentState = defineState({

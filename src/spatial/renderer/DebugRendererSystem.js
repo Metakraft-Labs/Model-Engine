@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { BufferAttribute, BufferGeometry, LineBasicMaterial, LineSegments } from "three";
 
-import { getMutableState, getState, useMutableState } from "../../../hyperflux";
 import { QueryReactor, UUIDComponent } from "../../ecs";
 import { getComponent, setComponent, useComponent } from "../../ecs/ComponentFunctions";
 import { createEntity, removeEntity, useEntityContext } from "../../ecs/EntityFunctions";
-import { defineSystem } from "../ecs/SystemFunctions";
+import { defineSystem } from "../../ecs/SystemFunctions";
+import { getMutableState, getState, useMutableState } from "../../hyperflux";
 
 import { NameComponent } from "../common/NameComponent";
 import { EngineState } from "../EngineState";

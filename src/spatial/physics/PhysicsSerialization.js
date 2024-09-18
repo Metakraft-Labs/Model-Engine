@@ -1,3 +1,6 @@
+import { getOptionalComponent, hasComponent } from "../../ecs/ComponentFunctions";
+import { ECSState } from "../../ecs/ECSState";
+import { getState } from "../../hyperflux";
 import {
     NetworkObjectSendPeriodicUpdatesTag,
     checkBitflag,
@@ -8,10 +11,7 @@ import {
     spaceUint8,
     writeVector3,
     writeVector4,
-} from "../../../network";
-import { getOptionalComponent, hasComponent } from "../../ecs/ComponentFunctions";
-import { ECSState } from "../../ecs/ECSState";
-import { getState } from "../../hyperflux";
+} from "../../network";
 
 import { Physics } from "./classes/Physics";
 import { RigidBodyComponent, RigidBodyDynamicTagComponent } from "./components/RigidBodyComponent";

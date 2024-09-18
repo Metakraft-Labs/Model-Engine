@@ -10,6 +10,12 @@ import { RendererComponent } from "../renderer/WebGLRendererSystem";
 
 Cache.enabled = true;
 
+export const ResourceStatus = {
+    Unloaded: "Unloaded",
+    Loading: "Loading",
+    Loaded: "Loaded",
+    Error: "Error",
+};
 export const ResourceType = {
     GLTF: "GLTF",
     Mesh: "Mesh",

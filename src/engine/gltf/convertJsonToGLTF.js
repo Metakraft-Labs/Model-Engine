@@ -1,7 +1,7 @@
 import { Matrix4, Quaternion, Vector3 } from "three";
 
-import { TransformComponent } from "../../../spatial";
 import { UUIDComponent } from "../../ecs";
+import { TransformComponent } from "../../spatial";
 
 import { migrateDirectionalLightUseInCSM } from "../scene/functions/migrateDirectionalLightUseInCSM";
 import { migrateOldColliders } from "../scene/functions/migrateOldColliders";

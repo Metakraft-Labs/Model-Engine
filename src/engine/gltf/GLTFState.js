@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect } from "react";
 import { Group, MathUtils, Matrix4, Quaternion, Vector3 } from "three";
 
-import { staticResourcePath } from "../../../common/src/schema.type.module";
+import { staticResourcePath } from "../../common/src/schema.type.module";
 import {
     ComponentJSONIDMap,
     createEntity,
@@ -14,7 +14,7 @@ import {
     UndefinedEntity,
     useComponent,
     UUIDComponent,
-} from "../../../ecs";
+} from "../../ecs";
 import {
     defineState,
     dispatchAction,
@@ -25,19 +25,19 @@ import {
     none,
     useHookstate,
     useMutableState,
-} from "../../../hyperflux";
-import { TransformComponent } from "../../../spatial";
-import { useGet } from "../../../spatial/common/functions/FeathersHooks";
-import { NameComponent } from "../../../spatial/common/NameComponent";
-import { addObjectToGroup } from "../../../spatial/renderer/components/GroupComponent";
-import { MeshComponent } from "../../../spatial/renderer/components/MeshComponent";
-import { Object3DComponent } from "../../../spatial/renderer/components/Object3DComponent";
-import { VisibleComponent } from "../../../spatial/renderer/components/VisibleComponent";
-import { EntityTreeComponent } from "../../../spatial/transform/components/EntityTree";
+} from "../../hyperflux";
+import { TransformComponent } from "../../spatial";
+import { useGet } from "../../spatial/common/functions/FeathersHooks";
+import { NameComponent } from "../../spatial/common/NameComponent";
+import { addObjectToGroup } from "../../spatial/renderer/components/GroupComponent";
+import { MeshComponent } from "../../spatial/renderer/components/MeshComponent";
+import { Object3DComponent } from "../../spatial/renderer/components/Object3DComponent";
+import { VisibleComponent } from "../../spatial/renderer/components/VisibleComponent";
+import { EntityTreeComponent } from "../../spatial/transform/components/EntityTree";
 
-import { EngineState } from "../../../spatial/EngineState";
-import { Physics } from "../../../spatial/physics/classes/Physics";
-import { SceneComponent } from "../../../spatial/renderer/components/SceneComponents";
+import { EngineState } from "../../spatial/EngineState";
+import { Physics } from "../../spatial/physics/classes/Physics";
+import { SceneComponent } from "../../spatial/renderer/components/SceneComponents";
 import { SourceComponent } from "../scene/components/SourceComponent";
 import { proxifyParentChildRelationships } from "../scene/functions/loadGLTFModel";
 import { GLTFComponent } from "./GLTFComponent";

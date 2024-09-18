@@ -17,7 +17,7 @@ import { FollowCameraComponent } from "../../../spatial/camera/components/Follow
 import { TargetCameraRotationComponent } from "../../../spatial/camera/components/TargetCameraRotationComponent";
 import { XRState } from "../../../spatial/xr/XRState";
 
-import { CameraComponent } from "../../../../spatial/camera/components/CameraComponent";
+import { CameraComponent } from "../../../spatial/camera/components/CameraComponent";
 import { EngineState } from "../../../spatial/EngineState";
 import { Physics } from "../../../spatial/physics/classes/Physics";
 import { setAvatarColliderTransform } from "../functions/spawnAvatarReceptor";

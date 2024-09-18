@@ -1,6 +1,10 @@
 import { ShapeType } from "@dimforge/rapier3d-compat";
 import { BoxGeometry, CapsuleGeometry, CylinderGeometry, SphereGeometry } from "three";
 
+export const SceneQueryType = {
+    Closest: "Closest",
+};
+
 export const CollisionEvents = {
     COLLISION_START: "COLLISION_START",
     COLLISION_PERSIST: "COLLISION_PERSIST",

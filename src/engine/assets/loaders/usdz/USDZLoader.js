@@ -20,7 +20,7 @@ import { Loader } from "../base/Loader";
 
 import * as fflate from "fflate";
 
-import { flipBufferGeometryNormals } from "../../../engine/assets/functions/flipBufferGeometryNormals";
+import { flipBufferGeometryNormals } from "../../../../engine/assets/functions/flipBufferGeometryNormals";
 
 class USDAParser {
     parse(text) {

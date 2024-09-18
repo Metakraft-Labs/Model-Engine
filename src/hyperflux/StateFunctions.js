@@ -73,7 +73,7 @@ export function syncStateWithLocalStorage(keys) {
                         state[key].set(JSON.parse(storedValue));
                 }
             },
-            onSet: (state, desc) => {
+            onSet: (_state, _desc) => {
                 for (const key of keys) {
                     const storageKey = `${stateNamespaceKey}.${rootState.identifier}.${key}`;
                     const value = rootState[key]?.get(NO_PROXY);

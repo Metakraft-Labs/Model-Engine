@@ -1,5 +1,5 @@
 export const VALID_FILENAME_REGEX =
-    /^(?.*[\s_<>:"/\\|?*\u0000-\u001F].*)[^\s_<>:"/\\|?*\u0000-\u001F]{1,64}$/;
+    /^(?:.*[\s_<>:"/\\|?*\u0000-\u001F].*)[^\s_<>:"/\\|?*\u0000-\u001F]{1,64}$/;
 // eslint-disable-next-line no-control-regex
 export const WINDOWS_RESERVED_NAME_REGEX = /^(con|prn|aux|nul|com\d|lpt\d)$/i;
 export const VALID_SCENE_NAME_REGEX = /^[a-zA-Z0-9][a-zA-Z0-9-]{2,62}[a-zA-Z0-9]$/;
@@ -10,7 +10,7 @@ export const VALID_HEIRARCHY_SEARCH_REGEX = /[.*+?^${}()|[\]\\]/g;
  * For eg: `@import "styles.css"`, `url(image.png)`. Captures the resource in group 2 or group 3.
  */
 export const CSS_URL_REGEX =
-    /(@import\s+["']([^"']+)["']|url\((?['"]?(?:data):)['"]?([^'"\)]+)['"]?\))/gi;
+    /(@import\s+["']([^"']+)["']|url\((?:['"]?(?:data):)['"]?([^'"\)]+)['"]?\))/gi;
 
 /**
  * Matches absolute URLs. For eg: `http://example.com`, `https://example.com`, `ftp://example.com`, `//example.com`, etc.

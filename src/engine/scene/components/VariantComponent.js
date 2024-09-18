@@ -18,6 +18,14 @@ import { setInstancedMeshVariant, updateModelVariant } from "../functions/loader
 import { InstancingComponent } from "./InstancingComponent";
 import { ModelComponent } from "./ModelComponent";
 
+export const Heuristic = {
+    DISTANCE: "DISTANCE",
+    SCENE_SCALE: "SCENE_SCALE",
+    MANUAL: "MANUAL",
+    DEVICE: "DEVICE",
+    BUDGET: "BUDGET",
+};
+
 export const distanceBased = variantComponent => {
     return (
         variantComponent.heuristic === Heuristic.DISTANCE ||

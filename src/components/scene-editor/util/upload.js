@@ -1,10 +1,9 @@
 import i18n from "i18next";
 
-import { defineState, getMutableState, none, useMutableState } from "@ir-engine/hyperflux";
+import { defineState, getMutableState, none, useMutableState } from "../../../hyperflux";
 
-import "@ir-engine/common/src/utils/jsonUtils";
+import "../../../common/src/utils/jsonUtils";
 
-import { AuthState } from "../user/services/AuthService";
 import { RethrownError } from "./errors";
 
 const getFileKeys = files => {
@@ -78,7 +77,7 @@ export const uploadToFeathersService = (
     params, // todo make this type work
     onUploadProgress,
 ) => {
-    const token = getMutableState(AuthState).authUser.accessToken.value;
+    const token = localStorage.getItem("token");
     const request = new XMLHttpRequest();
     request.timeout = 10 * 60 * 1000; // 10 minutes - need to support big files on slow connections
     let aborted = false;

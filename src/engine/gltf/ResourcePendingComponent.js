@@ -4,8 +4,8 @@ import {
     getOptionalMutableComponent,
     removeComponent,
     setComponent,
-} from "../../../ecs";
-import { none } from "../../../hyperflux";
+} from "../../ecs";
+import { none } from "../../hyperflux";
 
 export const ResourcePendingComponent = defineComponent({
     name: "ResourcePendingComponent",

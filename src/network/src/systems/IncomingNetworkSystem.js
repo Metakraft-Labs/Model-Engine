@@ -3,7 +3,7 @@ import { RingBuffer } from "../../../common/src/utils/RingBuffer";
 import { ECSState } from "../../../ecs/ECSState";
 import { defineSystem } from "../../../ecs/SystemFunctions";
 import { SimulationSystemGroup } from "../../../ecs/SystemGroups";
-import { defineState, getState, PeerID } from "../../../hyperflux";
+import { defineState, getState } from "../../../hyperflux";
 import { addDataChannelHandler, removeDataChannelHandler } from "../DataChannelRegistry";
 import { NetworkState } from "../NetworkState";
 import { readDataPacket } from "../serialization/DataReader";
@@ -22,8 +22,8 @@ export const IncomingNetworkState = defineState({
     initial: () => ({
         jitterBufferTaskList: [],
         jitterBufferDelay: 100,
-        incomingMessageQueueUnreliableIDs: new RingBuffer() < PeerID > 100,
-        incomingMessageQueueUnreliable: new RingBuffer() < any > 100,
+        incomingMessageQueueUnreliableIDs: new RingBuffer(100),
+        incomingMessageQueueUnreliable: new RingBuffer(100),
     }),
 });
 

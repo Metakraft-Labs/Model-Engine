@@ -1,6 +1,6 @@
 import * as bitECS from "bitecs";
 import React, { startTransition } from "react";
-import { getNestedObject } from "../common/utils/getNestedProperty";
+import { getNestedObject } from "../common/src/utils/getNestedProperty";
 import { HyperFlux, startReactor } from "../hyperflux";
 import { hookstate, NO_PROXY_STEALTH, none, useHookstate } from "../hyperflux/StateFunctions";
 

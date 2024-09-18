@@ -8,7 +8,7 @@ import {
     MaterialStateComponent,
 } from "../../../../../spatial/renderer/materials/MaterialComponent";
 
-import { injectMaterialDefaults } from "../../../spatial/renderer/materials/materialFunctions";
+import { injectMaterialDefaults } from "../../../../../spatial/renderer/materials/materialFunctions";
 import { ExporterExtension } from "./ExporterExtension";
 
 export function isOldEEMaterial(extension) {

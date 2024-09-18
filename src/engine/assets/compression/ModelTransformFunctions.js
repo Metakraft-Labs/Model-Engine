@@ -31,8 +31,6 @@ import { getPixels } from "ndarray-pixels";
 import { LoaderUtils } from "three";
 import { v4 as uuidv4 } from "uuid";
 
-import { API } from "../../../common";
-import { fileBrowserPath } from "../../../common/src/schema.type.module";
 import { baseName, pathJoin } from "../../../common/src/utils/miscUtils";
 import { extractParameters } from "../../../engine/assets/classes/ModelTransform";
 import { getMutableState, NO_PROXY } from "../../../hyperflux";
@@ -772,8 +770,8 @@ export async function transformModel(args, onMetadata = (key, data) => {}) {
             format: Format.GLTF,
             basename: resourceName,
         });
-        const folderURL = resourcePath.replace(`${process.env.REACT_APP_S3_ASSETS}/editor`, "");
-        await API.instance.service(fileBrowserPath).create(folderURL);
+        // const folderURL = resourcePath.replace(`${process.env.REACT_APP_S3_ASSETS}/editor`, "");
+        // await API.instance.service(fileBrowserPath).create(folderURL);
 
         json.images?.map(image => {
             const nuURI = pathJoin(

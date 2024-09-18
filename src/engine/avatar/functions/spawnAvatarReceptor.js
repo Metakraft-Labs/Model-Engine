@@ -27,7 +27,7 @@ import {
 import { EntityTreeComponent } from "../../../spatial/transform/components/EntityTree";
 import { TransformComponent } from "../../../spatial/transform/components/TransformComponent";
 
-import { CameraComponent } from "../../../../spatial/camera/components/CameraComponent";
+import { CameraComponent } from "../../../spatial/camera/components/CameraComponent";
 import { GrabberComponent } from "../../interaction/components/GrabbableComponent";
 import { EnvmapComponent } from "../../scene/components/EnvmapComponent";
 import { ShadowComponent } from "../../scene/components/ShadowComponent";

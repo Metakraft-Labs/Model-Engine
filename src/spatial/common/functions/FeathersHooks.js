@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo } from "react";
 
-import { API } from "../../../common";
 import { defineState, getState, NO_PROXY, useHookstate, useMutableState } from "../../../hyperflux";
 
 export const FeathersState = defineState({
@@ -33,7 +32,7 @@ const FeathersChildReactor = props => {
 };
 
 export const useService = (serviceName, method, ...args) => {
-    const service = API.instance.service(serviceName);
+    // const service = API.instance.service(serviceName);
     const state = useMutableState(FeathersState);
 
     const queryParams = {
@@ -56,24 +55,24 @@ export const useService = (serviceName, method, ...args) => {
             status: "pending",
             error: "",
         });
-        return service[method](...args)
-            .then(res => {
-                state[serviceName][queryId].merge({
-                    response: res,
-                    status: "success",
-                    error: "",
-                });
-            })
-            .catch(error => {
-                console.error(
-                    `Error in service: ${serviceName}, method: ${method}, args: ${JSON.stringify(args)}`,
-                    error,
-                );
-                state[serviceName][queryId].merge({
-                    status: "error",
-                    error: error.message,
-                });
-            });
+        // return service[method](...args)
+        //     .then(res => {
+        //         state[serviceName][queryId].merge({
+        //             response: res,
+        //             status: "success",
+        //             error: "",
+        //         });
+        //     })
+        //     .catch(error => {
+        //         console.error(
+        //             `Error in service: ${serviceName}, method: ${method}, args: ${JSON.stringify(args)}`,
+        //             error,
+        //         );
+        //         state[serviceName][queryId].merge({
+        //             status: "error",
+        //             error: error.message,
+        //         });
+        //     });
     };
 
     useLayoutEffect(() => {
@@ -215,19 +214,19 @@ export function useMutation(serviceName, forceRefetch = true) {
 
 function useMethod(method, action, serviceName, state) {
     return useCallback(
-        (...args) => {
-            const service = API.instance.service(serviceName);
+        _args => {
+            // const service = API.instance.service(serviceName);
             state.merge({ status: "loading", loading: true, data, error });
-            return service[method](...args)
-                .then(item => {
-                    action && action({ serviceName, item });
-                    state.merge({ status: "success", loading: false, data: item });
-                    return item;
-                })
-                .catch(err => {
-                    state.merge({ status: "error", loading: false, error: err });
-                    throw err;
-                });
+            // return service[method](...args)
+            //     .then(item => {
+            //         action && action({ serviceName, item });
+            //         state.merge({ status: "success", loading: false, data: item });
+            //         return item;
+            //     })
+            //     .catch(err => {
+            //         state.merge({ status: "error", loading: false, error: err });
+            //         throw err;
+            //     });
         },
         [serviceName, method, action],
     );
@@ -250,26 +249,23 @@ export function hashObject(obj) {
  * An internal hook that will listen to realtime updates to a service
  * and update the cache as changes happen.
  */
-export function useRealtime(serviceName, refetch) {
+export function useRealtime(serviceName, _refetch) {
     useLayoutEffect(() => {
-        const service = API.instance.service(serviceName);
-
-        const handleCreated = data => refetch(data, "created");
-        const handleUpdated = data => refetch(data, "updated");
-        const handlePatched = data => refetch(data, "patched");
-        const handleRemoved = data => refetch(data, "removed");
-
-        service.on("created", handleCreated);
-        service.on("updated", handleUpdated);
-        service.on("patched", handlePatched);
-        service.on("removed", handleRemoved);
-
-        return () => {
-            service.off("created", handleCreated);
-            service.off("updated", handleUpdated);
-            service.off("patched", handlePatched);
-            service.off("removed", handleRemoved);
-        };
+        // const service = API.instance.service(serviceName);
+        // const handleCreated = data => refetch(data, "created");
+        // const handleUpdated = data => refetch(data, "updated");
+        // const handlePatched = data => refetch(data, "patched");
+        // const handleRemoved = data => refetch(data, "removed");
+        // service.on("created", handleCreated);
+        // service.on("updated", handleUpdated);
+        // service.on("patched", handlePatched);
+        // service.on("removed", handleRemoved);
+        // return () => {
+        //     service.off("created", handleCreated);
+        //     service.off("updated", handleUpdated);
+        //     service.off("patched", handlePatched);
+        //     service.off("removed", handleRemoved);
+        // };
     }, [serviceName]);
 }
 

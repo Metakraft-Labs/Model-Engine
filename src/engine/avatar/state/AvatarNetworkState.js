@@ -1,13 +1,9 @@
 import React, { useEffect, useLayoutEffect } from "react";
 
-import { API } from "../../../common";
-import { avatarPath, userAvatarPath } from "../../../common/src/schema.type.module";
 import { getOptionalComponent, setComponent, UUIDComponent } from "../../../ecs";
-import { Engine } from "../../../ecs/Engine";
 import { entityExists } from "../../../ecs/EntityFunctions";
 import {
     defineState,
-    dispatchAction,
     getMutableState,
     none,
     useHookstate,
@@ -45,27 +41,27 @@ export const AvatarState = defineState({
     },
 
     selectRandomAvatar() {
-        API.instance
-            .service(avatarPath)
-            .find({})
-            .then(avatars => {
-                const randomAvatar = avatars.data[Math.floor(Math.random() * avatars.data.length)];
-                AvatarState.updateUserAvatarId(randomAvatar.id);
-            });
+        // API.instance
+        //     .service(avatarPath)
+        //     .find({})
+        //     .then(avatars => {
+        //         const randomAvatar = avatars.data[Math.floor(Math.random() * avatars.data.length)];
+        //         AvatarState.updateUserAvatarId(randomAvatar.id);
+        //     });
     },
 
     updateUserAvatarId(avatarId) {
-        API.instance
-            .service(userAvatarPath)
-            .patch(null, { avatarId: avatarId }, { query: { userId: Engine.instance.userID } })
-            .then(() => {
-                dispatchAction(
-                    AvatarNetworkAction.setAvatarID({
-                        avatarID: avatarId,
-                        entityUUID: Engine.instance.userID + "_avatar",
-                    }),
-                );
-            });
+        // API.instance
+        //     .service(userAvatarPath)
+        //     .patch(null, { avatarId: avatarId }, { query: { userId: Engine.instance.userID } })
+        //     .then(() => {
+        //         dispatchAction(
+        //             AvatarNetworkAction.setAvatarID({
+        //                 avatarID: avatarId,
+        //                 entityUUID: Engine.instance.userID + "_avatar",
+        //             }),
+        //         );
+        //     });
     },
 
     reactor: () => {
@@ -93,16 +89,16 @@ const AvatarReactor = ({ entityUUID }) => {
     useEffect(() => {
         let aborted = false;
 
-        API.instance
-            .service(avatarPath)
-            .get(avatarID.value)
-            .then(avatarDetails => {
-                if (aborted) return;
+        // API.instance
+        //     .service(avatarPath)
+        //     .get(avatarID.value)
+        //     .then(avatarDetails => {
+        //         if (aborted) return;
 
-                if (!avatarDetails.modelResource?.url) return;
+        //         if (!avatarDetails.modelResource?.url) return;
 
-                userAvatarDetails.set(avatarDetails.modelResource.url);
-            });
+        //         userAvatarDetails.set(avatarDetails.modelResource.url);
+        //     });
 
         return () => {
             aborted = true;

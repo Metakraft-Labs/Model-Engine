@@ -1,4 +1,4 @@
-import { InstancedMesh, Object3D, Vector3 } from "three";
+import { InstancedMesh, Object3D } from "three";
 
 import {
     getComponent,
@@ -6,7 +6,6 @@ import {
     getOptionalMutableComponent,
     hasComponent,
 } from "../../../../ecs/ComponentFunctions";
-import { Engine } from "../../../../ecs/Engine";
 import { getState } from "../../../../hyperflux";
 import { isMobile } from "../../../../spatial/common/functions/isMobile";
 import { addOBCPlugin } from "../../../../spatial/common/functions/OnBeforeCompilePlugin";
@@ -18,11 +17,10 @@ import {
 } from "../../../../spatial/renderer/components/GroupComponent";
 import { MeshComponent } from "../../../../spatial/renderer/components/MeshComponent";
 import { DistanceFromCameraComponent } from "../../../../spatial/transform/components/DistanceComponents";
-import { TransformComponent } from "../../../../spatial/transform/components/TransformComponent";
 import { isMobileXRHeadset } from "../../../../spatial/xr/XRState";
 
+import { STATIC_ASSET_REGEX } from "../../../../common/src/regex";
 import { getGLTFAsync } from "../../../assets/functions/resourceLoaderHooks";
-import { STATIC_ASSET_REGEX } from "../../../common/src/regex";
 import { InstancingComponent } from "../../components/InstancingComponent";
 import { ModelComponent } from "../../components/ModelComponent";
 import { distanceBased, Heuristic, VariantComponent } from "../../components/VariantComponent";
@@ -136,7 +134,7 @@ export async function setInstancedMeshVariant(entity) {
     const variantComponent = getComponent(entity, VariantComponent);
     const meshComponent = getComponent(entity, MeshComponent);
     const instancingComponent = getComponent(entity, InstancingComponent);
-    const transformComponent = getComponent(entity, TransformComponent);
+    // const transformComponent = getComponent(entity, TransformComponent);
     if (variantComponent.heuristic === Heuristic.DEVICE) {
         const targetDevice = isMobileXRHeadset ? "XR" : isMobile ? "MOBILE" : "DESKTOP";
         //set model src to mobile variant src
@@ -155,11 +153,11 @@ export async function setInstancedMeshVariant(entity) {
     } else if (variantComponent.heuristic === Heuristic.DISTANCE) {
         const referencedVariants = [];
         const variantIndices = [];
-        const cameraPosition = getComponent(
-            Engine.instance.cameraEntity,
-            TransformComponent,
-        ).position;
-        const position = new Vector3();
+        // const cameraPosition = getComponent(
+        //     Engine.instance.cameraEntity,
+        //     TransformComponent,
+        // ).position;
+        // const position = new Vector3();
         //complex solution: load only variants in range
         /*for (let i = 0; i < instancingComponent.instanceMatrix.count; i++) {
       //for each level, check if distance is in range
@@ -246,7 +244,7 @@ export async function setInstancedMeshVariant(entity) {
                 addOBCPlugin(material, {
                     id: "lod-culling",
                     priority: 1,
-                    compile: (shader, renderer) => {
+                    compile: (shader, _renderer) => {
                         shader.fragmentShader = shader.fragmentShader.replace(
                             "void main() {\n",
                             `

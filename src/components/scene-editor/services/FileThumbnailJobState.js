@@ -10,7 +10,6 @@ import {
     SphereGeometry,
     Vector3,
 } from "three";
-import { API } from "../../../common";
 import { fileBrowserUploadPath, staticResourcePath } from "../../../common/src/schema.type.module";
 import {
     UUIDComponent,
@@ -101,13 +100,13 @@ const uploadThumbnail = async (src, projectName, staticResourceId, blob) => {
     );
     thumbnailURL.search = "";
     thumbnailURL.hash = "";
-    const _thumbnailKey = thumbnailURL.href.replace(
-        process.env.REACT_APP_S3_ASSETS + "/editor/",
-        "",
-    );
-    await API.instance
-        .service(staticResourcePath)
-        .patch(staticResourceId, { thumbnailKey: _thumbnailKey, thumbnailMode });
+    // const _thumbnailKey = thumbnailURL.href.replace(
+    //     process.env.REACT_APP_S3_ASSETS + "/editor/",
+    //     "",
+    // );
+    // await API.instance
+    //     .service(staticResourcePath)
+    //     .patch(staticResourceId, { thumbnailKey: _thumbnailKey, thumbnailMode });
 };
 
 const seenResources = new Set();
@@ -136,9 +135,9 @@ export const FileThumbnailJobState = defineState({
 
                 if (resource.type === "thumbnail") {
                     //set thumbnail's thumbnail as itself
-                    API.instance
-                        .service(staticResourcePath)
-                        .patch(resource.id, { thumbnailKey: resource.key });
+                    // API.instance
+                    //     .service(staticResourcePath)
+                    //     .patch(resource.id, { thumbnailKey: resource.key });
                     continue;
                 }
 

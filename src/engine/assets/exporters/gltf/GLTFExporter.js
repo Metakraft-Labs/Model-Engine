@@ -26,7 +26,7 @@ import {
     Vector3,
 } from "three";
 
-import { cleanStorageProviderURLs } from "../../../common/src/utils/parseSceneJSON";
+import { cleanStorageProviderURLs } from "../../../../common/src/utils/parseSceneJSON";
 
 /**
  * The KHR_mesh_quantization extension allows these extra attribute component types

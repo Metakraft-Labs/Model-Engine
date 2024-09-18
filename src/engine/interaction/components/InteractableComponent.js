@@ -1,4 +1,4 @@
-import { MathUtils, Vector2, Vector3 } from "three";
+import { MathUtils, Vector3 } from "three";
 import matches from "ts-matches";
 
 import {
@@ -53,9 +53,18 @@ import {
     InteractableTransitions,
 } from "../functions/interactableFunctions";
 
+export const XRUIVisibilityOverride = {
+    none: 0,
+    on: 1,
+    off: 2,
+};
+export const XRUIActivationType = {
+    proximity: 0,
+    hover: 1,
+};
 const xrDistVec3 = new Vector3();
-const inputPointerPosition = new Vector2();
-let inputPointerEntity = UndefinedEntity;
+// const inputPointerPosition = new Vector2();
+// let inputPointerEntity = UndefinedEntity;
 
 const updateXrDistVec3 = selfAvatarEntity => {
     //TODO change from using rigidbody to use the transform position (+ height of avatar)

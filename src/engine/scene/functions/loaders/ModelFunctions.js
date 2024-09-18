@@ -76,7 +76,7 @@ export function getModelResources(entity, defaultParms) {
             });
         const tmpImages = textures.map(texture => texture.image);
         const images = textures
-            .filter((texture, i, arr) => tmpImages.indexOf(tmpImages[i]) === i)
+            .filter((_texture, i, _arr) => tmpImages.indexOf(tmpImages[i]) === i)
             .map(texture => {
                 const image = texture.image;
                 image.id = texture.name;

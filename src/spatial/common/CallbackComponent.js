@@ -5,6 +5,12 @@ import {
     setComponent,
 } from "../../ecs/ComponentFunctions";
 
+export const StandardCallbacks = {
+    PLAY: "xre.play",
+    PAUSE: "xre.pause",
+    RESET: "xre.reset",
+};
+
 export const CallbackComponent = defineComponent({
     name: "CallbackComponent",
     onInit: _entity => new Map(),

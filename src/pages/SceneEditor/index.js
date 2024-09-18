@@ -205,7 +205,7 @@ export default function SceneEditor() {
                         </div>
                     </DndWrapper>
                 )}
-                {Object.entries(uiAddons.container.get(NO_PROXY)).map(([key, value]) => {
+                {Object.entries(uiAddons.container.get(NO_PROXY)).map(([_key, value]) => {
                     return value;
                 })}
             </div>

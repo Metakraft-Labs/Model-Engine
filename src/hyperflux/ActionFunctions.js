@@ -1,8 +1,8 @@
 import { matches, Parser, Validator } from "ts-matches";
 import { v4 as uuidv4 } from "uuid";
 
-import { createHookableFunction } from "@ir-engine/common/src/utils/createHookableFunction";
-import { deepEqual } from "@ir-engine/common/src/utils/deepEqual";
+import { createHookableFunction } from "../common/src/utils/createHookableFunction";
+import { deepEqual } from "../common/src/utils/deepEqual";
 
 import { setInitialState, StateDefinitions } from "./StateFunctions";
 import { HyperFlux } from "./StoreFunctions";

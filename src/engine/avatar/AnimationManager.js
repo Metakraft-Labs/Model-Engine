@@ -1,4 +1,4 @@
-import { defineState } from "../../../hyperflux";
+import { defineState } from "../../hyperflux";
 
 export const AnimationState = defineState({
     name: "AnimationState",

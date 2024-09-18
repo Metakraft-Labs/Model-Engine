@@ -1,3 +1,3 @@
-import "../../../network";
+import "../network";
 
 export * from "./SpatialModule";

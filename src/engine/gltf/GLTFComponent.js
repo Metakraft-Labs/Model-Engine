@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 
-import { parseStorageProviderURLs } from "../../../common/src/utils/parseSceneJSON";
 import {
     ComponentJSONIDMap,
     defineComponent,
@@ -13,7 +12,8 @@ import {
     useQuery,
     UUIDComponent,
 } from "../../../ecs";
-import { dispatchAction, getState, useHookstate } from "../../../hyperflux";
+import { parseStorageProviderURLs } from "../../common/src/utils/parseSceneJSON";
+import { dispatchAction, getState, useHookstate } from "../../hyperflux";
 
 import { FileLoader } from "../assets/loaders/base/FileLoader";
 import {

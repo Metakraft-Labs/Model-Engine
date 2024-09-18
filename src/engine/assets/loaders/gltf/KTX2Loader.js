@@ -12,19 +12,19 @@
  */
 
 import {
-    CompressedTexture,
     CompressedArrayTexture,
     CompressedCubeTexture,
+    CompressedTexture,
     Data3DTexture,
     DataTexture,
     DisplayP3ColorSpace,
     FloatType,
     HalfFloatType,
-    NoColorSpace,
+    LinearDisplayP3ColorSpace,
     LinearFilter,
     LinearMipmapLinearFilter,
-    LinearDisplayP3ColorSpace,
     LinearSRGBColorSpace,
+    NoColorSpace,
     RedFormat,
     RGB_ETC1_Format,
     RGB_ETC2_Format,
@@ -41,14 +41,20 @@ import {
     SRGBColorSpace,
     UnsignedByteType,
 } from "three";
+import { FileLoader } from "../base/FileLoader";
+import { Loader } from "../base/Loader";
 import { WorkerPool } from "./WorkerPool.js";
 import {
-    read,
     KHR_DF_FLAG_ALPHA_PREMULTIPLIED,
+    KHR_DF_PRIMARIES_BT709,
+    KHR_DF_PRIMARIES_DISPLAYP3,
+    KHR_DF_PRIMARIES_UNSPECIFIED,
     KHR_DF_TRANSFER_SRGB,
     KHR_SUPERCOMPRESSION_NONE,
     KHR_SUPERCOMPRESSION_ZSTD,
-    VK_FORMAT_UNDEFINED,
+    read,
+    VK_FORMAT_ASTC_6x6_SRGB_BLOCK,
+    VK_FORMAT_ASTC_6x6_UNORM_BLOCK,
     VK_FORMAT_R16_SFLOAT,
     VK_FORMAT_R16G16_SFLOAT,
     VK_FORMAT_R16G16B16A16_SFLOAT,
@@ -61,17 +67,9 @@ import {
     VK_FORMAT_R8G8_UNORM,
     VK_FORMAT_R8G8B8A8_SRGB,
     VK_FORMAT_R8G8B8A8_UNORM,
-    VK_FORMAT_ASTC_6x6_SRGB_BLOCK,
-    VK_FORMAT_ASTC_6x6_UNORM_BLOCK,
-    KHR_DF_PRIMARIES_UNSPECIFIED,
-    KHR_DF_PRIMARIES_BT709,
-    KHR_DF_PRIMARIES_DISPLAYP3,
+    VK_FORMAT_UNDEFINED,
 } from "./ktx-parse.module.js";
 import { ZSTDDecoder } from "./zstddec.module.js";
-import WebWorker from "web-worker";
-import { FileLoader } from "../base/FileLoader";
-import { Loader } from "../base/Loader";
-import { isClient } from "../../../common/src/utils/getEnvironment";
 
 const _taskCache = new WeakMap();
 
@@ -176,11 +174,7 @@ class KTX2Loader extends Loader {
                     this.transcoderBinary = binaryContent;
 
                     this.workerPool.setWorkerCreator(() => {
-                        const worker = isClient
-                            ? new Worker(this.workerSourceURL)
-                            : new WebWorker(
-                                  `data:image/ktx2;base64,${Buffer.from(body, "utf-8").toString("base64")}`,
-                              );
+                        const worker = new Worker(this.workerSourceURL);
                         const transcoderBinary = this.transcoderBinary.slice(0);
 
                         worker.postMessage(

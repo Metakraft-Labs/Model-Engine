@@ -1,10 +1,10 @@
 import { FrontSide, Uniform, Vector3 } from "three";
 
-import { defineComponent, getComponent, useEntityContext } from "../../../ecs";
+import { defineComponent, getComponent, useEntityContext } from "../../../../../ecs";
 
 import { useEffect } from "react";
-import { MaterialStateComponent } from "../../../spatial/renderer/materials/MaterialComponent";
-import { setPlugin } from "../../../spatial/renderer/materials/materialFunctions";
+import { MaterialStateComponent } from "../../../../../spatial/renderer/materials/MaterialComponent";
+import { setPlugin } from "../../../../../spatial/renderer/materials/materialFunctions";
 import {
     ditheringAlphatestChunk,
     ditheringFragUniform,

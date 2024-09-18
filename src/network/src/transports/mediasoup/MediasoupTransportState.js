@@ -10,7 +10,6 @@ import {
     useHookstate,
     useMutableState,
 } from "../../../../hyperflux";
-import { isClient } from "../../../common/src/utils/getEnvironment";
 import { NetworkActions, NetworkState } from "../../NetworkState";
 
 export class MediasoupTransportActions {
@@ -86,7 +85,7 @@ export const MediasoupTransportState = defineState({
             state[networkID].merge({
                 [action.transportID]: {
                     /** Mediasoup is always client-server, so the peerID is always the host for clients */
-                    peerID: isClient ? network.hostPeerID : action.peerID,
+                    peerID: network.hostPeerID,
                     transportID: action.transportID,
                     direction: action.direction,
                     connected: false,

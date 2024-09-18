@@ -1,9 +1,9 @@
-import { getComponent, setComponent } from "../../../ecs/ComponentFunctions";
-import { UndefinedEntity } from "../../../ecs/Entity";
+import { getComponent, setComponent } from "../../../../../ecs/ComponentFunctions";
+import { UndefinedEntity } from "../../../../../ecs/Entity";
 import {
     EntityTreeComponent,
     iterateEntityNode,
-} from "../../../spatial/transform/components/EntityTree";
+} from "../../../../../spatial/transform/components/EntityTree";
 
 import { SourceComponent } from "../../../../scene/components/SourceComponent";
 import { getModelSceneID } from "../../../../scene/functions/loaders/ModelFunctions";

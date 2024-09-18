@@ -31,6 +31,12 @@ import { InputState } from "../state/InputState";
 import { InputSinkComponent } from "./InputSinkComponent";
 import { InputSourceComponent } from "./InputSourceComponent";
 
+export const InputExecutionOrder = {
+    Before: -1,
+    With: 0,
+    After: 1,
+};
+
 export const DefaultButtonAlias = {
     Interact: [
         MouseButton.PrimaryClick,

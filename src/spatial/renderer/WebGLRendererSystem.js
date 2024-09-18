@@ -2,7 +2,7 @@ import "../threejsPatches";
 
 import { RenderPass, SMAAPreset } from "postprocessing";
 import React, { useEffect } from "react";
-import { Color, Scene, SRGBColorSpace, WebGL1Renderer, WebGLRenderer } from "three";
+import { Color, Scene, SRGBColorSpace, WebGLRenderer } from "three";
 
 import {
     defineComponent,
@@ -16,7 +16,7 @@ import {
     QueryReactor,
     useComponent,
     useEntityContext,
-} from "ecs";
+} from "../../ecs";
 import {
     defineState,
     getMutableState,
@@ -198,9 +198,7 @@ export const initializeEngineRenderer = entity => {
         multiviewStereo: true,
     };
 
-    const renderer = rendererComponent.supportWebGL2
-        ? new WebGLRenderer(options)
-        : new WebGL1Renderer(options);
+    const renderer = new WebGLRenderer(options);
     rendererComponent.renderer.set(renderer);
     renderer.outputColorSpace = SRGBColorSpace;
 

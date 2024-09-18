@@ -1,12 +1,12 @@
 import { Texture } from "three";
 
-import { pathJoin, relativePathTo } from "../../../common/src/utils/miscUtils";
-import { UUIDComponent, getOptionalComponent } from "../../../ecs";
+import { pathJoin, relativePathTo } from "../../../../../common/src/utils/miscUtils";
+import { UUIDComponent, getOptionalComponent } from "../../../../../ecs";
 
+import { STATIC_ASSET_REGEX } from "../../../../../common/src/regex";
+import { EditorState } from "../../../../../components/scene-editor/services/EditorServices";
+import { getState } from "../../../../../hyperflux";
 import { SourceComponent } from "../../../../scene/components/SourceComponent";
-import { STATIC_ASSET_REGEX } from "../../../common/src/regex";
-import { EditorState } from "../../../editor/src/services/EditorServices";
-import { getState } from "../../../hyperflux";
 import { ExporterExtension } from "./ExporterExtension";
 export default class ImageRoutingExtension extends ExporterExtension {
     replacementImages;

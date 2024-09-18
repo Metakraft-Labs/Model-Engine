@@ -45,7 +45,7 @@ import {
     VectorKeyframeTrack,
 } from "three";
 
-import { toTrianglesDrawMode } from "../../../spatial/common/classes/BufferGeometryUtils";
+import { toTrianglesDrawMode } from "../../../../spatial/common/classes/BufferGeometryUtils";
 
 import { FileLoader } from "../base/FileLoader";
 import {
