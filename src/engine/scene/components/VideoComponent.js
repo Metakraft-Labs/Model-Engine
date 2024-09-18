@@ -88,7 +88,7 @@ export const VideoComponent = defineComponent({
         };
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             /**
              * An entity with with an attached MediaComponent;if an empty string, then the current entity is assumed
@@ -110,7 +110,7 @@ export const VideoComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.mediaUUID === "string") component.mediaUUID.set(json.mediaUUID);
         if (typeof json.side === "number") component.side.set(json.side);

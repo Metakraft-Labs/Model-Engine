@@ -158,7 +158,7 @@ export const XRLeftHandComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.hand)) component.hand.set(json.hand);
     },
@@ -174,7 +174,7 @@ export const XRRightHandComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.hand)) component.hand.set(json.hand);
     },
@@ -191,7 +191,7 @@ export const XRHitTestComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, data) => {
+    onSet: (_entity, component, data) => {
         component.options.set(data);
     },
 
@@ -247,7 +247,7 @@ export const XRAnchorComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, data) => {
+    onSet: (_entity, component, data) => {
         component.anchor.value?.delete();
         component.anchor.set(data.anchor);
     },

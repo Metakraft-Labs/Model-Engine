@@ -11,10 +11,10 @@ export const ReflectionProbeComponent = defineComponent({
         // internal
         texture,
     }),
-    toJSON: (entity, component) => ({
+    toJSON: (_entity, component) => ({
         src: component.src.value,
     }),
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (typeof json === "undefined") return;
         if (typeof json.src === "string") {
             component.src.set(json.src);

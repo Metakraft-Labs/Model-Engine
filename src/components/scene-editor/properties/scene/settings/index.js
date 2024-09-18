@@ -17,15 +17,15 @@ import Button from "../../../../Button";
 import ColorInput from "../../../../Color";
 import InputGroup from "../../../../Group";
 import ImagePreviewInput from "../../../../inputs/Image/Preview";
+import NodeInput from "../../../../inputs/Node";
 import NumericInput from "../../../../inputs/Numeric";
 import LoadingView from "../../../../LoadingView";
 import { uploadProjectFiles } from "../../../functions/assetFunctions";
 import { takeScreenshot } from "../../../functions/takeScreenshot";
 import { generateEnvmapBake } from "../../../functions/uploadEnvMapBake";
-import NodeInput from "../../../input/Node";
 import { EditorState } from "../../../services/EditorServices";
 import PropertyGroup from "../../group";
-import { commitProperties, commitProperty, updateProperty } from "../Util";
+import { commitProperties, commitProperty, updateProperty } from "../../Util";
 
 // const cameraQuery = defineQuery([CameraComponent])
 

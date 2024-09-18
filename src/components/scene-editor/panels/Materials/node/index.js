@@ -10,8 +10,8 @@ import { SiRoundcube } from "react-icons/si";
 import { twMerge } from "tailwind-merge";
 import { NameComponent } from "../../../../../spatial/common/NameComponent";
 import { MaterialStateComponent } from "../../../../../spatial/renderer/materials/MaterialComponent";
-import { SelectionState } from "../../../../services/SelectionServices";
 import { ItemTypes } from "../../../constants/AssetTypes";
+import { SelectionState } from "../../../services/SelectionServices";
 
 const nodeDisplayName = uuid => {
     return (

@@ -69,7 +69,7 @@ export const UVOL1Component = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (json.manifestPath) {
             component.manifestPath.set(json.manifestPath);

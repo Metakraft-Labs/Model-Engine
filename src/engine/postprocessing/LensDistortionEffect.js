@@ -8,7 +8,7 @@ import { PropertyTypes } from "./PostProcessingRegister";
 const effectKey = "LensDistortionEffect";
 
 export const LensDistortionEffectProcessReactor = props => {
-    const { isActive, rendererEntity, effectData, effects } = props;
+    const { isActive, effectData, effects } = props;
     const effectState = getState(PostProcessingEffectState);
 
     useEffect(() => {

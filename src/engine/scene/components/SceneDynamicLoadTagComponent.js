@@ -20,7 +20,7 @@ export const SceneDynamicLoadTagComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (typeof json.mode === "string") component.mode.set(json.mode);
@@ -28,7 +28,7 @@ export const SceneDynamicLoadTagComponent = defineComponent({
         if (typeof json.loaded === "boolean") component.loaded.set(json.loaded);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             mode: component.mode.value,
             distance: component.distance.value,

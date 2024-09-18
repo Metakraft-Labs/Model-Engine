@@ -8,11 +8,11 @@ import { useHookstate } from "../../../hyperflux";
 
 import Button from "../../Button";
 import InputGroup from "../../Group";
+import { ItemTypes } from "../../scene-editor/constants/AssetTypes";
 import SelectInput from "../../Select";
 import FileBrowserInput from "../FileBrowser";
 import { ImageContainer } from "../Image/Preview";
 import { Vector2Input } from "../Vector2";
-import { ItemTypes } from "/constants/AssetTypes";
 
 /**
  * VideoInput used to render component view for video inputs.

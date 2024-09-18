@@ -39,7 +39,7 @@ export const SplineTrackComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.splineEntityUUID !== "undefined")
             component.splineEntityUUID.set(json.splineEntityUUID);
@@ -51,7 +51,7 @@ export const SplineTrackComponent = defineComponent({
         if (typeof json.loop === "boolean") component.loop.set(json.loop);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             splineEntityUUID: component.splineEntityUUID.value,
             velocity: component.velocity.value,

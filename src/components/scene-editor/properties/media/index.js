@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { HiOutlineVideoCamera } from "react-icons/hi2";
 
 import { useComponent, useOptionalComponent } from "../../../../ecs/ComponentFunctions";
-import { ItemTypes } from "../../../../editor/src/constants/AssetTypes";
 import {
     MediaComponent,
     MediaElementComponent,
@@ -15,6 +14,7 @@ import Button from "../../../Button";
 import InputGroup from "../../../Group";
 import ArrayInputGroup from "../../../inputs/Array";
 import NumericInput from "../../../inputs/Numeric";
+import { ItemTypes } from "../../../scene-editor/constants/AssetTypes";
 import SelectInput from "../../../Select";
 import Slider from "../../../Slider";
 import NodeEditor from "../nodeEditor";

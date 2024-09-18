@@ -2,12 +2,12 @@ import React, { useCallback } from "react";
 import { Vector3 } from "three";
 
 import { BehaviorJSONDefaults } from "../../../engine/scene/components/ParticleSystemComponent";
+import BooleanInput from "../../Boolean";
+import InputGroup from "../../Group";
 import SelectInput from "../../Select";
-import BooleanInput from "../Boolean";
 import ColorGenerator from "../Generator/Color";
 import RotationGenerator from "../Generator/Rotation";
 import ValueGenerator from "../Generator/Value";
-import InputGroup from "../Group";
 import NumericInput from "../Numeric";
 import Vector3Input from "../Vector3";
 

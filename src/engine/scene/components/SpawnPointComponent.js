@@ -34,13 +34,13 @@ export const SpawnPointComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.array.test(json.permissionedUsers))
             component.permissionedUsers.set(json.permissionedUsers);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             permissionedUsers: component.permissionedUsers.get(NO_PROXY),
         };

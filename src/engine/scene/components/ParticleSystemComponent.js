@@ -101,6 +101,10 @@ export const SPHERE_SHAPE_DEFAULT = {
     radius: 1,
 };
 
+export const POINT_SHAPE_DEFAULT = {
+    type: "point",
+};
+
 export const CONE_SHAPE_DEFAULT = {
     type: "cone",
     radius: 1,
@@ -454,7 +458,7 @@ export const ParticleSystemComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         !!json?.systemParameters &&
             component.systemParameters.set({
                 ...JSON.parse(JSON.stringify(component.systemParameters.value)),
@@ -467,7 +471,7 @@ export const ParticleSystemComponent = defineComponent({
             component._refresh.set((component._refresh.value + 1) % 1000);
     },
 
-    toJSON: (entity, component) => ({
+    toJSON: (_entity, component) => ({
         systemParameters: JSON.parse(JSON.stringify(component.systemParameters.value)),
         behaviorParameters: JSON.parse(JSON.stringify(component.behaviorParameters.value)),
     }),

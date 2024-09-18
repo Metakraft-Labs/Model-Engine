@@ -17,13 +17,13 @@ import { TransformComponent } from "../../../../spatial";
 import { NameComponent } from "../../../../spatial/common/NameComponent";
 import { BooleanInput } from "../../../Boolean";
 import Button from "../../../Button";
-import { bakeEnvmapTexture, uploadCubemapBakeToServer } from "../../../functions/uploadEnvMapBake";
 import InputGroup from "../../../Group";
 import EulerInput from "../../../inputs/Euler";
 import ImagePreviewInput from "../../../inputs/Image/Preview";
 import StringInput, { ControlledStringInput } from "../../../inputs/String";
 import Vector3Input from "../../../inputs/Vector3";
 import SelectInput from "../../../Select";
+import { bakeEnvmapTexture, uploadCubemapBakeToServer } from "../../functions/uploadEnvMapBake";
 import NodeEditor from "../nodeEditor";
 import { commitProperties, commitProperty, updateProperty } from "../Util";
 

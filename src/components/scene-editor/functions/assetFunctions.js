@@ -1,12 +1,6 @@
-import { uploadToFeathersService } from "../../../client-core/src/util/upload";
-import { API } from "../../../common";
-import {
-    assetLibraryPath,
-    fileBrowserPath,
-    fileBrowserUploadPath,
-} from "../../../common/src/schema.type.module";
+import { fileBrowserUploadPath } from "../../../common/src/schema.type.module";
 import { processFileName } from "../../../common/src/utils/processFileName";
-import { modelResourcesPath } from "../../../engine/assets/functions/pathResolver";
+import { uploadToFeathersService } from "../util/upload";
 
 import { pathJoin } from "../../../common/src/utils/miscUtils";
 
@@ -81,11 +75,11 @@ export const uploadProjectFiles = (projectName, files, paths, args) => {
 };
 
 export async function clearModelResources(projectName, modelName) {
-    const resourcePath = `projects/${projectName}/assets/${modelResourcesPath(modelName)}`;
-    const exists = await API.instance.service(fileBrowserPath).get(resourcePath);
-    if (exists) {
-        await API.instance.service(fileBrowserPath).remove(resourcePath);
-    }
+    // const resourcePath = `projects/${projectName}/assets/${modelResourcesPath(modelName)}`;
+    // const exists = await API.instance.service(fileBrowserPath).get(resourcePath);
+    // if (exists) {
+    //     await API.instance.service(fileBrowserPath).remove(resourcePath);
+    // }
 }
 
 export const uploadProjectAssetsFromUpload = async (projectName, entries, onProgress) => {
@@ -158,7 +152,7 @@ export const getEntries = async directoryReader => {
 export const extractZip = async path => {
     try {
         const params = { path: path };
-        await API.instance.service(assetLibraryPath).create(params);
+        // await API.instance.service(assetLibraryPath).create(params);
     } catch (err) {
         console.error("error extracting zip: ", err);
     }

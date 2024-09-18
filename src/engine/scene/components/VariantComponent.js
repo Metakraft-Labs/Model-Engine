@@ -45,7 +45,7 @@ export const VariantComponent = defineComponent({
         budgetLevel: 0,
     }),
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (typeof json.heuristic === "string") component.heuristic.set(json.heuristic);
@@ -79,7 +79,7 @@ export const VariantComponent = defineComponent({
         if (typeof json.budgetLevel === "number") component.currentLevel.set(json.budgetLevel);
     },
 
-    toJSON: (entity, component) => ({
+    toJSON: (_entity, component) => ({
         levels: component.levels.value.map(level => {
             return {
                 src: level.src,
@@ -166,3 +166,5 @@ const VariantLevelReactor = React.memo(({ entity, level }) => {
 
     return null;
 });
+
+VariantLevelReactor.displayName = "VariantLevelReactor";

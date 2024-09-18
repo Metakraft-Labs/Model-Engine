@@ -1,13 +1,10 @@
 import React from "react";
 
-import { uploadToFeathersService } from "../../../client-core/src/util/upload";
 import { fileBrowserUploadPath } from "../../../common/src/schema.type.module";
-import {
-    KTX2EncodeArguments,
-    KTX2EncodeDefaultArguments,
-} from "../../../engine/assets/constants/CompressionParms";
+import { KTX2EncodeDefaultArguments } from "../../../engine/assets/constants/CompressionParms";
 import { useHookstate } from "../../../hyperflux";
 import { KTX2Encoder } from "../../../xrui/core/textures/KTX2Encoder";
+import { uploadToFeathersService } from "../util/upload";
 
 import { Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -36,7 +33,7 @@ const UASTCFlagOptions = [
 export default function ImageCompressionPanel({ selectedFiles, refreshDirectory }) {
     const { t } = useTranslation();
 
-    const compressProperties = useHookstate < KTX2EncodeArguments > KTX2EncodeDefaultArguments;
+    const compressProperties = useHookstate(KTX2EncodeDefaultArguments);
     const compressionLoading = useHookstate(false);
 
     const compressContentInBrowser = async () => {

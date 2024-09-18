@@ -23,14 +23,14 @@ export const PrimitiveGeometryComponent = defineComponent({
         };
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             geometryType: component.geometryType.value,
             geometryParams: component.geometryParams.value,
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.geometryType === "number") component.geometryType.set(json.geometryType);
         if (typeof json.geometryParams === "object")

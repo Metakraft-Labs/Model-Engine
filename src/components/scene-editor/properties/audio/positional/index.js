@@ -17,7 +17,7 @@ import Slider from "../../../../Slider";
 import { EditorControlFunctions } from "../../../functions/EditorControlFunctions";
 import { SelectionState } from "../../../services/SelectionServices";
 import NodeEditor from "../../nodeEditor";
-import { commitProperty, updateProperty } from "../Util";
+import { commitProperty, updateProperty } from "../../Util";
 
 /**
  * AudioNodeEditor used to customize audio element on the scene.

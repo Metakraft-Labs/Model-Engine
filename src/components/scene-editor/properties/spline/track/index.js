@@ -9,11 +9,11 @@ import { UUIDComponent } from "../../../../../ecs";
 import { useQuery } from "../../../../../ecs/QueryFunctions";
 import { SplineComponent } from "../../../../../engine/scene/components/SplineComponent";
 import { NameComponent } from "../../../../../spatial/common/NameComponent";
+import { BooleanInput } from "../../../../Boolean";
 import InputGroup from "../../../../Group";
 import NumericInput from "../../../../inputs/Numeric";
 import { Vector3Scrubber } from "../../../../inputs/Vector3";
 import SelectInput from "../../../../Select";
-import { BooleanInput } from "../../../Boolean";
 import NodeEditor from "../../nodeEditor";
 import { commitProperty, updateProperty } from "../../Util";
 

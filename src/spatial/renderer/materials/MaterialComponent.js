@@ -48,7 +48,7 @@ export const MaterialStateComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (json?.material && component.material.value !== undefined)
             component.material.set(json.material);
         if (json?.parameters && component.parameters.value !== undefined)
@@ -79,7 +79,7 @@ export const MaterialInstanceComponent = defineComponent({
             uuid: [],
         };
     },
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (json?.uuid && component.uuid.value !== undefined) component.uuid.set(json.uuid);
     },
     onRemove: entity => {
@@ -103,7 +103,7 @@ export const MaterialPrototypeComponent = defineComponent({
             prototypeConstructor: {},
         };
     },
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (json?.prototypeArguments && component.prototypeArguments.value !== undefined)
             component.prototypeArguments.set(json.prototypeArguments);
         if (json?.prototypeConstructor && component.prototypeConstructor.value !== undefined)

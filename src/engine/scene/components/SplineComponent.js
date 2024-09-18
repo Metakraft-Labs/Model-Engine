@@ -40,7 +40,7 @@ export const SplineComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         json.elements &&
             component.elements.set(
@@ -51,7 +51,7 @@ export const SplineComponent = defineComponent({
             );
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return { elements: component.elements.get({ noproxy: true }) };
     },
 

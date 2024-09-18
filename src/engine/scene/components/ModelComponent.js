@@ -67,7 +67,7 @@ export const ModelComponent = defineComponent({
         };
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             src: component.src.value,
             cameraOcclusion: component.cameraOcclusion.value,
@@ -75,7 +75,7 @@ export const ModelComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.src === "string") component.src.set(json.src);
         if (typeof json.avoidCameraOcclusion === "boolean")

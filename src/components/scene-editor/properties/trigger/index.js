@@ -22,10 +22,10 @@ import {
     useAncestorWithComponent,
 } from "../../../../spatial/transform/components/EntityTree";
 import Button from "../../../Button";
-import { EditorControlFunctions } from "../../../functions/EditorControlFunctions";
 import InputGroup from "../../../Group";
 import StringInput from "../../../inputs/String";
 import SelectInput from "../../../Select";
+import { EditorControlFunctions } from "../../functions/EditorControlFunctions";
 import { SelectionState } from "../../services/SelectionServices";
 import NodeEditor from "../nodeEditor";
 import { commitProperties, commitProperty, updateProperty } from "../Util";
@@ -121,7 +121,10 @@ const TriggerProperties = props => {
                 const targetOption = targets.value.find(o => o.value === trigger.target.value);
                 const target = targetOption ? targetOption.value : "";
                 return (
-                    <div className="-ml-4 h-[calc(100%+1.5rem)] w-[calc(100%+2rem)] bg-[#1A1A1A] pb-1.5">
+                    <div
+                        className="-ml-4 h-[calc(100%+1.5rem)] w-[calc(100%+2rem)] bg-[#1A1A1A] pb-1.5"
+                        key={`trigger-component-${index}`}
+                    >
                         <Button
                             variant="transparent"
                             title={t("editor:properties.triggerVolume.lbl-removeTrigger")}

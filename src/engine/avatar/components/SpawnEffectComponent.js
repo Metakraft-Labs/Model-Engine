@@ -51,7 +51,7 @@ export const SpawnEffectComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (json.sourceEntity) component.sourceEntity.set(json.sourceEntity);

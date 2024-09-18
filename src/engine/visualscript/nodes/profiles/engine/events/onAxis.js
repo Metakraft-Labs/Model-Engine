@@ -26,7 +26,7 @@ export const OnAxis = makeEventNodeDefinition({
     category: NodeCategory.Engine,
     label: "Use Axis",
     in: {
-        axis: (_, graphApi) => {
+        axis: (_, _graphApi) => {
             const choices = [
                 ...Object.keys(StandardGamepadAxes)
                     .filter(x => !(parseInt(x) >= 0))
@@ -51,9 +51,9 @@ export const OnAxis = makeEventNodeDefinition({
         value: "float",
     },
     initialState: initialState(),
-    init: ({ read, write, commit, graph }) => {
-        const axisKey = read < number > "axis";
-        const deadzone = read < number > "deadzone";
+    init: ({ read, write, commit }) => {
+        const axisKey = read("axis");
+        const deadzone = read("deadzone");
 
         const query = defineQuery([InputSourceComponent]);
         const systemUUID = defineSystem({
@@ -79,7 +79,7 @@ export const OnAxis = makeEventNodeDefinition({
 
         return state;
     },
-    dispose: ({ state: { query, systemUUID }, graph: { getDependency } }) => {
+    dispose: ({ state: { query, systemUUID } }) => {
         destroySystem(systemUUID);
         removeQuery(query);
         return initialState();

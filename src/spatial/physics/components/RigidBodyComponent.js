@@ -58,7 +58,7 @@ export const RigidBodyComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (typeof json.type === "string") component.type.set(json.type);
@@ -77,7 +77,7 @@ export const RigidBodyComponent = defineComponent({
         }
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             type: component.type.value,
             ccd: component.ccd.value,

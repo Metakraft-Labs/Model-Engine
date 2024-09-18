@@ -49,7 +49,7 @@ export const LoopAnimationComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.animationSpeed === "number") component.timeScale.set(json.animationSpeed); // backwards-compat
         if (typeof json.activeClipIndex === "number")
@@ -70,7 +70,7 @@ export const LoopAnimationComponent = defineComponent({
         if (typeof json.weight === "number") component.weight.set(json.weight);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             activeClipIndex: component.activeClipIndex.value,
             animationPack: component.animationPack.value,

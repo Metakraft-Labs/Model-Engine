@@ -83,7 +83,7 @@ export const TransformComponent = defineComponent({
         }
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             position: component.position.value,
             rotation: component.rotation.value,

@@ -7,7 +7,7 @@ import { PropertyTypes } from "./PostProcessingRegister";
 const effectKey = "NoiseEffect";
 
 export const NoiseEffectProcessReactor = props => {
-    const { isActive, rendererEntity, effectData, effects } = props;
+    const { isActive, effectData, effects } = props;
     const effectState = getState(PostProcessingEffectState);
 
     useEffect(() => {

@@ -57,7 +57,7 @@ export const MediaElementComponent = defineComponent({
         return undefined;
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (
             typeof json.element === "object" &&
@@ -119,11 +119,11 @@ export const MediaComponent = defineComponent({
         };
     },
 
-    onRemove: (entity, component) => {
+    onRemove: (entity, _component) => {
         removeComponent(entity, MediaElementComponent);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             controls: component.controls.value,
             autoplay: component.autoplay.value,
@@ -137,7 +137,7 @@ export const MediaComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         startTransition(() => {
             if (typeof json.paths === "object") {

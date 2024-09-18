@@ -7,7 +7,7 @@ import { PropertyTypes } from "./PostProcessingRegister";
 const effectKey = "FXAAEffect";
 
 export const FXAAEffectProcessReactor = props => {
-    const { isActive, rendererEntity, effectData, effects } = props;
+    const { isActive, effectData, effects } = props;
     const effectState = getState(PostProcessingEffectState);
 
     useEffect(() => {

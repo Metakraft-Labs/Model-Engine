@@ -47,7 +47,7 @@ export const SplineHelperComponent = defineComponent({
         layerMask: ObjectLayerMasks.NodeHelper,
     }),
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.layerMask === "number") component.layerMask.set(json.layerMask);
     },

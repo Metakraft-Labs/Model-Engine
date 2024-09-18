@@ -7,7 +7,7 @@ import { PropertyTypes } from "./PostProcessingRegister";
 const effectKey = "BloomEffect";
 
 export const BloomEffectProcessReactor = props => {
-    const { isActive, rendererEntity, effectData, effects } = props;
+    const { isActive, effectData, effects } = props;
     const effectState = getState(PostProcessingEffectState);
 
     useEffect(() => {

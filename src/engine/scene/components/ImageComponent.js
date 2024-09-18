@@ -39,7 +39,7 @@ export const ImageComponent = defineComponent({
         };
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             source: component.source.value,
             alphaMode: component.alphaMode.value,
@@ -49,7 +49,7 @@ export const ImageComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         // backwards compatability
         if (typeof json.source === "string" && json.source !== component.source.value)

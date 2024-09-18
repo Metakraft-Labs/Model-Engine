@@ -15,7 +15,7 @@ export const CameraSettingsComponent = defineComponent({
             : JSON.parse(JSON.stringify(CameraSettingsState.initial));
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (typeof json.fov === "number") component.fov.set(json.fov);
@@ -37,7 +37,7 @@ export const CameraSettingsComponent = defineComponent({
         if (typeof json.maxPhi === "number") component.maxPhi.set(json.maxPhi);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             fov: component.fov.value,
             cameraNearClip: component.cameraNearClip.value,

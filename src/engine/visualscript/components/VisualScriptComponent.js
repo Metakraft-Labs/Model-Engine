@@ -38,7 +38,7 @@ export const VisualScriptComponent = defineComponent({
         };
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             domain: component.domain.value,
             visualScript: cleanStorageProviderURLs(
@@ -49,7 +49,7 @@ export const VisualScriptComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.disabled === "boolean") component.disabled.set(json.disabled);
         if (typeof json.run === "boolean") component.run.set(json.run);

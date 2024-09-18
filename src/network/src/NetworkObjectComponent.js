@@ -35,7 +35,7 @@ export const NetworkObjectComponent = defineComponent({
         };
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             ownerId: component.ownerId.value,
             ownerPeer: component.ownerPeer.value,

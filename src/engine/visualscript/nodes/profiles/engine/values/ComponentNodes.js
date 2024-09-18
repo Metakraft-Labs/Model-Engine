@@ -73,7 +73,7 @@ export const setTag = makeFlowNodeDefinition({
     },
     out: { flow: "flow", entity: "entity", tagName: "string" },
     initialState: undefined,
-    triggered: ({ read, write, commit, graph: { getDependency } }) => {
+    triggered: ({ read, write, commit }) => {
         const entity = Number.parseInt(read("entity"));
         const tagName = read < string > "tagName";
         const tag = defineComponent({ name: `bg-tag.${tagName}` });
@@ -97,7 +97,7 @@ export const removeTag = makeFlowNodeDefinition({
     },
     out: { flow: "flow", entity: "entity" },
     initialState: undefined,
-    triggered: ({ read, write, commit, graph: { getDependency } }) => {
+    triggered: ({ read, write, commit }) => {
         const entity = Number.parseInt(read("entity"));
         const tagName = `bg-tag.${read < string > "tagName"}`;
         const component = ComponentMap.get(tagName);

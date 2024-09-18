@@ -42,7 +42,7 @@ export const EnvMapBakeComponent = defineComponent({
             component.boxProjection.set(json.boxProjection);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             bakePosition: component.bakePosition.value,
             bakePositionOffset: component.bakePositionOffset.value,

@@ -3,7 +3,6 @@ import React, { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { MdOutlineViewInAr } from "react-icons/md";
 
-import config from "../../../../common/src/config";
 import { FeatureFlags } from "../../../../common/src/constants/FeatureFlags";
 import { STATIC_ASSET_REGEX } from "../../../../common/src/regex";
 import { pathJoin } from "../../../../common/src/utils/miscUtils";
@@ -16,14 +15,14 @@ import useFeatureFlags from "../../../../engine/useFeatureFlags";
 import { getState, useState } from "../../../../hyperflux";
 import BooleanInput from "../../../Boolean";
 import Button from "../../../Button";
-import { exportRelativeGLTF } from "../../../functions/exportGLTF";
 import InputGroup from "../../../Group";
 import ModelInput from "../../../inputs/Model";
 import StringInput from "../../../inputs/String";
 import ErrorPopUp from "../../../Popup/Popup2/ErrorPopUp";
 import SelectInput from "../../../Select";
-import { EditorState } from "../../../services/EditorServices";
-import { ProjectState } from "../.././services/ProjectService";
+import { exportRelativeGLTF } from "../../functions/exportGLTF";
+import { EditorState } from "../../services/EditorServices";
+import { ProjectState } from "../../services/ProjectService";
 import NodeEditor from "../nodeEditor";
 import ScreenshareTargetNodeEditor from "../screenShareTarget";
 import { commitProperty } from "../Util";
@@ -85,7 +84,7 @@ export const ModelNodeEditor = props => {
         const fileName = `${srcPath.value}.${exportType.value}`;
         exportRelativeGLTF(entity, srcProject.value, fileName).then(() => {
             const nuPath = pathJoin(
-                config.client.fileServer,
+                `${process.env.REACT_APP_S3_ASSETS}/editor`,
                 "projects",
                 srcProject.value,
                 fileName,

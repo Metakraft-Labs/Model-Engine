@@ -1,8 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import { Quaternion, Scene, Vector3 } from "three";
-import { API } from "../../../common";
-import { staticResourcePath } from "../../../common/src/schema.type.module";
 import { pathJoin } from "../../../common/src/utils/miscUtils";
 import { createEntity, entityExists, getComponent, removeEntity, setComponent } from "../../../ecs";
 import { GLTFDocumentState } from "../../../engine/gltf/GLTFDocumentState";
@@ -63,17 +61,17 @@ export default function CreatePrefabPanel({ entity }) {
             getMutableState(SelectionState).selectedEntities.set([]);
             await exportRelativeGLTF(prefabEntity, srcProject, fileName);
 
-            const resources = await API.instance.service(staticResourcePath).find({
-                query: { key: "projects/" + srcProject + "/" + fileName },
-            });
-            if (resources.data.length === 0) {
-                throw new Error("User not found");
-            }
-            const resource = resources.data[0];
+            // const resources = await API.instance.service(staticResourcePath).find({
+            //     query: { key: "projects/" + srcProject + "/" + fileName },
+            // });
+            // if (resources.data.length === 0) {
+            //     throw new Error("User not found");
+            // }
+            // const resource = resources.data[0];
             const tags = [...prefabTag.value];
-            await API.instance
-                .service(staticResourcePath)
-                .patch(resource.id, { tags: tags, project: srcProject });
+            // await API.instance
+            //     .service(staticResourcePath)
+            //     .patch(resource.id, { tags: tags, project: srcProject });
 
             removeEntity(prefabEntity);
             EditorControlFunctions.removeObject([entity]);
@@ -138,7 +136,10 @@ export default function CreatePrefabPanel({ entity }) {
             </Button>
             <div>
                 {(prefabTag.value ?? []).map((tag, index) => (
-                    <div style={{ display: "flex", flexDirection: "row", margin: "0, 16px 0 0" }}>
+                    <div
+                        style={{ display: "flex", flexDirection: "row", margin: "0, 16px 0 0" }}
+                        key={`prefab-tag-${index}`}
+                    >
                         <TextField
                             key={index}
                             label={"Tag"}

@@ -38,7 +38,7 @@ export const FogSettingsComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (typeof json.type === "string") component.type.set(json.type);
@@ -50,7 +50,7 @@ export const FogSettingsComponent = defineComponent({
         if (typeof json.height === "number") component.height.set(json.height);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             type: component.type.value,
             color: component.color.value,

@@ -32,7 +32,7 @@ export const AvatarComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.number.test(json.avatarHeight)) component.avatarHeight.set(json.avatarHeight);
         if (matches.number.test(json.torsoLength)) component.torsoLength.set(json.torsoLength);

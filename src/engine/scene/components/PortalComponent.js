@@ -49,7 +49,7 @@ export const PortalComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.string.test(json.linkedPortalId))
             component.linkedPortalId.set(json.linkedPortalId);
@@ -71,7 +71,7 @@ export const PortalComponent = defineComponent({
         }
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             location: component.location.value,
             linkedPortalId: component.linkedPortalId.value,

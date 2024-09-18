@@ -10,9 +10,9 @@ import {
 import { getEntityErrors } from "../../../../engine/scene/components/ErrorComponent";
 import { LinkComponent } from "../../../../engine/scene/components/LinkComponent";
 import BooleanInput from "../../../Boolean";
-import { EditorControlFunctions } from "../../../functions/EditorControlFunctions";
 import InputGroup from "../../../Group";
 import { ControlledStringInput } from "../../../inputs/String";
+import { EditorControlFunctions } from "../../functions/EditorControlFunctions";
 import NodeEditor from "../nodeEditor";
 import { commitProperty, updateProperty } from "../Util";
 

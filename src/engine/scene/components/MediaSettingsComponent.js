@@ -15,7 +15,7 @@ export const MediaSettingsComponent = defineComponent({
             : JSON.parse(JSON.stringify(MediaSettingsState.initial));
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (typeof json.immersiveMedia === "boolean")
@@ -31,7 +31,7 @@ export const MediaSettingsComponent = defineComponent({
         if (typeof json.coneOuterGain === "number") component.coneOuterGain.set(json.coneOuterGain);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             immersiveMedia: component.immersiveMedia.value,
             refDistance: component.refDistance.value,

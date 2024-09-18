@@ -35,7 +35,7 @@ export const PointLightComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.color) && json.color.isColor) component.color.set(json.color);
         if (matches.string.test(json.color) || matches.number.test(json.color))
@@ -49,7 +49,7 @@ export const PointLightComponent = defineComponent({
         if (matches.number.test(json.shadowRadius)) component.shadowRadius.set(json.shadowRadius);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             color: component.color.value,
             intensity: component.intensity.value,

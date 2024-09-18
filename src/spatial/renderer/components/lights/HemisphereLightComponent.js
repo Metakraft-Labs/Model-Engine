@@ -29,7 +29,7 @@ export const HemisphereLightComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.skyColor) && json.skyColor.isColor)
             component.skyColor.set(json.skyColor);
@@ -42,7 +42,7 @@ export const HemisphereLightComponent = defineComponent({
         if (matches.number.test(json.intensity)) component.intensity.set(json.intensity);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             skyColor: component.skyColor.value,
             groundColor: component.groundColor.value,

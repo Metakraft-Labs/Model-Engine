@@ -1,5 +1,4 @@
 export * from "./Diagnostics/Assert";
-export * from "./Diagnostics/Logger";
 export * from "./Easing";
 export * from "./Events/CustomEvent";
 export * from "./Events/EventEmitter";

@@ -8,7 +8,7 @@ import { PropertyTypes } from "./PostProcessingRegister";
 const effectKey = "LUT1DEffect";
 
 export const LUT1DEffectProcessReactor = props => {
-    const { isActive, rendererEntity, effectData, effects } = props;
+    const { isActive, effectData, effects } = props;
     const effectState = getState(PostProcessingEffectState);
 
     const [lut1DEffectTexture, lut1DEffectTextureError] = useTexture(

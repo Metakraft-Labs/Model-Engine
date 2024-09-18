@@ -112,7 +112,7 @@ export const FollowCameraComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (typeof json.firstPersonOffset !== "undefined")

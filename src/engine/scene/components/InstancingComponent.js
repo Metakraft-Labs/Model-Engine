@@ -8,7 +8,7 @@ export const InstancingComponent = defineComponent({
     onInit: _entity => ({
         instanceMatrix: new InstancedBufferAttribute(new Float32Array(16), 16),
     }),
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (json.instanceMatrix instanceof InstancedBufferAttribute) {
             component.instanceMatrix.set(json.instanceMatrix);

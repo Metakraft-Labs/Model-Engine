@@ -27,7 +27,7 @@ export const AvatarDissolveComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (matches.number.test(json.height)) component.height.set(json.height);

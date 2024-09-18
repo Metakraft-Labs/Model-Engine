@@ -6,7 +6,7 @@ import { LinearTosRGBEffect } from "../../spatial/renderer/effects/LinearTosRGBE
 const effectKey = "LinearTosRGBEffect";
 
 export const LinearTosRGBEffectProcessReactor = props => {
-    const { isActive, rendererEntity, effectData, effects } = props;
+    const { isActive, effectData, effects } = props;
     const effectState = getState(PostProcessingEffectState);
 
     useEffect(() => {

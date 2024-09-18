@@ -35,7 +35,7 @@ export const BoundingBoxComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.box)) component.box.value.copy(json.box);
     },

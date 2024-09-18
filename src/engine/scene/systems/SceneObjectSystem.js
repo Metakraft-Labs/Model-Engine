@@ -52,7 +52,7 @@ import { UpdatableCallback, UpdatableComponent } from "../components/UpdatableCo
 import { getModelSceneID, useModelSceneID } from "../functions/loaders/ModelFunctions";
 
 const disposeMaterial = material => {
-    for (const [key, val] of Object.entries(material)) {
+    for (const [_key, val] of Object.entries(material)) {
         if (val && typeof val.dispose === "function") {
             val.dispose();
         }

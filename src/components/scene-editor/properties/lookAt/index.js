@@ -8,7 +8,7 @@ import { FaRegFaceFlushed } from "react-icons/fa6";
 import { LookAtComponent } from "../../../../spatial/transform/components/LookAtComponent";
 import BooleanInput from "../../../Boolean";
 import InputGroup from "../../../Group";
-import NodeInput from "../../input/Node";
+import NodeInput from "../../../inputs/Node";
 import NodeEditor from "../nodeEditor";
 import { commitProperty } from "../Util";
 

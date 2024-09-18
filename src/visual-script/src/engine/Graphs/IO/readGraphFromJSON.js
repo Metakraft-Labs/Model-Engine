@@ -1,4 +1,3 @@
-import { Logger } from "../../Diagnostics/Logger";
 import { CustomEvent } from "../../Events/CustomEvent";
 import { Link } from "../../Nodes/Link";
 import { Socket } from "../../Sockets/Socket";
@@ -24,7 +23,7 @@ export function readGraphFromJSON({ graphJson, registry }) {
     const nodesJson = graphJson?.nodes ?? [];
 
     if (nodesJson.length === 0) {
-        Logger.warning("readGraphFromJSON: no nodes specified");
+        console.warn("readGraphFromJSON: no nodes specified");
     }
 
     const graphApi = makeGraphApi({

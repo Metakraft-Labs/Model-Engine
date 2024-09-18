@@ -5,8 +5,8 @@ import { Grid, Typography } from "@mui/material";
 import { ColorGeneratorJSONDefaults } from "../../../../engine/scene/components/ParticleSystemComponent";
 import Button from "../../../Button";
 import ColorInput from "../../../Color";
+import InputGroup from "../../../Group";
 import SelectInput from "../../../Select";
-import InputGroup from "../../Group";
 import NumericInput from "../../Numeric";
 
 export function ColorJSONInput({ value, onChange }) {

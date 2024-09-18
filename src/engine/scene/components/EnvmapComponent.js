@@ -62,7 +62,7 @@ export const EnvmapComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (typeof json?.type === "string") component.type.set(json.type);
         if (typeof json?.envMapTextureType === "string")
             component.envMapTextureType.set(json.envMapTextureType);
@@ -76,7 +76,7 @@ export const EnvmapComponent = defineComponent({
             component.envMapIntensity.set(json.envMapIntensity);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             type: component.type.value,
             envMapTextureType: component.envMapTextureType.value,
@@ -281,7 +281,7 @@ export const BoxProjectionPlugin = defineComponent({
             cubeMapPos: new Uniform(new Vector3()),
         };
     },
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (json?.cubeMapSize) component.cubeMapSize.set(json.cubeMapSize);
         if (json?.cubeMapPos) component.cubeMapPos.set(json.cubeMapPos);
     },

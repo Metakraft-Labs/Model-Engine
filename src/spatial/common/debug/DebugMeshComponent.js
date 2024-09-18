@@ -21,7 +21,7 @@ export const DebugMeshComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.name === "string") component.name.set(json.name);
 

@@ -14,13 +14,13 @@ import { CallbackComponent } from "../../../../spatial/common/CallbackComponent"
 import { NameComponent } from "../../../../spatial/common/NameComponent";
 import { InputComponent } from "../../../../spatial/input/components/InputComponent";
 import { EntityTreeComponent } from "../../../../spatial/transform/components/EntityTree";
+import BooleanInput from "../../../Boolean";
 import Button from "../../../Button";
-import { EditorControlFunctions } from "../../../functions/EditorControlFunctions";
 import InputGroup from "../../../Group";
 import NumericInput from "../../../inputs/Numeric";
 import StringInput from "../../../inputs/String";
 import SelectInput from "../../../Select";
-import BooleanInput from "../../input/Boolean";
+import { EditorControlFunctions } from "../../functions/EditorControlFunctions";
 import NodeEditor from "../nodeEditor";
 import { commitProperties, commitProperty, updateProperty } from "../Util";
 

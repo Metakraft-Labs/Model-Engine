@@ -2,8 +2,8 @@ import React, { useCallback } from "react";
 import { Vector3 } from "three";
 
 import { RotationGeneratorJSONDefaults } from "../../../../engine/scene/components/ParticleSystemComponent";
+import InputGroup from "../../../Group";
 import SelectInput from "../../../Select";
-import InputGroup from "../../Group";
 import Vector3Input from "../../Vector3";
 import ValueGenerator from "../Value";
 

@@ -20,7 +20,7 @@ export const PlaylistComponent = defineComponent({
         autoplay: true,
     }),
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (json.tracks && Array.isArray(json.tracks)) component.tracks.set(json.tracks);
         if (typeof json.currentTrackUUID === "string")
@@ -32,7 +32,7 @@ export const PlaylistComponent = defineComponent({
         if (typeof json.autoplay === "boolean") component.autoplay.set(json.autoplay);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             tracks: component.tracks.value,
             playMode: component.playMode.value,

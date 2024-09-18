@@ -14,7 +14,7 @@ export const AvatarArmsTwistCorrectionComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (json.LeftHandBindRotationInv)

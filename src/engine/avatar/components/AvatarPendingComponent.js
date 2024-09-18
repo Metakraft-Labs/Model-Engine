@@ -9,7 +9,7 @@ export const AvatarPendingComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (json.url) component.url.set(json.url);

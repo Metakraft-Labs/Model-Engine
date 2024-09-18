@@ -14,6 +14,22 @@ import {
     TorusKnotGeometry,
 } from "three";
 
+export const GeometryTypeEnum = {
+    BoxGeometry: "BoxGeometry",
+    SphereGeometry: "SphereGeometry",
+    CylinderGeometry: "CylinderGeometry",
+    CapsuleGeometry: "CapsuleGeometry",
+    PlaneGeometry: "PlaneGeometry",
+    CircleGeometry: "CircleGeometry",
+    RingGeometry: "RingGeometry",
+    TorusGeometry: "TorusGeometry",
+    DodecahedronGeometry: "DodecahedronGeometry",
+    IcosahedronGeometry: "IcosahedronGeometry",
+    OctahedronGeometry: "OctahedronGeometry",
+    TetrahedronGeometry: "TetrahedronGeometry",
+    TorusKnotGeometry: "TorusKnotGeometry",
+};
+
 export const GeometryTypeToClass = {
     BoxGeometry: BoxGeometry,
     SphereGeometry: SphereGeometry,

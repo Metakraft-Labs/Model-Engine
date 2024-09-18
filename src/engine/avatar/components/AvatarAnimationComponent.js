@@ -62,7 +62,7 @@ export const AvatarAnimationComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.number.test(json.rootYRatio)) component.rootYRatio.set(json.rootYRatio);
         if (matches.object.test(json.locomotion)) component.locomotion.value.copy(json.locomotion);
@@ -90,7 +90,7 @@ export const AvatarRigComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.normalizedRig))
             component.normalizedRig.set(json.normalizedRig);

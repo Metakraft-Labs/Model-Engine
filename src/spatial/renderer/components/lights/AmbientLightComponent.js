@@ -21,14 +21,14 @@ export const AmbientLightComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.color) && json.color.isColor) component.color.set(json.color);
         if (matches.string.test(json.color)) component.color.value.set(json.color);
         if (matches.number.test(json.intensity)) component.intensity.set(json.intensity);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             color: component.color.value,
             intensity: component.intensity.value,

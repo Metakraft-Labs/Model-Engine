@@ -22,9 +22,9 @@ import {
 } from "../../../../../hyperflux";
 import { ContextMenu } from "../../../../ContextMenu";
 import InputGroup from "../../../../Group";
+import InfiniteScroll from "../../../../InfiniteScroll";
 import { Popup } from "../../../../Popup";
 import Slider from "../../../../Slider";
-import InfiniteScroll from "../../../../tailwind/InfiniteScroll";
 import { AssetsPanelCategories } from "../../../assets/AssetsPanelCategories";
 import { FilesViewModeSettings } from "../../../assets/FileBrowser/FileBrowserState";
 import { inputFileWithAddToScene } from "../../../functions/assetFunctions";

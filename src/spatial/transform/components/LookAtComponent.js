@@ -7,7 +7,7 @@ export const LookAtComponent = defineComponent({
         xAxis: true,
         yAxis: true,
     }),
-    onSet: (entity, component, props) => {
+    onSet: (_entity, component, props) => {
         if (typeof props?.target === "string") {
             component.target.set(props.target);
         }
@@ -18,7 +18,7 @@ export const LookAtComponent = defineComponent({
             component.yAxis.set(props.yAxis);
         }
     },
-    toJSON: (entity, component) => ({
+    toJSON: (_entity, component) => ({
         target: component.target.value,
         xAxis: component.xAxis.value,
         yAxis: component.yAxis.value,

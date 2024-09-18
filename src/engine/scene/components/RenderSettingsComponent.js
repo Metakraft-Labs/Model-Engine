@@ -21,7 +21,7 @@ export const RenderSettingsComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (typeof json.primaryLight === "string") component.primaryLight.set(json.primaryLight);
@@ -33,7 +33,7 @@ export const RenderSettingsComponent = defineComponent({
         if (typeof json.shadowMapType === "number") component.shadowMapType.set(json.shadowMapType);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             primaryLight: component.primaryLight.value,
             csm: component.csm.value,

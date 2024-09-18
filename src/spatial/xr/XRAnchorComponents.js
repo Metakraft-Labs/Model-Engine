@@ -50,7 +50,7 @@ export const PersistentAnchorComponent = defineComponent({
      * @param component
      * @returns
      */
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             name: component.name.value,
             wireframe: component.wireframe.value,
@@ -64,7 +64,7 @@ export const PersistentAnchorComponent = defineComponent({
      * @param json
      * @returns
      */
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (typeof json.name === "string" && json.name !== component.name.value)

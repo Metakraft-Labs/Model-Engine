@@ -9,7 +9,7 @@ export const UVOLDissolveComponent = defineComponent({
         duration: 2,
     }),
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.duration === "number") component.duration.set(json.duration);
     },

@@ -244,7 +244,7 @@ export const InteractableComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (json.label) component.label.set(json.label);
         if (
@@ -277,7 +277,7 @@ export const InteractableComponent = defineComponent({
         }
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             label: component.label.value,
             clickInteract: component.clickInteract.value,

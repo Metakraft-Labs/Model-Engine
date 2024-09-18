@@ -14,10 +14,15 @@ import { addObjectToGroup } from "../../../spatial/renderer/components/GroupComp
  */
 const FontDefault = null;
 
+export const FontMaterialKind = {
+    Basic: "Basic",
+    Standard: "Standard",
+};
+
 /**
  * @description Lorem Ipsum filler text
  */
-const LoremIpsum =
+export const LoremIpsum =
     "Cat ipsum dolor sit amet, munch, munch, chomp, chomp go crazy with excitement when plates are clanked together signalling the arrival of cat food lounge in doorway. Rub face on everything i like to spend my days sleeping and eating fishes that my human fished for me we live on a luxurious yacht, sailing proudly under the sun, i like to walk on the deck, watching the horizon, dreaming of a good bowl of milk yet ooooh feather moving feather! for rub my belly hiss. I see a bird i stare at it i meow at it i do a wiggle come here birdy kick up litter but ignore the squirrels, you'll never catch them anyway meow in empty rooms i like big cats and i can not lie. At four in the morning wake up owner meeeeeeooww scratch at legs and beg for food then cry and yowl until they wake up at two pm jump on window and sleep while observing the bootyful cat next door that u really like but who already has a boyfriend end up making babies with her and let her move in scream at teh bath so leave hair on owner's clothes. If human is on laptop sit on the keyboard haha you hold me hooman i scratch, cough furball into food bowl then scratch owner for a new one make muffins, so kick up litter let me in let me out let me in let me out let me in let me out who broke this door anyway . See owner, run in terror cats are cute show belly and steal mom's crouton while she is in the bathroom so skid on floor, crash into wall .";
 
 const DefaultText = "type your text here";
@@ -81,7 +86,7 @@ export const TextComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         // Text contents/properties
         if (matches.string.test(json.text)) component.text.set(json.text);
@@ -157,7 +162,7 @@ export const TextComponent = defineComponent({
         if (matches.number.test(json.glyphDetail)) component.glyphDetail.set(json.glyphDetail);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             // Text contents/properties
             text: component.text.value,

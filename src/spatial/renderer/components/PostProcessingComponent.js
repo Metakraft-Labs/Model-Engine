@@ -16,13 +16,13 @@ export const PostProcessingComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.enabled === "boolean") component.enabled.set(json.enabled);
         if (typeof json.effects === "object") component.merge({ effects: json.effects });
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             effects: component.effects.value,
             enabled: component.enabled.value,

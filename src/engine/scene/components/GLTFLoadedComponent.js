@@ -7,7 +7,7 @@ export const GLTFLoadedComponent = defineComponent({
         return [];
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (Array.isArray(json)) {

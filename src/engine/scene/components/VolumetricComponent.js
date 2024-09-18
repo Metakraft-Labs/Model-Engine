@@ -85,7 +85,7 @@ export const VolumetricComponent = defineComponent({
         };
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             paths: component.paths.value,
             useLoadingEffect: component.useLoadingEffect.value,
@@ -95,7 +95,7 @@ export const VolumetricComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.paths === "object") {
             component.paths.set(json.paths);

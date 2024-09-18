@@ -124,7 +124,7 @@ export function registerComponentGetters() {
                 entity: "entity",
                 ...outputsockets,
             },
-            exec: ({ read, write, graph }) => {
+            exec: ({ read, write }) => {
                 const entity = Number.parseInt(read("entity"));
 
                 const props = getComponent(entity, component);
@@ -132,7 +132,7 @@ export function registerComponentGetters() {
                 if (typeof props !== "object") {
                     write(outputs[outputs.length - 1][0], EnginetoNodetype(props));
                 } else {
-                    for (const [output, type] of outputs) {
+                    for (const [output] of outputs) {
                         write(output, EnginetoNodetype(props[output]));
                     }
                 }
@@ -178,10 +178,10 @@ export function registerComponentListeners() {
                 const entity = Number.parseInt(read("entity"));
                 const valueOutputs = Object.entries(node.out)
                     .splice(1)
-                    .filter(([output, type]) => type !== "flow");
+                    .filter(([_output, type]) => type !== "flow");
                 const flowOutputs = Object.entries(node.out)
                     .splice(1)
-                    .filter(([output, type]) => type === "flow");
+                    .filter(([_output, type]) => type === "flow");
 
                 const systemUUID = defineSystem({
                     uuid: `visual-script-use-${componentName}` + uniqueId(),
@@ -196,12 +196,11 @@ export function registerComponentListeners() {
                                 commit(flowOutputs[flowOutputs.length - 1][0]);
                             }, [componentValue]);
                         } else {
-                            valueOutputs.forEach(([output, type], index) => {
+                            valueOutputs.forEach(([output]) => {
                                 useEffect(() => {
                                     const value = EnginetoNodetype(componentValue[output].value);
                                     const flowSocket = flowOutputs.find(
-                                        ([flowOutput, flowType]) =>
-                                            flowOutput === `${output}Change`,
+                                        ([flowOutput]) => flowOutput === `${output}Change`,
                                     );
                                     write(output, value);
                                     commit(flowSocket[0]);

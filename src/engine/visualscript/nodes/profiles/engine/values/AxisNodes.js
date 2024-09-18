@@ -12,7 +12,7 @@ export const getAxis = makeFunctionNodeDefinition({
     category: NodeCategory.Engine,
     label: "get Axis",
     in: {
-        axis: (_, graphApi) => {
+        axis: (_, _graphApi) => {
             const choices = [
                 ...Object.keys(StandardGamepadAxes)
                     .filter(x => !(parseInt(x) >= 0))
@@ -35,7 +35,7 @@ export const getAxis = makeFunctionNodeDefinition({
     out: {
         value: "float",
     },
-    exec: ({ read, write, graph }) => {
+    exec: ({ read, write }) => {
         const axisKey = read < number > "axis";
         const deadzone = read < number > "deadzone";
         const entity = Number(read("entity"));

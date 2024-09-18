@@ -8,7 +8,7 @@ import { PropertyTypes } from "./PostProcessingRegister";
 const effectKey = "GlitchEffect";
 
 export const GlitchEffectProcessReactor = props => {
-    const { isActive, rendererEntity, effectData, effects } = props;
+    const { isActive, effectData, effects } = props;
     const effectState = getState(PostProcessingEffectState);
 
     useEffect(() => {

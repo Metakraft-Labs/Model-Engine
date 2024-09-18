@@ -105,7 +105,7 @@ function createBBoxGridGeometry(matrixWorld, bbox, density) {
 export const BoundingBoxHelperComponent = defineComponent({
     name: "BoundingBoxHelperComponent",
 
-    onInit: _entity => {
+    onInit: entity => {
         return {
             name: "bounding-box-helper",
             bbox: new Box3(),
@@ -116,7 +116,7 @@ export const BoundingBoxHelperComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json || !json.bbox || !json.bbox.isBox3)
             throw new Error("BoundingBoxHelperComponent: Requires Box3");
         component.bbox.set(json.bbox);
@@ -180,7 +180,7 @@ export const ObjectGridSnapComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         //if (typeof json.density === 'number') component.density.set(json.density)
         if (typeof json.bbox === "object" && json.bbox.isBox3) component.bbox.set(json.bbox);

@@ -10,6 +10,7 @@ import { TransformComponent } from "../../../../../spatial/transform/components/
 import { Scene } from "three";
 import { ScenePreviewCameraComponent } from "../../../../../engine/scene/components/ScenePreviewCamera";
 import { getState } from "../../../../../hyperflux";
+import { EngineState } from "../../../../../spatial/EngineState";
 import {
     RendererComponent,
     getNestedVisibleChildren,
@@ -18,7 +19,6 @@ import {
 import { computeTransformMatrix } from "../../../../../spatial/transform/systems/TransformSystem";
 import Button from "../../../../Button";
 import ImagePreviewInput from "../../../../inputs/Image/Preview";
-import { EngineState } from "../../../../spatial/EngineState";
 import { EditorControlFunctions } from "../../../functions/EditorControlFunctions";
 import { previewScreenshot } from "../../../functions/takeScreenshot";
 import NodeEditor from "../../nodeEditor";

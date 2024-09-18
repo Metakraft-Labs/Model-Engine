@@ -37,7 +37,7 @@ export const PositionalAudioComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (
             typeof json.distanceModel === "string" &&
@@ -76,7 +76,7 @@ export const PositionalAudioComponent = defineComponent({
             component.coneOuterGain.set(json.coneOuterGain);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             distanceModel: component.distanceModel.value,
             rolloffFactor: component.rolloffFactor.value,

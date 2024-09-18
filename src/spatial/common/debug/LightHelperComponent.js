@@ -22,7 +22,7 @@ const getLightHelperType = light => {
 export const LightHelperComponent = defineComponent({
     name: "LightHelperComponent",
 
-    onInit: _entity => {
+    onInit: entity => {
         return {
             name: "light-helper",
             light,
@@ -32,7 +32,7 @@ export const LightHelperComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (!json.light || !json.light.isLight)

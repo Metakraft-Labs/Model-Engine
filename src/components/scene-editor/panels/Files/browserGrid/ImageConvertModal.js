@@ -3,10 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { Typography } from "@mui/material";
 import { imageConvertPath } from "../../../../../common/src/schema.type.module";
-import {
-    ImageConvertDefaultParms,
-    ImageConvertParms,
-} from "../../../../../engine/assets/constants/ImageConvertParms";
+import { ImageConvertDefaultParms } from "../../../../../engine/assets/constants/ImageConvertParms";
 import { useHookstate } from "../../../../../hyperflux";
 import { useMutation } from "../../../../../spatial/common/functions/FeathersHooks";
 import Checkbox from "../../../../Checkbox";
@@ -20,7 +17,7 @@ export default function ImageConvertModal({ file, refreshDirectory }) {
     const { t } = useTranslation();
     const modalProcessing = useHookstate(false);
 
-    const convertProperties = useHookstate < ImageConvertParms > ImageConvertDefaultParms;
+    const convertProperties = useHookstate(ImageConvertDefaultParms);
     const imageConvertMutation = useMutation(imageConvertPath);
 
     const handleSubmit = async () => {

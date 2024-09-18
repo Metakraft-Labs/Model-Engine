@@ -1,7 +1,5 @@
 import i18n from "i18next";
 
-import { createScene } from "../../../client-core/src/world/SceneAPI";
-import multiLogger from "../../../common/src/logger";
 import { cleanString } from "../../../common/src/utils/cleanString";
 import { UUIDComponent, UndefinedEntity } from "../../../ecs";
 import { getComponent, setComponent } from "../../../ecs/ComponentFunctions";
@@ -12,8 +10,6 @@ import { getMutableState, getState } from "../../../hyperflux";
 import { EngineState } from "../../../spatial/EngineState";
 import { SceneComponent } from "../../../spatial/renderer/components/SceneComponents";
 import { EditorState } from "../services/EditorServices";
-
-const logger = multiLogger.child({ component: "editor:sceneFunctions" });
 
 const fileServer = `${process.env.REACT_APP_S3_ASSETS}/editor`;
 
@@ -91,16 +87,15 @@ export const onNewScene = async (
     if (!projectName) return;
 
     try {
-        const sceneData = await createScene(projectName, templateURL);
-        if (!sceneData) return;
-        const sceneName = sceneData.key.split("/").pop();
-
-        getMutableState(EditorState).merge({
-            sceneName,
-            scenePath: sceneData.key,
-            projectName: projectName,
-            sceneAssetID: sceneData.id,
-        });
+        // const sceneData = await createScene(projectName, templateURL);
+        // if (!sceneData) return;
+        // const sceneName = sceneData.key.split("/").pop();
+        // getMutableState(EditorState).merge({
+        //     sceneName,
+        //     scenePath: sceneData.key,
+        //     projectName: projectName,
+        //     sceneAssetID: sceneData.id,
+        // });
     } catch (error) {
         console.error(error);
     }

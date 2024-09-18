@@ -5,8 +5,8 @@ import { DirectionalLightComponent } from "../../../../../spatial/renderer/compo
 
 import { BsLightning } from "react-icons/bs";
 
+import { useComponent } from "../../../../../ecs";
 import ColorInput from "../../../../Color";
-import { useComponent } from "../../../../ecs";
 import InputGroup from "../../../../Group";
 import NumericInput from "../../../../inputs/Numeric";
 import NodeEditor from "../../nodeEditor";

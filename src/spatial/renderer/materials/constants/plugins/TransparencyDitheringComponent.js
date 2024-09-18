@@ -24,7 +24,7 @@ export const TransparencyDitheringRoot = defineComponent({
     onInit: _entity => {
         return { materials: [] };
     },
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (json?.materials) component.materials.set(json.materials);
     },
 });

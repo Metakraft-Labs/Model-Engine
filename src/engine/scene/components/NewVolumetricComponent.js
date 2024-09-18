@@ -120,7 +120,7 @@ export const NewVolumetricComponent = defineComponent({
     name: "NewVolumetricComponent",
     jsonID: "EE_NewVolumetric",
     onInit: _entity => structuredClone(initialState),
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (typeof json.useLoadingEffect === "boolean") {
             component.useLoadingEffect.set(json.useLoadingEffect);
@@ -129,7 +129,7 @@ export const NewVolumetricComponent = defineComponent({
             component.volume.set(json.volume);
         }
     },
-    toJSON: (entity, component) => ({
+    toJSON: (_entity, component) => ({
         useLoadingEffect: component.useLoadingEffect.value,
         volume: component.volume.value,
     }),

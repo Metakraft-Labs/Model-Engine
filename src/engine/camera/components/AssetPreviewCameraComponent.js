@@ -18,7 +18,7 @@ export const AssetPreviewCameraComponent = defineComponent({
         return { targetModelEntity: UndefinedEntity };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (matchesEntity.test(json.targetModelEntity))
             component.targetModelEntity.set(json.targetModelEntity);

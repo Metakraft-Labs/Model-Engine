@@ -30,6 +30,7 @@ import {
 import BooleanInput from "../../../../Boolean";
 import Button from "../../../../Button";
 import { ContextMenu } from "../../../../ContextMenu";
+import { DndWrapper } from "../../../../DndWrapper";
 import InputGroup from "../../../../Group";
 import Input from "../../../../Input";
 import LoadingView from "../../../../LoadingView";
@@ -42,7 +43,6 @@ import {
 } from "../../../assets/FileBrowser/FileBrowserState";
 import ImageCompressionPanel from "../../../assets/ImageCompressionPanel";
 import ModelCompressionPanel from "../../../assets/ModelCompressionPanel";
-import { DndWrapper } from "../../../dnd/DndWrapper";
 import { handleUploadFiles, inputFileWithAddToScene } from "../../../functions/assetFunctions";
 import { EditorState } from "../../../services/EditorServices";
 import { FileThumbnailJobState } from "../../../services/FileThumbnailJobState";
@@ -236,8 +236,9 @@ export const ViewModeSettings = () => {
                             </label>
                         </div>
                         <div className="flex-col">
-                            {availableTableColumns.map(column => (
+                            {availableTableColumns.map((column, i) => (
                                 <InputGroup
+                                    key={`available-table-column-${i}`}
                                     label={t(
                                         `editor:layout.filebrowser.table-list.headers.${column}`,
                                     )}

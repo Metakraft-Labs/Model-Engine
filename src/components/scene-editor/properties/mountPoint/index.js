@@ -9,10 +9,10 @@ import {
     MountPointComponent,
 } from "../../../../engine/scene/components/MountPointComponent";
 import { NO_PROXY } from "../../../../hyperflux";
-import { EditorControlFunctions } from "../../../functions/EditorControlFunctions";
 import InputGroup from "../../../Group";
 import Vector3Input from "../../../inputs/Vector3";
 import SelectInput from "../../../Select";
+import { EditorControlFunctions } from "../../functions/EditorControlFunctions";
 import NodeEditor from "../nodeEditor";
 import { commitProperty, updateProperty } from "../Util";
 

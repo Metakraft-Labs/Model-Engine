@@ -4,16 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Typography } from "@mui/material";
 import { HiPencil, HiPlus, HiXMark } from "react-icons/hi2";
 import { RiSave2Line } from "react-icons/ri";
-import {
-    StaticResourceType,
-    UserType,
-    staticResourcePath,
-} from "../../../../../common/src/schema.type.module";
+import { staticResourcePath } from "../../../../../common/src/schema.type.module";
 import { NO_PROXY, getMutableState, useHookstate } from "../../../../../hyperflux";
 import { useFind } from "../../../../../spatial/common/functions/FeathersHooks";
 import Button from "../../../../Button";
 import Input from "../../../../Input";
-import Modal from "../../../../Modal/Model2";
+import Modal from "../../../../Modal/Modal2";
 import { FileThumbnailJobState } from "../../../services/FileThumbnailJobState";
 import { PopoverState } from "../../../services/PopoverState";
 import { createFileDigest, createStaticResourceDigest } from "../container";
@@ -25,10 +21,10 @@ export default function FilePropertiesModal({ projectName, files }) {
 
     const fileStaticResources = useHookstate([]);
     const fileDigest = createFileDigest(files);
-    const resourceDigest = useHookstate < StaticResourceType > createStaticResourceDigest([]);
+    const resourceDigest = useHookstate(createStaticResourceDigest([]));
     const sharedFields = useHookstate([]);
     const modifiedFields = useHookstate([]);
-    const editedField = (useHookstate < string) | (null > null);
+    const editedField = useHookstate(null);
     const tagInput = useHookstate("");
     const sharedTags = useHookstate([]);
 
@@ -122,7 +118,7 @@ export default function FilePropertiesModal({ projectName, files }) {
         sharedTags.set(resourceDigest.tags.get(NO_PROXY).slice());
     }, [resources.data.length]);
 
-    const author = (useHookstate < UserType) | (null > null);
+    const author = useHookstate(null);
 
     const handleAddTag = () => {
         if (tagInput.value != "" && !resourceDigest.tags.value.includes(tagInput.value)) {

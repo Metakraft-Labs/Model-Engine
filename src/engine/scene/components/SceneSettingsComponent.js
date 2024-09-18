@@ -18,7 +18,7 @@ export const SceneSettingsComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
 
         if (typeof json.thumbnailURL === "string") component.thumbnailURL.set(json.thumbnailURL);
@@ -35,7 +35,7 @@ export const SceneSettingsComponent = defineComponent({
             component.spectateEntity.set(json.spectateEntity);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             thumbnailURL: component.thumbnailURL.value,
             loadingScreenURL: component.loadingScreenURL.value,

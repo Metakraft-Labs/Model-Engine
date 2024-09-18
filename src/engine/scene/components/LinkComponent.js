@@ -54,7 +54,7 @@ export const LinkComponent = defineComponent({
     linkCallbackName,
     linkCallback,
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         matches.string.test(json.url) && component.url.set(json.url);
         matches.boolean.test(json.sceneNav) && component.sceneNav.set(json.sceneNav);
@@ -63,7 +63,7 @@ export const LinkComponent = defineComponent({
 
     interactMessage,
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             url: component.url.value,
             sceneNav: component.sceneNav.value,

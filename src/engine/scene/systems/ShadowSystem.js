@@ -423,7 +423,7 @@ const execute = () => {
     if (!useShadows) return;
 
     for (const entity of rendererQuery()) {
-        const { csm, csmHelper } = getComponent(entity, RendererComponent);
+        const { csm } = getComponent(entity, RendererComponent);
         if (csm) {
             csm.update();
             //if (csmHelper) csmHelper.update(csm)

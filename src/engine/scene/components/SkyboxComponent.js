@@ -47,7 +47,7 @@ export const SkyboxComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (typeof json?.backgroundColor === "number")
             component.backgroundColor.set(new Color(json.backgroundColor));
         if (typeof json?.equirectangularPath === "string")
@@ -58,7 +58,7 @@ export const SkyboxComponent = defineComponent({
         if (typeof json?.skyboxProps === "object") component.skyboxProps.set(json.skyboxProps);
     },
 
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             backgroundColor: component.backgroundColor.value,
             equirectangularPath: component.equirectangularPath.value,

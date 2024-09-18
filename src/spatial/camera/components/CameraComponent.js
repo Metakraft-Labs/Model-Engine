@@ -27,7 +27,7 @@ export const CameraComponent = defineComponent({
     onRemove: (entity, component) => {
         removeObjectFromGroup(entity, component.value);
     },
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             fov: component.fov.value,
             aspect: component.aspect.value,

@@ -29,6 +29,13 @@ import { TransformComponent } from "../../../spatial/transform/components/Transf
 import { useRendererEntity } from "../../../spatial/renderer/functions/useRendererEntity";
 import { UpdatableCallback, UpdatableComponent } from "./UpdatableComponent";
 
+export const SDFMode = {
+    TORUS: "TORUS",
+    BOX: "BOX",
+    SPHERE: "SPHERE",
+    FOG: "FOG",
+};
+
 export const SDFComponent = defineComponent({
     name: "SDFComponent",
     jsonID: "EE_sdf",
@@ -41,7 +48,7 @@ export const SDFComponent = defineComponent({
             mode: SDFMode.TORUS,
         };
     },
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (json.color?.isColor) {
             component.color.set(json.color);
@@ -56,7 +63,7 @@ export const SDFComponent = defineComponent({
             component.scale.set(json.scale);
         }
     },
-    toJSON: (entity, component) => {
+    toJSON: (_entity, component) => {
         return {
             color: component.color.value,
             enable: component.enable.value,

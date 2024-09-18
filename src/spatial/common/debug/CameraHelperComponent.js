@@ -15,7 +15,7 @@ export const CameraHelperComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (!json) return;
         if (!json.camera || !json.camera.isCamera)
             throw new Error("CameraHelperComponent: Valid Camera required");

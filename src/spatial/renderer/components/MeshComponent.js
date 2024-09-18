@@ -21,7 +21,7 @@ export const MeshComponent = defineComponent({
 
     onInit: _entity => null,
 
-    onSet: (entity, component, mesh) => {
+    onSet: (_entity, component, mesh) => {
         if (!mesh || !mesh.isMesh) throw new Error("MeshComponent: Invalid mesh");
         component.set(mesh);
     },

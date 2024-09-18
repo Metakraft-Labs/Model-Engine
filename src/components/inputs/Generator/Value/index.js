@@ -4,7 +4,7 @@ import { ValueGeneratorJSONDefaults } from "../../../../engine/scene/components/
 import Button from "../../../Button";
 import InputGroup from "../../../Group";
 import SelectInput from "../../../Select";
-import NumericInput from "../../Numeric";
+import NumericInput from "../../../inputs/Numeric";
 
 export default function ValueGenerator({ scope, value, onChange }) {
     const onChangeType = useCallback(() => {

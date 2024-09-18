@@ -9,7 +9,7 @@ export const AvatarTeleportComponent = defineComponent({
         };
     },
 
-    onSet: (entity, component, json) => {
+    onSet: (_entity, component, json) => {
         if (typeof json?.side === "string") component.side.set(json.side);
     },
 

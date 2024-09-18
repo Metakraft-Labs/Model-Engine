@@ -4,8 +4,8 @@ import { LuCircleDot } from "react-icons/lu";
 import { MathUtils as _Math } from "three";
 import { SpotLightComponent } from "../../../../../spatial/renderer/components/lights/SpotLightComponent";
 
+import { useComponent } from "../../../../../ecs";
 import ColorInput from "../../../../Color";
-import { useComponent } from "../../../../ecs";
 import InputGroup from "../../../../Group";
 import NumericInput from "../../../../inputs/Numeric";
 import NodeEditor from "../../nodeEditor";
