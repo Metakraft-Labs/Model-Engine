@@ -54,7 +54,7 @@ export function registerStateSetters() {
             },
             out: { flow: "flow" },
             initialState: undefined,
-            triggered: ({ read, write, commit }) => {
+            triggered: ({ read, commit }) => {
                 //read from the read and set dict acccordingly
                 const inputs = Object.entries(node.in).splice(1);
                 for (const [input, type] of inputs) {
@@ -99,7 +99,7 @@ export function registerStateGetters() {
                 if (typeof props !== "object") {
                     write(outputs[outputs.length - 1][0], EnginetoNodetype(props));
                 } else {
-                    for (const [output, type] of outputs) {
+                    for (const [output] of outputs) {
                         write(output, EnginetoNodetype(props[output].value));
                     }
                 }
@@ -169,8 +169,7 @@ export function registerStateListeners() {
                                 useEffect(() => {
                                     const value = EnginetoNodetype(stateValue[output].value);
                                     const flowSocket = flowOutputs.find(
-                                        ([flowOutput, flowType]) =>
-                                            flowOutput === `${output}Change`,
+                                        ([flowOutput]) => flowOutput === `${output}Change`,
                                     );
                                     write(output, value);
                                     commit(flowSocket[0]);

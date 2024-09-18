@@ -1,0 +1,170 @@
+import React, { useCallback } from "react";
+import { useTranslation } from "react-i18next";
+
+import { UUIDComponent } from "../../../../ecs";
+import { getComponent, useComponent } from "../../../../ecs/ComponentFunctions";
+import { EnvMapBakeComponent } from "../../../../engine/scene/components/EnvMapBakeComponent";
+import { EnvmapComponent } from "../../../../engine/scene/components/EnvmapComponent";
+import { getEntityErrors } from "../../../../engine/scene/components/ErrorComponent";
+import { EnvMapSourceType, EnvMapTextureType } from "../../../../engine/scene/constants/EnvMapEnum";
+import { NameComponent } from "../../../../spatial/common/NameComponent";
+
+import { IoMapOutline } from "react-icons/io5";
+import { useQuery } from "../../../../ecs/QueryFunctions";
+import Button from "../../../Button";
+import ColorInput from "../../../Color";
+import InputGroup from "../../../Group";
+import FolderInput from "../../../inputs/Folder";
+import ImagePreviewInput from "../../../inputs/Image/Preview";
+import SelectInput from "../../../Select";
+import Slider from "../../../Slider";
+import NodeEditor from "../nodeEditor";
+import { commitProperty, updateProperties, updateProperty } from "../Util";
+
+/**
+ * EnvMapSourceOptions array containing SourceOptions for Envmap
+ */
+const EnvMapSourceOptions = Object.values(EnvMapSourceType).map(value => ({ label: value, value }));
+
+/**
+ * EnvMapSourceOptions array containing SourceOptions for Envmap
+ */
+const EnvMapTextureOptions = Object.values(EnvMapTextureType).map(value => ({
+    label: value,
+    value,
+}));
+
+/**
+ * EnvMapEditor provides the editor view for environment map property customization.
+ */
+export const EnvMapEditor = props => {
+    const { t } = useTranslation();
+    const entity = props.entity;
+
+    const bakeEntities = useQuery([EnvMapBakeComponent]).map(entity => {
+        return {
+            label: getComponent(entity, NameComponent),
+            value: getComponent(entity, UUIDComponent),
+        };
+    });
+
+    const onChangeCubemapURLSource = useCallback(value => {
+        const directory =
+            value[value.length - 1] === "/" ? value.substring(0, value.length - 1) : value;
+        if (directory !== directory /*envmapComponent.envMapSourceURL*/) {
+            updateProperties(EnvmapComponent, { envMapSourceURL: directory });
+        }
+    }, []);
+
+    const envmapComponent = useComponent(entity, EnvmapComponent);
+
+    const errors = getEntityErrors(props.entity, EnvmapComponent);
+
+    return (
+        <NodeEditor
+            {...props}
+            component={EnvmapComponent}
+            name={t("editor:properties.envmap.name")}
+            description={t("editor:properties.envmap.description")}
+            icon={<EnvMapEditor.iconComponent />}
+        >
+            <InputGroup
+                name="Envmap Source"
+                label={t("editor:properties.envmap.lbl-source")}
+                className="w-auto"
+            >
+                <SelectInput
+                    key={props.entity}
+                    options={EnvMapSourceOptions}
+                    value={envmapComponent.type.value}
+                    onChange={commitProperty(EnvmapComponent, "type")}
+                />
+            </InputGroup>
+            {envmapComponent.type.value === EnvMapSourceType.Color && (
+                <InputGroup name="EnvMapColor" label={t("editor:properties.envmap.lbl-color")}>
+                    <ColorInput
+                        value={envmapComponent.envMapSourceColor.value}
+                        onChange={commitProperty(EnvmapComponent, "envMapSourceColor")}
+                        onRelease={commitProperty(EnvmapComponent, "envMapSourceColor")}
+                    />
+                </InputGroup>
+            )}
+            {envmapComponent.type.value === EnvMapSourceType.Bake && (
+                <InputGroup name="EnvMapBake" label={t("editor:properties.envmap.lbl-bake")}>
+                    <SelectInput
+                        options={bakeEntities}
+                        value={envmapComponent.envMapSourceEntityUUID.value}
+                        onChange={commitProperty(EnvmapComponent, "envMapSourceEntityUUID")}
+                    />
+                </InputGroup>
+            )}
+            {envmapComponent.type.value === EnvMapSourceType.Texture && (
+                <div>
+                    <InputGroup
+                        name="Texture Type"
+                        label={t("editor:properties.envmap.lbl-textureType")}
+                    >
+                        <SelectInput
+                            key={props.entity}
+                            options={EnvMapTextureOptions}
+                            value={envmapComponent.envMapTextureType.value}
+                            onChange={commitProperty(EnvmapComponent, "envMapTextureType")}
+                        />
+                    </InputGroup>
+                    <InputGroup
+                        name="Texture URL"
+                        label={t("editor:properties.envmap.lbl-textureUrl")}
+                    >
+                        {envmapComponent.envMapTextureType.value === EnvMapTextureType.Cubemap && (
+                            <FolderInput
+                                value={envmapComponent.envMapSourceURL.value}
+                                onRelease={onChangeCubemapURLSource}
+                            />
+                        )}
+                        {envmapComponent.envMapTextureType.value ===
+                            EnvMapTextureType.Equirectangular && (
+                            <ImagePreviewInput
+                                value={envmapComponent.envMapSourceURL.value}
+                                onRelease={commitProperty(EnvmapComponent, "envMapSourceURL")}
+                            />
+                        )}
+                        {errors?.MISSING_FILE && (
+                            <div style={{ marginTop: 2, color: "#FF8C00" }}>
+                                {t("editor:properties.scene.error-url")}
+                            </div>
+                        )}
+                    </InputGroup>
+                </div>
+            )}
+            {envmapComponent.type.value === EnvMapSourceType.Probes && (
+                <Button
+                    onClick={() => {
+                        commitProperty(EnvmapComponent, "type")(EnvMapSourceType.None);
+                        setTimeout(() => {
+                            commitProperty(EnvmapComponent, "type")(EnvMapSourceType.Probes);
+                        }, 1000);
+                    }}
+                >
+                    {t("editor:properties.envmap.bake-reflection-probes")}
+                </Button>
+            )}
+            {envmapComponent.type.value !== EnvMapSourceType.None && (
+                <InputGroup
+                    name="EnvMap Intensity"
+                    label={t("editor:properties.envmap.lbl-intensity")}
+                    className="w-auto"
+                >
+                    <Slider
+                        min={0}
+                        max={20}
+                        value={envmapComponent.envMapIntensity.value}
+                        onChange={updateProperty(EnvmapComponent, "envMapIntensity")}
+                        onRelease={commitProperty(EnvmapComponent, "envMapIntensity")}
+                    />
+                </InputGroup>
+            )}
+        </NodeEditor>
+    );
+};
+EnvMapEditor.iconComponent = IoMapOutline;
+export default EnvMapEditor;

@@ -1,0 +1,91 @@
+import { Typography } from "@mui/material";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { BsPlusSquare } from "react-icons/bs";
+import { LuImage } from "react-icons/lu";
+import { Quaternion, Vector3 } from "three";
+import InputGroup from "../../../Group";
+import StringInput from "../../../inputs/String";
+import NodeEditor from "../nodeEditor";
+
+/**
+ * SpawnPointNodeEditor component used to provide the editor view to customize Spawn Point properties.
+ */
+export const GalleryNodeEditor = props => {
+    const { t } = useTranslation();
+
+    //const spawnComponent = useComponent(props.entity, SpawnPointComponent)
+    const elements = ["hello", "bye", "thanks"]; // temp use
+
+    return (
+        <NodeEditor
+            {...props}
+            name={t("editor:properties.gallery.lbl-imageGrid")}
+            icon={<GalleryNodeEditor.iconComponent />}
+        >
+            <div className="flex w-full items-center gap-2 py-1">
+                <Typography fontSize="xs" className="ml-14 w-full">
+                    {t("editor:properties.gallery.assets")}
+                </Typography>
+                <div className="flex w-full justify-end px-8">
+                    <BsPlusSquare
+                        onClick={() => {
+                            const elem = { position: new Vector3(), quaternion: new Quaternion() };
+                            const newElements = [
+                                //...elements.get(NO_PROXY),
+                                ...elements,
+                                elem,
+                            ];
+                            //commitProperty(, 'elements')(newElements)
+                        }}
+                    />
+                </div>
+            </div>
+            {elements.map(
+                (
+                    elem,
+                    index, // need styling
+                ) => (
+                    <div
+                        key={elem + index}
+                        className="flex-end relative border-t-2 border-zinc-900 py-2"
+                    >
+                        <Typography className="absolute left-6 text-[#FAFAFA]" fontSize="sm">
+                            {t("editor:properties.gallery.lbl-asset") + " " + (index + 1)}
+                        </Typography>
+                        <InputGroup
+                            label={`${t("editor:properties.gallery.lbl-thumbnail")} ${index + 1}`}
+                        >
+                            <StringInput
+                                value={""}
+                                onChange={value => {
+                                    //updateProperty(, '')
+                                }}
+                                onRelease={value => {
+                                    //commitProperty(, '')
+                                }}
+                            />
+                        </InputGroup>
+                        <InputGroup
+                            label={`${t("editor:properties.gallery.lbl-outfitURL")} ${index + 1}`}
+                        >
+                            <StringInput
+                                value={""}
+                                onChange={value => {
+                                    //updateProperty(, '')
+                                }}
+                                onRelease={value => {
+                                    //commitProperty(, '')
+                                }}
+                            />
+                        </InputGroup>
+                    </div>
+                ),
+            )}
+        </NodeEditor>
+    );
+};
+
+GalleryNodeEditor.iconComponent = LuImage;
+
+export default GalleryNodeEditor;

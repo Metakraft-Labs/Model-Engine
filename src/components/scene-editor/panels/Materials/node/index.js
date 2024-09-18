@@ -8,9 +8,9 @@ import { getMutableState, useHookstate, useMutableState } from "../../../../../h
 import { HiOutlineArchiveBox } from "react-icons/hi2";
 import { SiRoundcube } from "react-icons/si";
 import { twMerge } from "tailwind-merge";
-import { SelectionState } from "../../../../../editor/src/services/SelectionServices";
 import { NameComponent } from "../../../../../spatial/common/NameComponent";
 import { MaterialStateComponent } from "../../../../../spatial/renderer/materials/MaterialComponent";
+import { SelectionState } from "../../../../services/SelectionServices";
 import { ItemTypes } from "../../../constants/AssetTypes";
 
 const nodeDisplayName = uuid => {
