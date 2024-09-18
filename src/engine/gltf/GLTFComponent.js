@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+import { parseStorageProviderURLs } from "../../common/src/utils/parseSceneJSON";
 import {
     ComponentJSONIDMap,
     defineComponent,
@@ -11,8 +12,7 @@ import {
     useEntityContext,
     useQuery,
     UUIDComponent,
-} from "../../../ecs";
-import { parseStorageProviderURLs } from "../../common/src/utils/parseSceneJSON";
+} from "../../ecs";
 import { dispatchAction, getState, useHookstate } from "../../hyperflux";
 
 import { FileLoader } from "../assets/loaders/base/FileLoader";
@@ -222,11 +222,11 @@ const DependencyReactor = props => {
 };
 
 const onError = error => {
-    // console.error(error)
+    console.error(error);
 };
 
 const onProgress = event => {
-    // console.log(event)
+    console.log(event);
 };
 
 const useGLTFDocument = (url, entity) => {

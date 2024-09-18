@@ -16,7 +16,7 @@ export const getQuery = makeFunctionNodeDefinition({
             defaultValue: 1,
         },
     },
-    in: (_, graphApi) => {
+    in: (_, _graphApi) => {
         const sockets = [];
 
         const componentName = index => {
@@ -53,7 +53,7 @@ export const getQuery = makeFunctionNodeDefinition({
     out: {
         entityList: "list",
     },
-    exec: ({ read, write, graph, configuration }) => {
+    exec: ({ read, write, configuration }) => {
         const type = read < string > "type";
 
         const queryComponents = [];

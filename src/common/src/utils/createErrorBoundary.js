@@ -1,6 +1,7 @@
 import React from "react";
 
 export function createErrorBoundary(component, errorHandler) {
+    // eslint-disable-next-line react/display-name
     return class extends React.Component {
         state = {
             error: undefined,

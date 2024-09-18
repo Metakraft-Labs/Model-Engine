@@ -1,5 +1,5 @@
 /** World Module */
-import "../../spatial";
+import "../spatial";
 
 export * from "./avatar/AvatarModule";
 export * from "./FeatureFlagsState";

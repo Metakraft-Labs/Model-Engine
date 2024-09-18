@@ -14,7 +14,6 @@ export function throttle(func, wait, options = {}) {
         if (!previous && options.leading === false) previous = _now;
         const remaining = wait - (_now - previous);
         context = this;
-        // eslint-disable-next-line prefer-rest-params
         _args = arguments;
         if (remaining <= 0 || remaining > wait) {
             if (timeout) {

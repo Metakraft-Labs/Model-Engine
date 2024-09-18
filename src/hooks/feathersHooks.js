@@ -251,7 +251,7 @@ export function hashObject(obj) {
  * An internal hook that will listen to realtime updates to a service
  * and update the cache as changes happen.
  */
-export function useRealtime(serviceName, refetch) {
+export function useRealtime(serviceName, _refetch) {
     useLayoutEffect(() => {
         // const service = API.instance.service(serviceName);
         // const handleCreated = data => refetch(data, "created");

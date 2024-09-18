@@ -4,7 +4,6 @@ import {
     ECSState,
     InputSystemGroup,
     SystemDefinitions,
-    SystemUUID,
 } from "../../../../../../ecs";
 import { getState } from "../../../../../../hyperflux";
 import { makeEventNodeDefinition, NodeCategory } from "../../../../../../visual-script";
@@ -23,7 +22,7 @@ export const OnExecute = makeEventNodeDefinition({
     category: NodeCategory.Flow,
     label: "On Execute",
     in: {
-        system: (_, graphApi) => {
+        system: (_, _graphApi) => {
             const systemDefinitions = Array.from(SystemDefinitions.keys()).map(key => key);
             const groups = systemDefinitions.filter(key => key.includes("group")).sort();
             const nonGroups = systemDefinitions.filter(key => !key.includes("group")).sort();
@@ -41,8 +40,8 @@ export const OnExecute = makeEventNodeDefinition({
         delta: "float",
     },
     initialState: initialState(),
-    init: ({ read, write, commit, graph, configuration }) => {
-        const system = read < SystemUUID > "system";
+    init: ({ read, write, commit }) => {
+        const system = read("system");
         onExecuteSystemCounter++;
         const visualScriptOnExecuteSystem = defineSystem({
             uuid: getOnExecuteSystemUUID(),
@@ -59,7 +58,7 @@ export const OnExecute = makeEventNodeDefinition({
 
         return state;
     },
-    dispose: ({ state: { systemUUID }, graph: { getDependency } }) => {
+    dispose: ({ state: { systemUUID } }) => {
         destroySystem(systemUUID);
         return initialState();
     },

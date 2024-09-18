@@ -97,7 +97,6 @@ export class VisualScriptEngine {
         let iterations = 0;
         do {
             if (iterations > 0) {
-                // eslint-disable-next-line no-await-in-loop
                 await sleep(0);
             }
             elapsedSteps += this.executeAllSync(

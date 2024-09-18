@@ -53,7 +53,7 @@ export const EngineVariableGet = makeFunctionNodeDefinition({
 
         return result;
     },
-    exec: ({ read, write, graph: { variables }, configuration }) => {
+    exec: ({ read, write, graph: { variables } }) => {
         const variableId = Object.values(variables).find(
             variable => variable.name === read < string > "variableName",
         )?.id;

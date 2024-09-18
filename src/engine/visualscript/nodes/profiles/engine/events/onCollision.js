@@ -1,8 +1,6 @@
 import { getComponent, removeComponent } from "../../../../../../ecs/ComponentFunctions";
-import { Entity } from "../../../../../../ecs/Entity";
 import { defineQuery, removeQuery } from "../../../../../../ecs/QueryFunctions";
 import { defineSystem, destroySystem } from "../../../../../../ecs/SystemFunctions";
-import { NameComponent } from "../../../../../../spatial/common/NameComponent";
 import { CollisionComponent } from "../../../../../../spatial/physics/components/CollisionComponent";
 import { PhysicsSystem } from "../../../../../../spatial/physics/PhysicsModule";
 import { makeEventNodeDefinition, NodeCategory } from "../../../../../../visual-script";
@@ -38,7 +36,7 @@ export const OnCollision = makeEventNodeDefinition({
     initialState: initialState(),
 
     init: ({ read, write, commit }) => {
-        const entityFilter = read < Entity > "entity";
+        const entityFilter = read("entity");
         const query = defineQuery([CollisionComponent]);
 
         // @todo this could be moved to a global system
@@ -51,10 +49,10 @@ export const OnCollision = makeEventNodeDefinition({
                 const results = query();
                 for (const entity of results) {
                     if (entityFilter && entityFilter != entity) continue;
-                    const name = getComponent(entity, NameComponent);
+                    // const name = getComponent(entity, NameComponent);
                     const collision = getComponent(entity, CollisionComponent);
                     // @todo maybe there should be that delay timer hack?
-                    for (const [e, hit] of collision) {
+                    for (const [e] of collision) {
                         write("entity", entity);
                         write("target", e);
                         commit("flow", () => {});

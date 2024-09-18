@@ -17,7 +17,6 @@ import {
     setComponent,
 } from "../../../../../../ecs/ComponentFunctions";
 import { Engine } from "../../../../../../ecs/Engine";
-import { Entity } from "../../../../../../ecs/Entity";
 import { PositionalAudioComponent } from "../../../../../../engine/audio/components/PositionalAudioComponent";
 import { AnimationState } from "../../../../../../engine/avatar/AnimationManager";
 import { LoopAnimationComponent } from "../../../../../../engine/avatar/components/LoopAnimationComponent";
@@ -36,7 +35,7 @@ import {
     makeAsyncNodeDefinition,
     makeFlowNodeDefinition,
     makeFunctionNodeDefinition,
-} from "../../../visual-script";
+} from "../../../../../../visual-script";
 
 import { addMediaComponent } from "../helper/assetHelper";
 
@@ -82,12 +81,12 @@ export const playVideo = makeFlowNodeDefinition({
             volume = component.volume;
         }
         setComponent(entity, PositionalAudioComponent);
-        const media = read < string > "mediaPath";
+        const media = read("mediaPath");
         resources = media ? [media, ...resources] : resources;
-        const autoplay = read < boolean > "autoplay";
+        const autoplay = read("autoplay");
         volume = MathUtils.clamp(read("volume") ?? volume, 0, 1);
         const videoFit = read("videoFit");
-        const playMode = read < PlayMode > "playMode";
+        const playMode = read("playMode");
 
         setComponent(entity, VideoComponent, { fit: videoFit }); // play
         setComponent(entity, MediaComponent, {
@@ -137,13 +136,13 @@ export const playAudio = makeFlowNodeDefinition({
         }
         if (!hasComponent(entity, PositionalAudioComponent))
             setComponent(entity, PositionalAudioComponent);
-        const media = read < string > "mediaPath";
+        const media = read("mediaPath");
         resources = media ? [media, ...resources] : resources;
-        const autoplay = read < boolean > "autoplay";
+        const autoplay = read("autoplay");
         volume = MathUtils.clamp(read("volume") ?? volume, 0, 1);
-        const playMode = read < PlayMode > "playMode";
-        const paused = read < boolean > "paused";
-        const seekTime = read < number > "seekTime";
+        const playMode = read("playMode");
+        const paused = read("paused");
+        const seekTime = read("seekTime");
         setComponent(entity, MediaComponent, {
             autoplay: autoplay,
             resources: resources,
@@ -240,11 +239,11 @@ export const playAnimation = makeFlowNodeDefinition({
     out: { flow: "flow" },
     initialState: undefined,
     triggered: ({ read, commit }) => {
-        const entity = read < Entity > "entity";
-        const paused = read < boolean > "paused";
-        const timeScale = read < number > "timeScale";
-        const animationPack = read < string > "animationPack";
-        const activeClipIndex = read < number > "activeClipIndex";
+        const entity = read("entity");
+        const paused = read("paused");
+        const timeScale = read("timeScale");
+        const animationPack = read("animationPack");
+        const activeClipIndex = read("activeClipIndex");
 
         setComponent(entity, LoopAnimationComponent, {
             paused: paused,
@@ -296,14 +295,14 @@ export const setAnimationAction = makeFlowNodeDefinition({
     out: { flow: "flow" },
     initialState: undefined,
     triggered: ({ read, commit }) => {
-        const entity = read < Entity > "entity";
-        const timeScale = read < number > "timeScale";
-        const blendMode = read < AnimationBlendMode > "blendMode";
-        const loopMode = read < AnimationActionLoopStyles > "loopMode";
-        const clampWhenFinished = read < boolean > "clampWhenFinished";
-        const zeroSlopeAtStart = read < boolean > "zeroSlopeAtStart";
-        const zeroSlopeAtEnd = read < boolean > "zeroSlopeAtEnd";
-        const weight = read < number > "weight";
+        const entity = read("entity");
+        const timeScale = read("timeScale");
+        const blendMode = read("blendMode");
+        const loopMode = read("loopMode");
+        const clampWhenFinished = read("clampWhenFinished");
+        const zeroSlopeAtStart = read("zeroSlopeAtStart");
+        const zeroSlopeAtEnd = read("zeroSlopeAtEnd");
+        const weight = read("weight");
 
         setComponent(entity, LoopAnimationComponent, {
             timeScale: timeScale,
@@ -332,7 +331,7 @@ export const loadAsset = makeAsyncNodeDefinition({
     initialState: initialState(),
     triggered: ({ read, write, commit, finished }) => {
         const loadAsset = async () => {
-            const assetPath = read < string > "assetPath";
+            const assetPath = read("assetPath");
             const node = await addMediaComponent(assetPath);
             return node;
         };
@@ -385,7 +384,7 @@ export const setCameraZoom = makeFlowNodeDefinition({
     initialState: undefined,
     triggered: ({ read, commit }) => {
         const entity = Engine.instance.cameraEntity;
-        const zoom = read < number > "zoom";
+        const zoom = read("zoom");
         setComponent(entity, FollowCameraComponent, { targetDistance: zoom });
         commit("flow");
     },
@@ -409,7 +408,7 @@ export const startXRSession = makeFlowNodeDefinition({
     out: { flow: "flow" },
     initialState: undefined,
     triggered: ({ read, commit }) => {
-        const XRmode = (read < "inline") | "immersive-ar" | ("immersive-vr" > "XRmode");
+        const XRmode = read("XRmode");
         requestXRSession({ mode: XRmode });
         commit("flow");
     },
@@ -424,7 +423,7 @@ export const finishXRSession = makeFlowNodeDefinition({
     },
     out: { flow: "flow" },
     initialState: undefined,
-    triggered: ({ read, commit }) => {
+    triggered: ({ commit }) => {
         endXRSession();
         commit("flow");
     },
@@ -441,7 +440,7 @@ export const switchScene = makeFlowNodeDefinition({
     },
     out: {},
     initialState: undefined,
-    triggered: ({ read, commit }) => {
+    triggered: () => {
         // const projectName = read('projectName')
         // const sceneName = read('sceneName')
         // SceneServices.setCurrentScene(projectName, sceneName)
@@ -452,7 +451,7 @@ export const group = makeFunctionNodeDefinition({
     typeName: "group",
     in: {},
     out: {},
-    exec: ({ read, write, graph }) => {},
+    exec: () => {},
 });
 
 export const redirectToURL = makeFlowNodeDefinition({
@@ -465,8 +464,8 @@ export const redirectToURL = makeFlowNodeDefinition({
     },
     out: {},
     initialState: undefined,
-    triggered: ({ read, commit }) => {
-        const url = read < string > "url";
+    triggered: ({ read }) => {
+        const url = read("url");
         window.location.assign(url);
     },
 });
@@ -487,9 +486,9 @@ export const fadeMesh = makeFlowNodeDefinition({
     out: { flow: "flow" },
     initialState: undefined,
     triggered: ({ read, commit }) => {
-        const entity = read < Entity > "entity";
-        const fadeOut = read < boolean > "fadeOut";
-        const duration = read < number > "duration";
+        const entity = read("entity");
+        const fadeOut = read("fadeOut");
+        const duration = read("duration");
 
         const obj3d = getOptionalComponent(entity, GroupComponent)?.[0] ?? null;
         const meshMaterials = obj3d

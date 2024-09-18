@@ -176,7 +176,6 @@ export function quatPow(a, b, result = new Vec4()) {
 }
 
 export function eulerToQuat(euler, result = new Vec4()) {
-    // eslint-disable-next-line max-len
     // http://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors/content/SpinCalc.m
 
     const c1 = Math.cos(euler.x / 2);

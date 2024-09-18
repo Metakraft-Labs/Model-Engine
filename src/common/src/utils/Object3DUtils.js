@@ -1,21 +1,14 @@
-import { Matrix4, Object3D, Quaternion, Vector3 } from "three";
+import { Matrix4, Quaternion, Vector3 } from "three";
 
 const _v1 = new Vector3();
 const _m1 = new Matrix4();
 
-const _pos = new Vector3();
-const _scale = new Vector3();
+// const _pos = new Vector3();
+// const _scale = new Vector3();
 const _quat = new Quaternion();
 
 // A set of Object3D helper functions
 export class Object3DUtils {
-    /**
-     * Updates world matrix of an object and its parents
-     * limited by specified levels
-     * @param {Object3D} object
-     * @param {number} level
-     * @returns
-     */
     static updateParentsMatrixWorld(object, level) {
         if (level > 0) Object3DUtils.updateParentsMatrixWorld(object?.parent, level - 1);
 
@@ -31,12 +24,6 @@ export class Object3DUtils {
         }
     }
 
-    /**
-     * Extracts the quaternion part of the object's matrixWorld.
-     * Does not update the matrix chain
-     * @param {Object3D} object
-     * @param {Quaternion} outQuaternion
-     */
     static getWorldQuaternion(object, outQuaternion) {
         const te = object.matrixWorld.elements;
 
@@ -72,12 +59,6 @@ export class Object3DUtils {
         return outQuaternion;
     }
 
-    /**
-     * Extracts the scale part of the object's matrixWorld.
-     * Does not update the matrix chain
-     * @param {Object3D} object
-     * @param {Quaternion} outQuaternion
-     */
     static getWorldScale(object, outVector) {
         const te = object.matrixWorld.elements;
 
@@ -96,12 +77,6 @@ export class Object3DUtils {
         return outVector;
     }
 
-    /**
-     * Extracts the position part of the object's matrixWorld.
-     * Does not update the matrix chain
-     * @param {Object3D} object
-     * @param {Vector3} outPosition
-     */
     static getWorldPosition(object, outPosition) {
         outPosition.x = object.matrixWorld.elements[12];
         outPosition.y = object.matrixWorld.elements[13];
@@ -111,7 +86,7 @@ export class Object3DUtils {
 
     /**
      * Premultiplies a world-space quaternion with object's quaternion
-     * @param {Object3D} object
+     
      * @param {Quaternion} quaternion
      */
     static premultiplyWorldQuaternion(object, quaternion) {
@@ -123,7 +98,6 @@ export class Object3DUtils {
     /**
      * Converts a world-space quaternion to local-space
      * @param {Quaternion} quaternion
-     * @param {Object3D} parent
      */
     static worldQuaternionToLocal(quaternion, parent) {
         if (!parent) return quaternion;

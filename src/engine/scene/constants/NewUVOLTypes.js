@@ -1,3 +1,14 @@
+export const UVOL_TYPE = {
+    DRACO_WITH_COMPRESSED_TEXTURE: 0,
+    GLB_WITH_COMPRESSED_TEXTURE: 1,
+    UNIFORM_SOLVE_WITH_COMPRESSED_TEXTURE: 2,
+};
+
+export const GeometryType = {
+    Corto: "Corto", // legacy
+    Draco: "Draco",
+    Unify: "Unify",
+};
 export const ABC_TO_OBJ_PADDING = 7;
 
 export const FORMAT_TO_EXTENSION = {

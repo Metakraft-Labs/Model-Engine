@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { featureFlagSettingPath } from "../../common/src/schema.type.module";
-import { defineState, getMutableState } from "../../hyperflux/functions/StateFunctions";
-import { useFind } from "../../spatial/common/functions/FeathersHooks";
+import { featureFlagSettingPath } from "../common/src/schema.type.module";
+import { defineState, getMutableState } from "../hyperflux/StateFunctions";
+import { useFind } from "../spatial/common/functions/FeathersHooks";
 
 export const FeatureFlagsState = defineState({
     name: "ee.engine.FeatureFlagsState",

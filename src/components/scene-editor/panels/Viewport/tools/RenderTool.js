@@ -4,8 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Tooltip } from "@mui/material";
 import { GiWireframeGlobe } from "react-icons/gi";
 import { RiArrowDownSLine } from "react-icons/ri";
-import { TbBallBowling, TbInnerShadowBottomFilled, TbShadow } from "react-icons/tb";
-import { ShadowMapResolutionOptions } from "../../../../../client-core/src/user/components/UserMenu/menus/SettingMenu";
+import {
+    TbBallBowling,
+    TbInnerShadowBottom,
+    TbInnerShadowBottomFilled,
+    TbShadow,
+} from "react-icons/tb";
 import { useMutableState } from "../../../../../hyperflux";
 import { RendererState } from "../../../../../spatial/renderer/RendererState";
 import { RenderModes } from "../../../../../spatial/renderer/constants/RenderModes";
@@ -14,6 +18,29 @@ import Button from "../../../../Button";
 import InputGroup from "../../../../Group";
 import { Popup } from "../../../../Popup";
 import SelectInput from "../../../../Select";
+
+export const ShadowMapResolutionOptions = [
+    {
+        label: "256px",
+        value: 256,
+    },
+    {
+        label: "512px",
+        value: 512,
+    },
+    {
+        label: "1024px",
+        value: 1024,
+    },
+    {
+        label: "2048px",
+        value: 2048,
+    },
+    {
+        label: "4096px (not recommended)",
+        value: 4096,
+    },
+];
 
 const renderModes = [
     {

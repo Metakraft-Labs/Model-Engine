@@ -82,7 +82,6 @@ async function encodeKTX2BasisTexture(data) {
         const actualKTX2FileData = basisFileData.subarray(0, numOutputBytes).buffer;
         return actualKTX2FileData.slice(0, numOutputBytes);
     } catch (error) {
-        // eslint-disable-next-line no-console
         console.error("Basis Universal Supercompressed GPU Texture encoder Error: ", error);
         throw error;
     } finally {

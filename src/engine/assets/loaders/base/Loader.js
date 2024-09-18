@@ -23,10 +23,9 @@ class Loader {
         ResourceLoadingManagerState.initialize();
     }
 
-    load(url, onLoad, onProgress, onError, signal) {}
+    // load(url, onLoad, onProgress, onError, signal) {}
 
     loadAsync(url, onProgress) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const scope = this;
 
         return new Promise(function (resolve, reject) {
@@ -34,7 +33,7 @@ class Loader {
         });
     }
 
-    parse(data, path, onLoad, onError, url = "") {}
+    // parse(data, path, onLoad, onError, url = "") {}
 
     setCrossOrigin(crossOrigin) {
         this.crossOrigin = crossOrigin;

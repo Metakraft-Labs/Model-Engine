@@ -2,7 +2,6 @@ import { ComponentMap } from "../../../../../../ecs/ComponentFunctions";
 import { defineQuery, removeQuery } from "../../../../../../ecs/QueryFunctions";
 import {
     SystemDefinitions,
-    SystemUUID,
     defineSystem,
     destroySystem,
 } from "../../../../../../ecs/SystemFunctions";
@@ -79,15 +78,15 @@ export const OnQuery = makeEventNodeDefinition({
     },
     initialState: initialState(),
     init: ({ read, write, commit, configuration }) => {
-        const type = read < string > "type";
-        const system = read < SystemUUID > "system";
+        const type = read("type");
+        const system = read("system");
 
         const queryComponents = [];
         for (const index of sequence(
             1,
             (configuration.numInputs ?? OnQuery.configuration?.numInputs.defaultValue) + 1,
         )) {
-            const componentName = read < string > `componentName${index}`;
+            const componentName = read(`componentName${index}`);
             const component = ComponentMap.get(componentName);
             queryComponents.push(component);
         }

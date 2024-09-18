@@ -1,7 +1,6 @@
 import { Tween } from "@tweenjs/tween.js";
 
 import { getMutableComponent, setComponent } from "../../../ecs/ComponentFunctions";
-import { Entity } from "../../../ecs/Entity";
 import { createEntity, removeEntity } from "../../../ecs/EntityFunctions";
 import { VolumetricComponent } from "../../../engine/scene/components/VolumetricComponent";
 import { TweenComponent } from "../../../spatial/transform/components/TweenComponent";
@@ -22,8 +21,8 @@ export const playVolumetric = makeFlowNodeDefinition({
     out: { flow: "flow" },
     initialState,
     triggered: ({ read, commit }) => {
-        const entity = read < Entity > "entity";
-        const play = read < boolean > "play";
+        const entity = read("entity");
+        const play = read("play");
         const volumetricComponent = getMutableComponent(entity, VolumetricComponent);
         volumetricComponent.paused.set(!play);
         commit("flow");
@@ -45,8 +44,8 @@ export const setVolumetricTime = makeFlowNodeDefinition({
     out: { flow: "flow" },
     initialState,
     triggered: ({ read, commit }) => {
-        const entity = read < Entity > "entity";
-        const time = read < number > "time";
+        const entity = read("entity");
+        const time = read("time");
         const volumetricComponent = getMutableComponent(entity, VolumetricComponent);
         volumetricComponent.currentTrackInfo.currentTime.set(time);
         commit("flow");
@@ -69,9 +68,9 @@ export const fadeVolumetricAudioVolume = makeFlowNodeDefinition({
     out: { flow: "flow" },
     initialState,
     triggered: ({ read, commit }) => {
-        const entity = read < Entity > "entity";
-        const targetVolume = read < number > "targetVolume";
-        const duration = read < number > "duration";
+        const entity = read("entity");
+        const targetVolume = read("targetVolume");
+        const duration = read("duration");
 
         const volumetricComponent = getMutableComponent(entity, VolumetricComponent);
         const volumeSlider = {};

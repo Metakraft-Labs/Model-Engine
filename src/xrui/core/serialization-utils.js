@@ -4,7 +4,6 @@ import { getEmbeddedDataURL } from "./serialization/getEmbeddedDataURL";
 import { WebRenderer } from "./WebRenderer";
 
 function removeInvalidCharacters(content) {
-    // eslint-disable-next-line no-control-regex
     return content.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, "");
 }
 

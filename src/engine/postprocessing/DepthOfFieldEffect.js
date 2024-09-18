@@ -1,6 +1,6 @@
 import { BlendFunction, DepthOfFieldEffect, Resolution } from "postprocessing";
 import { useEffect } from "react";
-import { useComponent } from "../../../ecs";
+import { useComponent } from "../../ecs";
 import { getMutableState, getState, none } from "../../hyperflux";
 import { CameraComponent } from "../../spatial/camera/components/CameraComponent";
 import { PostProcessingEffectState } from "../../spatial/renderer/effects/EffectRegistry";

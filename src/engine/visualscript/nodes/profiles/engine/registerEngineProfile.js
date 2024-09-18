@@ -45,9 +45,9 @@ function getEngineStringConversions(values) {
 }
 
 export const getEngineNodesMap = memo(() => {
-    const engineValueTypeNames = Object.keys({
-        ...getEngineValuesMap(),
-    });
+    // const engineValueTypeNames = Object.keys({
+    //     ...getEngineValuesMap(),
+    // });
     const nodeDefinitions = [
         ...getNodeDescriptions(EntityNodes),
         ...getNodeDescriptions(ComponentNodes),

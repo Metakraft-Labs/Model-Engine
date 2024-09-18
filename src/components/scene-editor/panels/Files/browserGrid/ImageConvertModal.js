@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { Typography } from "@mui/material";
-import { PopoverState } from "../../../../../client-core/src/common/services/PopoverState";
 import { imageConvertPath } from "../../../../../common/src/schema.type.module";
 import {
     ImageConvertDefaultParms,
@@ -15,6 +14,7 @@ import Label from "../../../../Label";
 import Modal from "../../../../Modal/Modal2";
 import Select from "../../../../Select";
 import NumericInput from "../../../../inputs/Numeric";
+import { PopoverState } from "../../../services/PopoverState";
 
 export default function ImageConvertModal({ file, refreshDirectory }) {
     const { t } = useTranslation();

@@ -174,7 +174,6 @@ export function readNodeParameterJSON(valuesRegistry, node, parametersJson) {
 
         const inputJson = parametersJson[socket.name];
         if ("value" in inputJson) {
-            // eslint-disable-next-line no-param-reassign
             socket.value = valuesRegistry[socket.valueTypeName]?.deserialize(inputJson.value);
         }
 

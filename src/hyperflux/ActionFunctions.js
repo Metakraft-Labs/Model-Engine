@@ -28,7 +28,7 @@ export function defineAction(shape) {
 
     // handle default callback properties
     const defaultEntries = shapeEntries.filter(
-        ([k, v]) =>
+        ([_k, v]) =>
             typeof v === "object" &&
             ("defaultValue" in v || ("parser" in v && v.parser.description.name === "Default")),
     );
@@ -37,13 +37,13 @@ export function defineAction(shape) {
     );
 
     // handle literal shape properties
-    const literalEntries = shapeEntries.filter(([k, v]) => typeof v !== "object");
+    const literalEntries = shapeEntries.filter(([_k, v]) => typeof v !== "object");
     const literalValidators = Object.fromEntries(
         literalEntries.map(([k, v]) => [k, matches.literal(v)]),
     );
 
     // handle option properties
-    const optionEntries = shapeEntries.filter(([k, v]) => k.startsWith("$"));
+    const optionEntries = shapeEntries.filter(([k]) => k.startsWith("$"));
     const optionValidators = Object.fromEntries(
         optionEntries.map(([k, v]) => [k, matches.guard(val => deepEqual(val, v))]),
     );
@@ -269,10 +269,10 @@ const _applyIncomingAction = action => {
         //actions had circular references. Just try/catching the console.info call was not catching them properly,
         //So the solution was to attempt to JSON.stringify them manually first to see if that would error.
         try {
-            const jsonStringified = JSON.stringify(action);
+            // const jsonStringified = JSON.stringify(action);
             // console.info('Repeat action %o', action)
         } catch (err) {
-            console.log("error in logging action", action);
+            console.log("error in logging action", action, err.message);
         }
         const idx = HyperFlux.store.actions.incoming.indexOf(action);
         HyperFlux.store.actions.incoming.splice(idx, 1);
@@ -292,7 +292,7 @@ const _applyIncomingAction = action => {
         try {
             console.info(`[Action]: ${action.type} %o`, action);
         } catch (err) {
-            console.log("error in logging action", action);
+            console.log("error in logging action", action, err.message);
         }
     } catch (e) {
         const message = e.message;

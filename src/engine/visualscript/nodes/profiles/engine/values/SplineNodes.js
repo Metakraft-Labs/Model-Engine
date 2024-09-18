@@ -1,4 +1,4 @@
-import { EntityUUID, UUIDComponent } from "../../../../../../ecs";
+import { UUIDComponent } from "../../../../../../ecs";
 import {
     getComponent,
     getOptionalComponent,
@@ -38,7 +38,7 @@ export const getSpline = makeFunctionNodeDefinition({
     },
     out: { entity: "entity" },
     exec: ({ read, write }) => {
-        const splineEntityUUID = read < EntityUUID > "spline";
+        const splineEntityUUID = read("spline");
         Assert.mustBeTrue(splineEntityUUID !== "", "Please select spline entity");
         const splineEntity = UUIDComponent.getEntityByUUID(splineEntityUUID);
         write("entity", splineEntity);
@@ -67,7 +67,7 @@ export const addSplineTrack = makeAsyncNodeDefinition({
     initialState: initialState(),
     triggered: ({ read, write, commit, finished }) => {
         const entity = Number(read("entity"));
-        const splineUuid = read < EntityUUID > "splineUUID";
+        const splineUuid = read("splineUUID");
         const velocity = read < number > "velocity";
         const isLoop = read < boolean > "isLoop";
         const lockToXZPlane = read < boolean > "lockToXZPlane";

@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { MotionBlurEffect, VelocityDepthNormalPass } from "realism-effects";
 import { Scene } from "three";
-import { useComponent } from "../../../ecs";
-import { PostProcessingEffectState } from "../../../spatial/renderer/effects/EffectRegistry";
+import { useComponent } from "../../ecs";
 import { getMutableState, getState, none, useHookstate } from "../../hyperflux";
 import { CameraComponent } from "../../spatial/camera/components/CameraComponent";
+import { PostProcessingEffectState } from "../../spatial/renderer/effects/EffectRegistry";
 import { PropertyTypes } from "./PostProcessingRegister";
 
 const effectKey = "MotionBlurEffect";
@@ -13,9 +13,9 @@ export const MotionBlurEffectProcessReactor = props => {
     const { isActive, rendererEntity, effectData, effects } = props;
     const effectState = getState(PostProcessingEffectState);
     const camera = useComponent(rendererEntity, CameraComponent);
-    const scene = useHookstate < Scene > (() => new Scene());
+    const scene = useHookstate(() => new Scene());
     const velocityDepthNormalPass = useHookstate(new VelocityDepthNormalPass(scene, camera));
-    const useVelocityDepthNormalPass = useHookstate(false);
+    // const useVelocityDepthNormalPass = useHookstate(false);
 
     useEffect(() => {
         if (effectData[effectKey].value) return;

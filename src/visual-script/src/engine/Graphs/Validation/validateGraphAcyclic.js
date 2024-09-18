@@ -3,7 +3,6 @@ export function validateGraphAcyclic(nodes) {
 
     // instead of modifying the graph, I will use metadata to mark it in place.
     Object.values(nodes).forEach(node => {
-        // eslint-disable-next-line no-param-reassign
         node.metadata["dag.marked"] = "false";
     });
 
@@ -36,7 +35,6 @@ export function validateGraphAcyclic(nodes) {
             }
         });
         nodesToMark.forEach(node => {
-            // eslint-disable-next-line no-param-reassign
             node.metadata["dag.marked"] = "true";
         });
     } while (nodesToMark.length > 0);
@@ -51,7 +49,6 @@ export function validateGraphAcyclic(nodes) {
                 `node ${node.description.typeName} is part of a cycle, not a directed acyclic graph`,
             );
         }
-        // eslint-disable-next-line no-param-reassign
         delete node.metadata["dag.marked"];
     });
 

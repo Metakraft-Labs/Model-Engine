@@ -31,7 +31,7 @@ export async function generateMeshBVH(mesh, signal, options = {}) {
 
     const geometry = mesh.geometry;
 
-    const index = geometry.index ? Uint32Array.from(geometry.index.array) ;
+    const index = geometry.index ? Uint32Array.from(geometry.index.array) : undefined;
     const pos = Float32Array.from(geometry.attributes.position.array);
 
     const transferrables = [pos];

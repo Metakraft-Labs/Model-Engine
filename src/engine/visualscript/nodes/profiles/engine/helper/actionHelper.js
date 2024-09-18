@@ -6,7 +6,6 @@ import {
     destroySystem,
     InputSystemGroup,
     SystemDefinitions,
-    SystemUUID,
 } from "../../../../../../ecs";
 import {
     ActionDefinitions,
@@ -85,7 +84,7 @@ export function registerActionDispatchers() {
             },
             out: { flow: "flow" },
             initialState: undefined,
-            triggered: ({ read, write, commit }) => {
+            triggered: ({ read, commit }) => {
                 //read from the read and set dict acccordingly
                 const inputs = Object.entries(node.in).splice(1);
                 for (const [input, type] of inputs) {
@@ -131,7 +130,7 @@ export function registerActionConsumers() {
             category: NodeCategory.Action,
             label: `on ${namePath} ${dispatchName}`,
             in: {
-                system: (_, graph) => {
+                system: (_, _graph) => {
                     const systemDefinitions = Array.from(SystemDefinitions.keys()).map(key => key);
                     const groups = systemDefinitions.filter(key => key.includes("group")).sort();
                     const nonGroups = systemDefinitions
@@ -148,10 +147,10 @@ export function registerActionConsumers() {
             },
             out: { flow: "flow", ...outputSockets },
             initialState: initialState(),
-            init: ({ read, write, commit, graph }) => {
+            init: ({ read, write, commit }) => {
                 //read from the read and set dict acccordingly
 
-                const system = read < SystemUUID > "system";
+                const system = read("system");
 
                 const queue = defineActionQueue(ActionDefinitions[type].matches);
                 queue(); // flush the queue
@@ -179,7 +178,7 @@ export function registerActionConsumers() {
 
                 return state;
             },
-            dispose: ({ state: { queue, systemUUID }, graph: { getDependency } }) => {
+            dispose: ({ state: { queue, systemUUID } }) => {
                 destroySystem(systemUUID);
                 removeActionQueue(queue);
                 return initialState();

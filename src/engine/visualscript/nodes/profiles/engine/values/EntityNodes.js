@@ -8,7 +8,7 @@ import {
     setComponent,
 } from "../../../../../../ecs/ComponentFunctions";
 import { Engine } from "../../../../../../ecs/Engine";
-import { EntityUUID, UndefinedEntity } from "../../../../../../ecs/Entity";
+import { UndefinedEntity } from "../../../../../../ecs/Entity";
 import { removeEntity } from "../../../../../../ecs/EntityFunctions";
 import { defineQuery } from "../../../../../../ecs/QueryFunctions";
 import { defineSystem, destroySystem } from "../../../../../../ecs/SystemFunctions";
@@ -27,7 +27,7 @@ import {
     makeInNOutFunctionDesc,
     toQuat,
     toVector3,
-} from "../../../visual-script";
+} from "../../../../../../visual-script";
 
 import { SourceComponent } from "../../../../../scene/components/SourceComponent";
 import { addEntityToScene } from "../helper/entityHelper";
@@ -57,7 +57,7 @@ export const getEntity = makeFunctionNodeDefinition({
     },
     out: { entity: "entity" },
     exec: ({ read, write }) => {
-        const entityUUID = read < EntityUUID > "entity";
+        const entityUUID = read("entity");
         const entity = UUIDComponent.getEntityByUUID(entityUUID);
         write("entity", entity);
     },
@@ -157,7 +157,7 @@ export const addEntity = makeFlowNodeDefinition({
     out: { flow: "flow", entity: "entity" },
     initialState: undefined,
     triggered: ({ read, write, commit }) => {
-        const parentEntityUUID = read < EntityUUID > "parentEntity";
+        const parentEntityUUID = read("parentEntity");
         const parentEntity =
             parentEntityUUID == ""
                 ? UndefinedEntity

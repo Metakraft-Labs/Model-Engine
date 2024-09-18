@@ -466,10 +466,8 @@ export const fetchTextures = ({
 
     const nextMissing = bufferData.getNextMissing(currentTime);
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     const frameRate = manifest.texture[textureType]?.targets[target].frameRate;
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     const frameCount = manifest.texture[textureType]?.targets[target].frameCount;
 
     const startFrame = Math.floor((nextMissing * frameRate) / TIME_UNIT_MULTIPLIER);
@@ -526,7 +524,6 @@ export const fetchTextures = ({
         const resourceURL = getResourceURL({
             type: "texture",
             textureType: textureType,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
             format: manifest.texture[textureType]?.targets[target].format,
             index: _currentFrame,
             target: target,
@@ -573,7 +570,6 @@ export const deleteUsedTextureBuffers = ({
     currentTimeInMS,
     bufferData,
     textureBuffer,
-    textureType,
     targetData,
     clearAll = false,
 }) => {

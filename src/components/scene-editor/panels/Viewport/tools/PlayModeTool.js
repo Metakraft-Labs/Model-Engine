@@ -13,11 +13,11 @@ import { getRandomSpawnPoint } from "../../../../../engine/avatar/functions/getS
 import { spawnLocalAvatarInWorld } from "../../../../../engine/avatar/functions/receiveJoinWorld";
 import { dispatchAction, getMutableState, getState, useHookstate } from "../../../../../hyperflux";
 import { WorldNetworkAction } from "../../../../../network";
-import Button from "../../../../../primitives/tailwind/Button";
 import { EngineState } from "../../../../../spatial/EngineState";
 import { FollowCameraComponent } from "../../../../../spatial/camera/components/FollowCameraComponent";
 import { TargetCameraRotationComponent } from "../../../../../spatial/camera/components/TargetCameraRotationComponent";
 import { ComputedTransformComponent } from "../../../../../spatial/transform/components/ComputedTransformComponent";
+import Button from "../../../../Button";
 import { TransformGizmoControlledComponent } from "../../../classes/TransformGizmoControlledComponent";
 import { EditorState } from "../../../services/EditorServices";
 import { transformGizmoControlledQuery } from "../../../systems/GizmoSystem";

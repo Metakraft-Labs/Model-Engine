@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { getState, useHookstate, useMutableState } from "../../../../../hyperflux";
 
-import { Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { GrStatusPlaceholder } from "react-icons/gr";
 import { IoMdAddCircle } from "react-icons/io";
 import { twMerge } from "tailwind-merge";
@@ -206,7 +206,7 @@ export function ElementList({ type, onSelect }) {
                 <Typography className="mb-1.5 w-full text-center uppercase text-white">
                     {t(`editor:layout.assetGrid.${type}`)}
                 </Typography>
-                <TypographyField
+                <TextField
                     placeholder={t(`editor:layout.assetGrid.${type}-search`)}
                     value={search.local.value}
                     onChange={val => onSearch(val)}

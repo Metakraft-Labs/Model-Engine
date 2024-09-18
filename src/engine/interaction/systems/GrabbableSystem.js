@@ -103,7 +103,7 @@ const GrabbableReactor = ({ entityUUID }) => {
 
         return () => {
             if (hasComponent(grabberEntity, GrabbedComponent))
-                setComponent(grabberEntity, GrabberComponent, { [attachmentPoint] });
+                setComponent(grabberEntity, GrabberComponent, { [attachmentPoint]: entity });
             if (!entityExists(entity)) return;
             removeComponent(entity, GrabbedComponent);
             if (hasComponent(entity, RigidBodyComponent)) {

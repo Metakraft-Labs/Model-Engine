@@ -93,7 +93,7 @@ export function registerStateGetters() {
                 ...outputsockets,
             },
             initialState: undefined,
-            triggered: ({ read, write, commit }) => {
+            triggered: ({ write, commit }) => {
                 const outputs = Object.entries(node.out).splice(1);
                 const props = state;
                 if (typeof props !== "object") {
@@ -143,12 +143,12 @@ export function registerStateListeners() {
                 ...outputsockets,
             },
             initialState: initialState(),
-            init: ({ read, write, commit }) => {
+            init: ({ write, commit }) => {
                 const valueOutputs = Object.entries(node.out).filter(
-                    ([output, type]) => type !== "flow",
+                    ([_output, type]) => type !== "flow",
                 );
                 const flowOutputs = Object.entries(node.out).filter(
-                    ([output, type]) => type === "flow",
+                    ([_output, type]) => type === "flow",
                 );
                 useStateSystemCounter++;
                 console.log("stateName", getUseStateSystemUUID(stateName));
@@ -165,7 +165,7 @@ export function registerStateListeners() {
                                 commit(flowOutputs[flowOutputs.length - 1][0]);
                             }, [stateValue]);
                         } else {
-                            valueOutputs.forEach(([output, type], index) => {
+                            valueOutputs.forEach(([output], _index) => {
                                 useEffect(() => {
                                     const value = EnginetoNodetype(stateValue[output].value);
                                     const flowSocket = flowOutputs.find(
