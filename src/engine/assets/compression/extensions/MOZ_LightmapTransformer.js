@@ -1,4 +1,4 @@
-import { ExtensionProperty, PropertyType } from "@gltf-transform/core";
+import { Extension, ExtensionProperty, PropertyType } from "@gltf-transform/core";
 
 const EXTENSION_NAME = "MOZ_lightmap";
 export class MOZLightmap extends ExtensionProperty {

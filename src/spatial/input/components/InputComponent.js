@@ -8,16 +8,10 @@ import {
     UndefinedEntity,
     useExecute,
 } from "../../../ecs";
-import {
-    defineComponent,
-    removeComponent,
-    setComponent,
-    useComponent,
-} from "../../../ecs/ComponentFunctions";
+import { defineComponent, useComponent } from "../../../ecs/ComponentFunctions";
 import { useEntityContext } from "../../../ecs/EntityFunctions";
 import { getState, useHookstate } from "../../../hyperflux";
 import { EngineState } from "../../EngineState";
-import { HighlightComponent } from "../../renderer/components/HighlightComponent";
 import { getAncestorWithComponent, isAncestor } from "../../transform/components/EntityTree";
 import {
     AxisMapping,
@@ -30,12 +24,6 @@ import {
 import { InputState } from "../state/InputState";
 import { InputSinkComponent } from "./InputSinkComponent";
 import { InputSourceComponent } from "./InputSourceComponent";
-
-export const InputExecutionOrder = {
-    Before: -1,
-    With: 0,
-    After: 1,
-};
 
 export const DefaultButtonAlias = {
     Interact: [
@@ -208,11 +196,47 @@ export const InputComponent = defineComponent({
 
         useLayoutEffect(() => {
             if (!input.inputSources.length || !input.highlight.value) return;
-            setComponent(entity, HighlightComponent);
-            return () => {
-                removeComponent(entity, HighlightComponent);
-            };
+            // setComponent(entity, HighlightComponent);
+            // return () => {
+            //     removeComponent(entity, HighlightComponent);
+            // };
         }, [input.inputSources, input.highlight]);
+
+        // useEffect(() => {
+        //   // perhaps we don't need to create a rigidbody; we just want to be able to add anything in this tree to the `input` layer,
+        //   // whether or not it's a rigidbody or a mesh
+        //
+        //   //then we might just need to abandon the Input layer raycast, leave that as-is, add the distance heuristic and call it a day
+        //
+        //   // the input system can still perform physics and mesh bvh raycasts on things that have an InputComponent as an entity ancestor
+        //   // I think I know how this can work
+        //   //awesome
+        //
+        //   //techincally if we add the distance heuristic a rigidbody / collider are not needed
+        //
+        //   // after entity tree has loaded (how do we check for this...)
+        //   // create an input rigidbody if one doesn't exist
+        //   // if (!hasComponent(entity, RigidBodyComponent)) {
+        //   //   setComponent(entity, RigidBodyComponent, { type: BodyTypes.Fixed }) //assume kinematic if it had no rigidbody before
+        //   // }
+        //   // // create an input colliderComponent if one doesn't exist
+        //   // if (!hasComponent(entity, ColliderComponent)) {
+        //   //   //TODO - check if we have a mesh, if we do, use the mesh as a collider type....if not then generate a bounding sphere
+        //   //   setComponent(entity, ColliderComponent)
+        //   // }
+        //   // const hasMesh = hasComponent(entity, MeshComponent)
+        //   // const collider = getMutableComponent(entity, ColliderComponent)
+        //   // collider.collisionLayer.set(collider.collisionLayer.value | CollisionGroups.Input)
+        // }, [])
+
+        /** @todo - fix */
+        // useLayoutEffect(() => {
+        //   if (!input.inputSources.length || !input.grow.value) return
+        //   setComponent(entity, AnimateScaleComponent)
+        //   return () => {
+        //     removeComponent(entity, AnimateScaleComponent)
+        //   }
+        // }, [input.inputSources, input.grow])
 
         return null;
     },
@@ -221,6 +245,12 @@ export const InputComponent = defineComponent({
 function getLargestMagnitudeNumber(a, b) {
     return Math.abs(a) > Math.abs(b) ? a : b;
 }
+
+export const InputExecutionOrder = {
+    Before: -1,
+    With: 0,
+    After: 1,
+};
 
 function getInputExecutionInsert(order) {
     switch (order) {

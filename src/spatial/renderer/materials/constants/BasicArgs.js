@@ -15,12 +15,20 @@ import {
     TangentSpaceNormalMap,
 } from "three";
 
-import { BoolArg, ColorArg, FloatArg, NormalizedFloatArg, SelectArg } from "./DefaultArgs";
+import {
+    BoolArg,
+    ColorArg,
+    FloatArg,
+    NormalizedFloatArg,
+    SelectArg,
+    TextureArg,
+    Vec2Arg,
+} from "./DefaultArgs";
 
 export const BasicArgs = {
     alphaTest: NormalizedFloatArg,
-    alphaMap,
-    map,
+    alphaMap: TextureArg,
+    map: TextureArg,
     color: { ...ColorArg, default: new Color(1, 1, 1) },
     opacity: { ...FloatArg, default: 1 },
     blending: {
@@ -51,24 +59,24 @@ export const BasicArgs = {
 };
 
 export const BumpMapArgs = {
-    bumpMap,
+    bumpMap: TextureArg,
     bumpScale: { ...FloatArg, default: 1 },
 };
 
 export const LightMapArgs = {
-    lightMap,
+    lightMap: TextureArg,
     lightMapIntensity: FloatArg,
 };
 
 export const DisplacementMapArgs = {
-    displacementMap,
+    displacementMap: TextureArg,
     displacementScale: { ...FloatArg, default: 1 },
     displacementBias: FloatArg,
 };
 
 export const EmissiveMapArgs = {
-    emissiveArg,
-    emissiveMap,
+    emissive: ColorArg,
+    emissiveMap: TextureArg,
     emissiveIntensity: { ...FloatArg, default: 0 },
 };
 
@@ -82,24 +90,24 @@ export const EnvMapArgs = {
             { label: "Add", value: AddOperation },
         ],
     },
-    envMap,
+    envMap: TextureArg,
     envMapIntensity: { ...FloatArg, default: 1.0 },
     reflectivity: FloatArg,
     refractionRatio: { ...FloatArg, default: 0.98 },
 };
 
 export const AoMapArgs = {
-    aoMap,
+    aoMap: TextureArg,
     aoMapIntensity: NormalizedFloatArg,
 };
 
 export const MetalnessMapArgs = {
     metalness: FloatArg,
-    metalnessMap,
+    metalnessMap: TextureArg,
 };
 
 export const NormalMapArgs = {
-    normalMap,
+    normalMap: TextureArg,
     normalMapType: {
         ...SelectArg,
         default: TangentSpaceNormalMap,
@@ -108,10 +116,10 @@ export const NormalMapArgs = {
             { label: "Tangent Space", value: TangentSpaceNormalMap },
         ],
     },
-    normalScaleArg,
+    normalScale: Vec2Arg,
 };
 
 export const RoughhnessMapArgs = {
     roughness: { ...FloatArg, default: 1 },
-    roughnessMap,
+    roughnessMap: TextureArg,
 };

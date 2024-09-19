@@ -60,26 +60,26 @@ export const RendererComponent = defineComponent({
             /** Is resize needed? */
             needsResize: false,
 
-            renderPass,
-            normalPass,
-            renderContext,
+            renderPass: null,
+            normalPass: null,
+            renderContext: null,
             effects: {},
 
             supportWebGL2: false,
-            canvas,
+            canvas: null,
 
-            renderer,
-            effectComposer,
+            renderer: null,
+            effectComposer: null,
 
             scenes: [],
             scene,
 
             /** @todo deprecate and replace with engine implementation */
-            xrManager,
-            webGLLostContext,
+            xrManager: null,
+            webGLLostContext: null,
 
-            csm,
-            csmHelper,
+            csm: null,
+            csmHelper: null,
         };
     },
 
@@ -94,7 +94,7 @@ export const RendererComponent = defineComponent({
         if (json?.scenes) component.scenes.set(json.scenes);
     },
 
-    onRemove(entity, component) {
+    onRemove(_entity, component) {
         component.value.renderer?.dispose();
         component.value.effectComposer?.dispose();
     },
@@ -239,7 +239,7 @@ export const initializeEngineRenderer = entity => {
         rendererComponent.needsResize.set(false);
         setTimeout(() => {
             if (rendererComponent.webGLLostContext)
-                rendererComponent.webGLLostContext.value.restoreContext();
+                rendererComponent.webGLLostContext.value?.restoreContext();
         }, 1);
     };
 
@@ -265,16 +265,16 @@ export const initializeEngineRenderer = entity => {
 export const render = (renderer, scene, camera, delta, effectComposer = true) => {
     const xrFrame = getState(XRState).xrFrame;
 
-    const canvasParent = renderer.canvas.parentElement;
+    const canvasParent = renderer.canvas?.parentElement;
     if (!canvasParent) return;
 
     const state = getState(RendererState);
 
     if (renderer.needsResize) {
-        const curPixelRatio = renderer.renderer.getPixelRatio();
+        const curPixelRatio = renderer.renderer?.getPixelRatio();
         const scaledPixelRatio = window.devicePixelRatio * state.renderScale;
 
-        if (curPixelRatio !== scaledPixelRatio) renderer.renderer.setPixelRatio(scaledPixelRatio);
+        if (curPixelRatio !== scaledPixelRatio) renderer.renderer?.setPixelRatio(scaledPixelRatio);
 
         const width = canvasParent.clientWidth;
         const height = canvasParent.clientHeight;
@@ -289,7 +289,7 @@ export const render = (renderer, scene, camera, delta, effectComposer = true) =>
         if (renderer.effectComposer) {
             renderer.effectComposer.setSize(width, height, true);
         } else {
-            renderer.renderer.setSize(width, height, true);
+            renderer.renderer?.setSize(width, height, true);
         }
 
         renderer.needsResize = false;
@@ -300,8 +300,8 @@ export const render = (renderer, scene, camera, delta, effectComposer = true) =>
     /** Postprocessing does not support multipass yet, so just use basic renderer when in VR */
     if (xrFrame || !effectComposer || !renderer.effectComposer) {
         for (const c of camera.cameras) c.layers.mask = camera.layers.mask;
-        renderer.renderer.clear();
-        renderer.renderer.render(scene, camera);
+        renderer.renderer?.clear();
+        renderer.renderer?.render(scene, camera);
     } else {
         renderer.effectComposer.setMainScene(scene);
         renderer.effectComposer.setMainCamera(camera);
@@ -324,9 +324,9 @@ export const filterVisible = entity => hasComponent(entity, VisibleComponent);
 export const getNestedVisibleChildren = entity => getNestedChildren(entity, filterVisible);
 export const getSceneParameters = entities => {
     const vals = {
-        background,
-        environment,
-        fog,
+        background: null,
+        environment: null,
+        fog: null,
         children: [],
     };
 
@@ -397,7 +397,7 @@ const rendererReactor = () => {
     }, [engineRendererSettings.qualityLevel, engineRendererSettings.automatic]);
 
     useEffect(() => {
-        renderer.renderer.value.setPixelRatio(
+        renderer.renderer.value?.setPixelRatio(
             window.devicePixelRatio * engineRendererSettings.renderScale.value,
         );
         renderer.needsResize.set(true);

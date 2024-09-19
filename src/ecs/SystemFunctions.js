@@ -101,7 +101,7 @@ export function defineSystem(systemConfig) {
         sceneSystem: false,
         execute: () => {},
         ...systemConfig,
-        uuidConfig: systemConfig.uuid,
+        uuid: systemConfig.uuid,
         enabled: false,
         systemDuration: 0,
         avgSystemDuration: 0,
@@ -126,21 +126,21 @@ export function defineSystem(systemConfig) {
     }
 
     if (insert?.before) {
-        const referenceSystem = SystemDefinitions.get(insert.before);
+        const referenceSystem = SystemDefinitions?.get(insert.before);
         if (!referenceSystem) throw new Error(`System ${insert.before} does not exist.`);
         referenceSystem.preSystems.push(system.uuid);
         console.log(`Registered system ${systemConfig.uuid} before ${insert.before}`);
     }
 
     if (insert?.with) {
-        const referenceSystem = SystemDefinitions.get(insert.with);
+        const referenceSystem = SystemDefinitions?.get(insert.with);
         if (!referenceSystem) throw new Error(`System ${insert.with} does not exist.`);
         referenceSystem.subSystems.push(system.uuid);
         console.log(`Registered system ${systemConfig.uuid} with ${insert.with}`);
     }
 
     if (insert?.after) {
-        const referenceSystem = SystemDefinitions.get(insert.after);
+        const referenceSystem = SystemDefinitions?.get(insert.after);
         if (!referenceSystem) throw new Error(`System ${insert.after} does not exist.`);
         referenceSystem.postSystems.push(system.uuid);
         console.log(`Registered system ${systemConfig.uuid} after ${insert.after}`);

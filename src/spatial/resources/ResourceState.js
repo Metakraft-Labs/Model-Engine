@@ -240,7 +240,7 @@ const resourceCallbacks = {
 
             for (const name of attributeKeys) {
                 const attr = asset.getAttribute(name);
-                size += attr.count * attr.itemSize * attr.array.BYTES_PER_ELEMENT;
+                size += attr.count * attr.itemSize * attr.array?.BYTES_PER_ELEMENT;
                 if (typeof attr.onUpload === "function") {
                     attr.onUpload(() => {
                         needsUploaded -= 1;
@@ -255,7 +255,7 @@ const resourceCallbacks = {
             const indices = asset.getIndex();
             if (indices) {
                 resource.metadata.merge({ vertexCount: indices.count });
-                size += indices.count * indices.itemSize * indices.array.BYTES_PER_ELEMENT;
+                size += indices.count * indices.itemSize * indices.array?.BYTES_PER_ELEMENT;
             }
             resource.metadata.size.set(size);
         },

@@ -8,6 +8,7 @@ import { defineAction, defineActionQueue, getState } from "../../../hyperflux";
 import { EngineState } from "../../../spatial/EngineState";
 import { VisualScriptState } from "../../../visual-script";
 
+import { defineQuery } from "../../../ecs";
 import { registerEngineProfile } from "../nodes/profiles/ProfileModule";
 import { VisualScriptComponent, VisualScriptDomain } from "../VisualScriptModule";
 

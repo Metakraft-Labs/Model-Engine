@@ -7,6 +7,7 @@ import {
     EnvMapArgs,
     LightMapArgs,
 } from "../constants/BasicArgs";
+import { TextureArg } from "../constants/DefaultArgs";
 
 export const MeshBasicArguments = {
     ...BasicArgs,
@@ -14,13 +15,13 @@ export const MeshBasicArguments = {
     ...LightMapArgs,
     ...AoMapArgs,
     ...EnvMapArgs,
-    specularMap,
+    specularMap: TextureArg,
 };
 
 export const MeshBasicMaterial = {
     prototypeId: "MeshBasicMaterial",
     prototypeConstructor: Basic,
-    argumentsBasicArguments,
+    arguments: MeshBasicArguments,
 };
 
 export default MeshBasicMaterial;

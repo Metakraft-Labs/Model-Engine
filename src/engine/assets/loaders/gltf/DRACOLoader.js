@@ -93,7 +93,7 @@ class DRACOLoader extends Loader {
         for (const attribute in taskConfig.attributeTypes) {
             const type = taskConfig.attributeTypes[attribute];
 
-            if (type.BYTES_PER_ELEMENT !== undefined) {
+            if (type?.BYTES_PER_ELEMENT !== undefined) {
                 taskConfig.attributeTypes[attribute] = type.name;
             }
         }
@@ -555,7 +555,7 @@ function DRACOWorker() {
         const numComponents = attribute.num_components();
         const numPoints = dracoGeometry.num_points();
         const numValues = numPoints * numComponents;
-        const byteLength = numValues * attributeType.BYTES_PER_ELEMENT;
+        const byteLength = numValues * attributeType?.BYTES_PER_ELEMENT;
         const dataType = getDracoDataType(draco, attributeType);
 
         const ptr = draco._malloc(byteLength);

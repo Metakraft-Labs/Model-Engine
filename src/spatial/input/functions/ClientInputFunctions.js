@@ -1,11 +1,9 @@
 import { Quaternion, Vector3 } from "three";
 import {
-    defineQuery,
     getComponent,
     getMutableComponent,
     getOptionalComponent,
     hasComponent,
-    Not,
     UndefinedEntity,
     UUIDComponent,
 } from "../../../ecs";
@@ -48,7 +46,7 @@ export function updateGamepadInput(eid) {
     const inputSource = getComponent(eid, InputSourceComponent);
     const gamepad = inputSource.source.gamepad;
     const buttons = inputSource.buttons;
-    // const buttonDownPos = inputSource.buttonDownPositions as WeakMap
+    // const buttonDownPos = inputSource.buttonDownPositions as WeakMap<AnyButton, Vector3>
     // log buttons
     // if (source.gamepad) {
     //   for (let i = 0; i < source.gamepad.buttons.length; i++) {
@@ -134,7 +132,7 @@ export function updatePointerDragging(pointerEntity, event) {
     const inputSourceComponent = getOptionalComponent(pointerEntity, InputSourceComponent);
     if (!inputSourceComponent) return;
 
-    const state = inputSourceComponent.buttonsMap;
+    const state = inputSourceComponent.buttons;
 
     let button = MouseButton.PrimaryClick;
     if (event.type === "pointermove") {
@@ -186,10 +184,10 @@ export const redirectPointerEventsToXRUI = (cameraEntity, evt) => {
     }
 };
 
-const nonSpatialInputSource = defineQuery([InputSourceComponent, Not(TransformComponent)]);
+// const nonSpatialInputSource = defineQuery([InputSourceComponent, Not(TransformComponent)]);
 
 export function assignInputSources(sourceEid, capturedEntity, data, heuristic) {
-    const isSpatialInput = hasComponent(sourceEid, TransformComponent);
+    const isSpatialInput = hasComponent(sourceEid || {}, TransformComponent);
 
     const intersectionData = new Set([]);
 
@@ -223,14 +221,14 @@ export function assignInputSources(sourceEid, capturedEntity, data, heuristic) {
 
     sourceState.intersections.set(sortedIntersections);
 
-    const finalInputSources = Array.from(new Set([sourceEid, ...nonSpatialInputSource()]));
+    // const finalInputSources = Array.from(new Set([sourceEid, ...nonSpatialInputSource()]));
 
     //if we have a capturedEntity, only run on the capturedEntity, not the sortedIntersections
     if (capturedEntity !== UndefinedEntity) {
-        ClientInputFunctions.setInputSources(capturedEntity, finalInputSources);
+        // ClientInputFunctions.setInputSources(capturedEntity, finalInputSources);
     } else {
         for (const intersection of sortedIntersections) {
-            ClientInputFunctions.setInputSources(intersection.entity, finalInputSources);
+            // ClientInputFunctions.setInputSources(intersection.entity, finalInputSources);
         }
     }
 }

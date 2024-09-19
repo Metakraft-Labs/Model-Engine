@@ -61,11 +61,9 @@ export function defineAction(shape) {
         {
             type: matches.some(
                 matches.literal(primaryType),
-                matches.guard < string,
-                any >
-                    function (val) {
-                        return Array.isArray(val) ? val.includes(primaryType) : val === primaryType;
-                    },
+                matches.guard(function (val) {
+                    return Array.isArray(val) ? val.includes(primaryType) : val === primaryType;
+                }),
             ),
         },
     );

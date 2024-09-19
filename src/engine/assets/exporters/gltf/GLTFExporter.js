@@ -22,7 +22,6 @@ import {
     Scene,
     Source,
     SRGBColorSpace,
-    Texture,
     Vector3,
 } from "three";
 
@@ -1108,7 +1107,6 @@ export class GLTFWriter {
 
     /**
      * Process sampler
-     * @param  {Texture} map Texture to process
      * @return {Integer}     Index of the processed texture in the "samplers" array
      */
     processSampler(map) {
@@ -1128,7 +1126,6 @@ export class GLTFWriter {
 
     /**
      * Process texture
-     * @param  {Texture} map Map to process
      * @return {Integer} Index of the processed texture in the "textures" array
      */
     processTexture(map) {

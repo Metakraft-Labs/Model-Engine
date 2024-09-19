@@ -25,7 +25,7 @@ export const MeshPhongArguments = {
 export const MeshPhongMaterial = {
     prototypeId: "MeshPhongMaterial",
     prototypeConstructor: Phong,
-    argumentsPhongArguments,
+    arguments: MeshPhongArguments,
 };
 
 export default MeshPhongMaterial;

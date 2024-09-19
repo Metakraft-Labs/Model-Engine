@@ -2,7 +2,7 @@ import { defineQuery, defineSystem, Engine } from "../../../ecs";
 import { defineComponent, getComponent, hasComponent } from "../../../ecs/ComponentFunctions";
 
 import { traverseEntityNode } from "../../transform/components/EntityTree";
-import { RendererComponent } from "../WebGLRendererSystem";
+import { RendererComponent, WebGLRendererSystem } from "../WebGLRendererSystem";
 import { GroupComponent } from "./GroupComponent";
 import { MeshComponent } from "./MeshComponent";
 import { VisibleComponent } from "./VisibleComponent";
@@ -30,6 +30,6 @@ const execute = () => {
 
 export const HighlightSystem = defineSystem({
     uuid: "HighlightSystem",
-    insert: { beforeSystem },
+    insert: { before: WebGLRendererSystem },
     execute,
 });

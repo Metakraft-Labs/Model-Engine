@@ -1,7 +1,6 @@
 import { Frustum, Matrix4, Vector3 } from "three";
 
 import { getComponent } from "../../../ecs";
-import { Entity } from "../../../ecs/Entity";
 import { defineState, getMutableState, getState } from "../../../hyperflux";
 import { TransformComponent } from "../../../spatial";
 import { CameraComponent } from "../../../spatial/camera/components/CameraComponent";
@@ -53,7 +52,6 @@ export const inFrustum = entity => {
 /**
  * Checks if entity can interact with any of entities listed in 'interactable' array, checking distance, guards and raycast
  * sorts the interactables by closest to the player
- * @param {Entity[]} interactables
  */
 export const gatherAvailableInteractables = interactables => {
     const availableInteractable = getMutableState(InteractableState).available;

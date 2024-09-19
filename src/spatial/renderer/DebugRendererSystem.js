@@ -18,6 +18,7 @@ import { RendererState } from "../renderer/RendererState";
 import { EntityTreeComponent } from "../transform/components/EntityTree";
 import { createInfiniteGridHelper } from "./components/InfiniteGridHelper";
 import { SceneComponent } from "./components/SceneComponents";
+import { WebGLRendererSystem } from "./WebGLRendererSystem";
 
 const PhysicsDebugEntities = new Map();
 
@@ -95,7 +96,7 @@ const reactor = () => {
 
 export const DebugRendererSystem = defineSystem({
     uuid: "ee.engine.DebugRendererSystem",
-    insert: { beforeSystem },
+    insert: { before: WebGLRendererSystem },
     execute,
     reactor,
 });

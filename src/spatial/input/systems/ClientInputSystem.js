@@ -49,7 +49,7 @@ const _inputRaycast = {
     direction: new Vector3(),
     maxDistance: 1000,
     groups: getInteractionGroups(CollisionGroups.Default, CollisionGroups.Default),
-    excludeRigidBody, //
+    excludeRigidBody: undefined, //
 };
 const _quat = new Quaternion();
 const _inputRay = new Ray();
@@ -206,7 +206,7 @@ const cleanupInputs = () => {
         // clear non-spatial emulated axes data end of each frame
         // this is used to clear wheel speed each frame
         if (!hasComponent(eid, XRSpaceComponent) && hasComponent(eid, InputPointerComponent)) {
-            source.source.gamepad.axes.fill(0);
+            (source.source.gamepad?.axes).fill(0);
         }
     }
 };

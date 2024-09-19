@@ -71,8 +71,8 @@ const initialState = {
         currentTarget: 0,
         userTarget: -1,
     },
-    geometryType,
-    textureBuffer,
+    geometryType: undefined,
+    textureBuffer: undefined,
     setIntervalId: -1,
     texture: {},
     textureInfo: {
@@ -81,7 +81,7 @@ const initialState = {
         firstFrameLoaded: {},
     },
     paused: true,
-    preTrackBufferingCallback,
+    preTrackBufferingCallback: undefined,
 };
 
 const resetState = {
@@ -104,8 +104,8 @@ const resetState = {
         currentTarget: 0,
         userTarget: -1,
     },
-    geometryType,
-    textureBuffer,
+    geometryType: undefined,
+    textureBuffer: undefined,
     setIntervalId: -1,
     texture: {},
     textureInfo: {
@@ -119,8 +119,8 @@ const resetState = {
 export const NewVolumetricComponent = defineComponent({
     name: "NewVolumetricComponent",
     jsonID: "EE_NewVolumetric",
-    onInit: _entity => structuredClone(initialState),
-    onSet: (_entity, component, json) => {
+    onInit: entity => structuredClone(initialState),
+    onSet: (entity, component, json) => {
         if (!json) return;
         if (typeof json.useLoadingEffect === "boolean") {
             component.useLoadingEffect.set(json.useLoadingEffect);
@@ -129,7 +129,7 @@ export const NewVolumetricComponent = defineComponent({
             component.volume.set(json.volume);
         }
     },
-    toJSON: (_entity, component) => ({
+    toJSON: (entity, component) => ({
         useLoadingEffect: component.useLoadingEffect.value,
         volume: component.volume.value,
     }),
@@ -198,7 +198,7 @@ export const NewVolumetricComponent = defineComponent({
             }
             const textureBufferDataContainer = textureBufferInfo.bufferData;
             const target = textureInfo.targets[textureInfo.currentTarget];
-            const format = manifest.texture[textureType].targets[target].format;
+            const format = manifest.texture[textureType]?.targets[target].format;
 
             const endTime = Math.min(
                 (durationInMS * TIME_UNIT_MULTIPLIER) / 1000,
@@ -336,7 +336,7 @@ export const NewVolumetricComponent = defineComponent({
                 deleteUsedTextureBuffers({
                     currentTimeInMS: MAX_DURATION,
                     textureBuffer: textureBuffer,
-                    textureType,
+                    textureType: textureType,
                     clearAll: true,
                 });
 
@@ -476,7 +476,7 @@ function NewVolumetricComponentReactor() {
                     const textureBuffer = textureBufferInfo.buffer;
 
                     const target = textureTypeData.targets[textureTypeData.currentTarget];
-                    const format = manifest.texture[textureType].targets[target].format;
+                    const format = manifest.texture[textureType]?.targets[target].format;
                     if (!(textureType in component.textureInfo.initialBufferLoaded.value)) {
                         component.textureInfo.initialBufferLoaded.merge({
                             [textureType]: false,
@@ -510,8 +510,8 @@ function NewVolumetricComponentReactor() {
         }
 
         volumeticMutables[entity] = {
-            material,
-            mesh,
+            material: null,
+            mesh: null,
             group: new Group(),
             manifest: {},
             geometryBufferData: new BufferDataContainer(),
@@ -765,6 +765,7 @@ function NewVolumetricComponentReactor() {
                     component.geometryType.value !== GeometryType.Corto
                         ? manifest.materialProperties
                         : undefined;
+
                 volumeticMutables[entity].material = createMaterial(
                     component.geometryType.value,
                     component.useVideoTextureForBaseColor.value,
@@ -871,8 +872,8 @@ function NewVolumetricComponentReactor() {
                                 volumeticMutables[entity].geometryBuffer.get("corto");
                             if (collection && collection[frameNo]) {
                                 updateGeometry(currentTimeInMS);
-                                volumeticMutables[entity].material.uniforms["map"].value;
-                                if (volumeticMutables[entity].material.uniforms["map"].value) {
+                                volumeticMutables[entity].material?.uniforms["map"].value;
+                                if (volumeticMutables[entity].material?.uniforms["map"].value) {
                                     volumeticMutables[entity].material.uniforms[
                                         "map"
                                     ].value.needsUpdate = true;
@@ -952,6 +953,7 @@ function NewVolumetricComponentReactor() {
             component.geometryType.value === GeometryType.Corto
                 ? volumeticMutables[entity].manifest.frameRate
                 : undefined;
+
         NewVolumetricComponent.adjustGeometryTarget(entity);
         const geometryTarget =
             component.geometry.targets[component.geometry.currentTarget.value].value;
@@ -1073,7 +1075,7 @@ function NewVolumetricComponentReactor() {
 
         textureTypes.forEach(textureType => {
             const textureInfo = component.texture[textureType].get(NO_PROXY);
-            const targetData = manifest.texture[textureType].targets;
+            const targetData = manifest.texture[textureType]?.targets;
             const textureBufferInfo = volumeticMutables[entity].texture[textureType];
 
             if (textureInfo && textureBufferInfo) {

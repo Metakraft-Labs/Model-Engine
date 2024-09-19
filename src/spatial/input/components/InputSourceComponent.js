@@ -23,7 +23,7 @@ export const InputSourceComponent = defineComponent({
             handedness: "none",
             targetRayMode: "screen",
             targetRaySpace: {},
-            gripSpace,
+            gripSpace: undefined,
             gamepad: args.gamepad ?? {
                 axes: [0, 0, 0, 0],
                 buttons: [],
@@ -36,7 +36,7 @@ export const InputSourceComponent = defineComponent({
                 vibrationActuator,
             },
             profiles: [],
-            hand,
+            hand: undefined,
         };
 
         component.source.set(source);

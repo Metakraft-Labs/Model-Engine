@@ -19,7 +19,7 @@ export const playVolumetric = makeFlowNodeDefinition({
         play: "boolean",
     },
     out: { flow: "flow" },
-    initialState,
+    initialState: undefined,
     triggered: ({ read, commit }) => {
         const entity = read("entity");
         const play = read("play");
@@ -42,7 +42,7 @@ export const setVolumetricTime = makeFlowNodeDefinition({
         time: "float",
     },
     out: { flow: "flow" },
-    initialState,
+    initialState: undefined,
     triggered: ({ read, commit }) => {
         const entity = read("entity");
         const time = read("time");
@@ -66,7 +66,7 @@ export const fadeVolumetricAudioVolume = makeFlowNodeDefinition({
         duration: "float",
     },
     out: { flow: "flow" },
-    initialState,
+    initialState: undefined,
     triggered: ({ read, commit }) => {
         const entity = read("entity");
         const targetVolume = read("targetVolume");

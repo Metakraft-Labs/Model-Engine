@@ -22,13 +22,13 @@ const { f64 } = Types;
 export const Vector3Schema = { x: f64, y: f64, z: f64 };
 export const QuaternionSchema = { x: f64, y: f64, z: f64, w: f64 };
 export const PoseSchema = {
-    positionSchema,
-    rotationSchema,
+    position: Vector3Schema,
+    rotation: QuaternionSchema,
 };
 export const TransformSchema = {
-    positionSchema,
-    rotationSchema,
-    scaleSchema,
+    position: Vector3Schema,
+    rotation: QuaternionSchema,
+    scale: Vector3Schema,
 };
 
 export const TransformComponent = defineComponent({
@@ -36,7 +36,7 @@ export const TransformComponent = defineComponent({
     jsonID: "EE_transform",
     schema: TransformSchema,
 
-    onInit: _entity => {
+    onInit: entity => {
         const dirtyTransforms = TransformComponent.dirtyTransforms;
         const component = {
             position: proxifyVector3WithDirty(TransformComponent.position, entity, dirtyTransforms),

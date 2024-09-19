@@ -29,7 +29,7 @@ export const MeshStandardArguments = {
 export const MeshStandardMaterial = {
     prototypeId: "MeshStandardMaterial",
     prototypeConstructor: Standard,
-    argumentsStandardArguments,
+    arguments: MeshStandardArguments,
 };
 
 export default MeshStandardMaterial;

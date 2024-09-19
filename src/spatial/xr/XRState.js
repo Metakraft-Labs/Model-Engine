@@ -139,15 +139,15 @@ export const ReferenceSpace = {
      * The scene origin reference space describes where the origin of the tracking space is
      * TODO: this will be deprecated in a future reference space refactor
      */
-    origin,
+    origin: null,
     /**
      * @see https://www.w3.org/TR/webxr/#dom-xrreferencespacetype-local-floor
      */
-    localFloor,
+    localFloor: null,
     /**
      * @see https://www.w3.org/TR/webxr/#dom-xrreferencespacetype-viewer
      */
-    viewer,
+    viewer: null,
 };
 globalThis.ReferenceSpace = ReferenceSpace;
 

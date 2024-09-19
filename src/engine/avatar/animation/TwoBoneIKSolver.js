@@ -1,4 +1,4 @@
-import { Bone, MathUtils, Matrix4, Object3D, Quaternion, Vector3 } from "three";
+import { MathUtils, Matrix4, Quaternion, Vector3 } from "three";
 
 import { getComponent } from "../../../ecs";
 import { Vector3_One } from "../../../spatial/common/constants/MathConstants";
@@ -30,12 +30,6 @@ export function constrainTargetPosition(targetPosition, constraintCenter, distan
 /**
  * Solves Two-Bone IK.
  * targetOffset is assumed to have no parents
- * @param {Bone} root root joint
- * @param {Bone} mid mid joint
- * @param {Bone} tip tip joint
- * @param {Object3D} target goal transform
- * @param {Object3D} hint Position of the hint
- * @param {Object3D} targetOffset Offset transform applied to the target
  * @param {number} targetPosWeight
  * @param {number} targetRotWeight
  * @param {number} hintWeight

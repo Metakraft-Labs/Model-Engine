@@ -16,5 +16,5 @@ export const ShaderMaterialArguments = {
 export const ShaderMaterial = {
     prototypeId: "ShaderMaterial",
     prototypeConstructor: Shader,
-    arguments,
+    arguments: ShaderMaterialArguments,
 };

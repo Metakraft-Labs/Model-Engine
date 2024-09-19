@@ -8,7 +8,7 @@ export const HighlightState = defineState({
     name: "HighlightState",
     initial: {
         blendFunction: BlendFunction.SCREEN,
-        patternTexture, // post processing args typed as (Texture ) so we must the type
+        patternTexture: null, // post processing args typed as (Texture ) so we must the type
         patternScale: 1.0,
         edgeStrength: 5.0,
         pulseSpeed: 0.0,

@@ -18,8 +18,8 @@ export const NetworkState = defineState({
     name: "NetworkState",
     initial: {
         hostIds: {
-            media,
-            world,
+            media: null,
+            world: null,
         },
         // todo - move to Network.schemas
         networkSchema: {},

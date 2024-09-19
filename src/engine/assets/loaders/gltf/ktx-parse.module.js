@@ -349,7 +349,7 @@ function Pi(t) {
     )
         throw new Error("Missing KTX 2.0 identifier.");
     const n = new Si(),
-        i = 17 * Uint32Array.BYTES_PER_ELEMENT,
+        i = 17 * Uint32Array?.BYTES_PER_ELEMENT,
         s = new Ii(t, Ti.length, i, !0);
     (n.vkFormat = s._nextUint32()),
         (n.typeSize = s._nextUint32()),

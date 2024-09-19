@@ -20,12 +20,12 @@ import { XRState } from "./XRState";
 export const XRRendererState = defineState({
     name: "XRRendererState",
     initial: {
-        glBinding,
-        glProjLayer,
-        glBaseLayer,
-        xrFrame,
-        initialRenderTarget,
-        newRenderTarget,
+        glBinding: null,
+        glProjLayer: null,
+        glBaseLayer: null,
+        xrFrame: null,
+        initialRenderTarget: null,
+        newRenderTarget: null,
     },
 });
 

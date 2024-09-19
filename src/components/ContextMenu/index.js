@@ -62,6 +62,8 @@ const ShowContextMenu = ({ anchorEvent, children, ...props }) => {
 
 export const ContextMenu = ({ anchorEvent, children, ...props }) => {
     return anchorEvent ? (
-        <ShowContextMenu anchorEvent={anchorEvent} children={children} {...props} />
+        <ShowContextMenu anchorEvent={anchorEvent} {...props}>
+            {children}
+        </ShowContextMenu>
     ) : null;
 };

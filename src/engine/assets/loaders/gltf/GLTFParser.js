@@ -1,4 +1,3 @@
-import { GLTF } from "@gltf-transform/core";
 import {
     AnimationClip,
     Bone,
@@ -1130,7 +1129,6 @@ export class GLTFParser {
      *
      * Creates BufferGeometries from primitives.
      *
-     * @param {Array<GLTF.Primitive>} primitives
      * @return {Promise<Array<BufferGeometry>>}
      */
     loadGeometries(primitives) {

@@ -16,14 +16,14 @@ import { BodyTypes } from "../types/PhysicsTypes";
 
 const { f64 } = Types;
 const Vector3Schema = { x: f64, y: f64, z: f64 };
-// const QuaternionSchema = { x: f64, y: f64, z: f64, w: f64 };
+const QuaternionSchema = { x: f64, y: f64, z: f64, w: f64 };
 const SCHEMA = {
     previousPosition: Vector3Schema,
-    previousRotationSchema,
+    previousRotation: QuaternionSchema,
     position: Vector3Schema,
-    rotationSchema,
+    rotation: QuaternionSchema,
     targetKinematicPosition: Vector3Schema,
-    targetKinematicRotationSchema,
+    targetKinematicRotation: QuaternionSchema,
     linearVelocity: Vector3Schema,
     angularVelocity: Vector3Schema,
 };

@@ -129,6 +129,7 @@ const QuerySubReactor = memo(props => {
         </>
     );
 });
+QuerySubReactor.displayName = "QuerySubReactor";
 
 export const QueryReactor = memo(props => {
     const entities = useQuery(props.Components);
@@ -149,6 +150,7 @@ export const QueryReactor = memo(props => {
         </>
     );
 });
+QueryReactor.displayName = "QueryReactor";
 
 class QueryReactorErrorBoundary extends React.Component {
     state = {

@@ -156,9 +156,10 @@ export const Node = ({ id, data, spec, selected, specGenerator }) => {
             >
                 {collapsed &&
                     pairs.map(
-                        ([input, output], ix) =>
+                        ([input], ix) =>
                             input && (
                                 <InputSocket
+                                    key={`collapsed-pair-input-socket-${ix}`}
                                     {...input}
                                     specGenerator={specGenerator}
                                     value={data.values?.[input.name] ?? input.defaultValue}
@@ -187,9 +188,10 @@ export const Node = ({ id, data, spec, selected, specGenerator }) => {
 
                 {collapsed &&
                     pairs.map(
-                        ([input, output], ix) =>
+                        ([_input, output], ix) =>
                             output && (
                                 <OutputSocket
+                                    key={`collapsed-pair-output-socket-${ix}`}
                                     {...output}
                                     specGenerator={specGenerator}
                                     connected={isHandleConnected(edges, id, output.name, "source")}

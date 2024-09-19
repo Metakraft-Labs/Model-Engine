@@ -31,13 +31,13 @@ function loadScript(url) {
  */
 const initialize8thwall = async () => {
     const [xr8Script, xrExtrasScript /*, xrCoachingOverlayScript*/] = await Promise.all([
-        loadScript(`https://apps.8thwall.com/xrweb?appKey=`),
+        loadScript(`https://apps.8thwall.com/xrweb`),
         loadScript(`https://cdn.8thwall.com/web/xrextras/xrextras.js`),
         // loadScript(`https://cdn.8thwall.com/web/coaching-overlay/coaching-overlay.js`)
     ]);
 
     /** the global XR8 object will not exist immediately, so wait for it */
-    await new ((resolve, reject) => {
+    await new Promise((resolve, reject) => {
         const interval = setInterval(() => {
             if (globalThis.XR8) {
                 clearTimeout(timeout);
@@ -49,7 +49,7 @@ const initialize8thwall = async () => {
             clearInterval(interval);
             reject();
         }, 30000); // 30 seconds
-    })();
+    });
 
     XR8 = globalThis.XR8;
     XRExtras = globalThis.XRExtras;
@@ -181,7 +181,7 @@ const viewerInputSource = {
         index: 0,
         mapping: "",
         timestamp: Date.now() - performance.timeOrigin,
-        vibrationActuator,
+        vibrationActuator: null,
     },
     profiles: [],
 };
@@ -196,7 +196,7 @@ const onTouchStart = ev => {
         (ev.touches[0].screenY / window.innerHeight) * -2 + 1,
     ];
     const xrState = getState(XRState);
-    xrState.session.dispatchEvent({
+    xrState.session?.dispatchEvent({
         type: "inputsourceschange",
         added: [viewerInputSource],
         removed: [],
@@ -211,9 +211,9 @@ const onTouchMove = ev => {
     ];
 };
 
-const onTouchEnd = _ev => {
+const onTouchEnd = ev => {
     const xrState = getState(XRState);
-    xrState.session.dispatchEvent({
+    xrState.session?.dispatchEvent({
         type: "inputsourceschange",
         removed: [viewerInputSource],
         added: [],
@@ -245,7 +245,7 @@ const overrideXRSessionFunctions = () => {
             return;
         }
 
-        // bind constructors to global object
+        // bind public constructors to global object
         globalThis.XRRigidTransform = XRRigidTransform;
 
         const xrSession = new XRSessionProxy(inputSources);
@@ -304,7 +304,7 @@ const revertXRSessionFunctions = () => {
 };
 
 /**
- * Scenes that specify that they have VPS should using webxr to use 8thwall.
+ * Scenes that specify that they have VPS should override using webxr to use 8thwall.
  * - this will not cover the problem of going through a portal to a scene that has VPS,
  *     or exiting one that does to one that does not. This requires exiting the immersive
  *     session, changing the overrides, and entering the session again

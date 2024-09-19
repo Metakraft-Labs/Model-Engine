@@ -3,7 +3,7 @@ import { ECSState } from "../../ecs/ECSState";
 import { defineSystem } from "../../ecs/SystemFunctions";
 import { defineState, getMutableState, getState } from "../../hyperflux";
 
-import { RendererComponent } from "./WebGLRendererSystem";
+import { RendererComponent, WebGLRendererSystem } from "./WebGLRendererSystem";
 
 export const RenderInfoState = defineState({
     name: "RenderInfoState",
@@ -56,6 +56,6 @@ const execute = () => {
 
 export const RenderInfoSystem = defineSystem({
     uuid: "ee.editor.RenderInfoSystem",
-    insert: { withSystem },
+    insert: { with: WebGLRendererSystem },
     execute,
 });

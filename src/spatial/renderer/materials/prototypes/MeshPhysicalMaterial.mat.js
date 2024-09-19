@@ -1,39 +1,39 @@
 import { MeshPhysicalMaterial as Physical } from "three";
 
-import { FloatArg, NormalizedFloatArg } from "../constants/DefaultArgs";
+import { ColorArg, FloatArg, NormalizedFloatArg, TextureArg } from "../constants/DefaultArgs";
 import { MeshStandardArguments as StandardDefaults } from "./MeshStandardMaterial.mat";
 
 export const MeshPhysicalArguments = {
     ...StandardDefaults,
     clearcoat: { ...NormalizedFloatArg, default: 0.5 },
-    clearcoatMap,
-    clearcoatNormalMap,
+    clearcoatMap: TextureArg,
+    clearcoatNormalMap: TextureArg,
     clearcoatRoughness: { ...NormalizedFloatArg, default: 0.5 },
     ior: { ...FloatArg, default: 1.5, min: 1.0, max: 2.333 },
     iridescence: NormalizedFloatArg,
-    iridescenceMap,
+    iridescenceMap: TextureArg,
     iridescenceIOR: { ...FloatArg, default: 1.3, min: 1.0, max: 2.333 },
-    iridescenceThicknessMap,
+    iridescenceThicknessMap: TextureArg,
     sheen: { ...NormalizedFloatArg, default: 0.5 },
-    sheenMap,
-    sheenColorArg,
-    sheenColorMap,
+    sheenMap: TextureArg,
+    sheenColor: ColorArg,
+    sheenColorMap: TextureArg,
     sheenRoughness: { ...NormalizedFloatArg, default: 0.5 },
-    sheenRoughnessMap,
+    sheenRoughnessMap: TextureArg,
     specularIntensity: FloatArg,
-    specularIntensityMap,
-    specularColorArg,
-    specularColorMap,
+    specularIntensityMap: TextureArg,
+    specularColor: ColorArg,
+    specularColorMap: TextureArg,
     thickness: FloatArg,
-    thicknessMap,
+    thicknessMap: TextureArg,
     transmission: FloatArg,
-    transmissionMap,
+    transmissionMap: TextureArg,
 };
 
 export const MeshPhysicalMaterial = {
     prototypeId: "MeshPhysicalMaterial",
     prototypeConstructor: Physical,
-    argumentsPhysicalArguments,
+    arguments: MeshPhysicalArguments,
 };
 
 export default MeshPhysicalMaterial;

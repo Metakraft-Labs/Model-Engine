@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { HiLink } from "react-icons/hi2";
-import { useFind, useMutation } from "../../hooks/feathersHooks";
 import { getState, useHookstate } from "../../hyperflux";
+import { useFind, useMutation } from "../../spatial/common/functions/FeathersHooks";
 import Modal from "../Modal";
 import { saveSceneGLTF } from "./functions/sceneFunctions";
 import { EditorState } from "./services/EditorServices";

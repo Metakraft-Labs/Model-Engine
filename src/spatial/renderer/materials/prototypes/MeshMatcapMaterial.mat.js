@@ -1,24 +1,24 @@
 import { MeshMatcapMaterial as Matcap } from "three";
 
 import { BasicArgs, BumpMapArgs, DisplacementMapArgs, NormalMapArgs } from "../constants/BasicArgs";
-import { BoolArg } from "../constants/DefaultArgs";
+import { BoolArg, TextureArg } from "../constants/DefaultArgs";
 
 export const MeshMatcapArguments = {
     ...BasicArgs,
     ...BumpMapArgs,
     fog: BoolArg,
-    matcap,
+    matcap: TextureArg,
     ...NormalMapArgs,
     ...DisplacementMapArgs,
 };
 
 export const MeshMatcapMaterial = {
     prototypeId: "MeshMatcapMaterial",
-    argumentsMatcapArguments,
+    arguments: MeshMatcapArguments,
     prototypeConstructor: Matcap,
-    onBeforeCompile: shader => {
+    onBeforeCompile: (shader, renderer) => {
         ["envMap", "flipEnvMap", "reflectivity", "ior", "refractionRatio"].map(
-            arg => (shader.uniforms[arg] = { value }),
+            arg => (shader.uniforms[arg] = { value: null }),
         );
     },
 };

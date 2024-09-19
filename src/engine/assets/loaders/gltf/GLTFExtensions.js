@@ -170,7 +170,6 @@ export class GLTFLightsExtension {
     }
 
     createNodeAttachment(nodeIndex) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this;
         const parser = this.parser;
         const json = parser.json;

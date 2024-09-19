@@ -227,8 +227,8 @@ export const PlaybackState = defineState({
 export const RecordingAPIState = defineState({
     name: "ee.engine.recording.RecordingAPIState",
     initial: {
-        createMediaChannelRecorder: null | MediaChannelRecorderType,
-        uploadRecordingChunk: null | UploadRecordingChunkType,
+        createMediaChannelRecorder: null,
+        uploadRecordingChunk: null,
     },
 });
 

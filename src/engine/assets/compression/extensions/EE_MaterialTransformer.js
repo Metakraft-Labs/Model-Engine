@@ -1,4 +1,4 @@
-import { ExtensionProperty, Property, PropertyType } from "@gltf-transform/core";
+import { Extension, ExtensionProperty, Property, PropertyType } from "@gltf-transform/core";
 
 const EXTENSION_NAME = "EE_material";
 

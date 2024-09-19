@@ -6,21 +6,21 @@ import {
     EmissiveMapArgs,
     NormalMapArgs,
 } from "../constants/BasicArgs";
-import { BoolArg } from "../constants/DefaultArgs";
+import { BoolArg, TextureArg } from "../constants/DefaultArgs";
 
 export const MeshToonArguments = {
     ...BasicArgs,
     ...DisplacementMapArgs,
     ...EmissiveMapArgs,
     fog: BoolArg,
-    gradientMap,
+    gradientMap: TextureArg,
     ...NormalMapArgs,
 };
 
 export const MeshToonMaterial = {
     prototypeId: "MeshToonMaterial",
     prototypeConstructor: Toon,
-    argumentsToonArguments,
+    arguments: MeshToonArguments,
 };
 
 export default MeshToonMaterial;

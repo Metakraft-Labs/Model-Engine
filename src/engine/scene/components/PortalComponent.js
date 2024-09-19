@@ -1,12 +1,46 @@
-import { SphereGeometry } from "three";
+import { useEffect } from "react";
+import {
+    BackSide,
+    Euler,
+    Mesh,
+    MeshBasicMaterial,
+    Quaternion,
+    SphereGeometry,
+    Vector3,
+} from "three";
 
-import { removeComponent, setComponent } from "../../../ecs/ComponentFunctions";
-import { getMutableState, getState } from "../../../hyperflux";
+import { spawnPointPath } from "../../../common/src/schema.type.module";
+import {
+    defineComponent,
+    hasComponent,
+    removeComponent,
+    setComponent,
+    useComponent,
+} from "../../../ecs/ComponentFunctions";
+import { UndefinedEntity } from "../../../ecs/Entity";
+import { createEntity, useEntityContext } from "../../../ecs/EntityFunctions";
+import { defineState, getMutableState, getState, matches, useHookstate } from "../../../hyperflux";
 import { setCallback } from "../../../spatial/common/CallbackComponent";
 import { Vector3_Right } from "../../../spatial/common/constants/MathConstants";
 import { ArrowHelperComponent } from "../../../spatial/common/debug/ArrowHelperComponent";
-import { removeObjectFromGroup } from "../../../spatial/renderer/components/GroupComponent";
+import { useGet } from "../../../spatial/common/functions/FeathersHooks";
+import { NameComponent } from "../../../spatial/common/NameComponent";
+import { ColliderComponent } from "../../../spatial/physics/components/ColliderComponent";
+import { RigidBodyComponent } from "../../../spatial/physics/components/RigidBodyComponent";
+import { TriggerComponent } from "../../../spatial/physics/components/TriggerComponent";
+import { CollisionGroups } from "../../../spatial/physics/enums/CollisionGroups";
+import { Shapes } from "../../../spatial/physics/types/PhysicsTypes";
+import {
+    addObjectToGroup,
+    removeObjectFromGroup,
+} from "../../../spatial/renderer/components/GroupComponent";
+import { enableObjectLayer } from "../../../spatial/renderer/components/ObjectLayerComponent";
+import { VisibleComponent } from "../../../spatial/renderer/components/VisibleComponent";
+import { ObjectLayers } from "../../../spatial/renderer/constants/ObjectLayers";
+import { RendererState } from "../../../spatial/renderer/RendererState";
+import { EntityTreeComponent } from "../../../spatial/transform/components/EntityTree";
 
+import { useTexture } from "../../assets/functions/resourceLoaderHooks";
 import { AvatarComponent } from "../../avatar/components/AvatarComponent";
 
 export const PortalPreviewTypeSimple = "Simple";
@@ -33,7 +67,7 @@ export const PortalComponent = defineComponent({
     name: "PortalComponent",
     jsonID: "EE_portal",
 
-    onInit: _entity => {
+    onInit: entity => {
         return {
             linkedPortalId: "",
             location: "",
@@ -45,11 +79,11 @@ export const PortalComponent = defineComponent({
             spawnRotation: new Quaternion(),
             remoteSpawnPosition: new Vector3(),
             remoteSpawnRotation: new Quaternion(),
-            mesh,
+            mesh: null,
         };
     },
 
-    onSet: (_entity, component, json) => {
+    onSet: (entity, component, json) => {
         if (!json) return;
         if (matches.string.test(json.linkedPortalId))
             component.linkedPortalId.set(json.linkedPortalId);
@@ -71,7 +105,7 @@ export const PortalComponent = defineComponent({
         }
     },
 
-    toJSON: (_entity, component) => {
+    toJSON: (entity, component) => {
         return {
             location: component.location.value,
             linkedPortalId: component.linkedPortalId.value,
@@ -120,7 +154,7 @@ export const PortalComponent = defineComponent({
                 triggers: [
                     {
                         onEnter: "teleport",
-                        onExit,
+                        onExit: null,
                         target: "",
                     },
                 ],

@@ -64,4 +64,6 @@ const Accordion = forwardRef(
     },
 );
 
+Accordion.displayName = "Accordian";
+
 export default Accordion;

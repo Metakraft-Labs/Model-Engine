@@ -759,13 +759,13 @@ async function createRawTexture(container) {
             data = new Float32Array(
                 levelData.buffer,
                 levelData.byteOffset,
-                levelData.byteLength / Float32Array.BYTES_PER_ELEMENT,
+                levelData.byteLength / Float32Array?.BYTES_PER_ELEMENT,
             );
         } else if (TYPE_MAP[vkFormat] === HalfFloatType) {
             data = new Uint16Array(
                 levelData.buffer,
                 levelData.byteOffset,
-                levelData.byteLength / Uint16Array.BYTES_PER_ELEMENT,
+                levelData.byteLength / Uint16Array?.BYTES_PER_ELEMENT,
             );
         } else {
             data = levelData;

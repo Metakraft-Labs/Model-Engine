@@ -4,6 +4,7 @@ import { defineQuery, defineSystem, getComponent } from "../../ecs";
 import { getState, useMutableState } from "../../hyperflux";
 import { EngineState } from "../EngineState";
 import { RendererState } from "./RendererState";
+import { WebGLRendererSystem } from "./WebGLRendererSystem";
 import {
     GroupComponent,
     addObjectToGroup,
@@ -42,7 +43,7 @@ const reactor = () => {
 
 export const ViewportLightingSystem = defineSystem({
     uuid: "ee.engine.ViewportLightingSystem",
-    insert: { beforeSystem },
+    insert: { before: WebGLRendererSystem },
     execute,
     reactor,
 });

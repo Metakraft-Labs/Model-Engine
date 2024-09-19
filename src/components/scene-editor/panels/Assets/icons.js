@@ -6,6 +6,7 @@ import { PiMountains } from "react-icons/pi";
 import { RxCube } from "react-icons/rx";
 import { TbMaximize, TbRoute } from "react-icons/tb";
 
+import { Box } from "@mui/material";
 import React from "react";
 
 export const iconMap = {
