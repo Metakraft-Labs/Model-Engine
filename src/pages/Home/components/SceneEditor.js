@@ -1,17 +1,15 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import footerimg_motion from "../../../assets/img/dashboard/footerimg_motion.png";
 import skull from "../../../assets/img/dashboard/skull.png";
 import zap from "../../../assets/img/dashboard/zap.png";
 
-export default function Text2Motion() {
+export default function SceneEditor({ setTab, selectedTab }) {
     return (
         <Box
             sx={{
                 backgroundColor: "#101111",
                 borderRadius: 7,
-                border: 1,
-                borderColor: "#373737",
+                border: `1px solid ${selectedTab === "sceneEditor" ? "#E18BFF" : "#373737"}`,
                 textAlign: "center",
                 alignItems: "center",
                 display: "flex",
@@ -21,7 +19,9 @@ export default function Text2Motion() {
                 backgroundPosition: "top right",
                 overflow: "hidden",
                 boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
+                cursor: "pointer",
             }}
+            onClick={() => setTab("sceneEditor")}
         >
             <Box
                 sx={{
@@ -58,7 +58,7 @@ export default function Text2Motion() {
                                 fontSize: "18px",
                             }}
                         >
-                            Text to Motion
+                            Scene Editor
                         </Typography>
                     </Box>
                     <Box
@@ -76,26 +76,10 @@ export default function Text2Motion() {
                             }}
                             color="#787878"
                         >
-                            Create Motion from text or with your pre made avatars
+                            Create immersive 3D scenes with our Editor
                         </Typography>
                     </Box>
                 </Box>
-            </Box>
-            <Box
-                sx={{
-                    backgroundImage: `url(${footerimg_motion}) `,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    width: "100%",
-                    height: "10%",
-                    p: 0.5,
-                    overflow: "hidden",
-                }}
-            >
-                <Typography textAlign="left" sx={{ fontSize: "13px", fontWeight: "800", pl: 3 }}>
-                    coming soon
-                </Typography>
             </Box>
         </Box>
     );

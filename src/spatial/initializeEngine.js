@@ -65,6 +65,7 @@ export const destroySpatialViewer = () => {
 };
 
 export const initializeSpatialEngine = () => {
+    createEntity();
     const originEntity = createEntity();
     setComponent(originEntity, NameComponent, "origin");
     setComponent(originEntity, UUIDComponent, "ee.origin");

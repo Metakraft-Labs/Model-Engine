@@ -45,7 +45,7 @@ export const ObjectLayerMaskComponent = defineComponent({
      * setComponent(entity, ObjectLayerMaskComponent, ObjectLayerMasks.NodeHelper)
      * ```
      */
-    onSet(_entity, component, mask = ObjectLayerMaskDefault) {
+    onSet(entity, component, mask = ObjectLayerMaskDefault) {
         for (let i = 0; i < maxBitWidth; i++) {
             const isSet = (mask & ((1 << i) | 0)) !== 0;
             if (isSet) {

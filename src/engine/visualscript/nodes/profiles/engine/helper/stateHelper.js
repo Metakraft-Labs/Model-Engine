@@ -34,7 +34,7 @@ export function generateStateNodeSchema(state, withFlow = false) {
 export function registerStateSetters() {
     const setters = [];
     const skipped = [];
-    for (const [stateName, state] of Object.entries(Engine.instance.store.stateMap)) {
+    for (const [stateName, state] of Object.entries(Engine.instance.store?.stateMap)) {
         if (skipState.includes(stateName)) {
             skipped.push(stateName);
             continue;
@@ -71,7 +71,7 @@ export function registerStateSetters() {
 export function registerStateGetters() {
     const getters = [];
     const skipped = [];
-    for (const [stateName, state] of Object.entries(Engine.instance.store.stateMap)) {
+    for (const [stateName, state] of Object.entries(Engine.instance.store?.stateMap)) {
         if (skipState.includes(stateName)) {
             skipped.push(stateName);
             continue;
@@ -124,7 +124,7 @@ export const getUseStateSystemUUID = stateName =>
 export function registerStateListeners() {
     const getters = [];
     const skipped = [];
-    for (const [stateName, state] of Object.entries(Engine.instance.store.stateMap)) {
+    for (const [stateName, state] of Object.entries(Engine.instance.store?.stateMap)) {
         if (skipState.includes(stateName)) {
             skipped.push(stateName);
             continue;

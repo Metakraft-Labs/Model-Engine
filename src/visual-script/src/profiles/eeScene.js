@@ -35,7 +35,7 @@ export class EEScene {
                 QuatValue,
             ].map(valueType => [valueType.name, valueType]),
         );
-        Object.entries(HyperFlux.store.stateMap).forEach(stateType => {
+        Object.entries(HyperFlux.store?.stateMap).forEach(stateType => {
             const properties = {};
             Object.keys(stateType[1]).forEach(property => {
                 properties[property] = property;

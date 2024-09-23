@@ -6,8 +6,8 @@ import Title from "../../shared/Title";
 import Footer from "./components/Footer";
 import Invite from "./components/Invite";
 import Navbar from "./components/Navbar";
+import SceneEditor from "./components/SceneEditor";
 import Text23D from "./components/Text23D";
-import Text2Motion from "./components/Text2Motion";
 import Text2Texture from "./components/Text2Texture";
 import VideoBox from "./components/VideoBox";
 
@@ -87,7 +87,7 @@ export default function Home() {
                                 height: "50%",
                             }}
                         >
-                            <Text2Motion />
+                            <SceneEditor setTab={setTab} selectedTab={selectedTab} />
 
                             <Text2Texture selectedTab={selectedTab} setTab={setTab} />
                         </Box>

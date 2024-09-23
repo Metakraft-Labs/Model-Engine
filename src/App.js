@@ -10,9 +10,12 @@ import logo from "./assets/img/logo.jpg";
 import Routers from "./common/Routers";
 import LoadingScreen from "./components/LoadingScreen";
 import UserProvider from "./contexts/UserStore";
+import { createHyperStore } from "./hyperflux";
 import { getSupportedChains } from "./shared/web3utils";
 import { initializei18n } from "./util";
 
+const publicPath = location.origin;
+createHyperStore({ publicPath });
 initializei18n();
 function App() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");

@@ -9,6 +9,7 @@ import { LogoIcon } from "../../../icons/LogoIcon";
 const TABS = {
     "3d": "/text-2-3d",
     texture: "/text-2-texture",
+    sceneEditor: "/scene-editor",
 };
 
 export default function Navbar({ selectedTab }) {

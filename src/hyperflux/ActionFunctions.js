@@ -222,7 +222,7 @@ const createEventSourceQueues = action => {
         // set resync to true to ensure the queue exists immediately
         receptorActionQueue.needsResync = true;
 
-        if (!HyperFlux.store.stateMap[definition.name]) setInitialState(definition);
+        if (!HyperFlux.store?.stateMap[definition.name]) setInitialState(definition);
 
         const applyEventSourcing = () => {
             // queue may need to be reset when actions are recieved out of order

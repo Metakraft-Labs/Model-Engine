@@ -58,8 +58,8 @@ export const defineComponent = def => {
 };
 
 export const getOptionalMutableComponent = (entity, component) => {
-    if (!component.stateMap[entity]) component.stateMap[entity] = hookstate(none);
-    const componentState = component.stateMap[entity];
+    if (!component?.stateMap[entity]) component.stateMap[entity] = hookstate(none);
+    const componentState = component?.stateMap[entity];
     return componentState.promised ? undefined : componentState;
 };
 
@@ -75,7 +75,7 @@ export const getMutableComponent = (entity, component) => {
 };
 
 export const getOptionalComponent = (entity, component) => {
-    const componentState = component.stateMap[entity];
+    const componentState = component?.stateMap[entity];
     return componentState?.promised ? undefined : componentState?.get(NO_PROXY_STEALTH);
 };
 
@@ -86,7 +86,7 @@ export const getComponent = (entity, component) => {
         );
         return undefined;
     }
-    const componentState = component.stateMap[entity];
+    const componentState = component?.stateMap[entity];
     return componentState.get(NO_PROXY_STEALTH);
 };
 
@@ -103,26 +103,26 @@ export const getComponent = (entity, component) => {
  * @returns The component that was attached.
  */
 export const setComponent = (entity, Component, args = undefined) => {
-    if (!entity) {
-        throw new Error("[setComponent] is undefined");
+    if (!entity && entity !== 0) {
+        throw new Error("[setComponent] entity is undefined");
     }
     if (!bitECS.entityExists(HyperFlux.store, entity)) {
-        throw new Error("[setComponent] does not exist");
+        throw new Error("[setComponent] entity does not exist");
     }
     const componentExists = hasComponent(entity, Component);
     if (!componentExists) {
         const value = Component.onInit(entity);
 
-        if (!Component.stateMap[entity]) {
+        if (!Component?.stateMap[entity]) {
             Component.stateMap[entity] = hookstate(value);
         } else {
-            Component.stateMap[entity]?.set(value);
+            Component?.stateMap[entity]?.set(value);
         }
 
         bitECS.addComponent(HyperFlux.store, Component, entity, false); // don't clear data on-add
     }
 
-    Component.onSet(_entity, Component.stateMap[entity], args);
+    Component.onSet(entity, Component?.stateMap[entity], args);
 
     if (!componentExists && Component.reactor && !Component.reactorMap.has(entity)) {
         const root = startReactor(() => {
@@ -187,13 +187,13 @@ export const hasComponent = (entity, component) => {
 
 export const removeComponent = (entity, component) => {
     if (!hasComponent(entity, component)) return;
-    component.onRemove(entity, component.stateMap[entity]);
+    component.onRemove(entity, component?.stateMap[entity]);
     bitECS.removeComponent(HyperFlux.store, component, entity, false);
     const root = component.reactorMap.get(entity);
     component.reactorMap.delete(entity);
     if (root?.isRunning) root.stop();
     /** clear state data after reactor stops, to ensure hookstate is still referenceable */
-    component.stateMap[entity]?.set(none);
+    component?.stateMap[entity]?.set(none);
 };
 
 /**
@@ -273,8 +273,8 @@ export function _use(promise) {
 export function useComponent(entity, Component) {
     if (entity === UndefinedEntity)
         throw new Error("InvalidUsage: useComponent called with UndefinedEntity");
-    if (!Component.stateMap[entity]) Component.stateMap[entity] = hookstate(none);
-    const componentState = Component.stateMap[entity];
+    if (!Component?.stateMap[entity]) Component.stateMap[entity] = hookstate(none);
+    const componentState = Component?.stateMap[entity];
     return useHookstate(componentState); // todo fix any cast
 }
 
@@ -282,8 +282,8 @@ export function useComponent(entity, Component) {
  * Use a component in a reactive context (a React component)
  */
 export function useOptionalComponent(entity, Component) {
-    if (!Component.stateMap[entity]) Component.stateMap[entity] = hookstate(none);
-    const component = useHookstate(Component.stateMap[entity]); // todo fix any cast
+    if (!Component?.stateMap[entity]) Component.stateMap[entity] = hookstate(none);
+    const component = useHookstate(Component?.stateMap[entity]); // todo fix any cast
     return component.promised ? undefined : component;
 }
 

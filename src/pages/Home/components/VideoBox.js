@@ -26,7 +26,7 @@ export default function VideoBox() {
                     alignItems: "center",
                     justifyContent: "center",
                     width: "50%",
-                    height: "90px",
+                    height: "270px",
                     boxShadow: " 0px 0px 0px 6px rgba(0, 0, 0, 1)",
                     pt: 21,
                     pl: 2,

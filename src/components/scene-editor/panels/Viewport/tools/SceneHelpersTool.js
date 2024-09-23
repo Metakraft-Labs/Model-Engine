@@ -8,9 +8,9 @@ import { RendererState } from "../../../../../spatial/renderer/RendererState";
 import Button from "../../../../Button";
 import { downloadScreenshot } from "../../../functions/takeScreenshot";
 import { EditorHelperState, PlacementMode } from "../../../services/EditorHelperState";
-import ColliderAtomsSvg from "./icons/collider_atoms.svg?react";
-import RulerSvg from "./icons/ruler.svg?react";
-import ScreenshotSvg from "./icons/screenshot.svg?react";
+import { ReactComponent as ColliderAtomsSvg } from "./icons/collider_atoms.svg";
+import { ReactComponent as RulerSvg } from "./icons/ruler.svg";
+import { ReactComponent as ScreenshotSvg } from "./icons/screenshot.svg";
 
 export default function SceneHelpersTool() {
     const { t } = useTranslation();

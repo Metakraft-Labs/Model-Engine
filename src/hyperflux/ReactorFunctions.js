@@ -2,6 +2,7 @@ import { hookstate } from "@hookstate/core";
 import React, { Suspense, useTransition } from "react";
 import Reconciler from "react-reconciler";
 import { ConcurrentRoot, DefaultEventPriority } from "react-reconciler/constants";
+
 import { createErrorBoundary } from "../common/src/utils/createErrorBoundary";
 
 import { HyperFlux } from "./StoreFunctions";
@@ -45,7 +46,7 @@ export const ReactorReconciler = Reconciler({
 
 ReactorReconciler.injectIntoDevTools({
     bundleType: process.env.NODE_ENV === "development" ? 1 : 0,
-    rendererPackageName: "../../../hyperflux-reactor",
+    rendererPackageName: "../hyperflux",
     version: "18.2.0",
 });
 
@@ -111,7 +112,7 @@ export function startReactor(Reactor) {
 
     const run = () => {
         reactorRoot.isRunning.set(true);
-        HyperFlux.store.activeReactors.add(reactorRoot);
+        HyperFlux.store.activeReactors?.add(reactorRoot);
         ReactorReconciler.flushSync(() =>
             ReactorReconciler.updateContainer(<ReactorContainer />, fiberRoot),
         );
@@ -134,7 +135,7 @@ export function startReactor(Reactor) {
         suspended: hookstate(false),
         cleanupFunctions: new Set(),
         ReactorContainer: ReactorContainer,
-        promise,
+        promise: undefined,
         run,
         stop,
     };

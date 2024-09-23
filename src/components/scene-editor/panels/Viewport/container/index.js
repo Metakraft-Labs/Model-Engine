@@ -129,8 +129,8 @@ const ViewPortPanelContainer = () => {
     const clientSettingQuery = useFind(clientSettingPath);
     const clientSettings = clientSettingQuery.data[0];
 
-    const ref = React.useRef < HTMLDivElement > null;
-    const toolbarRef = React.useRef < HTMLDivElement > null;
+    const ref = React.useRef(null);
+    const toolbarRef = React.useRef(null);
 
     useEngineCanvas(ref);
 

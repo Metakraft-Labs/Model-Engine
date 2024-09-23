@@ -391,8 +391,8 @@ const CategoriesList = ({
     onSelectCategory,
     style,
 }) => {
-    const savedScrollPosition = useRef < number > 0;
-    const listRef = useRef < HTMLDivElement > null;
+    const savedScrollPosition = useRef(0);
+    const listRef = useRef(null);
 
     useEffect(() => {
         if (listRef.current) {

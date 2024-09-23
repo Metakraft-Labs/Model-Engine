@@ -18,13 +18,13 @@ export const StateDefinitions = new Map();
 export const setInitialState = def => {
     const initial =
         typeof def.initial === "function" ? def.initial() : JSON.parse(JSON.stringify(def.initial));
-    if (HyperFlux.store.stateMap[def.name]) {
-        HyperFlux.store.stateMap[def.name].set(initial);
+    if (HyperFlux.store?.stateMap?.[def.name]) {
+        HyperFlux.store?.stateMap?.[def.name]?.set(initial);
     } else {
-        const state = (HyperFlux.store.stateMap[def.name] = hookstate(
-            initial,
-            extend(identifiable(def.name), def.extension),
-        ));
+        const state = (HyperFlux.store.stateMap = {
+            ...(HyperFlux.store?.stateMap || {}),
+            [def.name]: hookstate(initial, extend(identifiable(def.name), def.extension)),
+        });
         if (def.onCreate) def.onCreate(HyperFlux.store, state);
         if (def.reactor) {
             const reactor = startReactor(def.reactor);
@@ -41,13 +41,13 @@ export function defineState(definition) {
 }
 
 export function getMutableState(StateDefinition) {
-    if (!HyperFlux.store.stateMap[StateDefinition.name]) setInitialState(StateDefinition);
-    return HyperFlux.store.stateMap[StateDefinition.name];
+    if (!HyperFlux.store?.stateMap?.[StateDefinition.name]) setInitialState(StateDefinition);
+    return HyperFlux.store?.stateMap?.[StateDefinition.name];
 }
 
 export function getState(StateDefinition) {
-    if (!HyperFlux.store.stateMap[StateDefinition.name]) setInitialState(StateDefinition);
-    return HyperFlux.store.stateMap[StateDefinition.name].get(NO_PROXY_STEALTH);
+    if (!HyperFlux.store?.stateMap[StateDefinition.name]) setInitialState(StateDefinition);
+    return HyperFlux.store?.stateMap[StateDefinition.name].get(NO_PROXY_STEALTH);
 }
 
 export function useMutableState(StateDefinition, path) {

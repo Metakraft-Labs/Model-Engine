@@ -1,17 +1,10 @@
+import { v4 as uuidv4 } from "uuid";
 import { ReactorReconciler } from "./ReactorFunctions";
-
 export class HyperFlux {
     static store;
 }
 
-export function createHyperStore(
-    options = {
-        publicPath,
-        getDispatchTime: () => 0,
-        defaultDispatchDelay: () => 0,
-        getCurrentReactorRoot: () => undefined,
-    },
-) {
+export function createHyperStore(options) {
     const store = {
         publicPath: options.publicPath,
         defaultTopic: "default",
@@ -34,7 +27,6 @@ export function createHyperStore(
         receptors: {},
         activeReactors: new Set(),
     };
-    HyperFlux.store = store;
     return store;
 }
 

@@ -32,7 +32,7 @@ const FeathersChildReactor = props => {
 };
 
 export const useService = (serviceName, method, ...args) => {
-    // const service = API.instance.service(serviceName);
+    //   const service = API.instance.service(serviceName)
     const state = useMutableState(FeathersState);
 
     const queryParams = {
@@ -56,23 +56,20 @@ export const useService = (serviceName, method, ...args) => {
             error: "",
         });
         // return service[method](...args)
-        //     .then(res => {
-        //         state[serviceName][queryId].merge({
-        //             response: res,
-        //             status: "success",
-        //             error: "",
-        //         });
+        //   .then((res) => {
+        //     state[serviceName][queryId].merge({
+        //       response: res,
+        //       status: 'success',
+        //       error: ''
         //     })
-        //     .catch(error => {
-        //         console.error(
-        //             `Error in service: ${serviceName}, method: ${method}, args: ${JSON.stringify(args)}`,
-        //             error,
-        //         );
-        //         state[serviceName][queryId].merge({
-        //             status: "error",
-        //             error: error.message,
-        //         });
-        //     });
+        //   })
+        //   .catch((error) => {
+        //     console.error(`Error in service: ${serviceName}, method: ${method}, args: ${JSON.stringify(args)}`, error)
+        //     state[serviceName][queryId].merge({
+        //       status: 'error',
+        //       error: error.message
+        //     })
+        //   })
     };
 
     useLayoutEffect(() => {
@@ -82,7 +79,7 @@ export const useService = (serviceName, method, ...args) => {
                 [queryId]: {
                     fetch,
                     query: queryParams,
-                    response,
+                    response: null,
                     status: "pending",
                     error: "",
                 },
@@ -167,15 +164,15 @@ const forceRefetch = serviceName => {
     }
 };
 
-const created = ({ serviceName }) => {
+const created = ({ serviceName, item }) => {
     forceRefetch(serviceName);
 };
 
-const updated = ({ serviceName }) => {
+const updated = ({ serviceName, item }) => {
     forceRefetch(serviceName);
 };
 
-const removed = ({ serviceName }) => {
+const removed = ({ serviceName, item }) => {
     forceRefetch(serviceName);
 };
 
@@ -189,8 +186,8 @@ const removed = ({ serviceName }) => {
 export function useMutation(serviceName, forceRefetch = true) {
     const state = useHookstate({
         status: "idle",
-        data,
-        error,
+        data: null,
+        error: null,
     });
 
     const create = useMethod("create", forceRefetch ? created : undefined, serviceName, state);
@@ -214,19 +211,19 @@ export function useMutation(serviceName, forceRefetch = true) {
 
 function useMethod(method, action, serviceName, state) {
     return useCallback(
-        _args => {
-            // const service = API.instance.service(serviceName);
-            state.merge({ status: "loading", loading: true, data, error });
-            // return service[method](...args)
-            //     .then(item => {
-            //         action && action({ serviceName, item });
-            //         state.merge({ status: "success", loading: false, data: item });
-            //         return item;
+        (..._args) => {
+            //   const service = API.instance.service(serviceName)
+            //   state.merge({ status: 'loading', loading: true, data: null, error: null })
+            //   return service[method](...args)
+            //     .then((item) => {
+            //       action && action({ serviceName, item })
+            //       state.merge({ status: 'success', loading: false, data: item })
+            //       return item
             //     })
-            //     .catch(err => {
-            //         state.merge({ status: "error", loading: false, error: err });
-            //         throw err;
-            //     });
+            //     .catch((err) => {
+            //       state.merge({ status: 'error', loading: false, error: err })
+            //       throw err
+            //     })
         },
         [serviceName, method, action],
     );

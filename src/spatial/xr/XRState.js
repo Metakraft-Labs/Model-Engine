@@ -46,16 +46,16 @@ export const XRState = defineState({
             },
             avatarCameraMode: "auto",
             unassingedInputSources: [],
-            session,
+            session: null,
             sessionMode: "none",
             /** Stores the depth map data - will exist if depth map is supported */
-            depthDataTexture,
+            depthDataTexture: null,
             is8thWallActive: false,
-            viewerPose,
+            viewerPose: null,
             /** @todo replace with proper proportions API */
             userEyeHeight: 1.75,
             userHeightRatio: 1,
-            xrFrame,
+            xrFrame: null,
         };
     },
 

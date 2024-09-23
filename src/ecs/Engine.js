@@ -26,7 +26,8 @@ export class Engine {
      * @deprecated use "getState(EngineState).localFloorEntity" instead
      */
     get localFloorEntity() {
-        return Engine.instance.store.stateMap["EngineState"].get(NO_PROXY_STEALTH).localFloorEntity;
+        return Engine.instance.store?.stateMap["EngineState"].get(NO_PROXY_STEALTH)
+            .localFloorEntity;
     }
 
     /**
@@ -34,7 +35,7 @@ export class Engine {
      * @deprecated use "getState(EngineState).originEntity" instead
      */
     get originEntity() {
-        return Engine.instance.store.stateMap["EngineState"].get(NO_PROXY_STEALTH).originEntity;
+        return Engine.instance.store?.stateMap["EngineState"].get(NO_PROXY_STEALTH).originEntity;
     }
 
     /**
@@ -42,7 +43,7 @@ export class Engine {
      * @deprecated use "getState(EngineState).viewerEntity" instead
      */
     get viewerEntity() {
-        return Engine.instance.store.stateMap["EngineState"].get(NO_PROXY_STEALTH).viewerEntity;
+        return Engine.instance.store?.stateMap["EngineState"].get(NO_PROXY_STEALTH).viewerEntity;
     }
 
     /** @deprecated use viewerEntity instead */
@@ -60,7 +61,9 @@ export function createEngine(hyperstore = createHyperStore({ publicPath: "" })) 
     hyperstore.getCurrentReactorRoot = () =>
         getState(SystemState).activeSystemReactors.get(getState(SystemState).currentSystemUUID);
     hyperstore.getDispatchTime = () => getState(ECSState).simulationTime;
-    Engine.instance.store = bitECS.createWorld(hyperstore);
+    const store = bitECS.createWorld(hyperstore);
+    Engine.instance.store = store;
+    HyperFlux.store = { ...hyperstore, ...store };
 }
 
 export async function destroyEngine() {

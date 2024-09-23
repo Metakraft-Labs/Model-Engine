@@ -28,7 +28,7 @@ export const FormContainer = styled(Box)({
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
-    maxWidth: "250px",
+    maxWidth: "330px",
     width: "100%",
 });
 

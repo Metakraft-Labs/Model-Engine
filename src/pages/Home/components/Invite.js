@@ -31,7 +31,7 @@ export default function Invite() {
                 pl: 2.5,
                 py: 3,
                 width: "50%",
-                height: "220px",
+                height: "270px",
                 boxShadow: " 0px 0px 0px 3px rgba(0, 0, 0, 1)",
                 overflow: "hidden",
             }}

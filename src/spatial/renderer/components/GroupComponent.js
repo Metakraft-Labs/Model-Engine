@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import { Camera } from "three";
 
 import {
     defineComponent,
@@ -28,7 +27,7 @@ export const GroupComponent = defineComponent({
         return [];
     },
 
-    onRemove: (entity, component) => {
+    onRemove: (_entity, component) => {
         for (const obj of component.value) {
             if (obj.parent) {
                 obj.removeFromParent();
@@ -38,7 +37,7 @@ export const GroupComponent = defineComponent({
 });
 
 export function addObjectToGroup(entity, object) {
-    const obj = object & Camera;
+    const obj = object;
     obj.entity = entity;
 
     if (!hasComponent(entity, GroupComponent)) setComponent(entity, GroupComponent, []);
@@ -98,7 +97,7 @@ export function removeGroupComponent(entity) {
 }
 
 export function removeObjectFromGroup(entity, object) {
-    const obj = object & Camera;
+    const obj = object;
 
     if (hasComponent(entity, GroupComponent)) {
         const group = getComponent(entity, GroupComponent);
@@ -116,12 +115,13 @@ export const GroupReactor = memo(props => {
     const groupComponent = useComponent(entity, GroupComponent);
     return (
         <>
-            {groupComponent.value.map(obj => (
+            {groupComponent.value.map((obj, i) => (
                 <props.GroupChildReactor key={obj.uuid} entity={entity} obj={obj} />
             ))}
         </>
     );
 });
+
 GroupReactor.displayName = "GroupReactor";
 
 export const GroupQueryReactor = memo(props => {
