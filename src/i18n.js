@@ -7,10 +7,10 @@ import user from "./i18n/en/user.json";
 export default function () {
     // @ts-ignore
     return {
-        "./i18n/en/admin.json": { default: admin },
-        "./i18n/en/common.json": { default: common },
-        "./i18n/en/editor.json": { default: editor },
-        "./i18n/en/social.json": { default: social },
-        "./i18n/en/user.json": { default: user },
+        "./i18n/en/admin.json": { default: admin, ...admin },
+        "./i18n/en/common.json": { default: common, ...common },
+        "./i18n/en/editor.json": { default: editor, ...editor },
+        "./i18n/en/social.json": { default: social, ...social },
+        "./i18n/en/user.json": { default: user, ...user },
     };
 }

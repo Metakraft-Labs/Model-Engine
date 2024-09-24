@@ -9,6 +9,7 @@ import { defineChain } from "viem";
 import logo from "./assets/img/logo.jpg";
 import Routers from "./common/Routers";
 import LoadingScreen from "./components/LoadingScreen";
+import { useThemeProvider } from "./components/scene-editor/services/ThemeService";
 import UserProvider from "./contexts/UserStore";
 import { createHyperStore } from "./hyperflux";
 import { getSupportedChains } from "./shared/web3utils";
@@ -17,9 +18,12 @@ import { initializei18n } from "./util";
 const publicPath = location.origin;
 createHyperStore({ publicPath });
 initializei18n();
+
 function App() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
     const [loading, setLoading] = useState(true);
+
+    useThemeProvider();
 
     const lightTheme = createTheme({
         palette: {
@@ -36,6 +40,19 @@ function App() {
         palette: {
             primary: {
                 main: "#787878",
+            },
+        },
+        components: {
+            MuiTypography: {
+                styleOverrides: {
+                    root: {
+                        color: "#FFFFFF",
+                    },
+                },
+                defaultProps: {
+                    classes:
+                        "text-theme-primary text-base font-normal, inline-block leading-normal",
+                },
             },
         },
     });

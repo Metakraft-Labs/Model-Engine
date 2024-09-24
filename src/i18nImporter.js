@@ -6,7 +6,6 @@ export const getI18nConfigs = modules => {
             .replace(".json", "")
             .split("/");
 
-        console.log(namespace, language, translation, key);
         if (!obj[language]) {
             obj[language] = {};
         }

@@ -168,7 +168,7 @@ const ViewPortPanelContainer = () => {
                     <div className="flex h-full w-full flex-col justify-center gap-2">
                         <img src={clientSettings?.appTitle} className="block scale-[.8]" />
                         <Typography className="text-center">
-                            {t("editor:selectSceneMsg")}
+                            Select a Scene in the Project to Start
                         </Typography>
                     </div>
                 )}

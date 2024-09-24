@@ -59,7 +59,7 @@ export default function ScenesPanel() {
                     size="small"
                     onClick={handleCreateScene}
                 >
-                    {t("editor:newScene")}
+                    New Scene
                 </Button>
             </div>
             <div className="h-full bg-theme-primary">

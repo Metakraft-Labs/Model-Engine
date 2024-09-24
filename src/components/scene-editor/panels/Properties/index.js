@@ -11,9 +11,7 @@ export const PropertiesPanelTitle = () => {
         <div>
             <PanelDragContainer>
                 <PanelTitle>
-                    <Tooltip title={t("editor:properties.info")}>
-                        {t("editor:properties.title")}
-                    </Tooltip>
+                    <Tooltip title={t("editor:properties.info")}>Properties</Tooltip>
                 </PanelTitle>
             </PanelDragContainer>
         </div>

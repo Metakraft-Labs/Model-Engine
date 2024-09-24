@@ -15,7 +15,7 @@ export const BooleanInput = props => {
                 borderRadius: "8px",
                 border: "1px solid white",
                 background: "#000000",
-                cursor: disabled ? "default" : "pointer",
+                cursor: props.disabled ? "default" : "pointer",
                 "&:hover": {
                     border: "1px solid blue",
                 },
