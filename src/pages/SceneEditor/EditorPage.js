@@ -1,7 +1,8 @@
 import { DockLayout } from "rc-dock";
 import "rc-dock/dist/rc-dock.css";
-import React, { Suspense, useEffect, useRef } from "react";
+import React, { Suspense, useCallback, useEffect, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { listResources } from "../../apis/projects";
 import { FeatureFlags } from "../../common/src/constants/FeatureFlags";
 import { DndWrapper } from "../../components/DndWrapper";
 import DragLayer from "../../components/DragLayer";
@@ -101,41 +102,33 @@ const defaultLayout = flags => {
 };
 
 export default function EditorPage() {
-    const { sceneAssetID, scenePath, uiEnabled, uiAddons } = useMutableState(EditorState);
+    const { sceneAssetID, scenePath, uiEnabled, uiAddons, sceneName, projectName } =
+        useMutableState(EditorState);
 
     const currentLoadedSceneURL = useHookstate(null);
 
-    useEffect(() => {
-        if (!scenePath.value) return;
-
-        // const abortController = new AbortController();
-        // API.instance
-        //     .service(staticResourcePath)
-        //     .find({
-        //         query: { key: scenePath.value, type: "scene", $limit: 1 },
-        //     })
-        //     .then(result => {
-        //         if (abortController.signal.aborted) return;
-
-        //         const scene = result.data[0];
-        //         if (!scene) {
-        //             console.error("Scene not found");
-        //             sceneName.set(null);
-        //             sceneAssetID.set(null);
-        //             currentLoadedSceneURL.set(null);
-        //             return;
-        //         }
-
-        //         projectName.set(scene.project);
-        //         sceneName.set(scene.key.split("/").pop() ?? null);
-        //         sceneAssetID.set(scene.id);
-        //         currentLoadedSceneURL.set(scene.url);
-        //     });
-
-        // return () => {
-        //     abortController.abort();
-        // };
+    const findResources = useCallback(async () => {
+        const { data: scenes } = await listResources({
+            limit: 1,
+            filters: { type: "scene", key: scenePath.value },
+        });
+        const scene = scenes[0];
+        if (!scene) {
+            console.error("Scene not found");
+            sceneName.set(null);
+            sceneAssetID.set(null);
+            currentLoadedSceneURL.set(null);
+            return;
+        }
+        projectName.set(scene.projectName);
+        sceneName.set(scene.key.split("/").pop() ?? null);
+        sceneAssetID.set(scene.id);
+        currentLoadedSceneURL.set(scene.url);
     }, [scenePath.value]);
+
+    useEffect(() => {
+        findResources();
+    }, [findResources]);
 
     useEffect(() => {
         if (HyperFlux.store) {
@@ -192,7 +185,7 @@ export default function EditorPage() {
                 <LoadingView fullScreen className="block h-12 w-12" title={"Loading Studio"} />
             }
         >
-            <main className="pointer-events-auto">
+            <main className="pointer-events-auto bg-primary">
                 <div
                     id="editor-container"
                     className="flex flex-col bg-black"
@@ -213,6 +206,7 @@ export default function EditorPage() {
                                             top: 45,
                                             right: 5,
                                             bottom: 5,
+                                            background: "black",
                                         }}
                                     />
                                 </DockContainer>

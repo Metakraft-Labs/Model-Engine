@@ -1,180 +1,172 @@
-import { useEffect } from "react";
+import { useEffect } from 'react'
 
-import { MediaSettingsState } from "../../engine/audio/MediaSettingsState";
+import { MediaSettingsState } from '../../engine/audio/MediaSettingsState'
 import {
     defineState,
     getMutableState,
     getState,
     syncStateWithLocalStorage,
-    useMutableState,
-} from "../../hyperflux";
+    useMutableState
+} from '../../hyperflux'
 
 /**
  * All values ranged from 0 to 1
  */
 export const AudioState = defineState({
-    name: "AudioState",
-    initial: () => ({
-        audioContext,
-        cameraGainNode,
-        gainNodeMixBuses: {
-            mediaStreams,
-            notifications,
-            music,
-            soundEffects,
-        },
-        masterVolume: 0.5,
-        microphoneGain: 0.5,
-        positionalMedia: false,
-        usePositionalMedia: "auto",
-        mediaStreamVolume: 1,
-        notificationVolume: 1,
-        soundEffectsVolume: 1,
-        backgroundMusicVolume: 0.5,
-    }),
-    extension: syncStateWithLocalStorage([
-        "masterVolume",
-        "microphoneGain",
-        "positionalMedia",
-        "mediaStreamVolume",
-        "notificationVolume",
-        "soundEffectsVolume",
-        "backgroundMusicVolume",
-    ]),
-    onCreate: () => {
-        //FIXME do this more gracefully than a hard setTimeout
-        setTimeout(() => {
-            getMutableState(MediaSettingsState).immersiveMedia.set(
-                getState(AudioState).positionalMedia,
-            );
-        }, 1000);
+  name: 'AudioState',
+  initial: () => ({
+    audioContext: null,
+    cameraGainNode: null,
+    gainNodeMixBuses: {
+      mediaStreams: null,
+      notifications: null,
+      music: null,
+      soundEffects: null
     },
-});
+    masterVolume: 0.5,
+    microphoneGain: 0.5,
+    positionalMedia: false,
+    usePositionalMedia: 'auto',
+    mediaStreamVolume: 1,
+    notificationVolume: 1,
+    soundEffectsVolume: 1,
+    backgroundMusicVolume: 0.5
+  }),
+  extension: syncStateWithLocalStorage([
+    'masterVolume',
+    'microphoneGain',
+    'positionalMedia',
+    'mediaStreamVolume',
+    'notificationVolume',
+    'soundEffectsVolume',
+    'backgroundMusicVolume'
+  ]),
+  onCreate: () => {
+    //FIXME do this more gracefully than a hard setTimeout
+    setTimeout(() => {
+      getMutableState(MediaSettingsState).immersiveMedia.set(getState(AudioState).positionalMedia)
+    }, 1000)
+  }
+})
 
 export const useAudioState = () => {
-    const audioState = useMutableState(AudioState);
+  const audioState = useMutableState(AudioState)
 
-    useEffect(() => {
-        const AudioContext = globalThis.AudioContext || globalThis.webkitAudioContext;
-        if (!AudioContext) return;
+  useEffect(() => {
+    const AudioContext = globalThis.AudioContext || globalThis.webkitAudioContext
+    if (!AudioContext) return
 
-        const audioContext = new AudioContext();
-        audioContext.resume();
+    const audioContext = new AudioContext()
+    audioContext.resume()
 
-        const audioState = getMutableState(AudioState);
-        audioState.audioContext.set(audioContext);
+    const audioState = getMutableState(AudioState)
+    audioState.audioContext.set(audioContext)
 
-        const cameraGainNode = audioContext.createGain();
-        audioState.cameraGainNode.set(cameraGainNode);
-        cameraGainNode.connect(audioContext.destination);
+    const cameraGainNode = audioContext.createGain()
+    audioState.cameraGainNode.set(cameraGainNode)
+    cameraGainNode.connect(audioContext.destination)
 
-        const currentTime = audioState.audioContext.currentTime.value;
+    const currentTime = audioState.audioContext.currentTime.value
 
-        audioState.cameraGainNode.gain.value.setTargetAtTime(
-            audioState.masterVolume.value,
-            currentTime,
-            0.01,
-        );
+    audioState.cameraGainNode.gain.value.setTargetAtTime(audioState.masterVolume.value, currentTime, 0.01)
 
-        /** create gain nodes for mix buses */
-        audioState.gainNodeMixBuses.mediaStreams.set(audioContext.createGain());
-        audioState.gainNodeMixBuses.mediaStreams.value.connect(audioState.cameraGainNode.value);
-        audioState.gainNodeMixBuses.mediaStreams.value.gain.setTargetAtTime(
-            audioState.mediaStreamVolume.value,
-            currentTime,
-            0.01,
-        );
+    /** create gain nodes for mix buses */
+    audioState.gainNodeMixBuses.mediaStreams.set(audioContext.createGain())
+    audioState.gainNodeMixBuses.mediaStreams.value.connect(audioState.cameraGainNode.value)
+    audioState.gainNodeMixBuses.mediaStreams.value.gain.setTargetAtTime(
+      audioState.mediaStreamVolume.value,
+      currentTime,
+      0.01
+    )
 
-        audioState.gainNodeMixBuses.notifications.set(audioContext.createGain());
-        audioState.gainNodeMixBuses.notifications.value.connect(audioState.cameraGainNode.value);
-        audioState.gainNodeMixBuses.notifications.value.gain.setTargetAtTime(
-            audioState.notificationVolume.value,
-            currentTime,
-            0.01,
-        );
+    audioState.gainNodeMixBuses.notifications.set(audioContext.createGain())
+    audioState.gainNodeMixBuses.notifications.value.connect(audioState.cameraGainNode.value)
+    audioState.gainNodeMixBuses.notifications.value.gain.setTargetAtTime(
+      audioState.notificationVolume.value,
+      currentTime,
+      0.01
+    )
 
-        audioState.gainNodeMixBuses.music.set(audioContext.createGain());
-        audioState.gainNodeMixBuses.music.value.connect(audioState.cameraGainNode.value);
-        audioState.gainNodeMixBuses.music.value.gain.setTargetAtTime(
-            audioState.backgroundMusicVolume.value,
-            currentTime,
-            0.01,
-        );
+    audioState.gainNodeMixBuses.music.set(audioContext.createGain())
+    audioState.gainNodeMixBuses.music.value.connect(audioState.cameraGainNode.value)
+    audioState.gainNodeMixBuses.music.value.gain.setTargetAtTime(
+      audioState.backgroundMusicVolume.value,
+      currentTime,
+      0.01
+    )
 
-        audioState.gainNodeMixBuses.soundEffects.set(audioContext.createGain());
-        audioState.gainNodeMixBuses.soundEffects.value.connect(audioState.cameraGainNode.value);
-        audioState.gainNodeMixBuses.soundEffects.value.gain.setTargetAtTime(
-            audioState.soundEffectsVolume.value,
-            currentTime,
-            0.01,
-        );
+    audioState.gainNodeMixBuses.soundEffects.set(audioContext.createGain())
+    audioState.gainNodeMixBuses.soundEffects.value.connect(audioState.cameraGainNode.value)
+    audioState.gainNodeMixBuses.soundEffects.value.gain.setTargetAtTime(
+      audioState.soundEffectsVolume.value,
+      currentTime,
+      0.01
+    )
 
-        return () => {
-            audioState.gainNodeMixBuses.mediaStreams.value.disconnect();
-            audioState.gainNodeMixBuses.mediaStreams.set();
-            audioState.gainNodeMixBuses.notifications.value.disconnect();
-            audioState.gainNodeMixBuses.notifications.set();
-            audioState.gainNodeMixBuses.music.value.disconnect();
-            audioState.gainNodeMixBuses.music.set();
-            audioState.gainNodeMixBuses.soundEffects.value.disconnect();
-            audioState.gainNodeMixBuses.soundEffects.set();
-        };
-    }, []);
+    return () => {
+      audioState.gainNodeMixBuses.mediaStreams.value.disconnect()
+      audioState.gainNodeMixBuses.mediaStreams.set(null)
+      audioState.gainNodeMixBuses.notifications.value.disconnect()
+      audioState.gainNodeMixBuses.notifications.set(null)
+      audioState.gainNodeMixBuses.music.value.disconnect()
+      audioState.gainNodeMixBuses.music.set(null)
+      audioState.gainNodeMixBuses.soundEffects.value.disconnect()
+      audioState.gainNodeMixBuses.soundEffects.set(null)
+    }
+  }, [])
 
-    useEffect(() => {
-        if (!audioState.audioContext.value) return;
-        audioState.cameraGainNode.value.gain.setTargetAtTime(
-            audioState.masterVolume.value,
-            audioState.audioContext.value.currentTime,
-            0.01,
-        );
-    }, [audioState.audioContext, audioState.masterVolume]);
+  useEffect(() => {
+    if (!audioState.audioContext.value) return
+    audioState.cameraGainNode.value.gain.setTargetAtTime(
+      audioState.masterVolume.value,
+      audioState.audioContext.value.currentTime,
+      0.01
+    )
+  }, [audioState.audioContext, audioState.masterVolume])
 
-    useEffect(() => {
-        if (!audioState.audioContext.value) return;
-        audioState.gainNodeMixBuses.value.mediaStreams.gain.setTargetAtTime(
-            audioState.mediaStreamVolume.value,
-            audioState.audioContext.value.currentTime,
-            0.01,
-        );
-    }, [audioState.audioContext, audioState.mediaStreamVolume]);
+  useEffect(() => {
+    if (!audioState.audioContext.value) return
+    audioState.gainNodeMixBuses.value.mediaStreams.gain.setTargetAtTime(
+      audioState.mediaStreamVolume.value,
+      audioState.audioContext.value.currentTime,
+      0.01
+    )
+  }, [audioState.audioContext, audioState.mediaStreamVolume])
 
-    useEffect(() => {
-        if (!audioState.audioContext.value) return;
-        audioState.gainNodeMixBuses.value.notifications.gain.setTargetAtTime(
-            audioState.notificationVolume.value,
-            audioState.audioContext.value.currentTime,
-            0.01,
-        );
-    }, [audioState.audioContext, audioState.notificationVolume]);
+  useEffect(() => {
+    if (!audioState.audioContext.value) return
+    audioState.gainNodeMixBuses.value.notifications.gain.setTargetAtTime(
+      audioState.notificationVolume.value,
+      audioState.audioContext.value.currentTime,
+      0.01
+    )
+  }, [audioState.audioContext, audioState.notificationVolume])
 
-    useEffect(() => {
-        if (!audioState.audioContext.value) return;
-        audioState.gainNodeMixBuses.value.soundEffects.gain.setTargetAtTime(
-            audioState.soundEffectsVolume.value,
-            audioState.audioContext.value.currentTime,
-            0.01,
-        );
-    }, [audioState.audioContext, audioState.soundEffectsVolume]);
+  useEffect(() => {
+    if (!audioState.audioContext.value) return
+    audioState.gainNodeMixBuses.value.soundEffects.gain.setTargetAtTime(
+      audioState.soundEffectsVolume.value,
+      audioState.audioContext.value.currentTime,
+      0.01
+    )
+  }, [audioState.audioContext, audioState.soundEffectsVolume])
 
-    useEffect(() => {
-        if (!audioState.audioContext.value) return;
-        audioState.gainNodeMixBuses.value.music.gain.setTargetAtTime(
-            audioState.backgroundMusicVolume.value,
-            audioState.audioContext.value.currentTime,
-            0.01,
-        );
-    }, [audioState.audioContext, audioState.backgroundMusicVolume]);
+  useEffect(() => {
+    if (!audioState.audioContext.value) return
+    audioState.gainNodeMixBuses.value.music.gain.setTargetAtTime(
+      audioState.backgroundMusicVolume.value,
+      audioState.audioContext.value.currentTime,
+      0.01
+    )
+  }, [audioState.audioContext, audioState.backgroundMusicVolume])
 
-    useEffect(() => {
-        if (!audioState.positionalMedia.value) return;
-        getMutableState(MediaSettingsState).immersiveMedia.set(audioState.positionalMedia.value);
-    }, [audioState.audioContext, audioState.positionalMedia]);
-};
+  useEffect(() => {
+    if (!audioState.positionalMedia.value) return
+    getMutableState(MediaSettingsState).immersiveMedia.set(audioState.positionalMedia.value)
+  }, [audioState.audioContext, audioState.positionalMedia])
+}
 
 export const getPositionalMedia = () => {
-    const audioState = getState(AudioState);
-    return audioState.usePositionalMedia === "auto"
-        ? audioState.positionalMedia
-        : audioState.usePositionalMedia === "on";
-};
+  const audioState = getState(AudioState)
+  return audioState.usePositionalMedia === 'auto' ? audioState.positionalMedia : audioState.usePositionalMedia === 'on'
+}

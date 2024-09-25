@@ -6,10 +6,7 @@ import { toast } from "react-toastify";
 import { twMerge } from "tailwind-merge";
 import { Vector3 } from "three";
 import { FeatureFlags } from "../../../../../common/src/constants/FeatureFlags";
-import {
-    clientSettingPath,
-    fileBrowserUploadPath,
-} from "../../../../../common/src/schema.type.module";
+import { fileBrowserUploadPath } from "../../../../../common/src/schema.type.module";
 import { processFileName } from "../../../../../common/src/utils/processFileName";
 import { useComponent, useQuery } from "../../../../../ecs";
 import { GLTFComponent } from "../../../../../engine/gltf/GLTFComponent";
@@ -17,7 +14,6 @@ import { ResourcePendingComponent } from "../../../../../engine/gltf/ResourcePen
 import useFeatureFlags from "../../../../../engine/useFeatureFlags";
 import { useMutableState } from "../../../../../hyperflux";
 import { TransformComponent } from "../../../../../spatial";
-import { useFind } from "../../../../../spatial/common/functions/FeathersHooks";
 import LoadingView from "../../../../LoadingView";
 import { ItemTypes, SupportedFileTypes } from "../../../constants/AssetTypes";
 import { EditorControlFunctions } from "../../../functions/EditorControlFunctions";
@@ -125,10 +121,6 @@ const SceneLoadingProgress = ({ rootEntity }) => {
 const ViewPortPanelContainer = () => {
     const { sceneName, rootEntity } = useMutableState(EditorState);
 
-    const { t } = useTranslation();
-    const clientSettingQuery = useFind(clientSettingPath);
-    const clientSettings = clientSettingQuery.data[0];
-
     const ref = React.useRef(null);
     const toolbarRef = React.useRef(null);
 
@@ -166,7 +158,6 @@ const ViewPortPanelContainer = () => {
                     </>
                 ) : (
                     <div className="flex h-full w-full flex-col justify-center gap-2">
-                        <img src={clientSettings?.appTitle} className="block scale-[.8]" />
                         <Typography className="text-center">
                             Select a Scene in the Project to Start
                         </Typography>

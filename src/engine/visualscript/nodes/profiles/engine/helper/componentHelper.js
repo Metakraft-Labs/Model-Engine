@@ -7,6 +7,7 @@ import {
     setComponent,
     useComponent,
 } from "../../../../../../ecs/ComponentFunctions";
+import { UndefinedEntity } from "../../../../../../ecs/Entity";
 import { defineSystem, destroySystem } from "../../../../../../ecs/SystemFunctions";
 import { InputSystemGroup } from "../../../../../../ecs/SystemGroups";
 import { NameComponent } from "../../../../../../spatial/common/NameComponent";
@@ -30,6 +31,7 @@ const listenerSkipComponents = [
     ...skipComponents, // needs special attention
     NameComponent.name, // use component is broken
 ];
+
 export function generateComponentNodeSchema(component, withFlow = false) {
     const nodeschema = {};
     if (skipComponents.includes(component.name)) return nodeschema;
@@ -124,7 +126,7 @@ export function registerComponentGetters() {
                 entity: "entity",
                 ...outputsockets,
             },
-            exec: ({ read, write }) => {
+            exec: ({ read, write, graph }) => {
                 const entity = Number.parseInt(read("entity"));
 
                 const props = getComponent(entity, component);
@@ -132,7 +134,7 @@ export function registerComponentGetters() {
                 if (typeof props !== "object") {
                     write(outputs[outputs.length - 1][0], EnginetoNodetype(props));
                 } else {
-                    for (const [output] of outputs) {
+                    for (const [output, type] of outputs) {
                         write(output, EnginetoNodetype(props[output]));
                     }
                 }
@@ -196,11 +198,12 @@ export function registerComponentListeners() {
                                 commit(flowOutputs[flowOutputs.length - 1][0]);
                             }, [componentValue]);
                         } else {
-                            valueOutputs.forEach(([output]) => {
+                            valueOutputs.forEach(([output, type], index) => {
                                 useEffect(() => {
                                     const value = EnginetoNodetype(componentValue[output].value);
                                     const flowSocket = flowOutputs.find(
-                                        ([flowOutput]) => flowOutput === `${output}Change`,
+                                        ([flowOutput, flowType]) =>
+                                            flowOutput === `${output}Change`,
                                     );
                                     write(output, value);
                                     commit(flowSocket[0]);

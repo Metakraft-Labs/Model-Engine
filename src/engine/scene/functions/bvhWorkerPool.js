@@ -1,19 +1,10 @@
 import { Box3, BufferAttribute } from "three";
 import { MeshBVH } from "three-mesh-bvh";
 import Worker from "web-worker";
-
-import { isClient } from "../../../common/src/utils/getEnvironment";
 import { WorkerPool } from "../../../xrui/core/WorkerPool";
 
 const createWorker = () => {
-    if (isClient) {
-        // module workers currently don't work in safari and firefox
-        return new Worker("/workers/generateBVHAsync.worker.js");
-    } else {
-        const path = require("path");
-        const workerPath = path.resolve(__dirname, "./generateBVHAsync.register.js");
-        return new Worker(workerPath, { type: "module" });
-    }
+    return new Worker("/workers/generateBVHAsync.worker.js");
 };
 
 const workerPool = new WorkerPool(1);

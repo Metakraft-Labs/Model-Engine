@@ -25,7 +25,7 @@ export default function GizmoTool({ viewportRef, toolbarRef }) {
     const { t } = useTranslation();
     const [position, setPosition] = useState({ x: 16, y: 56 });
     const [isDragging, setIsDragging] = useState(false);
-    const gizmoRef = useRef < HTMLDivElement > null;
+    const gizmoRef = useRef(null);
     const [pointerSelected, setPointerSelected] = useState(false);
 
     const [startingMouseX, setStartingMouseX] = useState(0);

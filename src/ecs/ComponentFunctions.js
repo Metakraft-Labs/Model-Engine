@@ -1,5 +1,6 @@
 import * as bitECS from "bitecs";
-import React, { startTransition } from "react";
+import React, { startTransition, use } from "react";
+
 import { getNestedObject } from "../common/src/utils/getNestedProperty";
 import { HyperFlux, startReactor } from "../hyperflux";
 import { hookstate, NO_PROXY_STEALTH, none, useHookstate } from "../hyperflux/StateFunctions";
@@ -25,13 +26,45 @@ export const ComponentJSONIDMap = new Map(); // <jsonID, Component>
 globalThis.ComponentMap = ComponentMap;
 globalThis.ComponentJSONIDMap = ComponentJSONIDMap;
 
+/**
+ * @description
+ * Defines a new Component type.
+ * Takes a {@link ComponentPartial}, fills in all of the missing information, and returns a complete {@link Component} type containing all of the required fields.
+ * @param def Parameters required to initialize a Component, as seen at {@link ComponentPartial}
+ * @returns A new fully setup Component type, with all data and callbacks required for it to be used by the engine.
+ * @example
+ * ```ts
+ * export const MyComponent = defineComponent({
+ *   name: 'MyComponent',
+ *   schema: {
+ *     id: Types.ui32
+ *   },
+ *   onInit: (entity) => {
+ *     return {
+ *       myProp: 'My Value'
+ *     }
+ *   },
+ *   toJSON: (entity, component) => {
+ *     return {
+ *       myProp: component.myProp.value
+ *     }
+ *   },
+ *   onSet: (entity, component, json) => {
+ *     if (typeof json?.myProp === 'string') component.myProp.set(json.myProp)
+ *   },
+ *   onRemove: (entity, component) => {},
+ *   reactor: undefined,
+ *   errors: []
+ * })
+ * ```
+ */
 export const defineComponent = def => {
     const Component = def.schema ? bitECS.defineComponent(def.schema, INITIAL_COMPONENT_SIZE) : {};
     Component.isComponent = true;
-    Component.onInit = _entity => true;
-    Component.onSet = (_entity, _component, _json) => {};
+    Component.onInit = entity => true;
+    Component.onSet = (entity, component, json) => {};
     Component.onRemove = () => {};
-    Component.toJSON = (_entity, _component) => null;
+    Component.toJSON = (entity, component) => null;
 
     Component.errors = [];
     Object.assign(Component, def);
@@ -55,11 +88,28 @@ export const defineComponent = def => {
     ComponentMap.set(Component.name, Component);
 
     return Component;
+
+    // const ExternalComponentReactor = (props: SetJSON) => {
+    //   const entity = useEntityContext()
+
+    //   useLayoutEffect(() => {
+    //     setComponent(entity, Component, props)
+    //     return () => {
+    //       removeComponent(entity, Component)
+    //     }
+    //   }, [props])
+
+    //   return null
+    // }
+    // Object.setPrototypeOf(ExternalComponentReactor, Component)
+    // Object.defineProperty(ExternalComponentReactor, 'name', { value: `${Component.name}Reactor` })
+
+    // return ExternalComponentReactor as typeof Component & { _TYPE } & typeof ExternalComponentReactor
 };
 
 export const getOptionalMutableComponent = (entity, component) => {
-    if (!component?.stateMap[entity]) component.stateMap[entity] = hookstate(none);
-    const componentState = component?.stateMap[entity];
+    if (!component.stateMap[entity]) component.stateMap[entity] = hookstate(none);
+    const componentState = component.stateMap[entity];
     return componentState.promised ? undefined : componentState;
 };
 
@@ -67,7 +117,7 @@ export const getMutableComponent = (entity, component) => {
     const componentState = getOptionalMutableComponent(entity, component);
     if (!componentState || componentState.promised) {
         console.warn(
-            `[getMutableComponent] ${entity} does not have ${component.name}. This will be an error in the future. Use getOptionalMutableComponent if there is uncertainty over whether or not an entity has the specified component.`,
+            `[getMutableComponent]: entity ${entity} does not have ${component.name}. This will be an error in the future. Use getOptionalMutableComponent if there is uncertainty over whether or not an entity has the specified component.`,
         );
         return undefined;
     }
@@ -75,18 +125,18 @@ export const getMutableComponent = (entity, component) => {
 };
 
 export const getOptionalComponent = (entity, component) => {
-    const componentState = component?.stateMap[entity];
+    const componentState = component.stateMap[entity];
     return componentState?.promised ? undefined : componentState?.get(NO_PROXY_STEALTH);
 };
 
 export const getComponent = (entity, component) => {
     if (!bitECS.hasComponent(HyperFlux.store, component, entity)) {
         console.warn(
-            `[getComponent] ${entity} does not have ${component.name}. This will be an error in the future. Use getOptionalComponent if there is uncertainty over whether or not an entity has the specified component.`,
+            `[getComponent]: entity ${entity} does not have ${component.name}. This will be an error in the future. Use getOptionalComponent if there is uncertainty over whether or not an entity has the specified component.`,
         );
         return undefined;
     }
-    const componentState = component?.stateMap[entity];
+    const componentState = component.stateMap[entity];
     return componentState.get(NO_PROXY_STEALTH);
 };
 
@@ -103,32 +153,32 @@ export const getComponent = (entity, component) => {
  * @returns The component that was attached.
  */
 export const setComponent = (entity, Component, args = undefined) => {
-    if (!entity && entity !== 0) {
-        throw new Error("[setComponent] entity is undefined");
+    if (!entity) {
+        throw new Error("[setComponent]: entity is undefined");
     }
     if (!bitECS.entityExists(HyperFlux.store, entity)) {
-        throw new Error("[setComponent] entity does not exist");
+        throw new Error("[setComponent]: entity does not exist");
     }
     const componentExists = hasComponent(entity, Component);
     if (!componentExists) {
         const value = Component.onInit(entity);
 
-        if (!Component?.stateMap[entity]) {
+        if (!Component.stateMap[entity]) {
             Component.stateMap[entity] = hookstate(value);
         } else {
-            Component?.stateMap[entity]?.set(value);
+            Component.stateMap[entity].set(value);
         }
 
         bitECS.addComponent(HyperFlux.store, Component, entity, false); // don't clear data on-add
     }
 
-    Component.onSet(entity, Component?.stateMap[entity], args);
+    Component.onSet(entity, Component.stateMap[entity], args);
 
     if (!componentExists && Component.reactor && !Component.reactorMap.has(entity)) {
         const root = startReactor(() => {
             return React.createElement(
                 EntityContext.Provider,
-                { value },
+                { value: entity },
                 React.createElement(Component.reactor, {}),
             );
         });
@@ -187,13 +237,13 @@ export const hasComponent = (entity, component) => {
 
 export const removeComponent = (entity, component) => {
     if (!hasComponent(entity, component)) return;
-    component.onRemove(entity, component?.stateMap[entity]);
+    component.onRemove(entity, component.stateMap[entity]);
     bitECS.removeComponent(HyperFlux.store, component, entity, false);
     const root = component.reactorMap.get(entity);
     component.reactorMap.delete(entity);
     if (root?.isRunning) root.stop();
     /** clear state data after reactor stops, to ensure hookstate is still referenceable */
-    component?.stateMap[entity]?.set(none);
+    component.stateMap[entity]?.set(none);
 };
 
 /**
@@ -273,8 +323,12 @@ export function _use(promise) {
 export function useComponent(entity, Component) {
     if (entity === UndefinedEntity)
         throw new Error("InvalidUsage: useComponent called with UndefinedEntity");
-    if (!Component?.stateMap[entity]) Component.stateMap[entity] = hookstate(none);
-    const componentState = Component?.stateMap[entity];
+    if (!Component.stateMap[entity]) Component.stateMap[entity] = hookstate(none);
+    const componentState = Component.stateMap[entity];
+    // use() will suspend the component (by throwing a promise) and resume when the promise is resolved
+    if (componentState.promise) {
+        (use ?? _use)(componentState.promise);
+    }
     return useHookstate(componentState); // todo fix any cast
 }
 
@@ -282,8 +336,8 @@ export function useComponent(entity, Component) {
  * Use a component in a reactive context (a React component)
  */
 export function useOptionalComponent(entity, Component) {
-    if (!Component?.stateMap[entity]) Component.stateMap[entity] = hookstate(none);
-    const component = useHookstate(Component?.stateMap[entity]); // todo fix any cast
+    if (!Component.stateMap[entity]) Component.stateMap[entity] = hookstate(none);
+    const component = useHookstate(Component.stateMap[entity]); // todo fix any cast
     return component.promised ? undefined : component;
 }
 

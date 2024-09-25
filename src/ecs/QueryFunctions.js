@@ -1,7 +1,9 @@
 import * as bitECS from "bitecs";
 import React, { memo, Suspense, useLayoutEffect, useMemo } from "react";
-import { useForceUpdate } from "../hooks/useForceUpdate";
+
+import { useForceUpdate } from "../common/src/utils/useForceUpdate";
 import { getState, HyperFlux, startReactor, useImmediateEffect } from "../hyperflux";
+
 import { useOptionalComponent } from "./ComponentFunctions";
 import { EntityContext } from "./EntityFunctions";
 import { defineSystem } from "./SystemFunctions";
@@ -151,10 +153,9 @@ export const QueryReactor = memo(props => {
     );
 });
 QueryReactor.displayName = "QueryReactor";
-
 class QueryReactorErrorBoundary extends React.Component {
     state = {
-        error,
+        error: null,
     };
 
     static getDerivedStateFromError(error) {
@@ -162,7 +163,7 @@ class QueryReactorErrorBoundary extends React.Component {
         return { error };
     }
 
-    componentDidCatch(error, errorInfo) {
+    componentDidCatch(error, errorInfoInfo) {
         console.error("Uncaught error:", error, errorInfo);
     }
 

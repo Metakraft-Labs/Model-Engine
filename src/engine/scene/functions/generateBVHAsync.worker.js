@@ -15,7 +15,7 @@ addEventListener("message", ({ data }) => {
         const serialized = MeshBVH.serialize(bvh, { copyIndexBuffer: false });
         postMessage(
             {
-                error,
+                error: null,
                 serialized,
             },
             [serialized.index.buffer],
@@ -23,7 +23,7 @@ addEventListener("message", ({ data }) => {
     } catch (error) {
         postMessage({
             error,
-            serialized,
+            serialized: null,
         });
     }
 });

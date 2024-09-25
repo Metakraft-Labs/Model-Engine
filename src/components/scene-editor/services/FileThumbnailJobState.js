@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     Color,
     Euler,
@@ -10,7 +10,7 @@ import {
     SphereGeometry,
     Vector3,
 } from "three";
-import { fileBrowserUploadPath, staticResourcePath } from "../../../common/src/schema.type.module";
+import { fileBrowserUploadPath } from "../../../common/src/schema.type.module";
 import {
     UUIDComponent,
     UndefinedEntity,
@@ -44,9 +44,9 @@ import {
 } from "../../../spatial/transform/components/BoundingBoxComponents";
 import { computeTransformMatrix } from "../../../spatial/transform/systems/TransformSystem";
 
+import { listResources, updateResource } from "../../../apis/projects";
 import { ErrorComponent } from "../../../engine/scene/components/ErrorComponent";
 import { ShadowComponent } from "../../../engine/scene/components/ShadowComponent";
-import { useFind } from "../../../spatial/common/functions/FeathersHooks";
 import { addObjectToGroup } from "../../../spatial/renderer/components/GroupComponent";
 import { MeshComponent } from "../../../spatial/renderer/components/MeshComponent";
 import { loadMaterialGLTF } from "../../../spatial/renderer/materials/materialFunctions";
@@ -100,13 +100,11 @@ const uploadThumbnail = async (src, projectName, staticResourceId, blob) => {
     );
     thumbnailURL.search = "";
     thumbnailURL.hash = "";
-    // const _thumbnailKey = thumbnailURL.href.replace(
-    //     process.env.REACT_APP_S3_ASSETS + "/editor/",
-    //     "",
-    // );
-    // await API.instance
-    //     .service(staticResourcePath)
-    //     .patch(staticResourceId, { thumbnailKey: _thumbnailKey, thumbnailMode });
+    const _thumbnailKey = thumbnailURL.href.replace(
+        process.env.REACT_APP_S3_ASSETS + "/editor",
+        "",
+    );
+    await updateResource(staticResourceId, { thumbnailKey: _thumbnailKey, thumbnailMode });
 };
 
 const seenResources = new Set();
@@ -116,28 +114,26 @@ export const FileThumbnailJobState = defineState({
     initial: [],
     reactor: () => <ThumbnailJobReactor />,
     useGenerateThumbnails: async files => {
-        const resourceQuery = useFind(staticResourcePath, {
-            query: {
-                key: {
-                    $in: files.map(file => file.key).filter(key => !seenResources.has(key)),
-                },
-                thumbnailKey: "null",
-            },
-        });
+        const [page, setPage] = useState(1);
 
-        /**
-         * This useEffect will continuously check for new resources that need thumbnails generated until all resources have thumbnails
-         */
-        useEffect(() => {
-            for (const resource of resourceQuery.data) {
+        const getResources = useCallback(async () => {
+            const { data: resourceQuery, pagination } = await listResources({
+                filters: {
+                    key: {
+                        $in: files.map(file => file.key).filter(key => !seenResources.has(key)),
+                    },
+                    thumbnailKey: "null",
+                },
+                page,
+            });
+            for (const resource of resourceQuery) {
                 if (seenResources.has(resource.key)) continue;
                 seenResources.add(resource.key);
 
                 if (resource.type === "thumbnail") {
                     //set thumbnail's thumbnail as itself
-                    // API.instance
-                    //     .service(staticResourcePath)
-                    //     .patch(resource.id, { thumbnailKey: resource.key });
+
+                    updateResource(resource.id, { thumbnailKey: resource.key });
                     continue;
                 }
 
@@ -157,8 +153,14 @@ export const FileThumbnailJobState = defineState({
             }
 
             // If there are more files left to be processed in the list we have specified, refetch the query
-            if (resourceQuery.total > resourceQuery.data.length) resourceQuery.refetch();
-        }, [resourceQuery.data]);
+            if (pagination.next_page) {
+                setPage(p => p + 1);
+            }
+        }, [files, page]);
+
+        useEffect(() => {
+            getResources();
+        }, [getResources]);
     },
 });
 
@@ -192,7 +194,7 @@ const ThumbnailJobReactor = () => {
     const strippedSrc = stripSearchFromURL(src);
     const extension = strippedSrc.endsWith(".material.gltf")
         ? "material.gltf"
-        : strippedSrc.split(".").pop() ?? "";
+        : (strippedSrc.split(".").pop() ?? "");
     const fileType = extensionThumbnailTypeMap.get(extension);
 
     const state = useHookstate({
@@ -338,7 +340,7 @@ const ThumbnailJobReactor = () => {
                 } else {
                     const sphere = new Mesh(new SphereGeometry(1), material);
                     if (Object.hasOwn(sphere.material, "flatShading")) {
-                        sphere.material.flatShading = false;
+                        sphere.materia.flatShading = false;
                     }
                     addObjectToGroup(entity, sphere);
                     setComponent(entity, MeshComponent, sphere);
@@ -416,7 +418,7 @@ const ThumbnailJobReactor = () => {
             // const length = bbox.getSize(new Vector3(0, 0, 0)).length()
             // const normalizedSize = new Vector3().setScalar(length / 2)
 
-            //const canvas = document.getElementById('preview-canvas')
+            //const canvas = document.getElementById('preview-canvas') as HTMLCanvasElement
             // Create the camera entity
             const cameraEntity = state.cameraEntity.value;
             setComponent(cameraEntity, NameComponent, "thumbnail job camera for " + src);

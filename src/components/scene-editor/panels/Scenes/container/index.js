@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiOutlinePlusCircle } from "react-icons/hi2";
-import { fileBrowserPath, staticResourcePath } from "../../../../../common/src/schema.type.module";
+import { listResources } from "../../../../../apis/projects";
 import { getMutableState, useHookstate, useMutableState } from "../../../../../hyperflux";
-import { useFind, useRealtime } from "../../../../../spatial/common/functions/FeathersHooks";
 import Button from "../../../../Button";
 import LoadingView from "../../../../LoadingView";
 import { SceneItem } from "../../../admin/scene/SceneItem";
@@ -16,12 +15,23 @@ import { confirmSceneSaveIfModified } from "../../../toolbar/Toolbar";
 export default function ScenesPanel() {
     const { t } = useTranslation();
     const editorState = useMutableState(EditorState);
-    const scenesQuery = useFind(staticResourcePath, {
-        query: { project: editorState.projectName.value, type: "scene", paginate: false },
-    });
-    const scenes = scenesQuery.data;
+    const [scenesLoading, setScenesLoading] = useState(true);
+    const [scenes, setScenes] = useState([]);
 
-    const scenesLoading = scenesQuery.status === "pending";
+    const getScenes = useCallback(async () => {
+        setScenesLoading(true);
+        const { data } = await listResources({
+            filters: { type: "scene" },
+            limit: 100,
+        });
+
+        setScenes(data);
+        setScenesLoading(false);
+    }, []);
+
+    useEffect(() => {
+        getScenes();
+    }, [getScenes]);
 
     const onClickScene = async scene => {
         if (!(await confirmSceneSaveIfModified())) return;
@@ -31,7 +41,7 @@ export default function ScenesPanel() {
         });
     };
 
-    useRealtime(fileBrowserPath, scenesQuery.refetch);
+    // useRealtime(fileBrowserPath, scenesQuery.refetch);
 
     const isCreatingScene = useHookstate(false);
     const handleCreateScene = async () => {
@@ -79,7 +89,7 @@ export default function ScenesPanel() {
                                     updateEditorState
                                     moveMenuUp={true}
                                     handleOpenScene={() => onClickScene(scene)}
-                                    refetchProjectsData={scenesQuery.refetch}
+                                    refetchProjectsData={getScenes}
                                 />
                             ))}
                         </div>

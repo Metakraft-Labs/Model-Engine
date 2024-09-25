@@ -19,18 +19,18 @@ import { setVisibleComponent } from "./VisibleComponent";
 export const LineSegmentComponent = defineComponent({
     name: "LineSegmentComponent",
 
-    onInit: _entity => {
+    onInit: entity => {
         return {
             name: "line-segment",
-            geometry,
-            material: new LineBasicMaterial() & { color },
-            color,
+            geometry: null,
+            material: new LineBasicMaterial(),
+            color: undefined,
             layerMask: ObjectLayers.NodeHelper,
-            entity,
+            entity: undefined,
         };
     },
 
-    onSet: (_entity, component, json) => {
+    onSet: (entity, component, json) => {
         if (!json) return;
         if (typeof json.name === "string") component.name.set(json.name);
 
@@ -81,7 +81,7 @@ export const LineSegmentComponent = defineComponent({
         useEffect(() => {
             const color = component.color.value;
             if (!color) return;
-            const mat = component.material.get(NO_PROXY) & { color };
+            const mat = component.material.get(NO_PROXY);
             mat.color.set(color);
             mat.needsUpdate = true;
         }, [component.color]);

@@ -1,9 +1,13 @@
+import { getMutableState, getState, NO_PROXY } from "../../../hyperflux";
 import {
     ResourceManager,
     ResourceState,
     ResourceStatus,
     ResourceType,
 } from "../../../spatial/resources/ResourceState";
+
+import { AssetExt } from "../../../common/src/constants/AssetType";
+import { AssetLoader, getLoader } from "../classes/AssetLoader";
 
 const pending = {};
 

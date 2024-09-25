@@ -120,7 +120,7 @@ export const PerformanceState = defineState({
         maxIndices: 0,
         maxVerticies: 0,
 
-        renderContext,
+        renderContext: null,
 
         // The lower the performance the higher the offset
         gpuPerformanceOffset: 0,
@@ -318,15 +318,15 @@ const timeRenderFrameGPU = (callback = () => {}) => {
  * @param camera Camera
  * @param onFinished Callback with the render time as a parameter
  */
-// const timeRender = (renderer, scene, camera, onFinished) => {
-//     const end = timeRenderFrameGPU(renderTime => {
-//         onFinished(renderTime);
-//     });
-//     renderer.renderer.render(scene, camera);
-//     end();
+const timeRender = (renderer, scene, camera, onFinished) => {
+    const end = timeRenderFrameGPU(renderTime => {
+        onFinished(renderTime);
+    });
+    renderer.renderer?.render(scene, camera);
+    end();
 
-//     scene.remove(camera);
-// };
+    scene.remove(camera);
+};
 
 const updatePerformanceState = (tierState, tier, offsetState, offset) => {
     if (tier !== tierState.value) {

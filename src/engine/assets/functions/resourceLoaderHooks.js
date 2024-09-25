@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Texture } from "three";
 import { v4 as uuidv4 } from "uuid";
 
 import { UndefinedEntity } from "../../../ecs";
@@ -16,10 +15,10 @@ function useLoader(
     //Called when the asset url is changed, mostly useful for editor functions when changing an asset
     onUnload = url => {},
 ) {
-    const value = useHookstate < T > null;
-    const error = (useHookstate < ErrorEvent) | (Error > null);
-    const progress = useHookstate < ProgressEvent < EventTarget >> null;
-    const uuid = useHookstate < string > uuidv4;
+    const value = useHookstate(null);
+    const error = useHookstate(null);
+    const progress = useHookstate(null);
+    const uuid = useHookstate(uuidv4);
 
     const unload = () => {
         if (url) ResourceManager.unload(url, entity, uuid.value);
@@ -181,11 +180,11 @@ async function getLoader(url, resourceType, entity = UndefinedEntity) {
  * @returns Tuple of [GLTF, Error, Progress, onUnloadCallback]
  */
 export function useGLTF(url, entity, onUnload) {
-    return useLoader < GLTFAsset > (url, ResourceType.GLTF, entity, onUnload);
+    return useLoader(url, ResourceType.GLTF, entity, onUnload);
 }
 
 export function useGLTFDocument(url, entity, onUnload) {
-    return useLoader < any > (url, ResourceType.Unknown, entity, onUnload);
+    return useLoader(url, ResourceType.Unknown, entity, onUnload);
 }
 
 /**
@@ -201,7 +200,7 @@ export function useGLTFDocument(url, entity, onUnload) {
  * @returns Tuple of [State<GLTF[]>, State<Error[]>, State<Progress[]>, onUnloadCallback]
  */
 export function useBatchGLTF(urls, entity) {
-    return useBatchLoader < GLTFAsset > (urls, ResourceType.GLTF, entity);
+    return useBatchLoader(urls, ResourceType.GLTF, entity);
 }
 
 /**
@@ -216,7 +215,7 @@ export function useBatchGLTF(urls, entity) {
  * @returns Promise of Tuple of [GLTF, onUnloadCallback, Error]
  */
 export async function getGLTFAsync(url, entity) {
-    return getLoader < GLTFAsset > (url, ResourceType.GLTF, entity);
+    return getLoader(url, ResourceType.GLTF, entity);
 }
 
 /**
@@ -232,7 +231,7 @@ export async function getGLTFAsync(url, entity) {
  * @returns Tuple of [Texture, Error, Progress, onUnloadCallback]
  */
 export function useTexture(url, entity, onUnload) {
-    return useLoader < Texture > (url, ResourceType.Texture, entity, onUnload);
+    return useLoader(url, ResourceType.Texture, entity, onUnload);
 }
 
 /**
@@ -247,9 +246,9 @@ export function useTexture(url, entity, onUnload) {
  * @returns Promise of Tuple of [Texture, onUnloadCallback, Error]
  */
 export async function getTextureAsync(url, entity) {
-    return getLoader < Texture > (url, ResourceType.Texture, entity);
+    return getLoader(url, ResourceType.Texture, entity);
 }
 
 export async function getAudioAsync(url, entity) {
-    return getLoader < AudioBuffer > (url, ResourceType.Audio, entity);
+    return getLoader(url, ResourceType.Audio, entity);
 }

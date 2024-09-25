@@ -22,10 +22,10 @@ export const XRLightProbeState = defineState({
     initial: () => ({
         isEstimatingLight: false,
         lightProbe: new LightProbe(),
-        probe,
+        probe: null,
         directionalLightEntity: UndefinedEntity,
-        environment,
-        xrWebGLBinding,
+        environment: null,
+        xrWebGLBinding: null,
     }),
 });
 
@@ -42,10 +42,10 @@ const updateReflection = () => {
     const textureProperties = getComponent(
         Engine.instance.viewerEntity,
         RendererComponent,
-    ).renderer.properties.get(xrLightProbeState.environment);
+    ).renderer?.properties.get(xrLightProbeState.environment);
 
     if (textureProperties) {
-        const cubeMap = xrLightProbeState.xrWebGLBinding.getReflectionCubeMap?.(
+        const cubeMap = xrLightProbeState.xrWebGLBinding?.getReflectionCubeMap?.(
             xrLightProbeState.probe,
         );
         if (cubeMap) {
@@ -185,7 +185,7 @@ const reactor = () => {
             const gl = getComponent(
                 Engine.instance.viewerEntity,
                 RendererComponent,
-            ).renderer.getContext();
+            ).renderer?.getContext();
 
             // Ensure that we have any extensions needed to use the preferred cube map format.
             switch (session.preferredReflectionFormat) {

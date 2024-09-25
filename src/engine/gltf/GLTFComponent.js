@@ -57,7 +57,7 @@ export const GLTFComponent = defineComponent({
             // internals
             extensions: {},
             progress: 0,
-            dependencies,
+            dependencies: undefined,
         };
     },
 
@@ -102,7 +102,7 @@ export const GLTFComponent = defineComponent({
                         gltfComponentEntity={entity}
                         dependencies={dependencies.value}
                     />
-                ) : undefined}
+                ) : null}
             </>
         );
     },
@@ -221,12 +221,12 @@ const DependencyReactor = props => {
     );
 };
 
-const onError = error => {
-    console.error(error);
+const onError = _error => {
+    // console.error(error)
 };
 
-const onProgress = event => {
-    console.log(event);
+const onProgress = _event => {
+    // console.log(event)
 };
 
 const useGLTFDocument = (url, entity) => {

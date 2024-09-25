@@ -90,7 +90,7 @@ export function useMeshComponent(entity, geometry, material) {
     if (!hasComponent(entity, MeshComponent)) {
         const geo = typeof geometry === "function" ? geometry() : geometry;
         const mat = typeof material === "function" ? material() : material;
-        setComponent(entity, MeshComponent, new Mesh() < TGeometry, TMaterial > (geo, mat));
+        setComponent(entity, MeshComponent, new Mesh(geo, mat));
     }
 
     const meshComponent = useComponent(entity, MeshComponent);

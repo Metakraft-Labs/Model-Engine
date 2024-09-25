@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { GiGrab } from "react-icons/gi";
-import { isClient } from "../../../../common/src/utils/getEnvironment";
 import { getComponent, hasComponent, UUIDComponent } from "../../../../ecs";
 import { GrabbableComponent } from "../../../../engine/interaction/components/GrabbableComponent";
 import { InteractableComponent } from "../../../../engine/interaction/components/InteractableComponent";
@@ -14,23 +13,21 @@ export const GrabbableComponentNodeEditor = props => {
     const { t } = useTranslation();
 
     useEffect(() => {
-        if (isClient) {
-            if (!hasComponent(props.entity, InteractableComponent)) {
-                EditorControlFunctions.addOrRemoveComponent(
-                    [props.entity],
-                    InteractableComponent,
-                    true,
-                    {
-                        label: grabbableInteractMessage,
-                        callbacks: [
-                            {
-                                callbackID: GrabbableComponent.grabbableCallbackName,
-                                target: getComponent(props.entity, UUIDComponent),
-                            },
-                        ],
-                    },
-                );
-            }
+        if (!hasComponent(props.entity, InteractableComponent)) {
+            EditorControlFunctions.addOrRemoveComponent(
+                [props.entity],
+                InteractableComponent,
+                true,
+                {
+                    label: grabbableInteractMessage,
+                    callbacks: [
+                        {
+                            callbackID: GrabbableComponent.grabbableCallbackName,
+                            target: getComponent(props.entity, UUIDComponent),
+                        },
+                    ],
+                },
+            );
         }
     }, []);
 

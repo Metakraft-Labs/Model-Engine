@@ -151,14 +151,14 @@ export const XRHandComponent = defineComponent({
 export const XRLeftHandComponent = defineComponent({
     name: "XRLeftHandComponent",
 
-    onInit: _entity => {
+    onInit: entity => {
         return {
-            hand,
+            hand: null,
             rotations: new Float32Array(4 * 19),
         };
     },
 
-    onSet: (_entity, component, json) => {
+    onSet: (entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.hand)) component.hand.set(json.hand);
     },
@@ -167,14 +167,14 @@ export const XRLeftHandComponent = defineComponent({
 export const XRRightHandComponent = defineComponent({
     name: "XRRightHandComponent",
 
-    onInit: _entity => {
+    onInit: entity => {
         return {
-            hand,
+            hand: null,
             rotations: new Float32Array(4 * 19),
         };
     },
 
-    onSet: (_entity, component, json) => {
+    onSet: (entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.hand)) component.hand.set(json.hand);
     },
@@ -183,15 +183,15 @@ export const XRRightHandComponent = defineComponent({
 export const XRHitTestComponent = defineComponent({
     name: "XRHitTest",
 
-    onInit: _entity => {
+    onInit: entity => {
         return {
-            options,
-            source,
+            options: null,
+            source: null,
             results: [],
         };
     },
 
-    onSet: (_entity, component, data) => {
+    onSet: (entity, component, data) => {
         component.options.set(data);
     },
 
@@ -241,13 +241,13 @@ export const XRHitTestComponent = defineComponent({
 export const XRAnchorComponent = defineComponent({
     name: "XRAnchor",
 
-    onInit: _entity => {
+    onInit: entity => {
         return {
-            anchor,
+            anchor: null,
         };
     },
 
-    onSet: (_entity, component, data) => {
+    onSet: (entity, component, data) => {
         component.anchor.value?.delete();
         component.anchor.set(data.anchor);
     },
@@ -260,10 +260,10 @@ export const XRAnchorComponent = defineComponent({
 export const XRSpaceComponent = defineComponent({
     name: "XRSpace",
 
-    onInit: _entity => {
+    onInit: entity => {
         return {
-            space,
-            baseSpace,
+            space: null,
+            baseSpace: null,
         };
     },
 

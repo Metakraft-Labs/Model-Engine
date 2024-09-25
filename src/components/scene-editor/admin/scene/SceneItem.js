@@ -45,7 +45,7 @@ export const SceneItem = ({
     const showContentMenu = useHookstate(false);
     const menuPosition = useHookstate({ top: 0, left: 0 });
 
-    const threeDotsContainRef = useRef < HTMLDivElement > null;
+    const threeDotsContainRef = useRef(null);
 
     useClickOutside(threeDotsContainRef, () => showContentMenu.set(false));
 
@@ -70,25 +70,20 @@ export const SceneItem = ({
         <div className="col-span-2 inline-flex h-64 w-64 min-w-64 max-w-64 cursor-pointer flex-col items-start justify-start gap-3 rounded-lg bg-theme-highlight p-3 lg:col-span-1">
             <img
                 className="shrink grow basis-0 self-stretch rounded"
-                src={scene.thumbnailURL}
+                src={`${process.env.REACT_APP_S3_ASSETS}/editor/${scene.thumbnailKey}`}
                 onClick={handleOpenScene}
             />
             <div className="inline-flex items-start justify-between self-stretch">
                 <div className="inline-flex w-full flex-col items-start justify-start">
                     <div className="space-between flex w-full flex-row">
-                        <Typography
-                            variant="h3"
-                            fontWeight="light"
-                            className="leading-6 text-neutral-100"
-                        >
+                        <Typography fontWeight="light" className="leading-6 text-neutral-100">
                             <Tooltip title={sceneName}>
                                 <div className="w-52 truncate">{sceneName}</div>
                             </Tooltip>
                         </Typography>
                     </div>
                     <Typography
-                        variant="h3"
-                        fontSize="xs"
+                        fontSize="small"
                         fontWeight="light"
                         className="h-3.5 w-40 leading-5 text-neutral-100"
                     >

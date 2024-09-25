@@ -1,8 +1,6 @@
 import { VRMLoaderPlugin } from "@pixiv/three-vrm";
 import { Group, WebGLRenderer } from "three";
 
-import { isClient } from "../../../common/src/utils/getEnvironment";
-
 import { Engine } from "../../../ecs";
 import { DRACOLoader } from "../loaders/gltf/DRACOLoader";
 import { CachedImageLoadExtension } from "../loaders/gltf/extensions/CachedImageLoadExtension";
@@ -16,7 +14,6 @@ import { ResourceManagerLoadExtension } from "../loaders/gltf/extensions/Resourc
 import { GLTFLoader } from "../loaders/gltf/GLTFLoader";
 import { KTX2Loader } from "../loaders/gltf/KTX2Loader";
 import { MeshoptDecoder } from "../loaders/gltf/meshopt_decoder.module";
-import { loadDRACODecoderNode, NodeDRACOLoader } from "../loaders/gltf/NodeDracoLoader";
 
 export const initializeKTX2Loader = loader => {
     const ktxLoader = new KTX2Loader();
@@ -48,21 +45,11 @@ export const createGLTFLoader = (keepMaterials = false) => {
         MeshoptDecoder.useWorkers(2);
     }
     loader.setMeshoptDecoder(MeshoptDecoder);
-
-    if (isClient) {
-        initializeKTX2Loader(loader);
-        const dracoLoader = new DRACOLoader();
-        dracoLoader.setDecoderPath(Engine.instance.store.publicPath + "/loader_decoders/");
-        dracoLoader.setWorkerLimit(1);
-        loader.setDRACOLoader(dracoLoader);
-    } else {
-        loadDRACODecoderNode();
-        const dracoLoader = new NodeDRACOLoader();
-        /* @ts-ignore */
-        dracoLoader.preload = () => {};
-        /* @ts-ignore */
-        loader.setDRACOLoader(dracoLoader);
-    }
+    initializeKTX2Loader(loader);
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath(Engine.instance.store.publicPath + "/loader_decoders/");
+    dracoLoader.setWorkerLimit(1);
+    loader.setDRACOLoader(dracoLoader);
 
     return loader;
 };

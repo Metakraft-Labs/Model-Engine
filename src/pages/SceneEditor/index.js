@@ -4,9 +4,11 @@ import LoadingView from "../../components/LoadingView";
 import { createEngine } from "../../ecs";
 import { getMutableState, HyperFlux } from "../../hyperflux";
 import { EngineState } from "../../spatial/EngineState";
+import { startTimer } from "../../spatial/startTimer";
 import EditorPage from "./EditorPage";
 
 createEngine(HyperFlux.store);
+startTimer();
 export const useStudioEditor = () => {
     const engineReady = useHookstate(false);
 

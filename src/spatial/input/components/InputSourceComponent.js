@@ -1,7 +1,9 @@
 import { Raycaster } from "three";
+
 import { defineQuery } from "../../../ecs";
 import { defineComponent, getComponent, setComponent } from "../../../ecs/ComponentFunctions";
 import { getState } from "../../../hyperflux";
+
 import { XRHandComponent, XRSpaceComponent } from "../../xr/XRComponents";
 import { ReferenceSpace, XRState } from "../../xr/XRState";
 import { InputState } from "../state/InputState";
@@ -33,7 +35,7 @@ export const InputSourceComponent = defineComponent({
                 index: 0,
                 mapping: "",
                 timestamp: performance.now(),
-                vibrationActuator,
+                vibrationActuator: null,
             },
             profiles: [],
             hand: undefined,
@@ -61,11 +63,6 @@ export const InputSourceComponent = defineComponent({
     nonCapturedInputSources(entities = inputSourceQuery()) {
         return entities.filter(eid => eid !== getState(InputState).capturingEntity);
     },
-
-    /**
-     * Gets the preferred controller entity - will return null if the entity is not in an active session or the controller is not available
-     * @param {boolean} offhand specifies to return the non-preferred hand instead
-     */
     getPreferredInputSource: (offhand = false) => {
         const xrState = getState(XRState);
         if (!xrState.sessionActive) return;
@@ -91,19 +88,3 @@ export const InputSourceComponent = defineComponent({
 });
 
 const inputSourceQuery = defineQuery([InputSourceComponent]);
-
-/**
- * Scenario:
- * - hover over object shows UI hint
- * - click for object triggers action
- * - click and drag on object moves it around
- * - click and drag on some surfaces rotates the camera
- *
- *
- *
- *
- * Questions
- * - Can we have implicit ordering of input receiver systems? Or does it need to be explicit or non-ordered / deterministic?
- * -
- *
- */

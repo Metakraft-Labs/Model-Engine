@@ -11,9 +11,7 @@ export const TextureEffectProcessReactor = props => {
     const { isActive, effectData, effects } = props;
     const effectState = getState(PostProcessingEffectState);
 
-    const [textureEffectTexture, textureEffectTextureError] = useTexture(
-        effectData[effectKey].value?.texturePath,
-    );
+    const [textureEffectTexture] = useTexture(effectData[effectKey].value?.texturePath);
 
     useEffect(() => {
         if (effectData[effectKey].value) return;
@@ -44,7 +42,7 @@ export const textureAddToEffectRegistry = () => {
 
     getMutableState(PostProcessingEffectState).merge({
         [effectKey]: {
-            reactor,
+            reactor: TextureEffectProcessReactor,
             defaultValues: {
                 isActive: false,
                 blendFunction: BlendFunction.NORMAL,

@@ -2,7 +2,7 @@
 export default function iterateObject3D(
     root,
     callback,
-    predicate,
+    predicate = _ => true,
     snubChildren = false,
     breakOnFind = false,
 ) {
