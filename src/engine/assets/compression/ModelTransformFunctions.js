@@ -25,7 +25,7 @@ import {
     textureResize,
     weld,
 } from "@gltf-transform/functions";
-import { createHash } from "crypto";
+import { createHash } from "crypto-browserify";
 import { MeshoptEncoder } from "meshoptimizer";
 import { getPixels } from "ndarray-pixels";
 import { LoaderUtils } from "three";
