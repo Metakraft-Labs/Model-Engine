@@ -22,7 +22,7 @@ export class EEMaterialImporterExtension extends ImporterExtension {
         const parser = this.parser;
         const materialDef = parser.json.materials[materialIndex];
         if (!materialDef.extensions?.[this.name]) return null;
-        const eeMaterialType = materialDef.extensions[this.name];
+        const eeMaterial = materialDef.extensions[this.name];
         let constructor = null;
         try {
             constructor = getComponent(

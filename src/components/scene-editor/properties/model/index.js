@@ -43,7 +43,9 @@ export const ModelNodeEditor = props => {
     const projectState = getState(ProjectState);
     const loadedProjects = useState(() => projectState.projects.map(project => project.name));
     const srcProject = useState(() => {
-        const match = STATIC_ASSET_REGEX.exec(modelComponent.src.value);
+        const match = STATIC_ASSET_REGEX.exec(
+            modelComponent.src.value?.replace("projects/spark", "projects"),
+        );
         if (!match?.length) return editorState.projectName;
         const [_, orgName, projectName] = match;
         return `${orgName}/${projectName}`;
@@ -55,7 +57,9 @@ export const ModelNodeEditor = props => {
     ]);
 
     const getRelativePath = useCallback(() => {
-        const relativePath = STATIC_ASSET_REGEX.exec(modelComponent.src.value)?.[2];
+        const relativePath = STATIC_ASSET_REGEX.exec(
+            modelComponent.src.value?.replace("projects/spark", "projects"),
+        )?.[2];
         if (!relativePath) {
             return "assets/new-model";
         } else {
@@ -66,7 +70,10 @@ export const ModelNodeEditor = props => {
 
     const getExportExtension = useCallback(() => {
         if (!modelComponent.src.value) return "gltf";
-        else return modelComponent.src.value.endsWith(".gltf") ? "gltf" : "glb";
+        else
+            return modelComponent.src.value?.replace("projects/spark", "projects").endsWith(".gltf")
+                ? "gltf"
+                : "glb";
     }, [modelComponent.src]);
 
     const srcPath = useState(getRelativePath());
@@ -118,11 +125,20 @@ export const ModelNodeEditor = props => {
         >
             <InputGroup name="Model Url" label={t("editor:properties.model.lbl-modelurl")}>
                 <ModelInput
-                    value={modelComponent.src.value}
+                    value={modelComponent.src.value?.replace("projects/spark", "projects")}
                     onRelease={src => {
-                        if (src !== modelComponent.src.value)
-                            commitProperty(ModelComponent, "src")(src);
-                        else ResourceLoaderManager.updateResource(src);
+                        if (
+                            src?.replace("projects/spark", "projects") !==
+                            modelComponent.src.value?.replace("projects/spark", "projects")
+                        )
+                            commitProperty(
+                                ModelComponent,
+                                "src",
+                            )(src?.replace("projects/spark", "projects"));
+                        else
+                            ResourceLoaderManager.updateResource(
+                                src?.replace("projects/spark", "projects"),
+                            );
                     }}
                 />
                 {errors?.LOADING_ERROR ||
@@ -133,7 +149,7 @@ export const ModelNodeEditor = props => {
                 <Button
                     className="self-end"
                     onClick={() => modelComponent.dereference.set(true)}
-                    disabled={!modelComponent.src.value}
+                    disabled={!modelComponent.src.value?.replace("projects/spark", "projects")}
                 >
                     Dereference
                 </Button>

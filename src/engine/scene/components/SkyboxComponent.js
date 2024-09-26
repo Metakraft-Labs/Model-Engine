@@ -78,7 +78,10 @@ export const SkyboxComponent = defineComponent({
 
         const skyboxState = useComponent(entity, SkyboxComponent);
 
-        const [texture, error] = useTexture(skyboxState.equirectangularPath.value, entity);
+        const [texture, error] = useTexture(
+            skyboxState.equirectangularPath.value?.replace("projects/spark", "projects"),
+            entity,
+        );
 
         useEffect(() => {
             if (skyboxState.backgroundType.value !== "equirectangular") return;

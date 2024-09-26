@@ -35,7 +35,9 @@ export function updateModelVariant(entity, variantComponent, modelComponent) {
         );
         if (levelIndex < 0) return;
         const deviceVariant = variantComponent.levels[levelIndex];
-        const modelRelativePath = STATIC_ASSET_REGEX.exec(modelComponent.src.value)?.[3];
+        const modelRelativePath = STATIC_ASSET_REGEX.exec(
+            modelComponent.src.value?.replace("projects/spark", "projects"),
+        )?.[3];
         const deviceRelativePath = deviceVariant
             ? STATIC_ASSET_REGEX.exec(deviceVariant.src.value)?.[3]
             : "";

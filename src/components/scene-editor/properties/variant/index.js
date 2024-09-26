@@ -70,7 +70,9 @@ export const VariantNodeEditor = props => {
         previewIndex.set(index);
         const modelComponent = getOptionalMutableComponent(entity, ModelComponent);
         if (!modelComponent) return;
-        modelComponent.src.set(variantComponent.levels[index].src.value);
+        modelComponent.src.set(
+            variantComponent.levels[index].src.value?.replace("projects/spark", "projects"),
+        );
     };
 
     const updateLevelsForBudget = () => {

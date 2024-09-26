@@ -96,7 +96,10 @@ function ModelReactor() {
     const gltfDocumentState = useHookstate(getMutableState(GLTFDocumentState));
     const modelSceneID = getModelSceneID(entity);
 
-    const [gltf, error] = useGLTF(modelComponent.src.value, entity);
+    const [gltf, error] = useGLTF(
+        modelComponent.src.value?.replace("projects/spark", "projects"),
+        entity,
+    );
 
     useEffect(() => {
         const occlusion = modelComponent.cameraOcclusion.value;

@@ -78,7 +78,6 @@ function getImageURIMimeType(uri) {
 
     return "image/png";
 }
-
 /** Override GLTF.IGLTF types that threejs uses as temp defintions */
 
 const _identityMatrix = new Matrix4();
@@ -89,7 +88,7 @@ export class GLTFParser {
     json;
     extensions;
     plugins;
-    optionsOptions;
+    options;
     cache;
     associations;
     primitiveCache;
@@ -100,7 +99,7 @@ export class GLTFParser {
     sourceCache;
     textureCache;
     nodeNamesUsed;
-    textureLoaderLoader;
+    textureLoader;
     fileLoader;
 
     constructor(json, options = {}) {
@@ -142,7 +141,7 @@ export class GLTFParser {
         if (typeof navigator !== "undefined") {
             isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) === true;
             isFirefox = navigator.userAgent.indexOf("Firefox") > -1;
-            firefoxVersion = isFirefox ? navigator.userAgent.match(/Firefox\/([0-9]+)\./)[1] : -1;
+            firefoxVersion = isFirefox ? navigator.userAgent.match(/Firefox\/([0-9]+)\./)?.[1] : -1;
         }
 
         if (
@@ -175,6 +174,7 @@ export class GLTFParser {
     }
 
     parse(onLoad, onError) {
+        // eslint-disable-next-line
         const parser = this;
         const json = this.json;
         const extensions = this.extensions;
@@ -343,7 +343,6 @@ export class GLTFParser {
      * Requests the specified dependency asynchronously, with caching.
      * @param {string} type
      * @param {number} index
-     * @return {Promise<Object3D|Material|THREE.Texture|AnimationClip|ArrayBuffer|Object>}
      */
     getDependency(type, index) {
         const cacheKey = type + ":" + index;
@@ -434,6 +433,7 @@ export class GLTFParser {
         let dependencies = this.cache.get(type);
 
         if (!dependencies) {
+            // eslint-disable-next-line
             const parser = this;
             const defs = this.json[type + (type === "mesh" ? "es" : "s")] || [];
 
@@ -455,7 +455,7 @@ export class GLTFParser {
      * @return {Promise<ArrayBuffer>}
      */
     loadBuffer(bufferIndex) {
-        const bufferDef = this.json.buffers[bufferIndex];
+        const bufferDef = this.json.buffers?.[bufferIndex];
         const loader = this.fileLoader;
 
         if (bufferDef.type && bufferDef.type !== "arraybuffer") {
@@ -508,6 +508,7 @@ export class GLTFParser {
      * @return {Promise<BufferAttribute|InterleavedBufferAttribute>}
      */
     loadAccessor(accessorIndex) {
+        // eslint-disable-next-line
         const parser = this;
         const json = this.json;
 
@@ -671,6 +672,7 @@ export class GLTFParser {
     }
 
     loadTextureImage(textureIndex, sourceIndex, loader) {
+        // eslint-disable-next-line
         const parser = this;
         const json = this.json;
 
@@ -723,6 +725,7 @@ export class GLTFParser {
     }
 
     loadImageSource(sourceIndex, loader) {
+        // eslint-disable-next-line
         const parser = this;
         const json = this.json;
         const options = this.options;
@@ -757,29 +760,25 @@ export class GLTFParser {
 
         const promise = Promise.resolve(sourceURI)
             .then(function (sourceURI) {
-                return (
-                    new Promise() <
-                    any >
-                    function (resolve, reject) {
-                        let onLoad = resolve;
+                return new Promise(function (resolve, reject) {
+                    let onLoad = resolve;
 
-                        if (loader.isImageBitmapLoader === true) {
-                            onLoad = function (imageBitmap) {
-                                const texture = new Texture(imageBitmap);
-                                texture.needsUpdate = true;
+                    if (loader.isImageBitmapLoader === true) {
+                        onLoad = function (imageBitmap) {
+                            const texture = new Texture(imageBitmap);
+                            texture.needsUpdate = true;
 
-                                resolve(texture);
-                            };
-                        }
-
-                        loader.load(
-                            LoaderUtils.resolveURL(sourceURI, options.path),
-                            onLoad,
-                            undefined,
-                            reject,
-                        );
+                            resolve(texture);
+                        };
                     }
-                );
+
+                    loader.load(
+                        LoaderUtils.resolveURL(sourceURI, options.path),
+                        onLoad,
+                        undefined,
+                        reject,
+                    );
+                });
             })
             .then(function (texture) {
                 // Clean up resources and configure Texture.
@@ -809,9 +808,10 @@ export class GLTFParser {
      * @param {Object} materialParams
      * @param {string} mapName
      * @param {Object} mapDef
-     * @return {Promise}
+     * @return {Promise<Texture>}
      */
     assignTexture(materialParams, mapName, mapDef, colorSpace) {
+        // eslint-disable-next-line
         const parser = this;
 
         return this.getDependency("texture", mapDef.index).then(function (texture) {
@@ -941,6 +941,7 @@ export class GLTFParser {
      * @return {Promise<Material>}
      */
     loadMaterial(materialIndex) {
+        // eslint-disable-next-line
         const parser = this;
         const json = this.json;
         const extensions = this.extensions;
@@ -1132,6 +1133,7 @@ export class GLTFParser {
      * @return {Promise<Array<BufferGeometry>>}
      */
     loadGeometries(primitives) {
+        // eslint-disable-next-line
         const parser = this;
         const extensions = this.extensions;
         const cache = this.primitiveCache;
@@ -1190,6 +1192,7 @@ export class GLTFParser {
      * @return {Promise<Group|Mesh|SkinnedMesh>}
      */
     loadMesh(meshIndex) {
+        // eslint-disable-next-line
         const parser = this;
         const json = this.json;
         const extensions = this.extensions;
@@ -1408,7 +1411,7 @@ export class GLTFParser {
      */
     loadAnimation(animationIndex) {
         const json = this.json;
-
+        // eslint-disable-next-line
         const parser = this;
 
         const animationDef = json.animations[animationIndex];
@@ -1492,7 +1495,7 @@ export class GLTFParser {
 
     createNodeMesh(nodeIndex) {
         const json = this.json;
-
+        // eslint-disable-next-line
         const parser = this;
         const nodeDef = json.nodes[nodeIndex];
 
@@ -1501,12 +1504,12 @@ export class GLTFParser {
         return parser.getDependency("mesh", nodeDef.mesh).then(function (mesh) {
             const node = parser._getNodeRef(parser.meshCache, nodeDef.mesh, mesh);
 
-            // if weights are provided on the node, weights on the mesh.
+            // if weights are provided on the node, override weights on the mesh.
             if (nodeDef.weights !== undefined) {
                 node.traverse(function (o) {
                     if (!o.isMesh) return;
 
-                    for (let i = 0, il = nodeDef.weights.length; i < il; i++) {
+                    for (let i = 0, il = nodeDef.weights?.length; i < il; i++) {
                         o.morphTargetInfluences[i] = nodeDef.weights[i];
                     }
                 });
@@ -1523,7 +1526,7 @@ export class GLTFParser {
      */
     loadNode(nodeIndex) {
         const json = this.json;
-
+        // eslint-disable-next-line
         const parser = this;
 
         const nodeDef = json.nodes[nodeIndex];
@@ -1572,7 +1575,7 @@ export class GLTFParser {
     _loadNodeShallow(nodeIndex) {
         const json = this.json;
         const extensions = this.extensions;
-
+        // eslint-disable-next-line
         const parser = this;
 
         // This method is called from .loadNode() and .loadSkin().
@@ -1680,7 +1683,7 @@ export class GLTFParser {
     loadScene(sceneIndex) {
         const extensions = this.extensions;
         const sceneDef = this.json.scenes[sceneIndex];
-
+        // eslint-disable-next-line
         const parser = this;
 
         // Loader returns Group, not Scene.
@@ -1742,7 +1745,7 @@ export class GLTFParser {
         if (PATH_PROPERTIES[target.path] === PATH_PROPERTIES.weights) {
             node.traverse(function (object) {
                 if (object.morphTargetInfluences) {
-                    targetNames.push(object.name ? object.name.uuid : null);
+                    targetNames.push(object.name ? object.name : object.uuid);
                 }
             });
         } else {

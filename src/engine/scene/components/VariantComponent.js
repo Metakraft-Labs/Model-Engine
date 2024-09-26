@@ -115,7 +115,13 @@ function VariantReactor() {
                 variantComponent.levels[currentLevel].src.value;
         }
 
-        if (src && modelComponent && modelComponent.src.value !== src) modelComponent.src.set(src);
+        if (
+            src &&
+            modelComponent &&
+            modelComponent.src.value?.replace("projects/spark", "projects") !==
+                src?.replace("projects/spark", "projects")
+        )
+            modelComponent.src.set(src?.replace("projects/spark", "projects"));
     }, [variantComponent.currentLevel]);
 
     useEffect(() => {

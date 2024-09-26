@@ -160,7 +160,9 @@ export default function ModelTransformProperties({ entity, onChangeModel }) {
                 materials.map(material => (material.side = DoubleSide));
             });
             //save changes to model
-            const bakedPath = modelComponent.src.value.replace(/\.glb$/, "-baked.glb");
+            const bakedPath = modelComponent.src.value
+                ?.replace("projects/spark", "projects")
+                .replace(/\.glb$/, "-baked.glb");
             console.log("saving baked model to " + bakedPath + "...");
             await exportGLTF(entity, bakedPath);
             console.log("saved baked model");
