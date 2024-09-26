@@ -83,7 +83,7 @@ export const VideoComponent = defineComponent({
             mediaUUID: "",
             // internal
             videoMeshEntity: UndefinedEntity,
-            texture,
+            texture: null,
             userData: { ignoreOnExport: true },
         };
     },

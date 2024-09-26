@@ -40,12 +40,12 @@ export const XRDetectedPlaneComponent = defineComponent({
 
     onInit(_entity) {
         return {
-            plane,
-            // internal
-            shadowMesh,
-            occlusionMesh,
-            geometry,
-            placementHelper,
+            plane: null,
+            //internal
+            shadowMesh: null,
+            occlusionMesh: null,
+            geometry: null,
+            placementHelper: null,
         };
     },
 

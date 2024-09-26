@@ -47,8 +47,8 @@ export const MediaElementComponent = defineComponent({
 
     onInit: _entity => {
         return {
-            element,
-            hls,
+            element: null,
+            hls: null,
             abortController: new AbortController(),
         };
     },
@@ -101,7 +101,7 @@ export const MediaComponent = defineComponent({
             isMusic: false,
             seekTime: 0,
             /**@deprecated */
-            paths,
+            paths: null,
             // runtime props
             paused: true,
             ended: true,

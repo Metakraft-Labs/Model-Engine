@@ -452,7 +452,7 @@ export const ParticleSystemComponent = defineComponent({
         return {
             systemParameters: DEFAULT_PARTICLE_SYSTEM_PARAMETERS,
             behaviorParameters: [],
-            behaviors,
+            behaviors: null,
             _loadIndex: 0,
             _refresh: 0,
         };

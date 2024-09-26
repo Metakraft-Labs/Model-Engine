@@ -10,8 +10,8 @@ export const CameraHelperComponent = defineComponent({
     onInit: _entity => {
         return {
             name: "camera-helper",
-            camera,
-            entity,
+            camera: null,
+            entity: null,
         };
     },
 

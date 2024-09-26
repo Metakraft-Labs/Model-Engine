@@ -29,7 +29,7 @@ const onImportAsset = async () => {
         try {
             await inputFileWithAddToScene({
                 projectName,
-                directoryPath: "projects/" + projectName + "/assets/",
+                directoryPath: "projects/" + "default-project" + "/assets/",
             });
         } catch (err) {
             toast.error(err.message);

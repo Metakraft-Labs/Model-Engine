@@ -9,7 +9,7 @@ export const ReflectionProbeComponent = defineComponent({
     onInit: () => ({
         src: "",
         // internal
-        texture,
+        texture: null,
     }),
     toJSON: (_entity, component) => ({
         src: component.src.value,

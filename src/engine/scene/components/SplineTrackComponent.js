@@ -31,7 +31,7 @@ export const SplineTrackComponent = defineComponent({
     onInit: _entity => {
         return {
             alpha: 0, // internal
-            splineEntityUUID,
+            splineEntityUUID: null,
             velocity: 1.0,
             enableRotation: false,
             lockToXZPlane: true,

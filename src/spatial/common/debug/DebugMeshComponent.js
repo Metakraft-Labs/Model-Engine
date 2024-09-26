@@ -15,9 +15,9 @@ export const DebugMeshComponent = defineComponent({
     onInit: _entity => {
         return {
             name: "debug-mesh",
-            geometry,
+            geometry: null,
             material: new MeshBasicMaterial(),
-            entity,
+            entity: null,
         };
     },
 

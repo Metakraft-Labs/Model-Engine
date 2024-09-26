@@ -711,7 +711,7 @@ const AssetPanel = () => {
                     onClick={() =>
                         inputFileWithAddToScene({
                             projectName: originalPath,
-                            directoryPath: `projects/${originalPath}/assets/`,
+                            directoryPath: `projects/${"default-project"}/assets/`,
                         })
                             .then(handleRefresh)
                             .catch(err => {

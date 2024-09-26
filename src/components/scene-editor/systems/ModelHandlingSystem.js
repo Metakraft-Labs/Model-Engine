@@ -41,7 +41,7 @@ const execute = () => {
                     uploadProjectFiles(
                         projectName,
                         [file],
-                        [`projects/${projectName}${importSettings.importFolder}`],
+                        [`projects/${"default-project"}${importSettings.importFolder}`],
                     ).promises,
                 ).then(() => Promise.resolve()),
             ),

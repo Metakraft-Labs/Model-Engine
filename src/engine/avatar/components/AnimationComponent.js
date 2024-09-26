@@ -5,7 +5,7 @@ export const AnimationComponent = defineComponent({
 
     onInit: _entity => {
         return {
-            mixer,
+            mixer: null,
             animations: [],
         };
     },

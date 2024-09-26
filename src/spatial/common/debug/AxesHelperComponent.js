@@ -13,7 +13,7 @@ export const AxesHelperComponent = defineComponent({
             name: "axes-helper",
             size: 1,
             layerMask: ObjectLayerMasks.NodeHelper,
-            entity,
+            entity: null,
         };
     },
 

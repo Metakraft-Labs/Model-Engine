@@ -21,7 +21,7 @@ export const AudioAnalysisComponent = defineComponent({
     onInit: _entity => {
         return {
             src: "",
-            session,
+            session: null,
             bassEnabled: true,
             midEnabled: true,
             trebleEnabled: true,

@@ -82,7 +82,7 @@ export const TextComponent = defineComponent({
             glyphDetail: 1, // Maps to troika.Text.glyphGeometryDetail
 
             // Internal State
-            troikaMesh,
+            troikaMesh: null,
         };
     },
 

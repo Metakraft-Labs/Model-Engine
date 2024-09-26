@@ -20,12 +20,12 @@ export const XRDetectedMeshComponent = defineComponent({
 
     onInit(_entity) {
         return {
-            mesh,
+            mesh: null,
             // internal
-            shadowMesh,
-            occlusionMesh,
-            geometry,
-            placementHelper,
+            shadowMesh: null,
+            occlusionMesh: null,
+            geometry: null,
+            placementHelper: null,
         };
     },
 

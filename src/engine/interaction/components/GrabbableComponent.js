@@ -82,7 +82,7 @@ export const GrabbedComponent = defineComponent({
     onInit(_entity) {
         return {
             attachmentPoint: "none",
-            grabberEntity,
+            grabberEntity: null,
         };
     },
 
@@ -104,8 +104,8 @@ export const GrabberComponent = defineComponent({
 
     onInit(_entity) {
         return {
-            left,
-            right,
+            left: null,
+            right: null,
         };
     },
 

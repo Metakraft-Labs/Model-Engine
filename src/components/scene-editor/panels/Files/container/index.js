@@ -136,7 +136,7 @@ const viewModes = [
 function extractDirectoryWithoutOrgName(directory, orgName) {
     if (!orgName) return directory;
 
-    return directory.replace(`projects/${orgName}`, "projects/");
+    return directory.replace(`projects/${"default-project"}`, "projects/");
 }
 
 /**
@@ -450,11 +450,11 @@ const FileBrowserContentPanel = props => {
     const currentContentRef = useRef(null);
 
     const showDownloadButtons = selectedDirectory.value.startsWith(
-        "/projects/" + projectName + "/",
+        "/projects/" + "default-project" + "/",
     );
     const showUploadButtons =
-        selectedDirectory.value.startsWith("/projects/" + projectName + "/public/") ||
-        selectedDirectory.value.startsWith("/projects/" + projectName + "/assets/");
+        selectedDirectory.value.startsWith("/projects/" + "default-project" + "/public/") ||
+        selectedDirectory.value.startsWith("/projects/" + "default-project" + "/assets/");
     const showBackButton =
         selectedDirectory.value.split("/").length > props.originalPath.split("/").length;
 
@@ -921,7 +921,7 @@ export default function FilesPanelContainer() {
 
     return (
         <FileBrowserContentPanel
-            originalPath={"/projects/" + originalPath + "/assets/"}
+            originalPath={"/projects/" + "default-project" + "/assets/"}
             onSelectionChanged={onSelectionChanged}
         />
     );

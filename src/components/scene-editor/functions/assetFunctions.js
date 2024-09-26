@@ -13,7 +13,7 @@ export const handleUploadFiles = (projectName, directoryPath, files) => {
                     {
                         project: projectName,
                         path:
-                            directoryPath.replace("projects/" + projectName + "/", "") +
+                            directoryPath.replace("projects/" + "default-project" + "/", "") +
                             fileDirectory,
                         type: "asset",
                         contentType: file.type,

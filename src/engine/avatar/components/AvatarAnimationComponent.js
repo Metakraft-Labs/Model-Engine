@@ -46,7 +46,7 @@ export const AvatarAnimationComponent = defineComponent({
     onInit: _entity => {
         return {
             animationGraph: {
-                blendAnimation,
+                blendAnimation: null,
                 fadingOut: false,
                 blendStrength: 0,
                 layer: 0,
@@ -78,15 +78,15 @@ export const AvatarRigComponent = defineComponent({
     onInit: _entity => {
         return {
             /** rig bones with quaternions relative to the raw bones in their bind pose */
-            normalizedRig,
+            normalizedRig: null,
             /** contains the raw bone quaternions */
-            rawRig,
+            rawRig: null,
             /** contains ik solve data */
             ikMatrices: {},
-            helperEntity,
+            helperEntity: null,
             /** The VRM model */
-            vrm,
-            avatarURL,
+            vrm: null,
+            avatarURL: null,
         };
     },
 

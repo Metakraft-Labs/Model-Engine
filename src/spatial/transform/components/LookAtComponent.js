@@ -3,7 +3,7 @@ export const LookAtComponent = defineComponent({
     name: "LookAtComponent",
     jsonID: "IR_lookAt",
     onInit: _entity => ({
-        target,
+        target: null,
         xAxis: true,
         yAxis: true,
     }),

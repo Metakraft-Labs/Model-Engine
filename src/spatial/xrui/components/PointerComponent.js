@@ -41,11 +41,11 @@ export const PointerComponent = defineComponent({
 
     onInit: _entity => {
         return {
-            inputSource,
-            lastHit,
+            inputSource: null,
+            lastHit: null,
             // internal
-            pointer,
-            cursor,
+            pointer: null,
+            cursor: null,
         };
     },
 

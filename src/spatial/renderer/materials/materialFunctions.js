@@ -179,7 +179,7 @@ export function PrototypeNotFoundError(message) {
 /** Assigns a preexisting material entity to a mesh */
 export const assignMaterial = (user, materialEntity, index = 0) => {
     const materialStateComponent = getMutableComponent(materialEntity, MaterialStateComponent);
-    materialStateComponent.instances.set([...materialStateComponent.instances.value, user]);
+    materialStateComponent?.instances.set([...materialStateComponent.instances.value, user]);
     if (!user) return;
     if (!hasComponent(user, MaterialInstanceComponent))
         setComponent(user, MaterialInstanceComponent);

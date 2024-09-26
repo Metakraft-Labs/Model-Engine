@@ -5,7 +5,7 @@ export const AvatarTeleportComponent = defineComponent({
 
     onInit: _entity => {
         return {
-            side,
+            side: null,
         };
     },
 

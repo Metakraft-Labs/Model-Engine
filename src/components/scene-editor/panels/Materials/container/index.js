@@ -125,12 +125,12 @@ export default function MaterialLibraryPanel() {
                                 uploadProjectFiles(
                                     projectName,
                                     [file],
-                                    [`projects/${projectName}${importSettings.importFolder}`],
+                                    [`projects/${"default-project"}${importSettings.importFolder}`],
                                 ).promises,
                             );
                             const adjustedLibraryName =
                                 libraryName.length > 0 ? libraryName.substring(1) : "";
-                            const key = `projects/${projectName}${importSettings.importFolder}${adjustedLibraryName}`;
+                            const key = `projects/${"default-project"}${importSettings.importFolder}${adjustedLibraryName}`;
                             // const resources = await API.instance.service(staticResourcePath).find({
                             //     query: { key: key },
                             // });

@@ -13,12 +13,12 @@ export const PositionalAudioHelperComponent = defineComponent({
     onInit: _entity => {
         return {
             name: "positional-audio-helper",
-            audio,
+            audio: null,
             range: 1,
             divisionsInnerAngle: 16,
             divisionsOuterAngle: 2,
             divisions: 0,
-            entity,
+            entity: undefined,
         };
     },
 

@@ -36,7 +36,7 @@ const linkCallbackName = "linkCallback";
 export const LinkState = defineState({
     name: "LinkState",
     initial: {
-        location,
+        location: undefined,
     },
 });
 

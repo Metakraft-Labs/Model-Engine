@@ -15,9 +15,9 @@ export const ArrowHelperComponent = defineComponent({
             origin: new Vector3(0, 0, 0),
             length: 0.5,
             color: 0xffffff,
-            headLength,
-            headWidth,
-            entity,
+            headLength: null,
+            headWidth: null,
+            entity: null,
         };
     },
 

@@ -25,7 +25,7 @@ export const UploadRequestSystem = defineSystem({
                     uploadProjectFiles(
                         uploadRequest.projectName,
                         [uploadRequest.file],
-                        [`projects/${projectName}${importSettings.importFolder}`],
+                        [`projects/${"default-project"}${importSettings.importFolder}`],
                     ).promises,
                 ).then(uploadRequest.callback);
             });

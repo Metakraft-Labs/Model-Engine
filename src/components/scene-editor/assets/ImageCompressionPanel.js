@@ -88,7 +88,7 @@ export default function ImageCompressionPanel({ selectedFiles, refreshDirectory 
         const newFileName = props.key.replace(/.*\/(.*)\..*/, "$1") + ".ktx2";
         const path = props.key.replace(/(.*\/).*/, "$1");
         const projectName = props.key.split("/")[1]; // TODO: support projects with / in the name
-        const relativePath = path.replace("projects/" + projectName + "/", "");
+        const relativePath = path.replace("projects/" + "default-project" + "/", "");
 
         const file = new File([data], newFileName, { type: "image/ktx2" });
 
