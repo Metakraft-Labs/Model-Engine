@@ -68,11 +68,11 @@ export const addSplineTrack = makeAsyncNodeDefinition({
     triggered: ({ read, write, commit, finished }) => {
         const entity = Number(read("entity"));
         const splineUuid = read("splineUUID");
-        const velocity = read < number > "velocity";
-        const isLoop = read < boolean > "isLoop";
-        const lockToXZPlane = read < boolean > "lockToXZPlane";
-        const enableRotation = read < boolean > "enableRotation";
-        const alpha = read < number > "reset" ? 0 : undefined;
+        const velocity = read("velocity");
+        const isLoop = read("isLoop");
+        const lockToXZPlane = read("lockToXZPlane");
+        const enableRotation = read("enableRotation");
+        const alpha = read("reset") ? 0 : undefined;
 
         setComponent(entity, SplineTrackComponent, {
             alpha: alpha,

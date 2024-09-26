@@ -22,7 +22,7 @@ export const PointLightComponent = defineComponent({
     name: "PointLightComponent",
     jsonID: "EE_point_light",
 
-    onInit: _entity => {
+    onInit: entity => {
         return {
             color: new Color(),
             intensity: 1,
@@ -31,11 +31,11 @@ export const PointLightComponent = defineComponent({
             castShadow: false,
             shadowBias: 0.5,
             shadowRadius: 1,
-            helperEntity,
+            helperEntity: null,
         };
     },
 
-    onSet: (_entity, component, json) => {
+    onSet: (entity, component, json) => {
         if (!json) return;
         if (matches.object.test(json.color) && json.color.isColor) component.color.set(json.color);
         if (matches.string.test(json.color) || matches.number.test(json.color))
@@ -49,7 +49,7 @@ export const PointLightComponent = defineComponent({
         if (matches.number.test(json.shadowRadius)) component.shadowRadius.set(json.shadowRadius);
     },
 
-    toJSON: (_entity, component) => {
+    toJSON: (entity, component) => {
         return {
             color: component.color.value,
             intensity: component.intensity.value,

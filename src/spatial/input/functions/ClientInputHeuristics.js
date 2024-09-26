@@ -1,4 +1,4 @@
-import { Object3D, Vector3 } from "three";
+import { Vector3 } from "three";
 import {
     defineQuery,
     Engine,
@@ -112,7 +112,7 @@ export function findEditor(intersectionData, caster) {
     pickerObj.length > 0
         ? caster.layers.enable(ObjectLayers.TransformGizmo)
         : caster.layers.disable(ObjectLayers.TransformGizmo);
-    const hits = caster.intersectObjects < Object3D > (objects, true);
+    const hits = caster.intersectObjects(objects, true);
     for (const hit of hits) {
         const parentObject = Object3DUtils.findAncestor(hit.object, obj => !obj.parent);
         if (parentObject?.entity) {
@@ -175,7 +175,7 @@ export function findMeshes(intersectionData, isEditing, caster) {
         .map(eid => getComponent(eid, GroupComponent))
         .flat();
 
-    const hits = caster.intersectObjects < Object3D > (objects, true);
+    const hits = caster.intersectObjects(objects, true);
     for (const hit of hits) {
         const parentObject = Object3DUtils.findAncestor(hit.object, obj => obj.entity != undefined);
         if (parentObject) {

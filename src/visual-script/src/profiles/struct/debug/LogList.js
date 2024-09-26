@@ -1,5 +1,4 @@
 import { FlowNode, NodeCategory, NodeDescription, Socket } from "../../../VisualScriptModule";
-import { LogSeverity } from "../../ProfilesModule";
 
 export class LogList extends FlowNode {
     static Description = logger =>
@@ -25,12 +24,12 @@ export class LogList extends FlowNode {
     }
 
     triggered(fiber) {
-        const text = this.readInput < string > "text";
-        const payload = this.readInput < any > "payload";
+        const text = this.readInput("text");
+        const payload = this.readInput("payload");
 
         const message = `${text} ${JSON.stringify(payload)}`;
 
-        this.logger.log(this.readInput < LogSeverity > "severity", message);
+        this.logger.log(this.readInput("severity"), message);
 
         fiber.commit(this, "flow");
     }

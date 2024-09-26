@@ -22,13 +22,13 @@ const getLightHelperType = light => {
 export const LightHelperComponent = defineComponent({
     name: "LightHelperComponent",
 
-    onInit: entity => {
+    onInit: _entity => {
         return {
             name: "light-helper",
-            light,
+            light: undefined,
             size: 1,
-            color,
-            entity,
+            color: undefined,
+            entity: undefined,
         };
     },
 

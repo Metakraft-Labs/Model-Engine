@@ -61,8 +61,8 @@ export const ModelComponent = defineComponent({
             cameraOcclusion: true,
             /** optional, only for bone matchable avatars */
             convertToVRM: false,
-            scene,
-            asset,
+            scene: null,
+            asset: null,
             dereference: false,
         };
     },
@@ -142,7 +142,7 @@ function ModelReactor() {
 
     useEffect(() => {
         const model = modelComponent.get(NO_PROXY);
-        const asset = model.asset | VRM;
+        const asset = model.asset;
         if (!asset) return;
 
         const group = getOptionalComponent(entity, GroupComponent);
@@ -186,7 +186,7 @@ function ModelReactor() {
 
         if (renderer)
             renderer.renderer
-                ?.compileAsync(scene, getComponent(Engine.instance.viewerEntity, CameraComponent))
+                .compileAsync(scene, getComponent(Engine.instance.viewerEntity, CameraComponent))
                 .catch(() => {
                     addError(entity, ModelComponent, "LOADING_ERROR", "Error compiling model");
                 });

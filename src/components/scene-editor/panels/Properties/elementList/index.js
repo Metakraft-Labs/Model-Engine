@@ -169,7 +169,7 @@ export function ElementList({ type, onSelect }) {
         type === "components"
             ? useComponentShelfCategories(search.query.value)
             : usePrefabShelfCategories(search.query.value);
-    const inputReference = useRef < HTMLInputElement > null;
+    const inputReference = useRef(null);
 
     const allCategories = useMemo(() => {
         return Array.from({ length: shelves.length }, (_, index) => index);

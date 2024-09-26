@@ -31,7 +31,7 @@ const scene = new Scene();
 
 export const ScenePreviewCameraNodeEditor = props => {
     const { t } = useTranslation();
-    const [bufferUrl, setBufferUrl] = useState < string > "";
+    const [bufferUrl, setBufferUrl] = useState("");
     const transformComponent = useComponent(Engine.instance.cameraEntity, TransformComponent);
 
     const onSetFromViewport = () => {

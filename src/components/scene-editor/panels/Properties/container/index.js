@@ -50,7 +50,7 @@ const EntityEditor = props => {
         components.push(component);
     }
 
-    const popupRef = useRef < HTMLDivElement > null;
+    const popupRef = useRef(null);
 
     useEffect(() => {
         const handleResize = () => {

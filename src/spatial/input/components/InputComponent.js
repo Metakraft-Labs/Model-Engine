@@ -8,10 +8,17 @@ import {
     UndefinedEntity,
     useExecute,
 } from "../../../ecs";
-import { defineComponent, useComponent } from "../../../ecs/ComponentFunctions";
+import {
+    defineComponent,
+    removeComponent,
+    setComponent,
+    useComponent,
+} from "../../../ecs/ComponentFunctions";
 import { useEntityContext } from "../../../ecs/EntityFunctions";
 import { getState, useHookstate } from "../../../hyperflux";
 import { EngineState } from "../../EngineState";
+
+import { HighlightComponent } from "../../renderer/components/HighlightComponent";
 import { getAncestorWithComponent, isAncestor } from "../../transform/components/EntityTree";
 import {
     AxisMapping,
@@ -161,13 +168,9 @@ export const InputComponent = defineComponent({
         }
 
         for (const key of Object.keys(inputAlias)) {
-            axes[key] =
-                inputAlias[key].reduce <
-                number >
-                ((prev, alias) => {
-                    return getLargestMagnitudeNumber(prev, axes[alias] ?? 0);
-                },
-                0);
+            axes[key] = inputAlias[key].reduce((prev, alias) => {
+                return getLargestMagnitudeNumber(prev, axes[alias] ?? 0);
+            }, 0);
         }
 
         return axes;
@@ -196,10 +199,10 @@ export const InputComponent = defineComponent({
 
         useLayoutEffect(() => {
             if (!input.inputSources.length || !input.highlight.value) return;
-            // setComponent(entity, HighlightComponent);
-            // return () => {
-            //     removeComponent(entity, HighlightComponent);
-            // };
+            setComponent(entity, HighlightComponent);
+            return () => {
+                removeComponent(entity, HighlightComponent);
+            };
         }, [input.inputSources, input.highlight]);
 
         // useEffect(() => {

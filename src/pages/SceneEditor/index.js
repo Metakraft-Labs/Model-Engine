@@ -1,6 +1,7 @@
 import { useHookstate } from "@hookstate/core";
 import React, { useEffect } from "react";
 import LoadingView from "../../components/LoadingView";
+import "../../components/scene-editor/EditorModule";
 import { createEngine } from "../../ecs";
 import { getMutableState, HyperFlux } from "../../hyperflux";
 import { EngineState } from "../../spatial/EngineState";
@@ -9,16 +10,17 @@ import EditorPage from "./EditorPage";
 
 createEngine(HyperFlux.store);
 startTimer();
+
 export const useStudioEditor = () => {
     const engineReady = useHookstate(false);
 
     useEffect(() => {
-        getMutableState(EngineState).isEditor.set(true);
-        getMutableState(EngineState).isEditing.set(true);
-        engineReady.set(true);
-        // loadEngineInjection().then(() => {
-        // });
-    }, []);
+        if (Engine.instance) {
+            getMutableState(EngineState).isEditor.set(true);
+            getMutableState(EngineState).isEditing.set(true);
+            engineReady.set(true);
+        }
+    }, [Engine.instance]);
 
     return engineReady.value;
 };

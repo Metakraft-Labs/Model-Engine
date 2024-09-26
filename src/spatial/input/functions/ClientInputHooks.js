@@ -1,8 +1,3 @@
-/**
- * @fileoverview
- * Contains declarations for the functions and hooks used by ClientInputSystem.reactor.
- */
-
 import { useEffect } from "react";
 import { Vector3 } from "three";
 import {
@@ -67,7 +62,7 @@ export const useNonSpatialInputSources = () => {
             const { stick, value } = event.detail;
             if (!stick) return;
             const index = stick === "LeftStick" ? 0 : 2;
-            const axes = inputSourceComponent.source.gamepad.axes;
+            const axes = inputSourceComponent.source.gamepad?.axes;
             axes[index + 0] = value.x;
             axes[index + 1] = value.y;
         };
@@ -310,7 +305,7 @@ export const CanvasInputReactor = () => {
             if (!pointer) return;
             const inputSourceComponent = getComponent(pointer, InputSourceComponent);
             const normalizedValues = normalizeWheel(event);
-            const axes = inputSourceComponent.source.gamepad.axes;
+            const axes = inputSourceComponent.source.gamepad?.axes;
             axes[0] = normalizedValues.spinX;
             axes[1] = normalizedValues.spinY;
         };

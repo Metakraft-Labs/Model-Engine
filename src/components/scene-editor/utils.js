@@ -18,5 +18,5 @@ export const isValidHttpUrl = urlString => {
 };
 
 export const getCanvasBlob = (canvas, fileType = "image/png", quality = 0.9) => {
-    return (new Promise() < Blob) | (null > (resolve => canvas.toBlob(resolve, fileType, quality)));
+    return new Promise(resolve => canvas.toBlob(resolve, fileType, quality));
 };

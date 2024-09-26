@@ -1,4 +1,4 @@
-import { ShapeType as ShapeTypeIm } from "@dimforge/rapier3d-compat";
+import { RigidBodyType, ShapeType } from "@dimforge/rapier3d-compat";
 import { useLayoutEffect } from "react";
 import matches from "ts-matches";
 
@@ -34,52 +34,6 @@ import {
 
 import { GLTFLoadedComponent } from "./GLTFLoadedComponent";
 
-export const RigidBodyType = {
-    Dynamic: 0,
-    /**
-     * A `RigidBodyType::Fixed` body cannot be affected by external forces.
-     */
-    Fixed: 1,
-    /**
-     * A `RigidBodyType::KinematicPositionBased` body cannot be affected by any external forces but can be controlled
-     * by the user at the position level while keeping realistic one-way interaction with dynamic bodies.
-     *
-     * One-way interaction means that a kinematic body can push a dynamic body, but a kinematic body
-     * cannot be pushed by anything. In other words, the trajectory of a kinematic body can only be
-     * modified by the user and is independent from any contact or joint it is involved in.
-     */
-    KinematicPositionBased: 2,
-    /**
-     * A `RigidBodyType::KinematicVelocityBased` body cannot be affected by any external forces but can be controlled
-     * by the user at the velocity level while keeping realistic one-way interaction with dynamic bodies.
-     *
-     * One-way interaction means that a kinematic body can push a dynamic body, but a kinematic body
-     * cannot be pushed by anything. In other words, the trajectory of a kinematic body can only be
-     * modified by the user and is independent from any contact or joint it is involved in.
-     */
-    KinematicVelocityBased: 3,
-};
-
-export const ShapeType = {
-    Ball: 0,
-    Cuboid: 1,
-    Capsule: 2,
-    Segment: 3,
-    Polyline: 4,
-    Triangle: 5,
-    TriMesh: 6,
-    HeightField: 7,
-    ConvexPolyhedron: 9,
-    Cylinder: 10,
-    Cone: 11,
-    RoundCuboid: 12,
-    RoundTriangle: 13,
-    RoundCylinder: 14,
-    RoundCone: 15,
-    RoundConvexPolyhedron: 16,
-    HalfSpace: 17,
-};
-
 /** @deprecated - use the new API */
 export const OldColliderComponent = defineComponent({
     name: "OldColliderComponent",
@@ -87,8 +41,8 @@ export const OldColliderComponent = defineComponent({
 
     onInit(_entity) {
         return {
-            bodyType: 1,
-            shapeType: ShapeTypeIm.Cuboid,
+            bodyType: RigidBodyType.Fixed,
+            shapeType: ShapeType.Cuboid,
             isTrigger: false,
             /**
              * removeMesh will clean up any objects in the scene hierarchy after the collider bodies have been processed.
@@ -103,19 +57,19 @@ export const OldColliderComponent = defineComponent({
                     /**
                      * The function to call on the CallbackComponent of the targetEntity when the trigger volume is entered.
                      */
-                    onEnter,
+                    onEnter: null,
                     /**
                      * The function to call on the CallbackComponent of the targetEntity when the trigger volume is exited.
                      */
-                    onExit,
+                    onExit: null,
                     /**
-                     * uuid (null  )
+                     * uuid (null as null | string)
                      *
                      * empty string represents self
                      *
                      * TODO: how do we handle non-scene entities?
                      */
-                    target,
+                    target: null,
                 },
             ],
         };
@@ -232,7 +186,7 @@ export const OldColliderComponent = defineComponent({
 
                 iterateEntityNode(entity, child => {
                     const mesh = getOptionalComponent(child, MeshComponent);
-                    if (!mesh) return; // || ((mesh?.geometry.attributes['position']).array.length ?? 0 === 0)) return
+                    if (!mesh) return; // || ((mesh?.geometry.attributes['position'] as BufferAttribute).array.length ?? 0 === 0)) return
                     if (mesh.userData.type && mesh.userData.type !== "glb")
                         mesh.userData.shapeType = mesh.userData.type;
 

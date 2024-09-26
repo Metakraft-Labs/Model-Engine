@@ -15,7 +15,7 @@ export const makeValidate = validatorFactory => {
         },
         exec: ({ read, write }) => {
             const schema = read("schema");
-            const data = (read < DataValidationCxt < string) | (number >> "data");
+            const data = read("data");
             const validator = validatorFactory();
 
             const result = validator(schema, data);

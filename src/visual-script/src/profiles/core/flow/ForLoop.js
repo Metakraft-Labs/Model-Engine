@@ -16,8 +16,8 @@ export const ForLoop = makeFlowNodeDefinition({
     },
     initialState: undefined,
     triggered: ({ read, write, commit }) => {
-        const startIndex = read < bigint > "startIndex";
-        const endIndex = read < bigint > "endIndex";
+        const startIndex = read("startIndex");
+        const endIndex = read("endIndex");
         const loopBodyIteration = i => {
             if (i < endIndex) {
                 write("index", i);

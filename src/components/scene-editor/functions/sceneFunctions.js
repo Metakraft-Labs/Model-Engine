@@ -81,7 +81,7 @@ export const saveSceneGLTF = async (_sceneAssetID, projectName, sceneFile, signa
 
 export const onNewScene = async (
     templateURL = `${process.env.REACT_APP_S3_ASSETS}/editor` +
-        "/projects/spark/default-project/public/scenes/default.gltf",
+        "/projects/default-project/public/scenes/default.gltf",
 ) => {
     const { projectName } = getState(EditorState);
     if (!projectName) return;

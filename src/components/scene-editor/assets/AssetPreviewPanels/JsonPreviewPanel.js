@@ -10,7 +10,7 @@ import styles from "../styles.module.scss";
 
 export const JsonPreviewPanel = props => {
     const url = props.resourceProps.resourceUrl;
-    const [jsonFile, setJsonFile] = useState < any > null;
+    const [jsonFile, setJsonFile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 

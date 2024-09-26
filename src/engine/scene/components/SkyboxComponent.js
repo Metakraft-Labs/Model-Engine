@@ -32,7 +32,7 @@ export const SkyboxComponent = defineComponent({
         return {
             backgroundColor: new Color(0x000000),
             equirectangularPath: "",
-            cubemapPath: `${process.env.REACT_APP_S3_ASSETS}/editor/projects/spark/default-project/assets/skyboxsun25deg/`,
+            cubemapPath: `${process.env.REACT_APP_S3_ASSETS}/editor/projects/default-project/assets/skyboxsun25deg/`,
             backgroundType: 1,
             sky: null,
             skyboxProps: {

@@ -21,7 +21,7 @@ export const initializeControllerModel = async (entity, handedness) => {
     if (avatarInputControllerType !== AvatarControllerType.OculusQuest) return;
 
     const [gltf] = await getGLTFAsync(
-        `${process.env.REACT_APP_S3_ASSETS}/editor/projects/spark/default-project/assets/controllers/${handedness}_controller.glb`,
+        `${process.env.REACT_APP_S3_ASSETS}/editor/projects/default-project/assets/controllers/${handedness}_controller.glb`,
     );
     let handMesh = gltf?.scene?.children[0];
 
@@ -61,7 +61,7 @@ export const initializeHandModel = async (entity, handedness) => {
     if (avatarInputControllerType === AvatarControllerType.None) return;
 
     const [gltf] = await getGLTFAsync(
-        `${process.env.REACT_APP_S3_ASSETS}/editor/projects/spark/default-project/assets/controllers/${handedness}.glb`,
+        `${process.env.REACT_APP_S3_ASSETS}/editor/projects/default-project/assets/controllers/${handedness}.glb`,
     );
     const handMesh = gltf?.scene?.children[0];
 

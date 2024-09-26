@@ -60,11 +60,11 @@ function sortPluginsByPriority(a, b) {
 }
 
 const onBeforeCompile = {
-    get: function (_this) {
-        if (!_this._onBeforeCompile.toString) {
-            const self = _this;
+    get: function () {
+        if (!this._onBeforeCompile.toString) {
+            const self = this;
 
-            _this._onBeforeCompile.toString = function () {
+            this._onBeforeCompile.toString = function () {
                 let code = "";
 
                 if (self.plugins) {
@@ -81,38 +81,38 @@ const onBeforeCompile = {
             };
         }
 
-        return _this._onBeforeCompile;
+        return this._onBeforeCompile;
     },
-    set: function (_this, plugins) {
+    set: function (thiss, plugins) {
         if (plugins === null) {
-            if (_this.plugins) {
-                while (_this.plugins.length) removeOBCPlugin(_this, _this.plugins[0]);
+            if (this.plugins) {
+                while (this.plugins.length) removeOBCPlugin(this, this.plugins[0]);
             }
         } else if (plugins instanceof Array) {
             for (let i = 0, l = plugins.length; i < l; i++) this.onBeforeCompile = plugins[i];
         } else if (plugins instanceof Function || plugins instanceof Object) {
             const plugin = plugins;
 
-            if (hasOBCPlugin(_this, plugin)) return;
-            if (!_this.plugins) _this.plugins = [];
+            if (hasOBCPlugin(this, plugin)) return;
+            if (!this.plugins) this.plugins = [];
             plugin.priority = typeof plugin.priority === "undefined" ? 1 : plugin.priority;
 
-            _this.plugins.unshift(plugin);
-            _this.plugins.sort(sortPluginsByPriority);
+            this.plugins.unshift(plugin);
+            this.plugins.sort(sortPluginsByPriority);
 
-            _this.customProgramCacheKey = () => {
-                let result = _this.shader
-                    ? _this.shader.fragmentShader + _this.shader.vertexShader
+            this.customProgramCacheKey = () => {
+                let result = this.shader
+                    ? this.shader.fragmentShader + this.shader.vertexShader
                     : "";
-                for (let i = 0; i < _this.plugins?.length; i++) {
-                    const plugin = _this.plugins?.[i];
+                for (let i = 0; i < this.plugins?.length; i++) {
+                    const plugin = this.plugins?.[i];
                     const pluginObj = plugin;
                     if (typeof pluginObj.compile === "function")
                         result += pluginObj.compile.toString();
                     else result += plugin.toString();
                 }
-                // if (typeof _this._onBeforeCompile.toString === 'function') return _this._onBeforeCompile.toString()
-                // else return _this.onBeforeCompile.toString()
+                // if (typeof this._onBeforeCompile.toString === 'function') return this._onBeforeCompile.toString()
+                // else return this.onBeforeCompile.toString()
                 return result;
             };
         } else {

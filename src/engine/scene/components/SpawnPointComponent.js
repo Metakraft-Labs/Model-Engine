@@ -30,7 +30,7 @@ export const SpawnPointComponent = defineComponent({
     onInit: _entity => {
         return {
             permissionedUsers: [],
-            helperEntity,
+            helperEntity: null,
         };
     },
 

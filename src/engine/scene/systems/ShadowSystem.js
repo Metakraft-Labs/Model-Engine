@@ -449,7 +449,7 @@ const reactor = () => {
     const useShadows = useShadowsEnabled();
 
     const [shadowTexture] = useTexture(
-        `${process.env.REACT_APP_S3_ASSETS}/editor/projects/spark/default-project/assets/drop-shadow.png`,
+        `${process.env.REACT_APP_S3_ASSETS}/editor/projects/default-project/assets/drop-shadow.png`,
     );
 
     useEffect(() => {

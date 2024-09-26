@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { toast } from "react-toastify";
 import { getComponent } from "../../../ecs";
 import { UndefinedEntity } from "../../../ecs/Entity";
 import { GLTFModifiedState } from "../../../engine/gltf/GLTFDocumentState";
@@ -56,7 +55,6 @@ export const EditorState = defineState({
 
         useEffect(() => {
             if (!linkState.location.value) return;
-            toast.warn("Scene navigation is disabled in the studio");
             linkState.location.set(undefined);
         }, [linkState.location]);
 

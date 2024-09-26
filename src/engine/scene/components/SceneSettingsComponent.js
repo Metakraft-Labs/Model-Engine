@@ -14,11 +14,11 @@ export const SceneSettingsComponent = defineComponent({
             backgroundColor: "#FFFFFF",
             alternativeColor: "#000000",
             sceneKillHeight: DefaultKillHeight,
-            spectateEntity,
+            spectateEntity: null,
         };
     },
 
-    onSet: (_entity, component, json) => {
+    onSet: (entity, component, json) => {
         if (!json) return;
 
         if (typeof json.thumbnailURL === "string") component.thumbnailURL.set(json.thumbnailURL);
@@ -35,7 +35,7 @@ export const SceneSettingsComponent = defineComponent({
             component.spectateEntity.set(json.spectateEntity);
     },
 
-    toJSON: (_entity, component) => {
+    toJSON: (entity, component) => {
         return {
             thumbnailURL: component.thumbnailURL.value,
             loadingScreenURL: component.loadingScreenURL.value,

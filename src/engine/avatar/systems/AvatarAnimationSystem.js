@@ -346,7 +346,7 @@ const Reactor = () => {
     const animations = [preloadedAnimations.locomotion, preloadedAnimations.emotes];
     const [gltfs] = useBatchGLTF(
         animations.map(animationFile => {
-            return `${process.env.REACT_APP_S3_ASSETS}/editor/projects/spark/default-project/assets/animations/${animationFile}.glb`;
+            return `${process.env.REACT_APP_S3_ASSETS}/editor/projects/default-project/assets/animations/${animationFile}.glb`;
         }),
     );
     const manager = useMutableState(AnimationState);

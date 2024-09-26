@@ -6,7 +6,7 @@ import { Modal } from "..";
 import { flowToVisual } from "../../../../visualScript/VisualScriptUIModule";
 
 export const SaveModal = ({ open = false, variables, onClose, specGenerator }) => {
-    const ref = useRef < HTMLTextAreaElement > null;
+    const ref = useRef(null);
     const [copied, setCopied] = useState(false);
     const { t } = useTranslation();
 

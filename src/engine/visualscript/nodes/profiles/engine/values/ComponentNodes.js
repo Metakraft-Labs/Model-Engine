@@ -26,7 +26,7 @@ export const addComponent = makeFlowNodeDefinition({
     initialState: undefined,
     triggered: ({ read, write, commit }) => {
         const entity = Number.parseInt(read("entity"));
-        const componentName = read < string > "componentName";
+        const componentName = read("componentName");
         const component = ComponentMap.get(componentName);
         setComponent(entity, component);
         write("entity", entity);
@@ -54,7 +54,7 @@ export const deleteComponent = makeFlowNodeDefinition({
     initialState: undefined,
     triggered: ({ read, write, commit }) => {
         const entity = Number.parseInt(read("entity"));
-        const componentName = read < string > "componentName";
+        const componentName = read("componentName");
         const component = ComponentMap.get(componentName);
         removeComponent(entity, component);
         write("entity", entity);
@@ -75,7 +75,7 @@ export const setTag = makeFlowNodeDefinition({
     initialState: undefined,
     triggered: ({ read, write, commit }) => {
         const entity = Number.parseInt(read("entity"));
-        const tagName = read < string > "tagName";
+        const tagName = read("tagName");
         const tag = defineComponent({ name: `bg-tag.${tagName}` });
 
         setComponent(entity, tag);
@@ -99,7 +99,7 @@ export const removeTag = makeFlowNodeDefinition({
     initialState: undefined,
     triggered: ({ read, write, commit }) => {
         const entity = Number.parseInt(read("entity"));
-        const tagName = `bg-tag.${read < string > "tagName"}`;
+        const tagName = `bg-tag.${read("tagName")}`;
         const component = ComponentMap.get(tagName);
         Assert.mustBeDefined(component, `Component ${tagName} does not exist`);
         removeComponent(entity, component);

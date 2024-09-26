@@ -45,7 +45,7 @@ export const LoopAnimationComponent = defineComponent({
             weight: 1,
 
             // internal
-            _action,
+            _action: null,
         };
     },
 

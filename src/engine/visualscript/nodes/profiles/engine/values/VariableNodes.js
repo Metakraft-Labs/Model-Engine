@@ -55,7 +55,7 @@ export const EngineVariableGet = makeFunctionNodeDefinition({
     },
     exec: ({ read, write, graph: { variables } }) => {
         const variableId = Object.values(variables).find(
-            variable => variable.name === read < string > "variableName",
+            variable => variable.name === read("variableName"),
         )?.id;
         const variable = variables[variableId];
         if (!variable) return;
@@ -181,7 +181,7 @@ export const EngineVariableUse = makeEventNodeDefinition({
     initialState: initialState(),
     init: ({ read, commit, write, graph: { variables } }) => {
         const variableId = Object.values(variables).find(
-            variable => variable.name === read < string > "variableName",
+            variable => variable.name === read("variableName"),
         )?.id;
         if (variableId === undefined) return initialState();
         const variableValueQueue = [variables[variableId].get()];
@@ -190,7 +190,7 @@ export const EngineVariableUse = makeEventNodeDefinition({
         };
         useVariableSystemCounter++;
         const systemUUID = defineSystem({
-            uuid: getUseVariableSystemUUID(read < string > "variableName"),
+            uuid: getUseVariableSystemUUID(read("variableName")),
             insert: { with: InputSystemGroup },
             execute: () => {
                 const value = variableValueQueue.pop();

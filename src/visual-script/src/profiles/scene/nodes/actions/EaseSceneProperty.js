@@ -72,7 +72,7 @@ export class EaseSceneProperty extends AsyncNode {
 
         this.initialValue = this.scene.getProperty(this.readInput("jsonPath"), this.valueTypeName);
         this.targetValue = this.readInput("value");
-        this.duration = this.readInput < number > "duration";
+        this.duration = this.readInput("duration");
         this.elapsedDuration = 0;
         this.startTime = Date.now();
 

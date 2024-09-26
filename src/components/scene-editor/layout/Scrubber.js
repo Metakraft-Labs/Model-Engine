@@ -38,7 +38,7 @@ const Scrubber = ({
         currentValue: 0,
     });
 
-    const scrubberEl = useRef < HTMLDivElement > null;
+    const scrubberEl = useRef(null);
 
     const handleMouseMove = event => {
         if (state.isDragging.value) {

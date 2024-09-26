@@ -122,7 +122,7 @@ const toolbarMenu = generateToolbarMenu();
 export default function Toolbar() {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const anchorEvent = (useHookstate < null) | (React.MouseEvent < HTMLElement >> null);
+    const anchorEvent = useHookstate(null);
     const anchorPosition = useHookstate({ left: 0, top: 0 });
 
     const { projectName, sceneName, sceneAssetID } = useMutableState(EditorState);

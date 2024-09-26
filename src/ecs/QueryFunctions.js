@@ -163,7 +163,7 @@ class QueryReactorErrorBoundary extends React.Component {
         return { error };
     }
 
-    componentDidCatch(error, errorInfoInfo) {
+    componentDidCatch(error, errorInfo) {
         console.error("Uncaught error:", error, errorInfo);
     }
 

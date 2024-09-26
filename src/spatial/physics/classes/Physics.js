@@ -6,6 +6,7 @@ import RAPIER, {
     QueryFilterFlags,
     Ray,
     RigidBodyDesc,
+    RigidBodyType,
     ShapeType,
     World,
 } from "@dimforge/rapier3d-compat";
@@ -21,7 +22,6 @@ import {
 import { UndefinedEntity } from "../../../ecs/Entity";
 
 import { UUIDComponent } from "../../../ecs";
-import { RigidBodyType } from "../../../engine/scene/components/OldColliderComponent";
 import { defineState, none, useHookstate } from "../../../hyperflux";
 import { NO_PROXY, getMutableState, getState } from "../../../hyperflux/StateFunctions";
 import { Vector3_Zero } from "../../common/constants/MathConstants";

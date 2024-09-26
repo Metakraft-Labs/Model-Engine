@@ -36,8 +36,8 @@ export const getAxis = makeFunctionNodeDefinition({
         value: "float",
     },
     exec: ({ read, write }) => {
-        const axisKey = read < number > "axis";
-        const deadzone = read < number > "deadzone";
+        const axisKey = read("axis");
+        const deadzone = read("deadzone");
         const entity = Number(read("entity"));
         Assert.mustBeTrue(
             hasComponent(entity, InputSourceComponent),

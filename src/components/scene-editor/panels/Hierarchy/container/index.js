@@ -541,7 +541,7 @@ function HierarchyPanelContents(props) {
 
             if (item.type === ItemTypes.Component) {
                 EditorControlFunctions.createObjectFromSceneElement([
-                    { name: item.componentJsonID },
+                    { name: item?.componentJsonID },
                 ]);
                 return;
             }
@@ -747,7 +747,7 @@ const GLTFHierarchySub = props => {
 
 export default function HierarchyPanel() {
     const { scenePath, rootEntity } = useMutableState(EditorState).value;
-    const sourceID = useOptionalComponent(rootEntity, SourceComponent)?.value;
+    const sourceID = useOptionalComponent(1, SourceComponent)?.value;
 
     if (!scenePath || !rootEntity || !sourceID) return null;
     return <GLTFHierarchySub sourceID={sourceID} rootEntity={rootEntity} />;

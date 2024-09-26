@@ -63,7 +63,7 @@ export const OnButton = makeEventNodeDefinition({
     },
     initialState: initialState(),
     init: ({ read, write, commit }) => {
-        const buttonKey = read < string > "button";
+        const buttonKey = read("button");
         const query = defineQuery([InputSourceComponent]);
         const systemUUID = defineSystem({
             uuid: "visual-script-onButton-" + systemCounter++,

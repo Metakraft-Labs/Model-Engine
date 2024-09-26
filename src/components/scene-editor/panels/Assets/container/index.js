@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, TextField, Tooltip } from "@mui/material";
-import { clone } from "lodash";
+import { clone, debounce } from "lodash";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
@@ -11,6 +11,8 @@ import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { IoArrowBack, IoSettingsSharp } from "react-icons/io5";
 import { RiAiGenerate } from "react-icons/ri";
 import { toast } from "react-toastify";
+import { listResources } from "../../../../../apis/projects";
+import { generate as generate3DModel } from "../../../../../apis/text23d";
 import { UserStore } from "../../../../../contexts/UserStore";
 import { AssetLoader } from "../../../../../engine/assets/classes/AssetLoader";
 import {
@@ -178,7 +180,10 @@ const ResourceFile = props => {
                     selected ? "rounded-lg border border-blue-primary bg-theme-studio-surface" : ""
                 }`}
             >
-                <FileIcon thumbnailURL={resource.thumbnailURL} type={assetType} />
+                <FileIcon
+                    thumbnailURL={`${process.env.REACT_APP_S3_ASSETS}/${resource.thumbnailKey}`}
+                    type={assetType}
+                />
             </span>
 
             <Tooltip title={name}>
@@ -442,7 +447,7 @@ const AssetPanel = () => {
     const searchedStaticResources = useHookstate([]);
     const searchText = useHookstate("");
     const originalPath = useMutableState(EditorState).projectName.value;
-    const staticResourcesPagination = useHookstate({ total: 0, skip: 0 });
+    const staticResourcesPagination = useHookstate({ total: 0, skip: 0, next_page: null });
     const assetsPreviewContext = useHookstate({ selectAssetURL: "" });
     const parentCategories = useHookstate([]);
     const [openMenu, setOpenMenu] = useState(false);
@@ -451,33 +456,33 @@ const AssetPanel = () => {
     const [openModal, setOpenModal] = useState(false);
     const [type, setType] = useState("");
     const [showSearch, setShowSearch] = useState(true);
+    const [page, setPage] = useState(1);
 
-    const generateAI = () => {
+    const generateAI = async () => {
         setLoading(true);
-        // API.instance
-        //   .service(sparkPath)
-        //   .create({ prompt: prompt })
-        //   .then((a) => {
-        //     const obj[
-        //       {
-        //         key: a.glbUrl,
-        //         name: a.prompt,
-        //         thumbnailURL: a.image,
-        //         mimeType: 'application/octet-stream',
-        //         tags: ['Model'],
-        //         type: 'asset',
-        //         updatedAt: new Date().toISOString(),
-        //         createdAt: new Date().toISOString(),
-        //         url: a.glbUrl,
-        //         updatedBy: 'abc-123-acv-1d3',
-        //         id: a.id,
-        //         userId: 'abc-123-acv-1d3',
-        //         hash: 'absc'
-        //       }
-        //     ]
-        //     searchedStaticResources.merge(obj)
-        //     setLoading(false)
-        //   })
+        const a = await generate3DModel({
+            prompt,
+            type: "text",
+        });
+        const obj = [
+            {
+                key: a.glbUrl,
+                name: a.prompt,
+                thumbnailURL: a.image,
+                mimeType: "application/octet-stream",
+                tags: ["Model"],
+                type: "asset",
+                updatedAt: new Date().toISOString(),
+                createdAt: new Date().toISOString(),
+                url: a.glbUrl,
+                updatedBy: "abc-123-acv-1d3",
+                id: a.id,
+                userId: "abc-123-acv-1d3",
+                hash: "absc",
+            },
+        ];
+        searchedStaticResources.merge(obj);
+        setLoading(false);
     };
 
     const mapCategories = useCallback(() => {
@@ -494,76 +499,80 @@ const AssetPanel = () => {
         parentCategories.set(parentCategoryBreadcrumbs);
     }, [categories, selectedCategory]);
 
-    // const staticResourcesFindApi = () => {
-    //   const abortController = new AbortController()
+    const getAssets = useCallback(async () => {
+        searchTimeoutCancelRef.current?.();
+        loading.set(true);
+        const debouncedSearchQuery = debounce(async () => {
+            const tags = selectedCategory.value
+                ? [
+                      selectedCategory.value.name,
+                      ...iterativelyListTags(selectedCategory.value.object),
+                  ]
+                : [];
+            const query = {
+                $or: [
+                    {
+                        key: {
+                            $regex: `%${searchText.value}%`,
+                        },
+                    },
+                    { type: "asset" },
+                    ...(selectedCategory.value
+                        ? tags.flatMap(tag => [
+                              { tags: { $like: `%${tag.toLowerCase()}%` } },
+                              {
+                                  tags: {
+                                      $like: `%${tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase()}%`,
+                                  },
+                              },
+                              {
+                                  tags: {
+                                      $like: `%${tag
+                                          .split(" ")
+                                          .map(
+                                              word =>
+                                                  word.charAt(0).toUpperCase() +
+                                                  word.slice(1).toLowerCase(),
+                                          )
+                                          .join(" ")}%`,
+                                  },
+                              },
+                          ])
+                        : []),
+                ],
+            };
 
-    //   searchTimeoutCancelRef.current?.()
-    //   loading.set(true)
+            const resources = await listResources({
+                filters: {
+                    query,
+                },
+                limit: ASSETS_PAGE_LIMIT,
+                page,
+            });
 
-    //   const debouncedSearchQuery = debounce(() => {
-    //     const tags = selectedCategory.value
-    //       ? [selectedCategory.value.name, ...iterativelyListTags(selectedCategory.value.object)]
-    //       : []
+            if (resources.pagination.previous_page !== null) {
+                searchedStaticResources.merge(resources.data);
+            } else {
+                searchedStaticResources.set(resources.data);
+            }
+            staticResourcesPagination.merge({
+                total: resources.pagination.total,
+                next_page: resources.pagination.next_page,
+            });
+            loading.set(false);
+        }, 500);
 
-    //     const query = {
-    //       key: {
-    //         $like: `%${searchText.value}%`
-    //       },
-    //       type: {
-    //         $or: [{ type: 'asset' }]
-    //       },
-    //       tags: selectedCategory.value
-    //         ? {
-    //             $or: tags.flatMap((tag) => [
-    //               { tags: { $like: `%${tag.toLowerCase()}%` } },
-    //               { tags: { $like: `%${tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase()}%` } },
-    //               {
-    //                 tags: {
-    //                   $like: `%${tag
-    //                     .split(' ')
-    //                     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    //                     .join(' ')}%`
-    //                 }
-    //               }
-    //             ])
-    //           }
-    //         : undefined,
-    //       $sort: { mimeType: 1 },
-    //       $limit: ASSETS_PAGE_LIMIT,
-    //       $skip: Math.min(staticResourcesPagination.skip.value, staticResourcesPagination.total.value)
-    //     }
+        debouncedSearchQuery();
+        searchTimeoutCancelRef.current = debouncedSearchQuery.cancel;
+    }, [searchText, selectedCategory, page]);
 
-    //     // API.instance
-    //     //   .service(staticResourcePath)
-    //     //   .find({ query })
-    //     //   .then((resources) => {
-    //     //     if (abortController.signal.aborted) return
+    useEffect(() => {
+        setPage(1);
+    }, [searchText]);
 
-    //     //     if (staticResourcesPagination.skip.value > 0) {
-    //     //       searchedStaticResources.merge(resources.data)
-    //     //     } else {
-    //     //       searchedStaticResources.set(resources.data)
-    //     //     }
-    //     //     staticResourcesPagination.merge({ total: resources.total })
-    //     //     loading.set(false)
-    //     //   })
-    //   }, 500)
-
-    //   debouncedSearchQuery()
-    //   searchTimeoutCancelRef.current = debouncedSearchQuery.cancel
-
-    //   return () => {
-    //     abortController.abort()
-    //   }
-    // }
-
-    useEffect(() => staticResourcesPagination.skip.set(0), [searchText]);
-
-    // useEffect(() => {
-    //   const abortSignal = staticResourcesFindApi()
-
-    //   return () => abortSignal()
-    // }, [searchText, selectedCategory, staticResourcesPagination.skip])
+    useEffect(() => {
+        getAssets();
+    }, [getAssets]);
 
     const ResourceItems = () => (
         <>
@@ -609,7 +618,7 @@ const AssetPanel = () => {
 
     const handleSelectCategory = category => {
         selectedCategory.set(clone(category));
-        staticResourcesPagination.skip.set(0);
+        setPage(1);
         !category.isLeaf && collapsedCategories[category.name].set(!category.collapsed);
     };
 
@@ -750,14 +759,9 @@ const AssetPanel = () => {
                 <div className="flex h-full w-full flex-col overflow-auto">
                     <InfiniteScroll
                         disableEvent={
-                            staticResourcesPagination.skip.value >=
-                                staticResourcesPagination.total.value || loading.value
+                            staticResourcesPagination.next_page.value === null || loading.value
                         }
-                        onScrollBottom={() =>
-                            staticResourcesPagination.skip.set(
-                                prevSkip => prevSkip + ASSETS_PAGE_LIMIT,
-                            )
-                        }
+                        onScrollBottom={() => setPage(p => p + 1)}
                     >
                         <div className="mt-auto flex h-full w-full flex-wrap gap-2">
                             <ResourceItems />

@@ -1,8 +1,9 @@
 import * as bitECS from "bitecs";
 import { getAllEntities } from "bitecs";
 import * as Hyperflux from "../hyperflux";
-import { getState, NO_PROXY_STEALTH, ReactorReconciler } from "../hyperflux";
+import { getState, ReactorReconciler } from "../hyperflux";
 import { createHyperStore, disposeStore, HyperFlux } from "../hyperflux/StoreFunctions";
+import { EngineState } from "../spatial/EngineState";
 import { ECSState } from "./ECSState";
 import { removeEntity } from "./EntityFunctions";
 import { removeQuery } from "./QueryFunctions";
@@ -26,8 +27,7 @@ export class Engine {
      * @deprecated use "getState(EngineState).localFloorEntity" instead
      */
     get localFloorEntity() {
-        return Engine.instance.store?.stateMap["EngineState"].get(NO_PROXY_STEALTH)
-            ?.localFloorEntity;
+        return getState(EngineState).localFloorEntity;
     }
 
     /**
@@ -35,7 +35,7 @@ export class Engine {
      * @deprecated use "getState(EngineState).originEntity" instead
      */
     get originEntity() {
-        return Engine.instance.store?.stateMap["EngineState"].get(NO_PROXY_STEALTH).originEntity;
+        return getState(EngineState).originEntity;
     }
 
     /**
@@ -43,7 +43,7 @@ export class Engine {
      * @deprecated use "getState(EngineState).viewerEntity" instead
      */
     get viewerEntity() {
-        return Engine.instance.store?.stateMap["EngineState"]?.get(NO_PROXY_STEALTH).viewerEntity;
+        return getState(EngineState).viewerEntity;
     }
 
     /** @deprecated use viewerEntity instead */

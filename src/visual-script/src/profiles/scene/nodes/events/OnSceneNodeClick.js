@@ -26,7 +26,7 @@ export const OnSceneNodeClick = makeEventNodeDefinition({
             commit("flow");
         };
 
-        const jsonPath = read < string > "jsonPath";
+        const jsonPath = read("jsonPath");
 
         const scene = graph.getDependency("IScene");
         scene?.addOnClickedListener(jsonPath, handleNodeClick);

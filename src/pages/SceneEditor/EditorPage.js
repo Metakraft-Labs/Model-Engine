@@ -33,6 +33,7 @@ import {
     useHookstate,
     useMutableState,
 } from "../../hyperflux";
+import Title from "../../shared/Title";
 import { EngineState } from "../../spatial/EngineState";
 import { destroySpatialEngine, initializeSpatialEngine } from "../../spatial/initializeEngine";
 import "./EditorContainer.css";
@@ -185,6 +186,7 @@ export default function EditorPage() {
                 <LoadingView fullScreen className="block h-12 w-12" title={"Loading Studio"} />
             }
         >
+            <Title title={"Scene Editor"} />
             <main className="pointer-events-auto bg-primary">
                 <div
                     id="editor-container"

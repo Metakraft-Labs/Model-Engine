@@ -37,7 +37,6 @@ import { getMutableState, NO_PROXY } from "../../../hyperflux";
 import { KTX2Encoder } from "../../../xrui/core/textures/KTX2Encoder";
 
 import { UploadRequestState } from "../state/UploadRequestState";
-import { EEMaterial } from "./extensions/EE_MaterialTransformer";
 import { EEResourceIDExtension } from "./extensions/EE_ResourceIDTransformer";
 import ModelTransformLoader from "./ModelTransformLoader";
 
@@ -233,9 +232,9 @@ export async function combineMaterials(document) {
     const cache = [];
     console.log("combining materials...");
     root.listMaterials().map(material => {
-        const eeMat = material.getExtension < EEMaterial > "EE_material";
+        const eeMat = material.getExtension("EE_material");
         const dupe = cache.find(cachedMaterial => {
-            const cachedEEMat = cachedMaterial.getExtension < EEMaterial > "EE_material";
+            const cachedEEMat = cachedMaterial.getExtension("EE_material");
             if (eeMat !== null && cachedEEMat !== null) {
                 return (
                     eeMat.prototype === cachedEEMat.prototype &&

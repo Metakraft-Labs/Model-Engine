@@ -94,12 +94,12 @@ export const GLTFNodeState = defineState({
         };
 
         const scene = gltf.scenes[0];
-        for (let i = 0; i < scene.nodes.length; i++) {
+        for (let i = 0; i < scene.nodes?.length; i++) {
             const index = scene.nodes[i];
             addNode(index, i, null);
         }
 
-        for (let i = 0; i < gltf.scenes[0].nodes.length; i++) {
+        for (let i = 0; i < gltf.scenes[0].nodes?.length; i++) {
             const nodeIndex = gltf.scenes[0].nodes[i];
             const node = gltf.nodes[nodeIndex];
             const uuid = node.extensions?.[UUIDComponent.jsonID];
@@ -107,7 +107,7 @@ export const GLTFNodeState = defineState({
                 nodes[uuid] = {
                     nodeIndex,
                     childIndex: i,
-                    parentUUID,
+                    parentUUID: null,
                 };
             } else {
                 console.warn("Node does not have a UUID:", node);

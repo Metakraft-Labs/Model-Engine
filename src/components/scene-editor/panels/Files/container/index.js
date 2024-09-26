@@ -280,7 +280,7 @@ const FileBrowserContentPanel = props => {
     const orgName = projectName.includes("/") ? projectName.split("/")[0] : "";
 
     const fileProperties = useHookstate([]);
-    const anchorEl = (useHookstate < HTMLButtonElement) | (null > null);
+    const anchorEl = useHookstate(null);
 
     const filesViewMode = useMutableState(FilesViewModeState).viewMode;
 

@@ -54,14 +54,14 @@ export const getQuery = makeFunctionNodeDefinition({
         entityList: "list",
     },
     exec: ({ read, write, configuration }) => {
-        const type = read < string > "type";
+        const type = read("type");
 
         const queryComponents = [];
         for (const index of sequence(
             1,
             (configuration.numInputs ?? getQuery.configuration?.numInputs.defaultValue) + 1,
         )) {
-            const componentName = read < string > `componentName${index}`;
+            const componentName = read(`componentName${index}`);
             const component = ComponentMap.get(componentName);
             queryComponents.push(component);
         }

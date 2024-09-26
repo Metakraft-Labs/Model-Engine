@@ -162,12 +162,12 @@ export const addEntity = makeFlowNodeDefinition({
             parentEntityUUID == ""
                 ? UndefinedEntity
                 : UUIDComponent.getEntityByUUID(parentEntityUUID);
-        const componentName = read < string > "componentName";
+        const componentName = read("componentName");
         const entity = addEntityToScene(
             [{ name: ComponentMap.get(componentName).jsonID }],
             parentEntity,
         );
-        const entityName = read < string > "entityName";
+        const entityName = read("entityName");
         if (entityName.length > 0) setComponent(entity, NameComponent, entityName);
         write("entity", entity);
         commit("flow");

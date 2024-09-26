@@ -209,7 +209,7 @@ export class EEMaterialExtension extends Extension {
             .getRoot()
             .listMaterials()
             .map(material => {
-                const eeMaterial = material.getExtension < EEMaterial > EXTENSION_NAME;
+                const eeMaterial = material.getExtension(EXTENSION_NAME);
                 if (eeMaterial) {
                     const matIdx = writerContext.materialIndexMap.get(material);
                     const matDef = json.json.materials[matIdx];

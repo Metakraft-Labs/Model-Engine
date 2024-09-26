@@ -88,7 +88,7 @@ export class MOZLightmapExtension extends Extension {
             .getRoot()
             .listMaterials()
             .forEach(material => {
-                const mozLightmap = material.getExtension < MOZLightmap > EXTENSION_NAME;
+                const mozLightmap = material.getExtension(EXTENSION_NAME);
                 if (mozLightmap) {
                     const matIdx = writerContext.materialIndexMap.get(material);
                     const matDef = json.json.materials[matIdx];
