@@ -1,7 +1,8 @@
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import React from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { RiAiGenerate } from "react-icons/ri";
+import Input from "../../../../Input";
 
 export default function TypeModal({
     close,
@@ -68,7 +69,7 @@ export default function TypeModal({
                                     }
                                 }}
                             >
-                                <TextField
+                                <Input
                                     placeholder={
                                         type === "ai" ? "Enter prompt" : "Enter text to search"
                                     }
@@ -76,6 +77,7 @@ export default function TypeModal({
                                     onChange={e => {
                                         setPrompt(e.target.value);
                                     }}
+                                    labelClassname="text-lg text-red-500"
                                     containerClassname="flex h-full w-auto"
                                     disabled={loading}
                                     className="h-7 rounded-lg border border-theme-input bg-[#141619] px-2 py-0 text-lg text-[#A3A3A3] placeholder:text-[#A3A3A3] focus-visible:ring-0"

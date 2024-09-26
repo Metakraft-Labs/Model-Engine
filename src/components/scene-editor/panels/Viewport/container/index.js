@@ -149,12 +149,12 @@ const ViewPortPanelContainer = () => {
                             ref={ref}
                             className="absolute h-full w-full"
                         />
-                        {rootEntity.value && (
+                        {/* {rootEntity.value && (
                             <SceneLoadingProgress
                                 key={rootEntity.value}
                                 rootEntity={rootEntity.value}
                             />
-                        )}
+                        )} */}
                     </>
                 ) : (
                     <div className="flex h-full w-full flex-col justify-center gap-2">

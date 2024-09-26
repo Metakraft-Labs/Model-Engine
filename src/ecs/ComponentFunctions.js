@@ -1,5 +1,5 @@
 import * as bitECS from "bitecs";
-import React, { startTransition, use } from "react";
+import React, { startTransition } from "react";
 
 import { getNestedObject } from "../common/src/utils/getNestedProperty";
 import { HyperFlux, startReactor } from "../hyperflux";
@@ -327,7 +327,7 @@ export function useComponent(entity, Component) {
     const componentState = Component.stateMap[entity];
     // use() will suspend the component (by throwing a promise) and resume when the promise is resolved
     if (componentState.promise) {
-        (use ?? _use)(componentState.promise);
+        _use(componentState.promise);
     }
     return useHookstate(componentState); // todo fix any cast
 }

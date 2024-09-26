@@ -463,6 +463,7 @@ const AssetPanel = () => {
         const a = await generate3DModel({
             prompt,
             type: "text",
+            quality: "advanced",
         });
         const obj = [
             {
