@@ -45,7 +45,7 @@ export const preventDefaultKeyDown = evt => {
 export function updateGamepadInput(eid) {
     const inputSource = getComponent(eid, InputSourceComponent);
     const gamepad = inputSource.source.gamepad;
-    const buttons = inputSource.buttons;
+    const buttons = inputSource?.buttons;
     // const buttonDownPos = inputSource.buttonDownPositions as WeakMap<AnyButton, Vector3>
     // log buttons
     // if (source.gamepad) {
@@ -56,7 +56,7 @@ export function updateGamepadInput(eid) {
     // }
 
     if (!gamepad) return;
-    const gamepadButtons = gamepad.buttons;
+    const gamepadButtons = gamepad?.buttons;
     if (!gamepadButtons.length) return;
 
     const pointer = getOptionalComponent(eid, InputPointerComponent);
@@ -92,7 +92,7 @@ export function updateGamepadInput(eid) {
                     if (pointer)
                         _pointerPositionVector3.set(pointer.position.x, pointer.position.y, 0);
                     const squaredDistance = buttonState.downPosition.distanceToSquared(
-                        pointer ? _pointerPositionVector3 : xrTransform?.position ?? Vector3_Zero,
+                        pointer ? _pointerPositionVector3 : (xrTransform?.position ?? Vector3_Zero),
                     );
 
                     if (squaredDistance > DRAGGING_THRESHOLD) {
@@ -103,7 +103,7 @@ export function updateGamepadInput(eid) {
                 //if not yet rotating, compare distance to drag threshold and begin if appropriate
                 if (!buttonState.rotating) {
                     const angleRadians = buttonState.downRotation?.angleTo(
-                        pointer ? Q_IDENTITY : xrTransform?.rotation ?? Q_IDENTITY,
+                        pointer ? Q_IDENTITY : (xrTransform?.rotation ?? Q_IDENTITY),
                     );
                     if (angleRadians > ROTATING_THRESHOLD) {
                         buttonState.rotating = true;
@@ -132,7 +132,7 @@ export function updatePointerDragging(pointerEntity, event) {
     const inputSourceComponent = getOptionalComponent(pointerEntity, InputSourceComponent);
     if (!inputSourceComponent) return;
 
-    const state = inputSourceComponent.buttons;
+    const state = inputSourceComponent?.buttons;
 
     let button = MouseButton.PrimaryClick;
     if (event.type === "pointermove") {

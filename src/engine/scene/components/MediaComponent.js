@@ -96,7 +96,7 @@ export const MediaComponent = defineComponent({
             uiOffset: new Vector3(),
             xruiEntity: UndefinedEntity,
             volume: 1,
-            resources,
+            resources: [],
             playMode: "loop",
             isMusic: false,
             seekTime: 0,

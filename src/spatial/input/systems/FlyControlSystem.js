@@ -81,7 +81,7 @@ const execute = () => {
         for (const inputSourceEntity of inputSourceEntities) {
             const inputSource = getComponent(inputSourceEntity, InputSourceComponent);
             const pointer = getOptionalComponent(inputSourceEntity, InputPointerComponent);
-            if (pointer && inputSource.buttons.SecondaryClick?.pressed) {
+            if (pointer && inputSource?.buttons.SecondaryClick?.pressed) {
                 movement.x += pointer.movement.x;
                 movement.y += pointer.movement.y;
             }

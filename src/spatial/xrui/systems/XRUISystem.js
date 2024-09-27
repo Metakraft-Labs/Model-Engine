@@ -106,7 +106,7 @@ const execute = () => {
     for (const inputSourceEntity of inputSourceEntities) {
         const inputSourceComponent = getComponent(inputSourceEntity, InputSourceComponent);
         const inputSource = inputSourceComponent.source;
-        const buttons = inputSourceComponent.buttons;
+        const buttons = inputSourceComponent?.buttons;
 
         if (inputSource.targetRayMode !== "tracked-pointer") continue;
         if (!PointerComponent.pointers.has(inputSource)) {

@@ -201,7 +201,7 @@ const execute = () => {
                     const mouseMoved = pointerComponent.movement.lengthSq() > 0;
                     if (mouseMoved) mouseMovedDuringPrimaryClick = true;
 
-                    if (inputSourceComponent.buttons.PrimaryClick.up) {
+                    if (inputSourceComponent?.buttons.PrimaryClick.up) {
                         if (!mouseMovedDuringPrimaryClick) {
                             autopilotSetPosition(selfAvatarEntity);
                         } else mouseMovedDuringPrimaryClick = false;

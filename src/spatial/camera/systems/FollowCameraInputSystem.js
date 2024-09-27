@@ -135,7 +135,7 @@ const execute = () => {
             );
             theta -= x * 2;
             phi += y * 2;
-            const pointerDragging = inputSource.buttons?.PrimaryClick?.dragging;
+            const pointerDragging = inputSource?.buttons?.PrimaryClick?.dragging;
             if (pointerDragging) {
                 const inputPointer = getComponent(inputPointerEid, InputPointerComponent);
                 pointerPositionDelta.copy(inputPointer.movement);

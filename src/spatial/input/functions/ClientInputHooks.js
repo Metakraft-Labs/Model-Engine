@@ -51,7 +51,7 @@ export const useNonSpatialInputSources = () => {
             const code = event.code;
             const down = event.type === "keydown";
 
-            const buttonState = inputSourceComponent.buttons;
+            const buttonState = inputSourceComponent?.buttons;
             if (down) buttonState[code] = createInitialButtonState(eid);
             else if (buttonState[code]) buttonState[code].up = true;
         };
@@ -69,12 +69,12 @@ export const useNonSpatialInputSources = () => {
         document.addEventListener("touchstickmove", handleTouchDirectionalPad);
 
         document.addEventListener("touchgamepadbuttondown", event => {
-            const buttonState = inputSourceComponent.buttons;
+            const buttonState = inputSourceComponent?.buttons;
             buttonState[event.detail.button] = createInitialButtonState(eid);
         });
 
         document.addEventListener("touchgamepadbuttonup", event => {
-            const buttonState = inputSourceComponent.buttons;
+            const buttonState = inputSourceComponent?.buttons;
             if (buttonState[event.detail.button]) buttonState[event.detail.button].up = true;
         });
 
@@ -159,7 +159,7 @@ export const useXRInputSources = () => {
             if (!eid) return;
             const inputSourceComponent = getComponent(eid, InputSourceComponent);
             if (!inputSourceComponent) return;
-            const state = inputSourceComponent.buttons;
+            const state = inputSourceComponent?.buttons;
             state.PrimaryClick = createInitialButtonState(eid);
         };
         const onXRSelectEnd = event => {
@@ -167,7 +167,7 @@ export const useXRInputSources = () => {
             if (!eid) return;
             const inputSourceComponent = getComponent(eid, InputSourceComponent);
             if (!inputSourceComponent) return;
-            const state = inputSourceComponent.buttons;
+            const state = inputSourceComponent?.buttons;
             if (!state.PrimaryClick) return;
             state.PrimaryClick.up = true;
         };
@@ -197,7 +197,7 @@ export const CanvasInputReactor = () => {
         const pointerButtons = ["PrimaryClick", "AuxiliaryClick", "SecondaryClick"];
         const clearPointerState = entity => {
             const inputSourceComponent = getComponent(entity, InputSourceComponent);
-            const state = inputSourceComponent.buttons;
+            const state = inputSourceComponent?.buttons;
             for (const button of pointerButtons) {
                 const val = state[button];
                 if (!val?.up && val?.pressed) state[button].up = true;
@@ -247,7 +247,7 @@ export const CanvasInputReactor = () => {
             if (event.button === 1) button = MouseButton.AuxiliaryClick;
             else if (event.button === 2) button = MouseButton.SecondaryClick;
 
-            const state = inputSourceComponent.buttons;
+            const state = inputSourceComponent?.buttons;
             if (down) {
                 state[button] = createInitialButtonState(pointerEntity); //down, pressed, touched = true
 

@@ -181,7 +181,7 @@ function paste(event) {
     if (isInputSelected()) return;
 
     const isMiddleClick = inputSourceQuery().find(
-        e => getComponent(e, InputSourceComponent).buttons.AuxiliaryClick,
+        e => getComponent(e, InputSourceComponent)?.buttons.AuxiliaryClick,
     );
     if (isMiddleClick) return;
 

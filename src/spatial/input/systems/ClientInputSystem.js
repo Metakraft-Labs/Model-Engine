@@ -199,8 +199,8 @@ const cleanupInputs = () => {
 
     for (const eid of inputSourceQuery()) {
         const source = getComponent(eid, InputSourceComponent);
-        for (const key in source.buttons) {
-            cleanupButton(key, source.buttons, hasFocus);
+        for (const key in source?.buttons) {
+            cleanupButton(key, source?.buttons, hasFocus);
         }
 
         // clear non-spatial emulated axes data end of each frame

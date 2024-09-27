@@ -154,7 +154,8 @@ export const getComponent = (entity, component) => {
  */
 export const setComponent = (entity, Component, args = undefined) => {
     if (!entity) {
-        throw new Error("[setComponent]: entity is undefined");
+        console.log("[setComponent]: entity is undefined");
+        return;
     }
     if (!bitECS.entityExists(HyperFlux.store, entity)) {
         throw new Error("[setComponent]: entity does not exist");

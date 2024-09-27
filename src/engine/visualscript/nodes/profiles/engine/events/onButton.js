@@ -71,7 +71,7 @@ export const OnButton = makeEventNodeDefinition({
             execute: () => {
                 for (const eid of query()) {
                     const inputSource = getComponent(eid, InputSourceComponent);
-                    const button = inputSource.buttons[buttonKey];
+                    const button = inputSource?.buttons[buttonKey];
                     buttonStates.forEach(state => {
                         if (button?.[state] === true) {
                             const outputSocket = `${state.charAt(0).toUpperCase()}${state.slice(1)}`;

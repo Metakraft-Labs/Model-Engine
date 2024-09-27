@@ -1,6 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import { Quaternion, Scene, Vector3 } from "three";
+import { listResources, updateResource } from "../../../apis/projects";
 import { pathJoin } from "../../../common/src/utils/miscUtils";
 import { createEntity, entityExists, getComponent, removeEntity, setComponent } from "../../../ecs";
 import { GLTFDocumentState } from "../../../engine/gltf/GLTFDocumentState";
@@ -61,17 +62,15 @@ export default function CreatePrefabPanel({ entity }) {
             getMutableState(SelectionState).selectedEntities.set([]);
             await exportRelativeGLTF(prefabEntity, srcProject, fileName);
 
-            // const resources = await API.instance.service(staticResourcePath).find({
-            //     query: { key: "projects/" + srcProject + "/" + fileName },
-            // });
-            // if (resources.data.length === 0) {
-            //     throw new Error("User not found");
-            // }
-            // const resource = resources.data[0];
+            const resources = await listResources({
+                filters: { query: { key: "projects/" + "default-project" + "/" + fileName } },
+            });
+            if (resources.data.length === 0) {
+                throw new Error("User not found");
+            }
+            const resource = resources.data[0];
             const tags = [...prefabTag.value];
-            // await API.instance
-            //     .service(staticResourcePath)
-            //     .patch(resource.id, { tags: tags, project: srcProject });
+            await updateResource(resource.id, { tags: tags, projectName: srcProject });
 
             removeEntity(prefabEntity);
             EditorControlFunctions.removeObject([entity]);

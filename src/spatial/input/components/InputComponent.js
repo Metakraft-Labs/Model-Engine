@@ -135,7 +135,7 @@ export const InputComponent = defineComponent({
         const buttons = Object.assign(
             {},
             ...inputSourceEntities.map(eid => {
-                return getComponent(eid, InputSourceComponent).buttons;
+                return getComponent(eid, InputSourceComponent)?.buttons;
             }),
         );
 
