@@ -1,6 +1,13 @@
 name: Deploy the prod
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
   push:
     branches:
       - feat/scene-editor
