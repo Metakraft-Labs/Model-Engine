@@ -1,0 +1,51 @@
+name: Deploy the prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+  push:
+    branches:
+      - feat/scene-editor
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          push: true
+          dockerfile: ./Dockerfile
+          tags: edguru/ir:latest
+          no-cache: true
+
+
+      - name: Deploy to AWS EC2
+        run: |
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_IP }} 'sudo docker stop spark-backend || true'
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_IP }} 'sudo docker rm spark-backend || true'
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_IP }} 'sudo docker rm -vf $(sudo docker ps -a -q) || true'
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_IP }} 'sudo docker rmi -f $(sudo docker images -a -q) || true'
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_IP }} 'sudo docker run -d --pull=always -v /temp:/tmp -e PORT=4001 -e HOST=0.0.0.0 -e NODE_ENV=production -e REACT_APP_TRIA_PROJECT_ID="${{secrets.REACT_APP_TRIA_PROJECT_ID}}" -e JWT_SECRET=${{secrets.JWT_SECRET}} -e AWS_ACCESS_KEY_ID=${{secrets.AWS_ACCESS_KEY_ID}} -e AWS_SECRET_ACCESS_KEY="${{secrets.AWS_SECRET_ACCESS_KEY}}" -e AWS_REGION=${{secrets.AWS_REGION}} -e REACT_APP_S3_ASSETS=${{secrets.REACT_APP_S3_ASSETS}} -e REACT_APP_SKYNET_SERVICE_URL=${{secrets.REACT_APP_SKYNET_SERVICE_URL}} -e REACT_APP_PRIVY_APP_ID=${{secrets.REACT_APP_PRIVY_APP_ID}} -e REACT_APP_METAKEEP_APPID=${{secrets.REACT_APP_METAKEEP_APPID}} -e REACT_APP_METAKEEP_API_KEY=${{secrets.REACT_APP_METAKEEP_API_KEY}} -e REACT_APP_JWT=${{secrets.REACT_APP_JWT}} -e REACT_APP_JWT=${{secrets.REACT_APP_JWT}} -e REACT_APP_API_URL=${{secrets.REACT_APP_API_URL}} -e REACT_APP_NAME=${{secrets.REACT_APP_NAME}} -p 4001:4001 --name ir edguru/ir:latest'
