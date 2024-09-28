@@ -42,7 +42,7 @@ jobs:
 
 
       - name: Deploy to AWS EC2
-       run: |
+        run: |
           echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_IP }} 'sudo docker stop ir || true'
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_IP }} 'sudo docker rm ir || true'
