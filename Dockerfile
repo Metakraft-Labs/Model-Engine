@@ -6,7 +6,7 @@ COPY package.json .
 
 COPY .npmrc .
 
-RUN npm install
+RUN npm cache clean --force && npm install --loglevel verbose
 
 COPY . .
 
