@@ -8,6 +8,10 @@ on:
         required: true
         default: 'warning'
         type: choice
+        options:
+        - info
+        - warning
+        - debug
   push:
     branches:
       - feat/scene-editor
