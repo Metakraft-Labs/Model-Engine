@@ -3,7 +3,7 @@ name: Deploy the prod
 on:
   push:
     branches:
-      - main
+      - feat/scene-editor
 
 jobs:
   deploy:
