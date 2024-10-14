@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import triaLogo from "../../assets/img/login/tria.svg";
 import Modal from "../../components/Modal";
 
 export default function ProviderModal({ loginModal, open, onClose }) {
@@ -25,9 +26,9 @@ export default function ProviderModal({ loginModal, open, onClose }) {
                         background: "#FFFFFF",
                         borderRadius: "10px",
                     }}
-                    onClick={() => loginModal("metakeep")}
+                    onClick={() => loginModal("tria")}
                 >
-                    <img src={"https://metakeep.xyz/images/MetaKeep-1.png"} alt={"metakeep logo"} />
+                    <img src={triaLogo} alt={"tria logo"} width={"70px"} />
                     <Typography fontWeight={800}>Choose for Skale Titan AI Hubs</Typography>
                 </Box>
                 <Box

@@ -31,6 +31,7 @@ export const getSupportedChains = () => {
                     url: getBlockExplorer(1020352220),
                 },
             },
+            testnet: true,
         },
         {
             id: 1350216234,
@@ -52,6 +53,7 @@ export const getSupportedChains = () => {
                     url: getBlockExplorer(1350216234),
                 },
             },
+            testnet: false,
         },
         {
             id: 80084,
@@ -73,6 +75,7 @@ export const getSupportedChains = () => {
                     url: getBlockExplorer(80084),
                 },
             },
+            testnet: true,
         },
     ];
 };

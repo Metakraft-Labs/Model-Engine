@@ -1,9 +1,10 @@
 import SkyEtherContractService from "@decloudlabs/skynet/lib/services/SkyEtherContractService";
 import { Button, TextField } from "@mui/material";
 import { useLoginWithEmail, usePrivy, useWallets } from "@privy-io/react-auth";
+import { useEmailOtpAuth, useTriaAuth } from "@tria-sdk/authenticate-react";
+import { TriaProvider } from "@tria-sdk/connect";
 import { ethers } from "ethers";
 import { ethers as ethers5 } from "ethers-5";
-import { MetaKeep } from "metakeep";
 import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { login } from "../../apis/auth";
@@ -15,7 +16,6 @@ import {
     getMintAbi,
     getMintContract,
     getPoWContract,
-    getRPCURL,
     getSupportedChains,
 } from "../../shared/web3utils";
 
@@ -31,20 +31,45 @@ export default function useConnectWallet({
     setSkynetBrowserInstance,
 }) {
     const [connectedWallet, setConnectedWallet] = useState(null);
-    const [showPrivyOtpModal, setShowPrivyOtpModal] = useState(false);
-    const [privyOtpVerifying, setPrivyOtpVerifying] = useState(false);
-    const [privyOtp, setPrivyOtp] = useState("");
+    const [showOtpModal, setShowOtpModal] = useState(false);
+    const [otpVerifying, setOtpVerifying] = useState(false);
+    const [otp, setOtp] = useState("");
     const { authenticated, user: privyUser, createWallet, ready: privyReady } = usePrivy();
     const { sendCode, loginWithCode } = useLoginWithEmail();
     const { wallets, ready } = useWallets();
+    const {
+        isAuthenticated: isTriaAuthenticated,
+        isReady: isTriaReady,
+        getAccount,
+    } = useTriaAuth();
+    const {
+        authStep,
+        initiateEmailOtp,
+        waitingVerification,
+        verifyOtp,
+        subscribeToOtpInput,
+        checkNameAvailability,
+        createUserName,
+        email: triaEmail,
+        otpIframeUrl,
+    } = useEmailOtpAuth();
+    const [method, setMethod] = useState("");
+    const [username, setUsername] = useState("");
+    const [isNameAvailable, setIsNameAvailable] = useState(true);
+
+    useEffect(() => {
+        if (authStep === "otp") {
+            subscribeToOtpInput();
+        }
+    }, [authStep, subscribeToOtpInput]);
 
     const getPrivyUser = useCallback(async () => {
-        if (authenticated && privyOtpVerifying && ready && privyReady && wallets?.length) {
+        if (authenticated && otpVerifying && ready && privyReady && wallets?.length) {
             connectWallet({ emailAddress: privyUser?.email?.address, walletProvider: "privy" });
-            setPrivyOtpVerifying(false);
-            setShowPrivyOtpModal(false);
+            setOtpVerifying(false);
+            setShowOtpModal(false);
         }
-        if (authenticated && privyOtpVerifying && ready && privyReady && !wallets?.length) {
+        if (authenticated && otpVerifying && ready && privyReady && !wallets?.length) {
             try {
                 await createWallet();
             } catch (e) {
@@ -53,9 +78,20 @@ export default function useConnectWallet({
         }
     }, [authenticated, ready, privyReady]);
 
+    const getTriaUser = useCallback(async () => {
+        if (isTriaAuthenticated) {
+            connectWallet({ emailAddress: triaEmail, walletProvider: "tria" });
+            setShowOtpModal(false);
+        }
+    }, [isTriaAuthenticated, authStep]);
+
     useEffect(() => {
         getPrivyUser();
     }, [getPrivyUser]);
+
+    useEffect(() => {
+        getTriaUser();
+    }, [getTriaUser]);
 
     const verifyMessageSignature = (message, address, signature) => {
         try {
@@ -73,18 +109,23 @@ export default function useConnectWallet({
         return res ? signature : null;
     };
 
-    const connectWallet = async ({ emailAddress, auth = true, walletProvider = "metakeep" }) => {
+    const connectWallet = async ({ emailAddress, auth = true, walletProvider = "tria" }) => {
+        setMethod(walletProvider);
         if (connectedWallet) {
             setConnectedWallet(null);
         } else {
             try {
                 let provider, provider5, account, userWallet;
-                if (walletProvider === "metakeep") {
-                    const data = await connectMetakeep(emailAddress);
-                    provider = data.provider;
-                    provider5 = data.provider5;
-                    account = data.account;
-                    userWallet = data.userWallet;
+                if (walletProvider === "tria") {
+                    const data = await connectTria(emailAddress);
+                    if (data === 0) {
+                        return 0;
+                    } else {
+                        provider = data.provider;
+                        provider5 = data.provider5;
+                        account = data.account;
+                        userWallet = data.userWallet;
+                    }
                 } else if (walletProvider === "privy") {
                     const data = await connectPrivy(emailAddress);
                     if (data === 0) {
@@ -192,28 +233,6 @@ export default function useConnectWallet({
         }
     };
 
-    const connectMetakeep = async email => {
-        const sdk = new MetaKeep({
-            appId: process.env.REACT_APP_METAKEEP_APPID,
-            chainId: DesiredChainId,
-            rpcNodeUrls: getSupportedChains().reduce((old, curr) => {
-                old[curr.id] = getRPCURL(curr.id);
-                return old;
-            }, {}),
-            user: { email: email || "" },
-        });
-
-        const web3Provider = await sdk.ethereum;
-        await web3Provider.enable();
-        const provider = new ethers.BrowserProvider(web3Provider);
-        const provider5 = new ethers5.providers.Web3Provider(web3Provider);
-        const accounts = await sdk.getWallet();
-        const userWallet = accounts.user;
-        const account = accounts?.wallet?.ethAddress;
-
-        return { provider, userWallet, account, provider5 };
-    };
-
     const connectPrivy = async email => {
         if (authenticated && ready && privyReady && wallets?.length) {
             const web3Provider = await wallets?.[0]?.getEthereumProvider();
@@ -231,76 +250,172 @@ export default function useConnectWallet({
         } else if (ready) {
             await sendCode({ email });
             toast.success("Otp sent successfully");
-            setShowPrivyOtpModal(true);
+            setShowOtpModal(true);
             return 0;
         } else {
-            setPrivyOtpVerifying(true);
+            setOtpVerifying(true);
             return 0;
         }
     };
 
-    const RenderPrivyOtpModal = () => {
+    const connectTria = async email => {
+        if (isTriaAuthenticated && isTriaReady) {
+            const web3Provider = new TriaProvider({
+                environment: "testnet",
+                config: {
+                    chains: getSupportedChains(),
+                },
+            });
+            const provider = new ethers.BrowserProvider(web3Provider);
+            const provider5 = new ethers5.providers.Web3Provider(web3Provider);
+            const emailAddress = triaEmail;
+            const walletAddress = getAccount()?.evm?.address;
+
+            return {
+                provider,
+                userWallet: { email: emailAddress },
+                account: walletAddress,
+                provider5,
+            };
+        } else if (isTriaReady) {
+            await initiateEmailOtp(email);
+            toast.success("Otp sent successfully");
+            setShowOtpModal(true);
+            return 0;
+        } else {
+            setOtpVerifying(true);
+            return 0;
+        }
+    };
+
+    const RenderOtpModal = () => {
         return (
             <Modal
                 heading={"Enter OTP"}
-                subHeading={"Enter your otp to login with privy"}
-                open={showPrivyOtpModal}
+                subHeading={"Enter your otp to login"}
+                open={showOtpModal}
                 onClose={() => {}}
             >
                 <form
                     onSubmit={async e => {
-                        setPrivyOtpVerifying(true);
                         e.preventDefault();
-                        await loginWithCode({ code: privyOtp });
+                        if (method === "privy") {
+                            setOtpVerifying(true);
+                            await loginWithCode({ code: otp });
+                        } else if (method === "tria") {
+                            if (authStep === "otp") {
+                                await verifyOtp();
+                            }
+                            if (authStep === "createName") {
+                                const available = await checkNameAvailability(username);
+                                setIsNameAvailable(available);
+
+                                if (!available) {
+                                    return;
+                                }
+                                await createUserName(username);
+                            }
+                        }
                     }}
                 >
-                    <TextField
-                        sx={{
-                            background: "#141414",
-                            borderRadius: 3,
-                            borderColor: "#303134",
-                            "& .MuiOutlinedInput-root": {
-                                "& fieldset": {
-                                    borderColor: "#303134", // Default border color
-                                },
-                                "&.Mui-focused fieldset": {
-                                    borderColor: "#303134", // Focused border color
-                                },
-                            },
-                        }}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        value={privyOtp}
-                        onChange={e => setPrivyOtp(e.target.value)}
-                        id="otp"
-                        label="OTP"
-                        name="otp"
-                        autoComplete="otp"
-                        autoFocus
-                        InputLabelProps={{
-                            style: {
-                                color: "#49494B",
-                                border: 5,
-                                borderRadius: 12,
+                    {method === "privy" ? (
+                        <TextField
+                            sx={{
+                                background: "#141414",
+                                borderRadius: 3,
                                 borderColor: "#303134",
-                            },
-                        }}
-                        InputProps={{
-                            style: {
-                                color: "#3B3C3F",
-                                border: 5,
-                                borderRadius: 12,
+                                "& .MuiOutlinedInput-root": {
+                                    "& fieldset": {
+                                        borderColor: "#303134", // Default border color
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                        borderColor: "#303134", // Focused border color
+                                    },
+                                },
+                            }}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            value={otp}
+                            onChange={e => setOtp(e.target.value)}
+                            id="otp"
+                            label="OTP"
+                            name="otp"
+                            autoComplete="otp"
+                            autoFocus
+                            InputLabelProps={{
+                                style: {
+                                    color: "#49494B",
+                                    border: 5,
+                                    borderRadius: 12,
+                                    borderColor: "#303134",
+                                },
+                            }}
+                            InputProps={{
+                                style: {
+                                    color: "#3B3C3F",
+                                    border: 5,
+                                    borderRadius: 12,
+                                    borderColor: "#303134",
+                                },
+                            }}
+                        />
+                    ) : method === "tria" && authStep === "otp" ? (
+                        <iframe src={otpIframeUrl} title="OTP Input" height={"80px"} />
+                    ) : method === "tria" && authStep === "createName" ? (
+                        <TextField
+                            sx={{
+                                background: "#141414",
+                                borderRadius: 3,
                                 borderColor: "#303134",
-                            },
-                        }}
-                    />
+                                "& .MuiOutlinedInput-root": {
+                                    "& fieldset": {
+                                        borderColor: "#303134", // Default border color
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                        borderColor: "#303134", // Focused border color
+                                    },
+                                },
+                            }}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            helperText={!isNameAvailable && "Username is not available"}
+                            min={3}
+                            fullWidth
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                            id="username"
+                            label="Choose a username"
+                            name="username"
+                            autoComplete="username"
+                            autoFocus
+                            InputLabelProps={{
+                                style: {
+                                    color: "#49494B",
+                                    border: 5,
+                                    borderRadius: 12,
+                                    borderColor: "#303134",
+                                },
+                            }}
+                            InputProps={{
+                                style: {
+                                    color: "#3B3C3F",
+                                    border: 5,
+                                    borderRadius: 12,
+                                    borderColor: "#303134",
+                                },
+                            }}
+                        />
+                    ) : (
+                        ""
+                    )}
 
                     <Button
                         variant="outlined"
                         type="primary"
-                        disabled={privyOtpVerifying}
+                        disabled={otpVerifying || waitingVerification}
                         sx={{
                             border: "1px solid #E18BFF",
                             "&:hover": {
@@ -314,7 +429,7 @@ export default function useConnectWallet({
                         }}
                         fullWidth
                     >
-                        {privyOtpVerifying ? "Verifying..." : "Verify"}
+                        {otpVerifying || waitingVerification ? "Verifying..." : "Verify"}
                     </Button>
                 </form>
             </Modal>
@@ -344,5 +459,5 @@ export default function useConnectWallet({
         setSkynetBrowserInstance(skyMainBrowser);
     };
 
-    return { connectWallet, RenderPrivyOtpModal };
+    return { connectWallet, RenderOtpModal };
 }

@@ -25,7 +25,7 @@ export default function Auth() {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [showProviderModal, setShowProviderModal] = useState(false);
-    const { connectWallet, RenderPrivyOtpModal } = useConnectWallet({
+    const { connectWallet, RenderOtpModal } = useConnectWallet({
         setContract,
         setUserWallet,
         user,
@@ -150,7 +150,7 @@ export default function Auth() {
                         onClose={() => setShowProviderModal(false)}
                     />
                 )}
-                <RenderPrivyOtpModal />
+                <RenderOtpModal />
             </Background>
         </>
     );
