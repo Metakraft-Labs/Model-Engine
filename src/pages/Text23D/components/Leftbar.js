@@ -101,9 +101,6 @@ export default function Leftbar({
                         }}
                         size="small"
                     >
-                        <MenuItem value={"normal"}>
-                            Quality - Basic | {mode === "text" ? "1" : "5"} credit
-                        </MenuItem>
                         <MenuItem value={"advanced"}>
                             Quality - Advanced | {mode === "text" ? "20" : "50"} credit
                         </MenuItem>

@@ -29,7 +29,7 @@ export default function Text23D() {
     const [byteRes, setByteRes] = useState(null);
     const [selectedTab, setSelectedTab] = useState("textured");
     const [mode, setMode] = useState("text");
-    const [quality, setQuality] = useState("normal");
+    const [quality, setQuality] = useState("advanced");
     const [modelId, setModelId] = useState(null);
     const [showModel, setShowModel] = useState("draft");
     const [selectedStyle, setSelectedStyle] = useState("");
