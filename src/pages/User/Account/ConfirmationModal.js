@@ -124,13 +124,24 @@ export default function ConfirmationModal({ plan, showModal, setShowModal }) {
                     </Typography>
                 ) : (
                     <>
+                        {balance < tokenPlans[plan]?.usd * 1000000 && (
+                            <Typography
+                                textAlign={"center"}
+                                color={"#FFFFFF"}
+                                fontWeight={500}
+                                fontSize={"16px"}
+                            >
+                                Your balance is low. Kindly topup your wallet with{" "}
+                                {tokenPlans[plan].usd} USDC.
+                            </Typography>
+                        )}
                         <Typography
                             textAlign={"center"}
                             color={"#FFFFFF"}
                             fontWeight={500}
                             fontSize={"16px"}
                         >
-                            Your USDC balance: {fixedBalance(balance || 0, 6)} USDC
+                            Tital USDC balance: {fixedBalance(balance || 0, 6)} USDC
                         </Typography>
 
                         {balance < tokenPlans[plan]?.usd * 1000000 ? (
@@ -141,8 +152,7 @@ export default function ConfirmationModal({ plan, showModal, setShowModal }) {
                                     fontWeight={500}
                                     fontSize={"16px"}
                                 >
-                                    Your balance is low. Kindly topup your wallet with{" "}
-                                    {tokenPlans[plan].usd} USDC.
+                                    Metakraft Wallet: {userWallet}
                                 </Typography>
                                 <Typography
                                     textAlign={"center"}
@@ -150,15 +160,7 @@ export default function ConfirmationModal({ plan, showModal, setShowModal }) {
                                     fontWeight={500}
                                     fontSize={"16px"}
                                 >
-                                    Wallet Address: {userWallet}
-                                </Typography>
-                                <Typography
-                                    textAlign={"center"}
-                                    color={"#FFFFFF"}
-                                    fontWeight={500}
-                                    fontSize={"16px"}
-                                >
-                                    USDC Contract Address: {USDC_CONTRACT_ADDRESS}
+                                    USDC Address: {USDC_CONTRACT_ADDRESS}
                                 </Typography>
 
                                 {chainId ===
