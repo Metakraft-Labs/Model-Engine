@@ -34,73 +34,8 @@ export default function CreateNFT({
 
                 const amt = amount.toString();
                 const nonce = await signer.getNonce();
-                const signature = await skynetBrowserInstance.appManager.getUrsulaAuth();
-                if (!signature.success) {
-                    // show error.
-                    return;
-                }
 
-                const res = await axios.post(
-                    `${process.env.REACT_APP_SKYNET_SERVICE_URL}/createCollection`,
-                    {
-                        address: userWallet,
-                        collectionName: name,
-                        collectionDescription: description,
-                        collectionImage: fileURI,
-                        collectionSize: 0,
-                        softwareLock: false,
-                        noDeployment: true,
-                        privateImage: false,
-                        privateImageRegistry: "docker",
-                        privateImageUsername: "",
-                        privateImagePassword: "",
-                        imageName: "alethio/ethereum-lite-explorer",
-                        imageTag: "latest",
-                        encrypt: true,
-                        status: true,
-                        mintStatus: download !== "no",
-                        royalty: "10",
-                        nftImage: fileURI,
-                        tags: tags?.join(", "),
-                        licenseFee: "10",
-                        storageType: "file",
-                        attributeVariableParam: {
-                            name: "3D model",
-                            condition: "New",
-                        },
-                        userAuthPayload: signature.data,
-                        ...(download === "free"
-                            ? {
-                                  license,
-                              }
-                            : {}),
-                        applicationType: null,
-                        createdAt: Date.now(),
-                        mintCost,
-                        collectionCost: 1,
-                        cpuRange: "1",
-                        bandwidthRange: "1",
-                        storageRange: "1",
-                        staticFile: [url],
-                        publicMint: download === "free",
-                        marketplaceList: download !== "no",
-                        category: "3D Model",
-                        verified: true,
-                        paymentMade: true,
-                        nftImage: cid,
-                        nftId: cid?.replace("ipfs://", ""),
-                        limitedEdition: false,
-                        bundle: cid,
-                        instanceType: "cpuStandard",
-                    },
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    },
-                );
-
-                const collectionId = res.data?.data;
+                const collectionId = '1';
 
                 toast.info("Sign for first mint");
 
