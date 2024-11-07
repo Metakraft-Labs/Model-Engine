@@ -29,10 +29,11 @@ export default function PaymentMethodsModal({ plan, showModal, setShowModal }) {
     return (
         <>
             <Modal
-                heading={"Please choose a payment method"}
+                heading={""}
                 open={showModal}
                 onClose={loading ? () => {} : () => setShowModal(false)}
                 sx={{
+                    width: "30%",
                     background: "linear-gradient(79.98deg, #4A1995 -3.67%, #0F061F 101.19%)",
                     border: "1px solid #E9E9E9",
                     borderRadius: "10px",
@@ -69,7 +70,15 @@ export default function PaymentMethodsModal({ plan, showModal, setShowModal }) {
                             fontWeight={800}
                             fontSize={"20px"}
                         >
-                            Embedded Wallet ({getChainName(chainId)})
+                            Metakraft Wallet
+                        </Typography>
+                        <Typography
+                            textAlign={"center"}
+                            color={"#FFFFFF"}
+                            fontWeight={500}
+                            fontSize={"15px"}
+                        >
+                            Pay directly from ({getChainName(chainId)})
                         </Typography>
                     </Box>
                     <Box
@@ -90,7 +99,15 @@ export default function PaymentMethodsModal({ plan, showModal, setShowModal }) {
                             fontWeight={800}
                             fontSize={"20px"}
                         >
-                            Coinpayments (Cryptocurrencies)
+                            Coinpayments
+                        </Typography>
+                        <Typography
+                            textAlign={"center"}
+                            color={"#FFFFFF"}
+                            fontWeight={500}
+                            fontSize={"15px"}
+                        >
+                            Pay using multiple cryptocurrencies
                         </Typography>
                     </Box>
                     {/* <Box
