@@ -35,6 +35,7 @@ function App() {
         },
     });
 
+    console.log("privy", process.env.REACT_APP_PRIVY_APP_ID);
     return (
         <PrivyProvider
             appId={process.env.REACT_APP_PRIVY_APP_ID}

@@ -1,7 +1,7 @@
 import { Box, Link, TextField, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { getProviderByEmail } from "../../apis/auth";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { getProviderByEmail, getReferrData } from "../../apis/auth";
 import metakraft from "../../assets/img/login/metakraft.png";
 import { UserStore } from "../../contexts/UserStore";
 import useConnectWallet from "../../hooks/useConnectWallet";
@@ -36,12 +36,29 @@ export default function Auth() {
         setSkynetBrowserInstance,
     });
     const [loginLoading, setLoginLoading] = React.useState(false);
+    const [searchParams] = useSearchParams();
+    const [referrerData, setReferredData] = React.useState();
+    const query = searchParams.get("ref");
 
     useEffect(() => {
         if (location.pathname === "/login" && user && userWallet) {
             navigate("/");
         }
     }, [location, user, userWallet]);
+
+    useEffect(() => {
+        if (query) {
+            fetchRefererData();
+        }
+    }, [query]);
+
+    const fetchRefererData = async () => {
+        const data = await getReferrData(query);
+        setReferredData({
+            provider: data.provider,
+            chainId: data.chainId,
+        });
+    };
 
     const getProvider = async () => {
         setLoginLoading(true);
@@ -55,9 +72,9 @@ export default function Auth() {
         }
     };
 
-    const loginModal = async provider => {
+    const loginModal = async (provider, chainId) => {
         setShowProviderModal(false);
-        await connectWallet({ emailAddress: email, walletProvider: provider });
+        await connectWallet({ emailAddress: email, walletProvider: provider, chainId });
 
         if (location.pathname === "/login" && user && userWallet) {
             navigate("/");
@@ -148,6 +165,7 @@ export default function Auth() {
                         loginModal={loginModal}
                         open={showProviderModal}
                         onClose={() => setShowProviderModal(false)}
+                        defaultSelections={referrerData}
                     />
                 )}
                 <RenderPrivyOtpModal />

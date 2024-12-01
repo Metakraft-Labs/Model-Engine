@@ -16,3 +16,8 @@ export const getProviderByEmail = async email => {
 
     return res?.data;
 };
+
+export const getReferrData = async id => {
+    const res = await noAuth({ method: "GET", url: `/referal/user-data/${id}` });
+    return res?.data;
+};

@@ -4,7 +4,7 @@ import { useLoginWithEmail, usePrivy, useWallets } from "@privy-io/react-auth";
 import { ethers } from "ethers";
 import { ethers as ethers5 } from "ethers-5";
 import { MetaKeep } from "metakeep";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { login } from "../../apis/auth";
 import Modal from "../../components/Modal";
@@ -37,10 +37,15 @@ export default function useConnectWallet({
     const { authenticated, user: privyUser, createWallet, ready: privyReady } = usePrivy();
     const { sendCode, loginWithCode } = useLoginWithEmail();
     const { wallets, ready } = useWallets();
+    const currentChainId = useRef(null);
 
     const getPrivyUser = useCallback(async () => {
         if (authenticated && privyOtpVerifying && ready && privyReady && wallets?.length) {
-            connectWallet({ emailAddress: privyUser?.email?.address, walletProvider: "privy" });
+            connectWallet({
+                emailAddress: privyUser?.email?.address,
+                walletProvider: "privy",
+                chainId: currentChainId.current,
+            });
             setPrivyOtpVerifying(false);
             setShowPrivyOtpModal(false);
         }
@@ -73,20 +78,25 @@ export default function useConnectWallet({
         return res ? signature : null;
     };
 
-    const connectWallet = async ({ emailAddress, auth = true, walletProvider = "metakeep" }) => {
+    const connectWallet = async ({
+        emailAddress,
+        auth = true,
+        walletProvider = "metakeep",
+        chainId,
+    }) => {
         if (connectedWallet) {
             setConnectedWallet(null);
         } else {
             try {
                 let provider, provider5, account, userWallet;
                 if (walletProvider === "metakeep") {
-                    const data = await connectMetakeep(emailAddress);
+                    const data = await connectMetakeep(emailAddress, chainId);
                     provider = data.provider;
                     provider5 = data.provider5;
                     account = data.account;
                     userWallet = data.userWallet;
                 } else if (walletProvider === "privy") {
-                    const data = await connectPrivy(emailAddress);
+                    const data = await connectPrivy(emailAddress, chainId);
                     if (data === 0) {
                         return 0;
                     } else {
@@ -97,8 +107,8 @@ export default function useConnectWallet({
                     }
                 }
                 const signer = await provider.getSigner();
-                const { chainId } = await provider.getNetwork();
-                const chain = Number(chainId.toString());
+                const { chainId: chainIdBigint } = await provider.getNetwork();
+                const chain = Number(chainIdBigint.toString());
                 setConnectedWallet(account);
                 const balance = await provider.getBalance(account);
                 setBalance(BigInt(balance?._hex || balance?.hex || balance).toString());
@@ -141,7 +151,7 @@ export default function useConnectWallet({
                         email: userWallet?.email,
                         signature: storedSignature,
                         address: account,
-                        chainId: DesiredChainId,
+                        chainId: chain,
                         provider: walletProvider,
                         ref_by,
                     });
@@ -192,10 +202,11 @@ export default function useConnectWallet({
         }
     };
 
-    const connectMetakeep = async email => {
+    const connectMetakeep = async (email, chainId) => {
+        console.log("metakeep chain id", chainId);
         const sdk = new MetaKeep({
             appId: process.env.REACT_APP_METAKEEP_APPID,
-            chainId: DesiredChainId,
+            chainId: chainId,
             rpcNodeUrls: getSupportedChains().reduce((old, curr) => {
                 old[curr.id] = getRPCURL(curr.id);
                 return old;
@@ -229,6 +240,7 @@ export default function useConnectWallet({
                 provider5,
             };
         } else if (ready) {
+            // currentChainId.current = chainId;
             await sendCode({ email });
             toast.success("Otp sent successfully");
             setShowPrivyOtpModal(true);

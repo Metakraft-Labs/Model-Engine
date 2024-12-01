@@ -1,10 +1,23 @@
-import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+    AppBar,
+    Avatar,
+    Box,
+    Button,
+    FormControl,
+    IconButton,
+    MenuItem,
+    Select,
+    Toolbar,
+    Typography,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AccountDropdown from "../../../components/AccountDropdown";
 import { UserStore } from "../../../contexts/UserStore";
+import useConnectWallet from "../../../hooks/useConnectWallet";
 import { LogoIcon } from "../../../icons/LogoIcon";
+import { getSupportedChains } from "../../../shared/web3utils";
 
 const TABS = {
     "3d": "/text-2-3d",
@@ -14,10 +27,43 @@ const TABS = {
 export default function Navbar({ selectedTab }) {
     const classes = useStyles();
     const navigate = useNavigate();
-
-    const { user, userWallet } = useContext(UserStore);
+    const {
+        user,
+        userWallet,
+        chainId,
+        setContract,
+        setUserWallet,
+        setToken,
+        setBalance,
+        setChainId,
+        setSigner,
+        setSkynetBrowserInstance,
+    } = useContext(UserStore);
+    const { connectWallet, RenderPrivyOtpModal } = useConnectWallet({
+        setContract,
+        setUserWallet,
+        user,
+        setToken,
+        setBalance,
+        setChainId,
+        setSigner,
+        setSkynetBrowserInstance,
+    });
 
     const [openAccountMenu, setOpenAccountMenu] = useState(null);
+
+    const switchWallet = async chainId => {
+        await connectWallet({ emailAddress: user.email, chainId });
+        console.log(user);
+
+        // if (location.pathname === "/login" && user && userWallet) {
+        //     navigate("/");
+        // }
+    };
+
+    useEffect(() => {
+        console.log("chain id changed ; ", user);
+    }, [chainId]);
 
     return (
         <AppBar
@@ -44,6 +90,23 @@ export default function Navbar({ selectedTab }) {
                     </Typography>
                 </Box>
                 <Box>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                        <Select
+                            value={chainId}
+                            onChange={e => switchWallet(e.target.value)}
+                            displayEmpty
+                            inputProps={{ "aria-label": "Without label" }}
+                            sx={{
+                                color: "#fff",
+                            }}
+                        >
+                            {getSupportedChains().map(chain => (
+                                <MenuItem key={chain.id} value={chain.id}>
+                                    {chain.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     <Button
                         className={classes.createButton}
                         onClick={() => navigate(TABS[selectedTab] || "#")}
@@ -70,6 +133,7 @@ export default function Navbar({ selectedTab }) {
                     )}
                 </Box>
             </Toolbar>
+            <RenderPrivyOtpModal />
         </AppBar>
     );
 }

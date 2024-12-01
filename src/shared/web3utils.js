@@ -74,6 +74,90 @@ export const getSupportedChains = () => {
                 },
             },
         },
+        {
+            id: 42161,
+            name: getChainName(42161),
+            network: "Arbitrum",
+            nativeCurrency: {
+                decimals: 18,
+                name: "Ether",
+                symbol: "ETH",
+            },
+            rpcUrls: {
+                default: {
+                    http: [getRPCURL(42161)],
+                },
+            },
+            blockExplorers: {
+                default: {
+                    name: "Arbiscan",
+                    url: getBlockExplorer(42161),
+                },
+            },
+        },
+        {
+            id: 8453,
+            name: getChainName(8453),
+            network: "Base",
+            nativeCurrency: {
+                decimals: 18,
+                name: "Ether",
+                symbol: "ETH",
+            },
+            rpcUrls: {
+                default: {
+                    http: [getRPCURL(8453)],
+                },
+            },
+            blockExplorers: {
+                default: {
+                    name: "BaseScan",
+                    url: getBlockExplorer(8453),
+                },
+            },
+        },
+        {
+            id: 324,
+            name: getChainName(324),
+            network: "zkSync",
+            nativeCurrency: {
+                decimals: 18,
+                name: "Ether",
+                symbol: "ETH",
+            },
+            rpcUrls: {
+                default: {
+                    http: [getRPCURL(324)],
+                },
+            },
+            blockExplorers: {
+                default: {
+                    name: "zkSync Explorer",
+                    url: getBlockExplorer(324),
+                },
+            },
+        },
+        {
+            id: 137,
+            name: getChainName(137),
+            network: "Polygon",
+            nativeCurrency: {
+                decimals: 18,
+                name: "Matic",
+                symbol: "MATIC",
+            },
+            rpcUrls: {
+                default: {
+                    http: [getRPCURL(137)],
+                },
+            },
+            blockExplorers: {
+                default: {
+                    name: "Polygonscan",
+                    url: getBlockExplorer(137),
+                },
+            },
+        },
     ];
 };
 
@@ -85,6 +169,14 @@ export const getBlockExplorer = chainId => {
             return "https://parallel-stormy-spica.explorer.mainnet.skalenodes.com";
         case 80084:
             return "https://bartio.beratrail.io";
+        case 42161:
+            return "https://arbiscan.io";
+        case 8453:
+            return "https://basescan.org";
+        case 324:
+            return "https://explorer.zksync.io";
+        case 137:
+            return "https://polygonscan.com";
         default:
             return "https://aware-fake-trim-testnet.explorer.testnet.skalenodes.com";
     }
@@ -98,6 +190,14 @@ export const getRPCURL = chainId => {
             return "https://mainnet.skalenodes.com/v1/parallel-stormy-spica";
         case 80084:
             return "https://bartio.rpc.berachain.com";
+        case 42161:
+            return "https://arb1.arbitrum.io/rpc";
+        case 8453:
+            return "https://mainnet.base.org";
+        case 324:
+            return "https://zksync2-mainnet.zksync.io";
+        case 137:
+            return "https://polygon-rpc.com";
         default:
             return "https://testnet.skalenodes.com/v1/aware-fake-trim-testnet";
     }
@@ -111,6 +211,14 @@ export const getChainName = chainId => {
             return "Skale Titan AI Hub";
         case 80084:
             return "Berachain bArtio";
+        case 42161:
+            return "Arbitrum One";
+        case 8453:
+            return "Base Mainnet";
+        case 324:
+            return "zkSync Era";
+        case 137:
+            return "Polygon Mainnet";
         default:
             return "Skale Titan AI Hub Testnet";
     }
@@ -194,6 +302,14 @@ export const getTokenSymbol = chainId => {
             return "sFUEL";
         case 80084:
             return "BERA";
+        case 42161:
+            return "ETH";
+        case 8453:
+            return "ETH";
+        case 324:
+            return "ETH";
+        case 137:
+            return "MATIC";
         default:
             return "sFUEL";
     }
