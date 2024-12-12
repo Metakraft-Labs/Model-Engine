@@ -53,20 +53,25 @@ export default function Auth() {
     }, [query]);
 
     const fetchRefererData = async () => {
-        const data = await getReferrData(query);
-        setReferredData({
-            provider: data.provider,
-            chainId: data.chainId,
-        });
+        try {
+            const data = await getReferrData(query);
+            if (data) {
+                setReferredData({
+                    provider: data.provider,
+                    chainId: data.chainId,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const getProvider = async () => {
         setLoginLoading(true);
 
         const provider = await getProviderByEmail(email);
-
-        if (provider) {
-            await loginModal(provider);
+        if (provider?.provider && provider?.chainId) {
+            await loginModal(provider.provider, provider.chainId);
         } else {
             setShowProviderModal(true);
         }
@@ -74,7 +79,13 @@ export default function Auth() {
 
     const loginModal = async (provider, chainId) => {
         setShowProviderModal(false);
-        await connectWallet({ emailAddress: email, walletProvider: provider, chainId });
+        console.log("selected", provider, chainId);
+
+        await connectWallet({
+            emailAddress: email,
+            walletProvider: provider,
+            chainId,
+        });
 
         if (location.pathname === "/login" && user && userWallet) {
             navigate("/");

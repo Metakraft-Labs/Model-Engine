@@ -11,7 +11,7 @@ import {
     Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AccountDropdown from "../../../components/AccountDropdown";
 import { UserStore } from "../../../contexts/UserStore";
@@ -39,7 +39,7 @@ export default function Navbar({ selectedTab }) {
         setSigner,
         setSkynetBrowserInstance,
     } = useContext(UserStore);
-    const { connectWallet, RenderPrivyOtpModal } = useConnectWallet({
+    const { connectWallet, RenderPrivyOtpModal, switchChain } = useConnectWallet({
         setContract,
         setUserWallet,
         user,
@@ -53,17 +53,16 @@ export default function Navbar({ selectedTab }) {
     const [openAccountMenu, setOpenAccountMenu] = useState(null);
 
     const switchWallet = async chainId => {
-        await connectWallet({ emailAddress: user.email, chainId });
-        console.log(user);
-
-        // if (location.pathname === "/login" && user && userWallet) {
-        //     navigate("/");
-        // }
+        if (user.provider == "privy") {
+            switchChain(chainId);
+        }
+        await connectWallet({
+            emailAddress: user.email,
+            chainId,
+            forceLogin: true,
+            switching: true,
+        });
     };
-
-    useEffect(() => {
-        console.log("chain id changed ; ", user);
-    }, [chainId]);
 
     return (
         <AppBar

@@ -63,8 +63,8 @@ export default function ProviderModal({ loginModal, defaultSelections, open, onC
                             border: "1px solid #FFFFFF",
                             borderRadius: "10px",
                         }}
-                        onClick={() => loginModal("privy")}
-                        // onClick={() => setSelectedProvider("privy")}
+                        // onClick={() => loginModal("privy")}
+                        onClick={() => setSelectedProvider("privy")}
                     >
                         <svg
                             width="129"
@@ -132,8 +132,12 @@ export default function ProviderModal({ loginModal, defaultSelections, open, onC
                                         placeItems: "center",
                                         textAlign: "center",
                                         borderColor:
-                                            chain.id === selectedChain ? "#7A46AD" : "#fff",
+                                            chain.id === selectedChain ? "#f2cf6f" : "#fff",
                                         cursor: "pointer",
+                                        backgroundColor:
+                                            chain.id === defaultSelections?.chainId
+                                                ? "#f2cf6f"
+                                                : null,
                                     }}
                                     onClick={() => setSelectedChain(chain.id)}
                                 >
