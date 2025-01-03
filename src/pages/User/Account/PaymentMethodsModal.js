@@ -40,6 +40,7 @@ export default function PaymentMethodsModal({ plan, showModal, setShowModal }) {
         userData: {
             email: user?.email ? user?.email : undefined,
         },
+        partnerCustomerId: user?.id,
     });
 
     useEffect(() => {

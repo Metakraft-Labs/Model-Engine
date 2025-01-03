@@ -89,23 +89,25 @@ export default function Navbar({ selectedTab }) {
                     </Typography>
                 </Box>
                 <Box>
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                        <Select
-                            value={chainId}
-                            onChange={e => switchWallet(e.target.value)}
-                            displayEmpty
-                            inputProps={{ "aria-label": "Without label" }}
-                            sx={{
-                                color: "#fff",
-                            }}
-                        >
-                            {getSupportedChains().map(chain => (
-                                <MenuItem key={chain.id} value={chain.id}>
-                                    {chain.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    {user?.provider !== "xion" && (
+                        <FormControl sx={{ m: 1, minWidth: 120 }}>
+                            <Select
+                                value={chainId}
+                                onChange={e => switchWallet(e.target.value)}
+                                displayEmpty
+                                inputProps={{ "aria-label": "Without label" }}
+                                sx={{
+                                    color: "#fff",
+                                }}
+                            >
+                                {getSupportedChains().map(chain => (
+                                    <MenuItem key={chain.id} value={chain.id}>
+                                        {chain.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    )}
                     <Button
                         className={classes.createButton}
                         onClick={() => navigate(TABS[selectedTab] || "#")}

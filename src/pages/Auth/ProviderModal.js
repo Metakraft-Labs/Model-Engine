@@ -1,11 +1,40 @@
+import { useAbstraxionAccount } from "@burnt-labs/abstraxion";
 import { Box, Button, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Modal from "../../components/Modal";
 import { getSupportedChains } from "../../shared/web3utils";
 
-export default function ProviderModal({ loginModal, defaultSelections, open, onClose }) {
+export default function ProviderModal({
+    loginModal,
+    defaultSelections,
+    open,
+    onClose,
+    // query,
+    // email,
+}) {
     const [selectedProvider, setSelectedProvider] = useState("");
     const [selectedChain, setSelectedChain] = useState();
+    const {
+        data: { bech32Address },
+    } = useAbstraxionAccount();
+
+    React.useEffect(() => {
+        if (bech32Address) {
+            loginModal("xion");
+        }
+    }, [bech32Address]);
+
+    // const handleXion = () => {
+    //     const data = {
+    //         email: email,
+    //         provider: "xion",
+    //     };
+    //     if (query) {
+    //         data["ref"] = query;
+    //     }
+    //     localStorage.setItem("xionSign", JSON.stringify(data));
+    //     loginModal("xion");
+    // };
 
     return (
         <Modal
@@ -33,11 +62,8 @@ export default function ProviderModal({ loginModal, defaultSelections, open, onC
                             border: "1px solid #000000",
                             borderRadius: "10px",
                             background:
-                                defaultSelections && defaultSelections?.provider === "metakeep"
-                                    ? "#f2cf6f"
-                                    : "#FFFFFF",
+                                defaultSelections?.provider === "metakeep" ? "#f2cf6f" : "#FFFFFF",
                         }}
-                        // onClick={() => loginModal("metakeep")}
                         onClick={() => setSelectedProvider("metakeep")}
                     >
                         <img
@@ -46,7 +72,8 @@ export default function ProviderModal({ loginModal, defaultSelections, open, onC
                         />
                         <Typography fontWeight={800}>Choose for Skale Titan AI Hubs</Typography>
                     </Box>
-                    <Box
+
+                    {/* <Box
                         display={"flex"}
                         flexDirection={"column"}
                         justifyContent={"center"}
@@ -56,14 +83,10 @@ export default function ProviderModal({ loginModal, defaultSelections, open, onC
                         sx={{
                             cursor: "pointer",
                             border: "1px solid #000000",
-                            background:
-                                defaultSelections && defaultSelections?.provider === "privy"
-                                    ? "#f2cf6f"
-                                    : "#FFFFFF",
-                            border: "1px solid #FFFFFF",
                             borderRadius: "10px",
+                            background:
+                                defaultSelections?.provider === "privy" ? "#f2cf6f" : "#FFFFFF",
                         }}
-                        // onClick={() => loginModal("privy")}
                         onClick={() => setSelectedProvider("privy")}
                     >
                         <svg
@@ -107,65 +130,111 @@ export default function ProviderModal({ loginModal, defaultSelections, open, onC
                         </svg>
                         <Typography fontWeight={800}>Choose for Berachain</Typography>
                     </Box>
+
+                    <Box
+                        display={"flex"}
+                        flexDirection={"column"}
+                        justifyContent={"center"}
+                        padding={"20px"}
+                        alignItems={"center"}
+                        gap={"20px"}
+                        sx={{
+                            cursor: "pointer",
+                            border: "1px solid #000000",
+                            background:
+                                defaultSelections && defaultSelections?.provider === "xion"
+                                    ? "#f2cf6f"
+                                    : "#FFFFFF",
+                            border: "1px solid #FFFFFF",
+                            borderRadius: "10px",
+                            background:
+                                defaultSelections?.provider === "xion" ? "#f2cf6f" : "#FFFFFF",
+                        }}
+                        // onClick={() => loginModal("privy")}
+                        onClick={() => handleXion()}
+                    >
+                        <svg
+                            width="100px"
+                            height="100px"
+                            viewBox="0.004 0 64 64"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M63.04 39.741c-4.274 17.143-21.638 27.575-38.783 23.301C7.12 58.768-3.313 41.404.962 24.262 5.234 7.117 22.597-3.317 39.737.957c17.144 4.274 27.576 21.64 23.302 38.784z"
+                                fill="#f7931a"
+                            />
+                            <path
+                                d="M46.11 27.441c.636-4.258-2.606-6.547-7.039-8.074l1.438-5.768-3.512-.875-1.4 5.616c-.922-.23-1.87-.447-2.812-.662l1.41-5.653-3.509-.875-1.439 5.766c-.764-.174-1.514-.346-2.242-.527l.004-.018-4.842-1.209-.934 3.75s2.605.597 2.55.634c1.422.355 1.68 1.296 1.636 2.042l-1.638 6.571c.098.025.225.061.365.117l-.37-.092-2.297 9.205c-.174.432-.615 1.08-1.609.834.035.051-2.552-.637-2.552-.637l-1.743 4.02 4.57 1.139c.85.213 1.683.436 2.502.646l-1.453 5.835 3.507.875 1.44-5.772c.957.26 1.887.5 2.797.726L27.504 50.8l3.511.875 1.453-5.823c5.987 1.133 10.49.676 12.383-4.738 1.527-4.36-.075-6.875-3.225-8.516 2.294-.531 4.022-2.04 4.483-5.157zM38.087 38.69c-1.086 4.36-8.426 2.004-10.807 1.412l1.928-7.729c2.38.594 10.011 1.77 8.88 6.317zm1.085-11.312c-.99 3.966-7.1 1.951-9.083 1.457l1.748-7.01c1.983.494 8.367 1.416 7.335 5.553z"
+                                fill="#ffffff"
+                            />
+                        </svg>
+                        <Typography fontWeight={800}>Choose for Xion</Typography>
+                    </Box> */}
                 </Box>
             ) : (
-                <Box>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            gap: "10px",
-                            justifyContent: "center",
-                        }}
-                        spacing={2}
-                        mb={3}
-                    >
-                        {getSupportedChains().map(chain => (
-                            <Box key={chain.id}>
-                                <Box
-                                    sx={{
-                                        border: "1px solid #fff",
-                                        width: "100px",
-                                        aspectRatio: 1,
-                                        borderRadius: "5px",
-                                        display: "grid",
-                                        placeItems: "center",
-                                        textAlign: "center",
-                                        borderColor:
-                                            chain.id === selectedChain ? "#f2cf6f" : "#fff",
-                                        cursor: "pointer",
-                                        backgroundColor:
-                                            chain.id === defaultSelections?.chainId
-                                                ? "#f2cf6f"
-                                                : null,
-                                    }}
-                                    onClick={() => setSelectedChain(chain.id)}
-                                >
-                                    <Typography
-                                        style={{ color: "#fff", fontSize: "14px", padding: "8px" }}
+                selectedProvider !== "xion" && (
+                    <Box>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: "10px",
+                                justifyContent: "center",
+                            }}
+                            mb={3}
+                        >
+                            {getSupportedChains().map(chain => (
+                                <Box key={chain.id}>
+                                    <Box
+                                        sx={{
+                                            border: "1px solid #fff",
+                                            width: "100px",
+                                            aspectRatio: 1,
+                                            borderRadius: "5px",
+                                            display: "grid",
+                                            placeItems: "center",
+                                            textAlign: "center",
+                                            borderColor:
+                                                chain.id === selectedChain ? "#f2cf6f" : "#fff",
+                                            cursor: "pointer",
+                                            backgroundColor:
+                                                chain.id === defaultSelections?.chainId
+                                                    ? "#f2cf6f"
+                                                    : null,
+                                        }}
+                                        onClick={() => setSelectedChain(chain.id)}
                                     >
-                                        {chain.name}
-                                    </Typography>
+                                        <Typography
+                                            style={{
+                                                color: "#fff",
+                                                fontSize: "14px",
+                                                padding: "8px",
+                                            }}
+                                        >
+                                            {chain.name}
+                                        </Typography>
+                                    </Box>
                                 </Box>
-                            </Box>
-                        ))}
-                    </Box>
+                            ))}
+                        </Box>
 
-                    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                        <Button variant="outlined" onClick={() => setSelectedProvider("")}>
-                            Back
-                        </Button>
-                        {selectedChain && (
-                            <Button
-                                variant="contained"
-                                onClick={() => loginModal(selectedProvider, selectedChain)}
-                            >
-                                Connect
+                        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                            <Button variant="outlined" onClick={() => setSelectedProvider("")}>
+                                Back
                             </Button>
-                        )}
+                            {selectedChain && (
+                                <Button
+                                    variant="contained"
+                                    onClick={() => loginModal(selectedProvider, selectedChain)}
+                                >
+                                    Connect
+                                </Button>
+                            )}
+                        </Box>
                     </Box>
-                </Box>
+                )
             )}
+            {/* <Abstraxion onClose={() => setShow(false)} /> */}
         </Modal>
     );
 }

@@ -1,3 +1,4 @@
+import { Abstraxion, useAbstraxionSigningClient, useModal } from "@burnt-labs/abstraxion";
 import { Badge, Box, Button, Menu, Typography } from "@mui/material";
 import { usePrivy } from "@privy-io/react-auth";
 import React, { useContext } from "react";
@@ -10,8 +11,16 @@ export default function AccountDropdown({ open, handleClose, user }) {
     const navigate = useNavigate();
     const { setToken, setUser } = useContext(UserStore);
     const { authenticated, logout: privyLogout } = usePrivy();
+    const [_, setShow] = useModal();
+    const { logout: abstraxionLogout } = useAbstraxionSigningClient();
+    // const {
+    //     data: { bech32Address },
+    // } = useAbstraxionAccount();
 
     const logout = async () => {
+        if (user?.provider === "xion") {
+            abstraxionLogout();
+        }
         if (authenticated) {
             await privyLogout();
         }
@@ -95,6 +104,7 @@ export default function AccountDropdown({ open, handleClose, user }) {
                     </Box>
                 </Button>
             </Box>
+            <Abstraxion onClose={() => setShow(false)} />
         </Menu>
     );
 }

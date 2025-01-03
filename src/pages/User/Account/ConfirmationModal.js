@@ -28,14 +28,18 @@ export default function ConfirmationModal({ plan, showModal, setShowModal }) {
 
     const getBalance = useCallback(async () => {
         if (checkBalance) {
-            const abi = await getUSDCAbi(chainId);
-            const contract = new Contract(USDC_CONTRACT_ADDRESS, abi, signer);
+            try {
+                const abi = await getUSDCAbi(chainId);
+                const contract = new Contract(USDC_CONTRACT_ADDRESS, abi, signer);
 
-            const balance = await contract.balanceOf(userWallet);
+                const balance = await contract.balanceOf(userWallet);
 
-            setBalance(balance);
+                setBalance(balance);
 
-            setCheckBalance(false);
+                setCheckBalance(false);
+            } catch (error) {
+                console.log(error);
+            }
         }
     }, [checkBalance]);
 

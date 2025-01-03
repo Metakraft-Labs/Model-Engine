@@ -1,3 +1,4 @@
+import { useAbstraxionAccount, useModal } from "@burnt-labs/abstraxion";
 import SkyEtherContractService from "@decloudlabs/skynet/lib/services/SkyEtherContractService";
 import { Button, TextField } from "@mui/material";
 import { useLoginWithEmail, usePrivy, useWallets } from "@privy-io/react-auth";
@@ -38,7 +39,11 @@ export default function useConnectWallet({
     const { authenticated, user: privyUser, createWallet, ready: privyReady } = usePrivy();
     const { sendCode, loginWithCode } = useLoginWithEmail();
     const { wallets, ready } = useWallets();
+    const [, setShow] = useModal();
     const currentChainId = React.useRef(null);
+    const {
+        data: { bech32Address },
+    } = useAbstraxionAccount();
 
     // const setCurrentChainId = useCallback(chainId => {
     //     currentChainId.current = chainId;
@@ -111,6 +116,7 @@ export default function useConnectWallet({
         }
         try {
             let provider, provider5, account, userWallet;
+
             if (walletProvider === "metakeep") {
                 const data = await connectMetakeep(emailAddress, chainId);
                 provider = data.provider;
@@ -127,6 +133,37 @@ export default function useConnectWallet({
                     account = data.account;
                     userWallet = data.userWallet;
                 }
+            } else if (walletProvider == "xion") {
+                if (bech32Address) {
+                    const ref_by = localStorage?.getItem("ref_by");
+                    const loginPostData = {
+                        email: emailAddress,
+                        signature: "",
+                        address: bech32Address,
+                        chainId: 1337,
+                        provider: walletProvider,
+                        ref_by,
+                    };
+                    // loginPostData["switching"] = true;
+                    setConnectedWallet(bech32Address);
+                    setChainId("");
+                    setSigner("");
+                    localStorage.setItem("sign", bech32Address);
+                    setContract("");
+                    setUserWallet({ email: emailAddress });
+                    setSkynetBrowserInstance("");
+                    localStorage.removeItem("xionSign");
+                    if (!user && auth) {
+                        const res = await login(loginPostData);
+                        if (res) {
+                            setToken(res);
+                            localStorage.setItem("token", res);
+                        }
+                    }
+                } else {
+                    setShow(true);
+                }
+                return;
             }
             const signer = await provider.getSigner();
             const { chainId: chainIdBigint } = await provider.getNetwork();

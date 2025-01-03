@@ -9,156 +9,182 @@ export const minifyAddress = (address, middleChars = 4, endChars = 4) => {
     )}`;
 };
 
-export const getSupportedChains = () => {
-    return [
-        {
-            id: 1020352220,
-            name: getChainName(1020352220),
-            network: "Skale",
-            nativeCurrency: {
-                decimals: 18,
-                name: "sFUEL",
-                symbol: "sFUEL",
-            },
-            rpcUrls: {
-                default: {
-                    http: [getRPCURL(1020352220)],
+export const getSupportedChains = provider => {
+    if (provider == "xion") {
+        return [
+            {
+                id: 1020352220,
+                name: getChainName(1020352220),
+                network: "Skale",
+                nativeCurrency: {
+                    decimals: 18,
+                    name: "sFUEL",
+                    symbol: "sFUEL",
+                },
+                rpcUrls: {
+                    default: {
+                        http: [getRPCURL(1020352220)],
+                    },
+                },
+                blockExplorers: {
+                    default: {
+                        name: "Explorer",
+                        url: getBlockExplorer(1020352220),
+                    },
                 },
             },
-            blockExplorers: {
-                default: {
-                    name: "Explorer",
-                    url: getBlockExplorer(1020352220),
+        ];
+    } else {
+        return [
+            {
+                id: 1020352220,
+                name: getChainName(1020352220),
+                network: "Skale",
+                nativeCurrency: {
+                    decimals: 18,
+                    name: "sFUEL",
+                    symbol: "sFUEL",
+                },
+                rpcUrls: {
+                    default: {
+                        http: [getRPCURL(1020352220)],
+                    },
+                },
+                blockExplorers: {
+                    default: {
+                        name: "Explorer",
+                        url: getBlockExplorer(1020352220),
+                    },
                 },
             },
-        },
-        {
-            id: 1350216234,
-            name: getChainName(1350216234),
-            network: "Skale",
-            nativeCurrency: {
-                decimals: 18,
-                name: "sFUEL",
-                symbol: "sFUEL",
-            },
-            rpcUrls: {
-                default: {
-                    http: [getRPCURL(1350216234)],
+            {
+                id: 1350216234,
+                name: getChainName(1350216234),
+                network: "Skale",
+                nativeCurrency: {
+                    decimals: 18,
+                    name: "sFUEL",
+                    symbol: "sFUEL",
+                },
+                rpcUrls: {
+                    default: {
+                        http: [getRPCURL(1350216234)],
+                    },
+                },
+                blockExplorers: {
+                    default: {
+                        name: "Explorer",
+                        url: getBlockExplorer(1350216234),
+                    },
                 },
             },
-            blockExplorers: {
-                default: {
-                    name: "Explorer",
-                    url: getBlockExplorer(1350216234),
-                },
-            },
-        },
-        {
-            id: 80084,
-            name: getChainName(80084),
-            network: "Berachain",
-            nativeCurrency: {
-                decimals: 18,
-                name: "BERA",
-                symbol: "BERA",
-            },
-            rpcUrls: {
-                default: {
-                    http: [getRPCURL(80084)],
-                },
-            },
-            blockExplorers: {
-                default: {
-                    name: "Explorer",
-                    url: getBlockExplorer(80084),
-                },
-            },
-        },
-        {
-            id: 42161,
-            name: getChainName(42161),
-            network: "Arbitrum",
-            nativeCurrency: {
-                decimals: 18,
-                name: "Ether",
-                symbol: "ETH",
-            },
-            rpcUrls: {
-                default: {
-                    http: [getRPCURL(42161)],
-                },
-            },
-            blockExplorers: {
-                default: {
-                    name: "Arbiscan",
-                    url: getBlockExplorer(42161),
-                },
-            },
-        },
-        {
-            id: 8453,
-            name: getChainName(8453),
-            network: "Base",
-            nativeCurrency: {
-                decimals: 18,
-                name: "Ether",
-                symbol: "ETH",
-            },
-            rpcUrls: {
-                default: {
-                    http: [getRPCURL(8453)],
-                },
-            },
-            blockExplorers: {
-                default: {
-                    name: "BaseScan",
-                    url: getBlockExplorer(8453),
-                },
-            },
-        },
-        {
-            id: 324,
-            name: getChainName(324),
-            network: "zkSync",
-            nativeCurrency: {
-                decimals: 18,
-                name: "Ether",
-                symbol: "ETH",
-            },
-            rpcUrls: {
-                default: {
-                    http: [getRPCURL(324)],
-                },
-            },
-            blockExplorers: {
-                default: {
-                    name: "zkSync Explorer",
-                    url: getBlockExplorer(324),
-                },
-            },
-        },
-        {
-            id: 137,
-            name: getChainName(137),
-            network: "Polygon",
-            nativeCurrency: {
-                decimals: 18,
-                name: "Matic",
-                symbol: "MATIC",
-            },
-            rpcUrls: {
-                default: {
-                    http: [getRPCURL(137)],
-                },
-            },
-            blockExplorers: {
-                default: {
-                    name: "Polygonscan",
-                    url: getBlockExplorer(137),
-                },
-            },
-        },
-    ];
+            // {
+            //     id: 80084,
+            //     name: getChainName(80084),
+            //     network: "Berachain",
+            //     nativeCurrency: {
+            //         decimals: 18,
+            //         name: "BERA",
+            //         symbol: "BERA",
+            //     },
+            //     rpcUrls: {
+            //         default: {
+            //             http: [getRPCURL(80084)],
+            //         },
+            //     },
+            //     blockExplorers: {
+            //         default: {
+            //             name: "Explorer",
+            //             url: getBlockExplorer(80084),
+            //         },
+            //     },
+            // },
+            // {
+            //     id: 42161,
+            //     name: getChainName(42161),
+            //     network: "Arbitrum",
+            //     nativeCurrency: {
+            //         decimals: 18,
+            //         name: "Ether",
+            //         symbol: "ETH",
+            //     },
+            //     rpcUrls: {
+            //         default: {
+            //             http: [getRPCURL(42161)],
+            //         },
+            //     },
+            //     blockExplorers: {
+            //         default: {
+            //             name: "Arbiscan",
+            //             url: getBlockExplorer(42161),
+            //         },
+            //     },
+            // },
+            // {
+            //     id: 8453,
+            //     name: getChainName(8453),
+            //     network: "Base",
+            //     nativeCurrency: {
+            //         decimals: 18,
+            //         name: "Ether",
+            //         symbol: "ETH",
+            //     },
+            //     rpcUrls: {
+            //         default: {
+            //             http: [getRPCURL(8453)],
+            //         },
+            //     },
+            //     blockExplorers: {
+            //         default: {
+            //             name: "BaseScan",
+            //             url: getBlockExplorer(8453),
+            //         },
+            //     },
+            // },
+            // {
+            //     id: 324,
+            //     name: getChainName(324),
+            //     network: "zkSync",
+            //     nativeCurrency: {
+            //         decimals: 18,
+            //         name: "Ether",
+            //         symbol: "ETH",
+            //     },
+            //     rpcUrls: {
+            //         default: {
+            //             http: [getRPCURL(324)],
+            //         },
+            //     },
+            //     blockExplorers: {
+            //         default: {
+            //             name: "zkSync Explorer",
+            //             url: getBlockExplorer(324),
+            //         },
+            //     },
+            // },
+            // {
+            //     id: 137,
+            //     name: getChainName(137),
+            //     network: "Polygon",
+            //     nativeCurrency: {
+            //         decimals: 18,
+            //         name: "Matic",
+            //         symbol: "MATIC",
+            //     },
+            //     rpcUrls: {
+            //         default: {
+            //             http: [getRPCURL(137)],
+            //         },
+            //     },
+            //     blockExplorers: {
+            //         default: {
+            //             name: "Polygonscan",
+            //             url: getBlockExplorer(137),
+            //         },
+            //     },
+            // },
+        ];
+    }
 };
 
 export const getBlockExplorer = chainId => {

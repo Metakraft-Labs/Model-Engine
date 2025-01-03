@@ -1,3 +1,4 @@
+import { Abstraxion, useAbstraxionAccount, useModal } from "@burnt-labs/abstraxion";
 import { Box, Link, TextField, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -39,9 +40,13 @@ export default function Auth() {
     const [searchParams] = useSearchParams();
     const [referrerData, setReferredData] = React.useState();
     const query = searchParams.get("ref");
+    const [, setShow] = useModal();
+    const {
+        data: { bech32Address },
+    } = useAbstraxionAccount();
 
     useEffect(() => {
-        if (location.pathname === "/login" && user && userWallet) {
+        if (location.pathname === "/login" && userlogout && userWallet) {
             navigate("/");
         }
     }, [location, user, userWallet]);
@@ -71,18 +76,23 @@ export default function Auth() {
 
         const provider = await getProviderByEmail(email);
         if (provider?.provider && provider?.chainId) {
+            const data = {
+                email: email,
+                provider: "xion",
+            };
+            localStorage.setItem("xionSign", JSON.stringify(data));
             await loginModal(provider.provider, provider.chainId);
         } else {
             setShowProviderModal(true);
         }
     };
 
-    const loginModal = async (provider, chainId) => {
+    const loginModal = async (provider, chainId, exp_email) => {
         setShowProviderModal(false);
-        console.log("selected", provider, chainId);
+        // console.log("login model email", email, "and", exp_email);
 
         await connectWallet({
-            emailAddress: email,
+            emailAddress: exp_email ? exp_email : email,
             walletProvider: provider,
             chainId,
         });
@@ -91,6 +101,18 @@ export default function Auth() {
             navigate("/");
         }
     };
+
+    useEffect(() => {
+        // console.log("running use effect");
+        const data = JSON.parse(localStorage.getItem("xionSign"));
+        // console.log("bech", bech32Address);
+        // console.log("data in storage", data);
+        if (data && data.email && data.provider == "xion" && bech32Address) {
+            // console.log("provider", data.email, data.provider);
+            setEmail(data.email);
+            loginModal(data.provider, 1337, data.email);
+        }
+    }, [bech32Address]);
 
     return (
         <>
@@ -177,9 +199,14 @@ export default function Auth() {
                         open={showProviderModal}
                         onClose={() => setShowProviderModal(false)}
                         defaultSelections={referrerData}
+                        email={email}
                     />
                 )}
                 <RenderPrivyOtpModal />
+                <Abstraxion
+                    onClose={() => setShow(false)}
+                    callbackUrl={`${window.location.protocol}//${window.location.host}"`}
+                />
             </Background>
         </>
     );

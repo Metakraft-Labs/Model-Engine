@@ -1,3 +1,4 @@
+import { AbstraxionProvider } from "@burnt-labs/abstraxion";
 import { Box } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PrivyProvider } from "@privy-io/react-auth";
@@ -52,28 +53,34 @@ function App() {
                 defaultChain: getSupportedChains().find(c => c.network === "Berachain"),
             }}
         >
-            <UserProvider theme={theme} setTheme={setTheme} setLoading={setLoading}>
-                <BrowserRouter>
-                    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
-                        <Box sx={{ display: "flex" }}>
-                            {loading ? <LoadingScreen /> : <Routers />}
-                        </Box>
+            <AbstraxionProvider
+                config={{
+                    contracts: [process.env.REACT_APP_XION_KEY],
+                }}
+            >
+                <UserProvider theme={theme} setTheme={setTheme} setLoading={setLoading}>
+                    <BrowserRouter>
+                        <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
+                            <Box sx={{ display: "flex" }}>
+                                {loading ? <LoadingScreen /> : <Routers />}
+                            </Box>
 
-                        <ToastContainer
-                            position="top-right"
-                            autoClose={5000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            theme={theme}
-                        />
-                    </ThemeProvider>
-                </BrowserRouter>
-            </UserProvider>
+                            <ToastContainer
+                                position="top-right"
+                                autoClose={5000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                                theme={theme}
+                            />
+                        </ThemeProvider>
+                    </BrowserRouter>
+                </UserProvider>
+            </AbstraxionProvider>
         </PrivyProvider>
     );
 }
