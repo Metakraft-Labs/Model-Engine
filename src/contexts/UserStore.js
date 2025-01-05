@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { status } from "../apis/auth";
+import { DesiredChainId } from "../constants/helper";
 import useConnectWallet from "../hooks/useConnectWallet";
 
 export const UserStore = createContext(null);
@@ -32,10 +33,13 @@ export default function UserProvider({ children, theme, setTheme, setLoading }) 
             const res = await status();
             if (res) {
                 setUser(res);
+                const chainToUse = res.address.find(a => a?.primary == true);
+                setChainId(chainToUse?.chainId || DesiredChainId);
                 const data = await connectWallet({
                     emailAddress: res?.email,
                     auth: false,
                     walletProvider: res?.provider,
+                    chainId: chainToUse?.chainId || DesiredChainId,
                 });
 
                 if (data === 0) {

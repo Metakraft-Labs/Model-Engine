@@ -1,7 +1,8 @@
+import { Abstraxion, useAbstraxionAccount, useModal } from "@burnt-labs/abstraxion";
 import { Box, Link, TextField, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { getProviderByEmail } from "../../apis/auth";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { getProviderByEmail, getReferrData } from "../../apis/auth";
 import metakraft from "../../assets/img/login/metakraft.png";
 import { UserStore } from "../../contexts/UserStore";
 import useConnectWallet from "../../hooks/useConnectWallet";
@@ -36,33 +37,82 @@ export default function Auth() {
         setSkynetBrowserInstance,
     });
     const [loginLoading, setLoginLoading] = React.useState(false);
+    const [searchParams] = useSearchParams();
+    const [referrerData, setReferredData] = React.useState();
+    const query = searchParams.get("ref");
+    const [, setShow] = useModal();
+    const {
+        data: { bech32Address },
+    } = useAbstraxionAccount();
 
     useEffect(() => {
-        if (location.pathname === "/login" && user && userWallet) {
+        if (location.pathname === "/login" && userlogout && userWallet) {
             navigate("/");
         }
     }, [location, user, userWallet]);
+
+    useEffect(() => {
+        if (query) {
+            fetchRefererData();
+        }
+    }, [query]);
+
+    const fetchRefererData = async () => {
+        try {
+            const data = await getReferrData(query);
+            if (data) {
+                setReferredData({
+                    provider: data.provider,
+                    chainId: data.chainId,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const getProvider = async () => {
         setLoginLoading(true);
 
         const provider = await getProviderByEmail(email);
-
-        if (provider) {
-            await loginModal(provider);
+        if (provider?.provider && provider?.chainId) {
+            const data = {
+                email: email,
+                provider: "xion",
+            };
+            localStorage.setItem("xionSign", JSON.stringify(data));
+            await loginModal(provider.provider, provider.chainId);
         } else {
             setShowProviderModal(true);
         }
     };
 
-    const loginModal = async provider => {
+    const loginModal = async (provider, chainId, exp_email) => {
         setShowProviderModal(false);
-        await connectWallet({ emailAddress: email, walletProvider: provider });
+        // console.log("login model email", email, "and", exp_email);
+
+        await connectWallet({
+            emailAddress: exp_email ? exp_email : email,
+            walletProvider: provider,
+            chainId,
+        });
 
         if (location.pathname === "/login" && user && userWallet) {
             navigate("/");
         }
     };
+
+    useEffect(() => {
+        // console.log("running use effect");
+        const data = JSON.parse(localStorage.getItem("xionSign"));
+        // console.log("bech", bech32Address);
+        // console.log("data in storage", data);
+        if (data && data.email && data.provider == "xion" && bech32Address) {
+            // console.log("provider", data.email, data.provider);
+            setEmail(data.email);
+            loginModal(data.provider, 1337, data.email);
+        }
+    }, [bech32Address]);
 
     return (
         <>
@@ -148,9 +198,15 @@ export default function Auth() {
                         loginModal={loginModal}
                         open={showProviderModal}
                         onClose={() => setShowProviderModal(false)}
+                        defaultSelections={referrerData}
+                        email={email}
                     />
                 )}
                 <RenderPrivyOtpModal />
+                <Abstraxion
+                    onClose={() => setShow(false)}
+                    callbackUrl={`${window.location.protocol}//${window.location.host}"`}
+                />
             </Background>
         </>
     );

@@ -1,3 +1,4 @@
+import { useAbstraxionAccount, useModal } from "@burnt-labs/abstraxion";
 import SkyEtherContractService from "@decloudlabs/skynet/lib/services/SkyEtherContractService";
 import { Button, TextField } from "@mui/material";
 import { useLoginWithEmail, usePrivy, useWallets } from "@privy-io/react-auth";
@@ -29,6 +30,7 @@ export default function useConnectWallet({
     setChainId,
     setSigner,
     setSkynetBrowserInstance,
+    // privyChainId,
 }) {
     const [connectedWallet, setConnectedWallet] = useState(null);
     const [showPrivyOtpModal, setShowPrivyOtpModal] = useState(false);
@@ -37,10 +39,38 @@ export default function useConnectWallet({
     const { authenticated, user: privyUser, createWallet, ready: privyReady } = usePrivy();
     const { sendCode, loginWithCode } = useLoginWithEmail();
     const { wallets, ready } = useWallets();
+    const [, setShow] = useModal();
+    const currentChainId = React.useRef(null);
+    const {
+        data: { bech32Address },
+    } = useAbstraxionAccount();
+
+    // const setCurrentChainId = useCallback(chainId => {
+    //     currentChainId.current = chainId;
+    //     console.log("Current Chain ID updated to:", chainId);
+    // }, []);
+
+    const switchChain = async chainId => {
+        try {
+            const wallet = wallets.find(w => w.walletClientType == "privy");
+            if (wallet) {
+                await wallet.switchChain(chainId);
+                currentChainId.current = chainId;
+            } else {
+                console.log("wallet not found");
+            }
+        } catch (error) {
+            toast("Cannot switch to the wallet", error);
+        }
+    };
 
     const getPrivyUser = useCallback(async () => {
         if (authenticated && privyOtpVerifying && ready && privyReady && wallets?.length) {
-            connectWallet({ emailAddress: privyUser?.email?.address, walletProvider: "privy" });
+            connectWallet({
+                emailAddress: privyUser?.email?.address,
+                walletProvider: "privy",
+                chainId: currentChainId.current,
+            });
             setPrivyOtpVerifying(false);
             setShowPrivyOtpModal(false);
         }
@@ -73,88 +103,127 @@ export default function useConnectWallet({
         return res ? signature : null;
     };
 
-    const connectWallet = async ({ emailAddress, auth = true, walletProvider = "metakeep" }) => {
+    const connectWallet = async ({
+        emailAddress,
+        auth = true,
+        walletProvider = "metakeep",
+        chainId,
+        forceLogin = false,
+        switching,
+    }) => {
         if (connectedWallet) {
             setConnectedWallet(null);
-        } else {
-            try {
-                let provider, provider5, account, userWallet;
-                if (walletProvider === "metakeep") {
-                    const data = await connectMetakeep(emailAddress);
+        }
+        try {
+            let provider, provider5, account, userWallet;
+
+            if (walletProvider === "metakeep") {
+                const data = await connectMetakeep(emailAddress, chainId);
+                provider = data.provider;
+                provider5 = data.provider5;
+                account = data.account;
+                userWallet = data.userWallet;
+            } else if (walletProvider === "privy") {
+                const data = await connectPrivy(emailAddress);
+                if (data === 0) {
+                    return 0;
+                } else {
                     provider = data.provider;
                     provider5 = data.provider5;
                     account = data.account;
                     userWallet = data.userWallet;
-                } else if (walletProvider === "privy") {
-                    const data = await connectPrivy(emailAddress);
-                    if (data === 0) {
-                        return 0;
-                    } else {
-                        provider = data.provider;
-                        provider5 = data.provider5;
-                        account = data.account;
-                        userWallet = data.userWallet;
-                    }
                 }
-                const signer = await provider.getSigner();
-                const { chainId } = await provider.getNetwork();
-                const chain = Number(chainId.toString());
-                setConnectedWallet(account);
-                const balance = await provider.getBalance(account);
-                setBalance(BigInt(balance?._hex || balance?.hex || balance).toString());
-                setChainId(chain);
-                setSigner(signer);
-
-                let storedSignature = localStorage.getItem(account);
-                if (storedSignature) {
-                    const res = verifyMessageSignature(message, account, storedSignature);
-
-                    if (!res) {
-                        toast.error("Signature expired, please authenticate again");
-                        storedSignature = null;
-                        localStorage.removeItem(account);
-                    }
-                }
-                if (!storedSignature) {
-                    storedSignature = await signMessage(signer, account);
-                    localStorage.setItem(account, storedSignature);
-                }
-
-                const fixedBalancec = fixedBalance(
-                    BigInt(balance?._hex || balance?.hex || balance),
-                );
-                if (fixedBalancec <= 0.001 && chain === DesiredChainId) {
-                    await distributeGas({
-                        provider,
-                        address: account,
-                        chain,
-                        signer,
-                    });
-                }
-
-                await createContractInstance({ signer, account, chain });
-                await createSkynetInstance({ provider: provider5, address: account });
-
-                if (!user && userWallet?.email && auth) {
+            } else if (walletProvider == "xion") {
+                if (bech32Address) {
                     const ref_by = localStorage?.getItem("ref_by");
-                    const res = await login({
-                        email: userWallet?.email,
-                        signature: storedSignature,
-                        address: account,
-                        chainId: DesiredChainId,
+                    const loginPostData = {
+                        email: emailAddress,
+                        signature: "",
+                        address: bech32Address,
+                        chainId: 1337,
                         provider: walletProvider,
                         ref_by,
-                    });
-                    if (res) {
-                        setToken(res);
-                        localStorage.setItem("token", res);
+                    };
+                    // loginPostData["switching"] = true;
+                    setConnectedWallet(bech32Address);
+                    setChainId("");
+                    setSigner("");
+                    localStorage.setItem("sign", bech32Address);
+                    setContract("");
+                    setUserWallet({ email: emailAddress });
+                    setSkynetBrowserInstance("");
+                    localStorage.removeItem("xionSign");
+                    if (!user && auth) {
+                        const res = await login(loginPostData);
+                        if (res) {
+                            setToken(res);
+                            localStorage.setItem("token", res);
+                        }
                     }
+                } else {
+                    setShow(true);
                 }
-            } catch (err) {
-                console.error("The error in contract is:", err);
-                toast.error("Error connecting wallet");
-                return null;
+                return;
             }
+            const signer = await provider.getSigner();
+            const { chainId: chainIdBigint } = await provider.getNetwork();
+            const chain = Number(chainIdBigint.toString());
+            setConnectedWallet(account);
+            const balance = await provider.getBalance(account);
+            setBalance(BigInt(balance?._hex || balance?.hex || balance).toString());
+            setChainId(chain);
+            setSigner(signer);
+
+            let storedSignature = localStorage.getItem(account);
+            if (storedSignature) {
+                const res = verifyMessageSignature(message, account, storedSignature);
+
+                if (!res) {
+                    toast.error("Signature expired, please authenticate again");
+                    storedSignature = null;
+                    localStorage.removeItem(account);
+                }
+            }
+            if (!storedSignature) {
+                storedSignature = await signMessage(signer, account);
+                localStorage.setItem(account, storedSignature);
+            }
+
+            const fixedBalancec = fixedBalance(BigInt(balance?._hex || balance?.hex || balance));
+            if (fixedBalancec <= 0.001 && chain === DesiredChainId) {
+                await distributeGas({
+                    provider,
+                    address: account,
+                    chain,
+                    signer,
+                });
+            }
+
+            await createContractInstance({ signer, account, chain });
+            await createSkynetInstance({ provider: provider5, address: account });
+            if ((!user || forceLogin) && userWallet?.email && auth) {
+                const ref_by = localStorage?.getItem("ref_by");
+                const loginPostData = {
+                    email: userWallet?.email,
+                    signature: storedSignature,
+                    address: account,
+                    chainId: chain,
+                    provider: walletProvider,
+                    ref_by,
+                };
+                if (switching) {
+                    loginPostData["switching"] = true;
+                }
+                const res = await login(loginPostData);
+                if (res) {
+                    setToken(res);
+                    localStorage.setItem("token", res);
+                }
+            }
+        } catch (err) {
+            console.error("The error in contract is:", err);
+            toast.error("Error connecting wallet");
+            return null;
         }
     };
 
@@ -192,10 +261,10 @@ export default function useConnectWallet({
         }
     };
 
-    const connectMetakeep = async email => {
+    const connectMetakeep = async (email, chainId) => {
         const sdk = new MetaKeep({
             appId: process.env.REACT_APP_METAKEEP_APPID,
-            chainId: DesiredChainId,
+            chainId: chainId,
             rpcNodeUrls: getSupportedChains().reduce((old, curr) => {
                 old[curr.id] = getRPCURL(curr.id);
                 return old;
@@ -229,6 +298,7 @@ export default function useConnectWallet({
                 provider5,
             };
         } else if (ready) {
+            // currentChainId.current = chainId;
             await sendCode({ email });
             toast.success("Otp sent successfully");
             setShowPrivyOtpModal(true);
@@ -344,5 +414,5 @@ export default function useConnectWallet({
         setSkynetBrowserInstance(skyMainBrowser);
     };
 
-    return { connectWallet, RenderPrivyOtpModal };
+    return { connectWallet, RenderPrivyOtpModal, switchChain };
 }

@@ -65,34 +65,36 @@ export default function SelectCoinsModal({ plan, showModal, setShowModal }) {
             >
                 {coins ? (
                     coins?.length ? (
-                        coins?.map((coin, index) => {
-                            return (
-                                <Box
-                                    key={`coin-list-${index}`}
-                                    width={"90%"}
-                                    py={"30px"}
-                                    sx={{
-                                        background:
-                                            "linear-gradient(79.98deg, rgba(74, 25, 149, 0.51) -3.67%, rgba(15, 6, 31, 0.2) 101.19%)",
-                                        border: "1px solid #E9E9E947",
-                                        borderRadius: "10px",
-                                        cursor: loading ? "default" : "pointer",
-                                    }}
-                                    onClick={
-                                        loading ? () => {} : () => coinpaymentsOrderToken(coin)
-                                    }
-                                >
-                                    <Typography
-                                        textAlign={"center"}
-                                        color={"#FFFFFF"}
-                                        fontWeight={800}
-                                        fontSize={"20px"}
+                        coins
+                            ?.filter(f => f.includes("BEP20") || f.includes("ERC20"))
+                            .map((coin, index) => {
+                                return (
+                                    <Box
+                                        key={`coin-list-${index}`}
+                                        width={"90%"}
+                                        py={"30px"}
+                                        sx={{
+                                            background:
+                                                "linear-gradient(79.98deg, rgba(74, 25, 149, 0.51) -3.67%, rgba(15, 6, 31, 0.2) 101.19%)",
+                                            border: "1px solid #E9E9E947",
+                                            borderRadius: "10px",
+                                            cursor: loading ? "default" : "pointer",
+                                        }}
+                                        onClick={
+                                            loading ? () => {} : () => coinpaymentsOrderToken(coin)
+                                        }
                                     >
-                                        {coin}
-                                    </Typography>
-                                </Box>
-                            );
-                        })
+                                        <Typography
+                                            textAlign={"center"}
+                                            color={"#FFFFFF"}
+                                            fontWeight={800}
+                                            fontSize={"20px"}
+                                        >
+                                            {coin}
+                                        </Typography>
+                                    </Box>
+                                );
+                            })
                     ) : (
                         <Typography
                             textAlign={"center"}
