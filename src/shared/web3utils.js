@@ -275,7 +275,8 @@ export const getTransactionAbi = async chainId => {
 export const getMintContract = chainId => {
     switch (chainId) {
         case 1020352220:
-            return "0xCc9d605CAe26e3C9F004c641952812E3D202b888";
+            // return "0xCc9d605CAe26e3C9F004c641952812E3D202b888";
+            return "0xF921979441cCb7311Fa9f4e648b244D8A4db4fC3";
         case 1350216234:
             return "0x17f2B4DeB46CfE6b864Fd3B397dA92F9AEe51D56";
         case 80084:
@@ -288,7 +289,7 @@ export const getMintContract = chainId => {
 export const getMintAbi = async chainId => {
     switch (chainId) {
         case 1020352220:
-            return (await import("../abis/Mint.json")).abi;
+            return (await import("../abis/NewMint.json")).abi;
         case 1350216234:
             return (await import("../abis/Mint.json")).abi;
         case 80084:
@@ -301,7 +302,8 @@ export const getMintAbi = async chainId => {
 export const getUSDCContract = chainId => {
     switch (chainId) {
         case 1020352220:
-            return "0x10a30e73ab2da5328fc09b06443dde3e656e82f4";
+            // return "0x10a30e73ab2da5328fc09b06443dde3e656e82f4";
+            return "0xFDf3998212001B84cbdD12426E77913bb486db57";
         case 1350216234:
             return "Titan AI Hub";
         default:
@@ -312,7 +314,7 @@ export const getUSDCContract = chainId => {
 export const getUSDCAbi = async chainId => {
     switch (chainId) {
         case 1020352220:
-            return (await import("../abis/TitanTestnetUSDC.json")).abi;
+            return (await import("../abis/NewUsdc.json")).abi;
         case 1350216234:
             return "Titan AI Hub";
         default:
