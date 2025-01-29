@@ -1,12 +1,12 @@
 import { Button, Tooltip, Typography } from "@mui/material";
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { mint } from "../../apis/nft";
 import Modal from "../../components/Modal";
 import { UserStore } from "../../contexts/UserStore";
 import { CoinIcon } from "../../icons/CoinIcon";
-import { getBlockExplorer } from "../../shared/web3utils";
+import { getBlockExplorer, getUSDCAbi, getUSDCContract } from "../../shared/web3utils";
 
 export default function CreateNFT({
     fileURI,
@@ -23,15 +23,14 @@ export default function CreateNFT({
     const [cid, setCID] = useState(null);
     const [mintLoading, setMintLoading] = useState(false);
     const [contractRes, setContractRes] = useState(null);
-    const { contract, userWallet, signer, user, updateUser } = useContext(UserStore);
+    const { contract, userWallet, signer, user, updateUser, chainId } = useContext(UserStore);
 
     const fetchData = async cid => {
         try {
             if (contract && userWallet) {
-                const amount = ethers.parseUnits("1.0", 9);
+                const amount = ethers.parseUnits("1.0", 6);
 
                 const amt = amount.toString();
-                const nonce = await signer.getNonce();
                 // const signature = await skynetBrowserInstance.appManager.getUrsulaAuth();
                 // if (!signature.success) {
                 //     // show error.
@@ -100,9 +99,21 @@ export default function CreateNFT({
 
                 // const collectionId = res.data?.data;
 
+                const abi = await getUSDCAbi(chainId);
+                const USDC_CONTRACT_ADDRESS = getUSDCContract(chainId);
+                const usdcContract = new Contract(USDC_CONTRACT_ADDRESS, abi, signer);
+
+                const allowance = await usdcContract.allowance(userWallet, contract.target);
+                const formattedAmt = ethers.formatUnits(allowance, 6);
+
+                if (Number(formattedAmt.toString()) < 0.5) {
+                    toast.error("Please approve the contract to spend USDC");
+                    await usdcContract.approve(contract.target, amt);
+                }
                 toast.info("Sign for first mint");
 
-                const resp = await contract.safeMint(userWallet, cid, { value: amt, nonce });
+                // const nonce = await signer.getNonce();
+                const resp = await contract.mint(userWallet, cid);
 
                 if (resp) {
                     await mint({
@@ -194,13 +205,18 @@ export default function CreateNFT({
         const cid = await uploadMetaDataToIPFS(nftMetadata);
         setCID(cid);
 
-        await fetchData(cid);
+        await fetchData("ipfs://QmaAAjPP96m1d7VvKUWu84PhzRJaeydAA23SYZqtRFiuCH");
 
         setMintLoading(false);
     };
 
     return (
         <>
+            <button
+                onClick={() => fetchData("ipfs://QmaAAjPP96m1d7VvKUWu84PhzRJaeydAA23SYZqtRFiuCH")}
+            >
+                mint
+            </button>
             <Tooltip
                 title={
                     user?.tokens >= 10
