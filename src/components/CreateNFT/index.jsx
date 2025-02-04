@@ -103,14 +103,25 @@ export default function CreateNFT({
                 const USDC_CONTRACT_ADDRESS = getUSDCContract(chainId);
                 const usdcContract = new Contract(USDC_CONTRACT_ADDRESS, abi, signer);
 
+                const balance = await usdcContract.balanceOf(userWallet);
+                const formattedBalance = ethers.formatUnits(balance, 6);
+
+                console.log("Balance: ", formattedBalance);
+                console.log("Balance: ", userWallet);
+
+                if (Number(formattedBalance.toString()) < 0.5) {
+                    toast.error("Please add some USDC to your wallet");
+                    return;
+                }
+
                 const allowance = await usdcContract.allowance(userWallet, contract.target);
                 const formattedAmt = ethers.formatUnits(allowance, 6);
 
                 if (Number(formattedAmt.toString()) < 0.5) {
-                    toast.error("Please approve the contract to spend USDC");
+                    // toast.error("Please approve the contract to spend USDC");
                     await usdcContract.approve(contract.target, amt);
                 }
-                toast.info("Sign for first mint");
+                // toast.info("Sign for first mint");
 
                 // const nonce = await signer.getNonce();
                 const resp = await contract.mint(userWallet, cid);
@@ -205,18 +216,13 @@ export default function CreateNFT({
         const cid = await uploadMetaDataToIPFS(nftMetadata);
         setCID(cid);
 
-        await fetchData("ipfs://QmaAAjPP96m1d7VvKUWu84PhzRJaeydAA23SYZqtRFiuCH");
+        await fetchData(cid);
 
         setMintLoading(false);
     };
 
     return (
         <>
-            <button
-                onClick={() => fetchData("ipfs://QmaAAjPP96m1d7VvKUWu84PhzRJaeydAA23SYZqtRFiuCH")}
-            >
-                mint
-            </button>
             <Tooltip
                 title={
                     user?.tokens >= 10
